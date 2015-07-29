@@ -30,18 +30,18 @@ em processo de tradução.
 
     - Welcome [Dalay] Boas-Vindas
     - Overview
-        - Logic
-        - Proof Assistants
-        - Functional Programming
-        - Program Verification
-        - Type Systems
+        - Logic [ Francisco ]
+        - Proof Assistants [ Diego ]
+        - Functional Programming [ Renan ]
+        - Program Verification [ Dalay ]
+        - Type Systems [ Francisco ]
     - Practicalities
-        - Chapter Dependencies
-        - System Requirements
-        - Exercises
-        - Downloading the Coq Files
-    - Note for Instructors
-    - Translations
+        - Chapter Dependencies [ Diego ]
+        - System Requirements [ Renan ]
+        - Exercises [ Dalay ]
+        - Downloading the Coq Files [ Francisco ]
+    - Note for Instructors [ Diego ]
+    - Translations [ Renan ]
 
 - Basics: Functional Programming in Coq
 
