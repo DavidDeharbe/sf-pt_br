@@ -9,6 +9,7 @@ Este projeto tem como objetivo a elaboração de uma tradução do livro
 eletrônico "Software Foundations" para o Português do Brasil. Os autores da
 versão original, em inglês, são Benjamin C. Pierce, Chris Casinghino, Marco 
 Gaboardi, Michael Greenberg, Cătălin Hriţcu, Vilhelm Sjöberg, Brent Yorgey.
+Este livro é disponível no seguinte local: <http://www.cis.upenn.edu/~bcpierce/sf/current/index.html>.
 
 Os autores da tradução são os discentes e docente da disciplina "Semântica de 
 Linguagens de Programação", código DIM0889, oferecida no período 2015.2 pelo 
