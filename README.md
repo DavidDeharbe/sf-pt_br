@@ -28,7 +28,7 @@ em processo de tradução.
 
 - Preface
 
-    - Welcome
+    - Welcome [Dalay] Boas-Vindas
     - Overview
         - Logic
         - Proof Assistants
