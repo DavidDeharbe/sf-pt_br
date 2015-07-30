@@ -101,27 +101,27 @@
     but in this course we will examine them much more deeply than you
     have probably done so far. *)
 
-(** ** Proof Assistants *)
+(** ** Assistente de Prova *)
 
-(** The flow of ideas between logic and computer science has not been
-    in just one direction: CS has also made important contributions to
-    logic.  One of these has been the development of software tools
-    for helping construct proofs of logical propositions.  These tools
-    fall into two broad categories:
+(** O fluxo de idéias entre a lógica e a ciência da computação nem sempre
+    seguiu em uma única direção: A CC também realizou contribuições importantes para
+    a lógica.  Uma destas foi o desenvolvimento de ferramentas de software
+    para auxiliar na construção de provas de preposições lógicas.  Estas ferramentas
+    se dividem em duas grandes categorias:
 
-       - _Automated theorem provers_ provide "push-button" operation:
-         you give them a proposition and they return either _true_,
-         _false_, or _ran out of time_.  Although their capabilities
-         are limited to fairly specific sorts of reasoning, they have
-         matured tremendously in recent years and are used now in a
-         huge variety of settings.  Examples of such tools include SAT
-         solvers, SMT solvers, and model checkers.
+       - _Automated theorem provers_ fornecem a operação "push-button":
+         o operador entrega uma preposição e recebe em retorno _true_,
+         _false_, ou _ran out of time_.  Apesar de suas as capacidades
+         serem limitadas para tipos bastante específicos de raciocínio, eles têm
+         amadurecido tremendamente nos últimos anos e agora são utilizadas em
+         uma enorme variadede de definições. Exemplos destas ferramentas incluem solucionadores
+         SAT, solucionadores SMT, e verificadores de modelo.
 
-       - _Proof assistants_ are hybrid tools that automate the more
-         routine aspects of building proofs while depending on human
-         guidance for more difficult aspects.  Widely used proof
-         assistants include Isabelle, Agda, Twelf, ACL2, PVS, and Coq,
-         among many others.
+       - _Proof assistants_ são ferramentas hibridas que automatizam os mais 
+         rotineiros aspectos dos construtores de prova enquanto dependem de orientação
+         humana para aspectos mais difíceis.  Assistentes de prova
+         largamente utilizados incluem Isabelle, Agda, Twelf, ACL2, PVS, e Coq,
+         entre muitos outros.
 
     This course is based around Coq, a proof assistant that has been
     under development since 1983 at a number of French research labs
