@@ -103,7 +103,7 @@
 
 (** ** Assistentes de Prova *)
 
-(** O fluxo de idéias entre a lógica e a ciência da computação não
+(** O fluxo de idéias entre a lógica e a Ciência da Computação não
     seguiu em uma única direção: A CC também realizou contribuições importantes para
     a lógica.  Uma destas foi o desenvolvimento de ferramentas de software
     para auxiliar na construção de provas de preposições lógicas.  Estas ferramentas
@@ -128,14 +128,14 @@
     e universidades.  Coq concede um rico ambiente para desenvolvimento 
     interativo da maquina-raciocínio formal verificado.  O núcleo do
     sistema Coq é um simples verificador de prova que garante somente
-    passos corretos de dedução são realizados.  On top of this
-    kernel, the Coq environment provides high-level facilities for
-    proof development, including powerful tactics for constructing
-    complex proofs semi-automatically, and a large library of common
-    definitions and lemmas.
+    passos corretos de dedução são realizados.  No topo desse
+    núcleo, o ambiente do Coq provêm instalações de alto nível para
+    desenvolvimento de prova, incluindo táticas poderosas para construção
+    de complexos de prova semiautomáticos, além de uma grande biblioteca de definições
+    comuns e normas.
 
-    Coq has been a critical enabler for a huge variety of work across
-    computer science and mathematics:
+    Coq tem sido um facilitador para uma grande variedade de trabalhos através
+    da Ciência da Computação e da matemática:
 
     - As a _platform for modeling programming languages_, it has become
       a standard tool for researchers who need to describe and reason
@@ -324,10 +324,10 @@
 (** * Practicalities *)
 
 (* ###################################################################### *)
-(** ** Chapter Dependencies *)
+(** ** Dependências entre capítulos *)
 
-(** A diagram of the dependencies between chapters and some suggested
-    paths through the material can be found in the file [deps.html]. *)
+(** Um diagrama da dependência entre os capítulos e alguns caminhos
+    sugeridos através do material pode ser encontrados no arquivo <deps.html>. *)
 
 (* ###################################################################### *)
 (** ** System Requirements *)
@@ -400,18 +400,18 @@
 *)
 
 (* ###################################################################### *)
-(** * Note for Instructors *)
+(** * Nota para instrutores *)
 
-(** If you intend to use these materials in your own course, you will
-    undoubtedly find things you'd like to change, improve, or add.
-    Your contributions are welcome!
+(** Se você pretende utilizar esse material em seu próprio curso, com certeza
+    encontrará coisas que gostará de modificar, aprimorar ou adicionar.
+    Suas contribuições são bem-vindas!
 
-    Please send an email to Benjamin Pierce describing yourself and
-    how you would like to use the materials, and including the result
-    of doing "htpasswd -s -n NAME", where NAME is your preferred user
-    name.  We'll set you up with read/write access to our subversion
-    repository and developers' mailing list; in the repository you'll
-    find a [README] with further instructions. *)
+    Por favor, enviei um e-mail para Benjamin Pierce, descrevendo-se e
+    informando como gostaria de usar o material, incluindo o resultado//and including the result
+    de fazer "htpasswd -s -n NAME", onde NAME é seu nome de //of doing "htpasswd -s -n NAME", where NAME is your preferred user
+    usuário.  Nós vamos configurar sua leitura/escrita com a nossa subversão no 
+    repositório e desenvolvedores' lista de contatos; no repositório você encontrará
+    um [README] com futuras instruções. *)
 
 (* ###################################################################### *)
 (** * Translations *)
