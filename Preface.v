@@ -128,8 +128,8 @@
     e universidades.  Coq concede um rico ambiente para desenvolvimento 
     interativo da maquina-raciocínio formal verificado.  O núcleo do
     sistema Coq é um simples verificador de prova que garante somente
-    passos corretos de dedução são realizados.  No topo desse
-    núcleo, o ambiente do Coq provêm instalações de alto nível para
+    passos corretos de dedução são realizados.  Além desse núcleo,
+    o ambiente do Coq provêm instalações de alto nível para
     desenvolvimento de prova, incluindo táticas poderosas para construção
     de complexos de prova semiautomáticos, além de uma grande biblioteca de definições
     comuns e normas.
@@ -407,8 +407,8 @@
     Suas contribuições são bem-vindas!
 
     Por favor, enviei um e-mail para Benjamin Pierce, descrevendo-se e
-    informando como gostaria de usar o material, incluindo o resultado//and including the result
-    de fazer "htpasswd -s -n NAME", onde NAME é seu nome de //of doing "htpasswd -s -n NAME", where NAME is your preferred user
+    informando como gostaria de usar o material, incluindo o resultado
+    de fazer "htpasswd -s -n NAME", onde NAME é seu nome de
     usuário.  Nós vamos configurar sua leitura/escrita com a nossa subversão no 
     repositório e desenvolvedores' lista de contatos; no repositório você encontrará
     um [README] com futuras instruções. *)
