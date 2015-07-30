@@ -101,7 +101,7 @@
     but in this course we will examine them much more deeply than you
     have probably done so far. *)
 
-(** ** Assistente de Prova *)
+(** ** Assistentes de Prova *)
 
 (** O fluxo de idéias entre a lógica e a ciência da computação nem sempre
     seguiu em uma única direção: A CC também realizou contribuições importantes para
