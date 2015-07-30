@@ -103,7 +103,7 @@
 
 (** ** Assistentes de Prova *)
 
-(** O fluxo de idéias entre a lógica e a ciência da computação nem sempre
+(** O fluxo de idéias entre a lógica e a ciência da computação não
     seguiu em uma única direção: A CC também realizou contribuições importantes para
     a lógica.  Uma destas foi o desenvolvimento de ferramentas de software
     para auxiliar na construção de provas de preposições lógicas.  Estas ferramentas
@@ -123,12 +123,12 @@
          largamente utilizados incluem Isabelle, Agda, Twelf, ACL2, PVS, e Coq,
          entre muitos outros.
 
-    This course is based around Coq, a proof assistant that has been
-    under development since 1983 at a number of French research labs
-    and universities.  Coq provides a rich environment for interactive
-    development of machine-checked formal reasoning.  The kernel of
-    the Coq system is a simple proof-checker which guarantees that
-    only correct deduction steps are performed.  On top of this
+    Esse curso é baseado em torno do Coq, um assistente de prova que tem estado
+    em desenvolvimento desde 1983 por laboratório franceses de pesquisas
+    e universidades.  Coq concede um rico ambiente para desenvolvimento 
+    interativo da maquina-raciocínio formal verificado.  O núcleo do
+    sistema Coq é um simples verificador de prova que garante somente
+    passos corretos de dedução são realizados.  On top of this
     kernel, the Coq environment provides high-level facilities for
     proof development, including powerful tactics for constructing
     complex proofs semi-automatically, and a large library of common
