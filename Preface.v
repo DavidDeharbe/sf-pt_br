@@ -137,13 +137,13 @@
     Coq tem sido um facilitador para uma grande variedade de trabalhos através
     da Ciência da Computação e da matemática:
 
-    - As a _platform for modeling programming languages_, it has become
-      a standard tool for researchers who need to describe and reason
-      about complex language definitions.  It has been used, for
-      example, to check the security of the JavaCard platform,
-      obtaining the highest level of common criteria certification,
-      and for formal specifications of the x86 and LLVM instruction
-      sets.
+    - Como uma _plataforma para modelagem de liguagem de programação_, o Coq se tornou
+      uma ferramenta padrão para pesquisadores que precisam descrever e raciocinar
+      sobre definições complexas de liguagem.  Ele tem sido utilizado, por
+      exemplo, checar a segurança da plataforma JavaCard,
+      obtendo o mais alto nível de certificação common criteria, //common criteria certification,
+      e para especificações formais do x86 e do conjuntos de intruções
+      do LLVM.
 
     - As an _environment for developing formally certified software_,
       Coq has been used to build CompCert, a fully-verified optimizing
