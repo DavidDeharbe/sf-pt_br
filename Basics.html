@@ -1477,14 +1477,13 @@ Now state and prove a theorem <span class="inlinecode"><span class="id" type="va
     (Hint: Recall that the definition of <span class="inlinecode"><span class="id" type="var">nat</span></span> from class,
 
 <div class="paragraph"> </div>
-<span class="comment">Dalay</span>
 
 <div class="code code-tight">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">Inductive</span>&nbsp;<span class="id" type="var">nat</span>&nbsp;:&nbsp;<span class="id" type="keyword">Type</span>&nbsp;:=<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;<span class="id" type="var">O</span>&nbsp;:&nbsp;<span class="id" type="var">nat</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;<span class="id" type="var">S</span>&nbsp;:&nbsp;<span class="id" type="var">nat</span>&nbsp;<span style="font-family: arial;">&rarr;</span>&nbsp;<span class="id" type="var">nat</span>.
 <div class="paragraph"> </div>
-<span class="comment">Diego</span>
+<span class="comment">Dalay</span>
 
 </div>
     says nothing about what <span class="inlinecode"><span class="id" type="var">O</span></span> and <span class="inlinecode"><span class="id" type="var">S</span></span> "mean."  It just says "<span class="inlinecode"><span class="id" type="var">O</span></span> is
@@ -1497,13 +1496,13 @@ Now state and prove a theorem <span class="inlinecode"><span class="id" type="va
     mathematical meaning.)
 
 <div class="paragraph"> </div>
-<span class="comment">Francisco</span>
+<span class="comment">Diego</span>
 
     (b) Next, write an increment function <span class="inlinecode"><span class="id" type="var">incr</span></span> for binary numbers, 
         and a function <span class="inlinecode"><span class="id" type="var">bin_to_nat</span></span> to convert binary numbers to unary numbers.
 
 <div class="paragraph"> </div>
-<span class="comment">Renan</span>
+<span class="comment">Francisco</span>
 
     (c) Write five unit tests <span class="inlinecode"><span class="id" type="var">test_bin_incr1</span></span>, <span class="inlinecode"><span class="id" type="var">test_bin_incr2</span></span>, etc.
         for your increment and binary-to-unary functions. Notice that 
@@ -1530,7 +1529,7 @@ Now state and prove a theorem <span class="inlinecode"><span class="id" type="va
 <a name="lab35"></a><h1 class="section">Mais sobre a Notação (Avançado)</h1>
 
 <div class="paragraph"> </div>
-<span class="comment">Vítor</span>
+<span class="comment">Renan</span>
 
  In general, sections marked Advanced are not needed to follow the
     rest of the book, except possibly other Advanced sections.  On a
@@ -1562,7 +1561,7 @@ For each notation-symbol in Coq we can specify its <i>precedence level</i>
     <i>left</i>, <i>right</i>, or <i>no</i> associativity.
 
 <div class="paragraph"> </div>
-<span class="comment">Claudia</span>
+<span class="comment">Vítor</span>
 
     Each notation-symbol in Coq is also active in a <i>notation scope</i>.  
     Coq tries to guess what scope you mean, so when you write <span class="inlinecode"><span class="id" type="var">S</span>(<span class="id" type="var">O</span>×<span class="id" type="var">O</span>)</span> 
@@ -1573,14 +1572,14 @@ For each notation-symbol in Coq we can specify its <i>precedence level</i>
     will use <span class="inlinecode">%<span class="id" type="var">nat</span></span> to indicate what scope a notation is in.
 
 <div class="paragraph"> </div>
-<span class="comment">Dalay</span>
+<span class="comment">Claudia</span>
 
     Notation scopes also apply to numeral notation (3,4,5, etc.), so you
     may sometimes see <span class="inlinecode">0%<span class="id" type="var">nat</span></span> which means <span class="inlinecode"><span class="id" type="var">O</span></span>, or <span class="inlinecode">0%<span class="id" type="var">Z</span></span> which means the
     Integer zero.
 
 <div class="paragraph"> </div>
-<span class="comment">Diego</span>
+<span class="comment">Dalay</span>
 
 <a name="lab36"></a><h1 class="section"><span class="inlinecode"><span class="id" type="keyword">Fixpoint</span></span> and Structural Recursion (Advanced)</h1>
 
@@ -1607,7 +1606,7 @@ When Coq checks this definition, it notes that <span class="inlinecode"><span cl
     definition is "decreasing".
 
 <div class="paragraph"> </div>
-<span class="comment">Francisco</span>
+<span class="comment">Diego</span>
 
     This requirement is a fundamental feature of Coq's design: In
     particular, it guarantees that every function that can be defined
@@ -1632,8 +1631,6 @@ When Coq checks this definition, it notes that <span class="inlinecode"><span cl
 <div class="doc">
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
-<span class="comment">Vítor</span>
-
   
 </div>
 <div class="code code-tight">
