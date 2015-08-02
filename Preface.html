@@ -166,74 +166,74 @@
     have probably done so far. 
 <div class="paragraph"> </div>
 
-<a name="lab4"></a><h2 class="section">Proof Assistants</h2>
+<a name="lab4"></a><h2 class="section">Assistentes de Prova</h2>
 
 <div class="paragraph"> </div>
 
- The flow of ideas between logic and computer science has not been
-    in just one direction: CS has also made important contributions to
-    logic.  One of these has been the development of software tools
-    for helping construct proofs of logical propositions.  These tools
-    fall into two broad categories:
+ O fluxo de idéias entre a lógica e a Ciência da Computação não
+    seguiu em uma única direção: A CC também realizou contribuições importantes para
+    a lógica.  Uma destas foi o desenvolvimento de ferramentas de software
+    para auxiliar na construção de provas de preposições lógicas.  Estas ferramentas
+    se dividem em duas grandes categorias:
 
 <div class="paragraph"> </div>
 
 <ul class="doclist">
-<li> <i>Automated theorem provers</i> provide "push-button" operation:
-         you give them a proposition and they return either <i>true</i>,
-         <i>false</i>, or <i>ran out of time</i>.  Although their capabilities
-         are limited to fairly specific sorts of reasoning, they have
-         matured tremendously in recent years and are used now in a
-         huge variety of settings.  Examples of such tools include SAT
-         solvers, SMT solvers, and model checkers.
+<li> <i>Provadores automáticos de teoremas</i> fornecem a operação "push-button":
+         o operador entrega uma preposição e recebe em retorno <i>true</i>,
+         <i>false</i>, ou <i>ran out of time</i>.  Apesar de suas as capacidades
+         serem limitadas para tipos bastante específicos de raciocínio, os provadores têm
+         amadurecido tremendamente nos últimos anos e agora são utilizadas em
+         uma enorme variadade de configurações.  Exemplos destas ferramentas incluem solucionadores
+         SAT, solucionadores SMT, e verificadores de modelo.
 
 <div class="paragraph"> </div>
 
 
 </li>
-<li> <i>Proof assistants</i> are hybrid tools that automate the more
-         routine aspects of building proofs while depending on human
-         guidance for more difficult aspects.  Widely used proof
-         assistants include Isabelle, Agda, Twelf, ACL2, PVS, and Coq,
-         among many others.
+<li> <i>Assistentes de Prova</i> são ferramentas hibridas que automatizam os mais
+         rotineiros aspectos dos construtores de prova enquanto dependem da orientação
+         humana para aspectos mais difíceis.  Assistentes de prova
+         largamente utilizados incluem Isabelle, Agda, Twelf, ACL2, PVS, e Coq,
+         entre muitos outros.
 
 </li>
 </ul>
 
 <div class="paragraph"> </div>
 
-    This course is based around Coq, a proof assistant that has been
-    under development since 1983 at a number of French research labs
-    and universities.  Coq provides a rich environment for interactive
-    development of machine-checked formal reasoning.  The kernel of
-    the Coq system is a simple proof-checker which guarantees that
-    only correct deduction steps are performed.  On top of this
-    kernel, the Coq environment provides high-level facilities for
-    proof development, including powerful tactics for constructing
-    complex proofs semi-automatically, and a large library of common
-    definitions and lemmas.
+    Esse curso é baseado em torno do Coq, um assistente de prova que tem estado
+    em desenvolvimento desde 1983 por laboratório franceses de pesquisas
+    e universidades.  Coq concede um rico ambiente para desenvolvimento
+    interativo de maquina-raciocínio formal verificado.  O núcleo do
+    sistema Coq é um simples verificador de prova que garante somente
+    passos corretos de dedução serem realizados.  Além desse núcleo,
+    o ambiente Coq provêm métodos de alto nível para
+    desenvolvimento de prova, incluindo táticas poderosas para construção
+    de complexos de prova semiautomáticos, além de uma grande biblioteca de definições
+    comuns e normas.
 
 <div class="paragraph"> </div>
 
-    Coq has been a critical enabler for a huge variety of work across
-    computer science and mathematics:
+    Coq tem sido um fator crítico para uma grande variedade de trabalhos em
+    da Ciência da Computação e da matemática:
 
 <div class="paragraph"> </div>
 
 <ul class="doclist">
-<li> As a <i>platform for modeling programming languages</i>, it has become
-      a standard tool for researchers who need to describe and reason
-      about complex language definitions.  It has been used, for
-      example, to check the security of the JavaCard platform,
-      obtaining the highest level of common criteria certification,
-      and for formal specifications of the x86 and LLVM instruction
-      sets.
+<li> Como uma <i>plataforma para modelagem de liguagem de programação</i>, o Coq se tornou
+      uma ferramenta padrão para pesquisadores que precisam descrever e raciocinar
+      sobre definições de liguagens complexas. Foi utilizado, por
+      exemplo, para checar a segurança da plataforma JavaCard,
+      obtendo o mais alto nível da certificação common criteria,
+      e para especificações formais do x86 e do conjuntos de intruções
+      do LLVM.
 
 <div class="paragraph"> </div>
 
 
 </li>
-<li> As an <i>environment for developing formally certified software</i>,
+<li> Como um <i>environment for developing formally certified software</i>,
       Coq has been used to build CompCert, a fully-verified optimizing
       compiler for C, for proving the correctness of subtle algorithms
       involving floating point numbers, and as the basis for
