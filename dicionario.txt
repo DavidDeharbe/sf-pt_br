@@ -1,1 +1,5 @@
 function type : tipo funcional
+rewriting: reescrita
+to rewrite: reescrever
+case analysis: análise de casos
+
