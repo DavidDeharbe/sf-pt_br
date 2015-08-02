@@ -117,7 +117,7 @@
          uma enorme variadade de configurações. Exemplos destas ferramentas incluem solucionadores
          SAT, solucionadores SMT, e verificadores de modelo.
 
-       - _Proof assistants_ são ferramentas hibridas que automatizam os mais 
+       - _Proof assistants_ são ferramentas híbridas que automatizam os mais 
          rotineiros aspectos dos construtores de prova enquanto dependem de orientação
          humana para aspectos mais difíceis.  Assistentes de prova
          largamente utilizados incluem Isabelle, Agda, Twelf, ACL2, PVS, e Coq,
