@@ -31,10 +31,10 @@ em processo de tradução.
     - Welcome [Dalay] Boas-Vindas
     - Overview
         - Logic [ Francisco ]
-        - Proof Assistants [ Diego ]
+        - Proof Assistants [ Diego + Claudia ]
         - Functional Programming [ Renan ]
-        - Program Verification [ Dalay ]
-        - Type Systems [ Francisco ]
+        - Program Verification [ Vitor ]
+        - Type Systems [ Dalay ]
     - Practicalities
         - Chapter Dependencies [ Diego ]
         - System Requirements [ Renan ]

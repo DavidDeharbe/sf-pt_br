@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <link href="coqdoc.css" rel="stylesheet" type="text/css"/>
-<title>Basics: Functional Programming in Coq</title>
+<title>Embasamento: Programação Funcional em Coq</title>
 <script type="text/javascript" src="jquery-1.8.3.js"></script>
 <script type="text/javascript" src="main.js"></script>
 </head>
@@ -18,7 +18,7 @@
 
 <div id="main">
 
-<h1 class="libtitle">Basics<span class="subtitle">Functional Programming in Coq</span></h1>
+<h1 class="libtitle">Embasamento<span class="subtitle">Programação Funcional em Coq</span></h1>
 
 <div class="code code-tight">
 </div>
@@ -34,11 +34,12 @@
 </div>
 
 <div class="doc">
-<a name="lab15"></a><h1 class="section">Introduction</h1>
+<a name="lab15"></a><h1 class="section">Introdução</h1>
 
 <div class="paragraph"> </div>
+<span class="comment">Claudia</span>
 
- The functional programming style brings programming closer to
+The functional programming style brings programming closer to
     simple, everyday mathematics: If a procedure or method has no side
     effects, then pretty much all you need to understand about it is
     how it maps inputs to outputs &mdash; that is, you can think of it as
@@ -49,6 +50,7 @@
     and sound informal reasoning about program behavior.
 
 <div class="paragraph"> </div>
+<span class="comment">Dalay</span>
 
     The other sense in which functional programming is "functional" is
     that it emphasizes the use of functions (or methods) as
@@ -58,6 +60,7 @@
     data in this way enables a host of useful and powerful idioms.
 
 <div class="paragraph"> </div>
+<span class="comment">Diego</span>
 
     Other common features of functional languages include <i>algebraic
     data types</i> and <i>pattern matching</i>, which make it easy to construct
@@ -66,6 +69,7 @@
     reuse.  Coq shares all of these features.
 
 <div class="paragraph"> </div>
+<span class="comment">Francisco</span>
 
     The first half of this chapter introduces the most essential
     elements of Coq's functional programming language.  The second
@@ -79,9 +83,10 @@
 </div>
 
 <div class="doc">
-<a name="lab16"></a><h1 class="section">Enumerated Types</h1>
+<a name="lab16"></a><h1 class="section">Tipos Enumerados</h1>
 
 <div class="paragraph"> </div>
+<span class="comment">Renan</span>
 
  One unusual aspect of Coq is that its set of built-in
     features is <i>extremely</i> small.  For example, instead of providing
@@ -91,6 +96,7 @@
     familiar types arise as instances.  
 
 <div class="paragraph"> </div>
+<span class="comment">Vítor</span>
 
     Naturally, the Coq distribution comes with an extensive standard
     library providing definitions of booleans, numbers, and many
@@ -101,6 +107,7 @@
     than just getting them implicitly from the library.
 
 <div class="paragraph"> </div>
+<span class="comment">Claudia</span>
 
     To see how this mechanism works, let's start with a very simple
     example. 
@@ -111,9 +118,10 @@
 </div>
 
 <div class="doc">
-<a name="lab17"></a><h2 class="section">Days of the Week</h2>
+<a name="lab17"></a><h2 class="section">Dias da Semana</h2>
 
 <div class="paragraph"> </div>
+<span class="comment">Dalay</span>
 
  The following declaration tells Coq that we are defining
     a new set of data values &mdash; a <i>type</i>. 
@@ -139,6 +147,7 @@ The type is called <span class="inlinecode"><span class="id" type="var">day</spa
     can be read "<span class="inlinecode"><span class="id" type="var">monday</span></span> is a <span class="inlinecode"><span class="id" type="var">day</span></span>, <span class="inlinecode"><span class="id" type="var">tuesday</span></span> is a <span class="inlinecode"><span class="id" type="var">day</span></span>, etc."
 
 <div class="paragraph"> </div>
+<span class="comment">Diego</span>
 
     Having defined <span class="inlinecode"><span class="id" type="var">day</span></span>, we can write functions that operate on
     days. 
@@ -168,12 +177,14 @@ One thing to note is that the argument and return types of
     some <i>type inference</i> &mdash; but we'll always include them to make
     reading easier. 
 <div class="paragraph"> </div>
+<span class="comment">Francisco</span>
 
  Having defined a function, we should check that it works on
     some examples.  There are actually three different ways to do this
     in Coq.  
 
 <div class="paragraph"> </div>
+<span class="comment">Renan</span>
 
     First, we can use the command <span class="inlinecode"><span class="id" type="keyword">Eval</span></span> <span class="inlinecode"><span class="id" type="tactic">compute</span></span> to evaluate a
     compound expression involving <span class="inlinecode"><span class="id" type="var">next_weekday</span></span>.  
@@ -197,12 +208,14 @@ If you have a computer handy, this would be an excellent
     find the above example, submit it to Coq, and observe the
     result. 
 <div class="paragraph"> </div>
+<span class="comment">Vítor</span>
 
  The keyword <span class="inlinecode"><span class="id" type="tactic">compute</span></span> tells Coq precisely how to
     evaluate the expression we give it.  For the moment, <span class="inlinecode"><span class="id" type="tactic">compute</span></span> is
     the only one we'll need; later on we'll see some alternatives that
     are sometimes useful. 
 <div class="paragraph"> </div>
+<span class="comment">Claudia</span>
 
  Second, we can record what we <i>expect</i> the result to be in
     the form of a Coq example: 
@@ -237,6 +250,7 @@ The details are not important for now (we'll come back to
     we've just made can be proved by observing that both sides of the
     equality evaluate to the same thing, after some simplification." 
 <div class="paragraph"> </div>
+<span class="comment">Dalay</span>
 
  Third, we can ask Coq to <i>extract</i>, from our <span class="inlinecode"><span class="id" type="keyword">Definition</span></span>, a
     program in some other, more conventional, programming
@@ -254,9 +268,10 @@ The details are not important for now (we'll come back to
 </div>
 
 <div class="doc">
-<a name="lab18"></a><h2 class="section">Booleans</h2>
+<a name="lab18"></a><h2 class="section">Booleanos</h2>
 
 <div class="paragraph"> </div>
+<span class="comment">Diego</span>
 
  In a similar way, we can define the standard type <span class="inlinecode"><span class="id" type="var">bool</span></span> of
     booleans, with members <span class="inlinecode"><span class="id" type="var">true</span></span> and <span class="inlinecode"><span class="id" type="var">false</span></span>. 
@@ -281,6 +296,7 @@ Although we are rolling our own booleans here for the sake
     name our own definitions and theorems so that they exactly
     coincide with the ones in the standard library. 
 <div class="paragraph"> </div>
+<span class="comment">Francisco</span>
 
  Functions over booleans can be defined in the same way as
     above: 
@@ -315,6 +331,7 @@ Although we are rolling our own booleans here for the sake
 The last two illustrate the syntax for multi-argument
     function definitions. 
 <div class="paragraph"> </div>
+<span class="comment">Renan</span>
 
  The following four "unit tests" constitute a complete
     specification &mdash; a truth table &mdash; for the <span class="inlinecode"><span class="id" type="var">orb</span></span> function: 
@@ -339,6 +356,7 @@ The last two illustrate the syntax for multi-argument
     actually needed because <span class="inlinecode"><span class="id" type="tactic">reflexivity</span></span> automatically performs
     simplification.) 
 <div class="paragraph"> </div>
+<span class="comment">Vítor</span>
 
  <i>A note on notation</i>: In .v files, we use square brackets to
     delimit fragments of Coq code within comments; this convention,
@@ -346,18 +364,21 @@ The last two illustrate the syntax for multi-argument
     separate from the surrounding text.  In the html version of the
     files, these pieces of text appear in a <span class="inlinecode"><span class="id" type="var">different</span></span> <span class="inlinecode"><span class="id" type="var">font</span></span>. 
 <div class="paragraph"> </div>
+<span class="comment">Claudia</span>
 
  The values <span class="inlinecode"><span class="id" type="var">Admitted</span></span> and <span class="inlinecode"><span class="id" type="var">admit</span></span> can be used to fill
     a hole in an incomplete definition or proof.  We'll use them in the
     following exercises.  In general, your job in the exercises is 
     to replace <span class="inlinecode"><span class="id" type="var">admit</span></span> or <span class="inlinecode"><span class="id" type="var">Admitted</span></span> with real definitions or proofs. 
 <div class="paragraph"> </div>
+<span class="comment">Dalay</span>
 
-<a name="lab19"></a><h4 class="section">Exercise: 1 star (nandb)</h4>
+<a name="lab19"></a><h4 class="section">Exercício: 1 star (nandb)</h4>
  Complete the definition of the following function, then make
     sure that the <span class="inlinecode"><span class="id" type="keyword">Example</span></span> assertions below can each be verified by
     Coq.  
 <div class="paragraph"> </div>
+<span class="comment">Diego</span>
 
  This function should return <span class="inlinecode"><span class="id" type="var">true</span></span> if either or both of
     its inputs are <span class="inlinecode"><span class="id" type="var">false</span></span>. 
@@ -391,8 +412,9 @@ Remove "<span class="inlinecode"><span class="id" type="var">Admitted</span>.</s
 <div class="doc">
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
+<span class="comment">Francisco</span>
 
-<a name="lab20"></a><h4 class="section">Exercise: 1 star (andb3)</h4>
+<a name="lab20"></a><h4 class="section">Exercício: 1 star (andb3)</h4>
  Do the same for the <span class="inlinecode"><span class="id" type="var">andb3</span></span> function below. This function should
     return <span class="inlinecode"><span class="id" type="var">true</span></span> when all of its inputs are <span class="inlinecode"><span class="id" type="var">true</span></span>, and <span class="inlinecode"><span class="id" type="var">false</span></span>
     otherwise. 
@@ -423,9 +445,10 @@ Remove "<span class="inlinecode"><span class="id" type="var">Admitted</span>.</s
 </div>
 
 <div class="doc">
-<a name="lab21"></a><h2 class="section">Function Types</h2>
+<a name="lab21"></a><h2 class="section">Tipos funcionais</h2>
 
 <div class="paragraph"> </div>
+<span class="comment">Renan</span>
 
  The <span class="inlinecode"><span class="id" type="keyword">Check</span></span> command causes Coq to print the type of an
     expression.  For example, the type of <span class="inlinecode"><span class="id" type="var">negb</span></span> <span class="inlinecode"><span class="id" type="var">true</span></span> is <span class="inlinecode"><span class="id" type="var">bool</span></span>. 
@@ -469,9 +492,10 @@ The type of <span class="inlinecode"><span class="id" type="var">negb</span></sp
 </div>
 
 <div class="doc">
-<a name="lab22"></a><h2 class="section">Numbers</h2>
+<a name="lab22"></a><h2 class="section">Números</h2>
 
 <div class="paragraph"> </div>
+<span class="comment">Vítor</span>
 
  <i>Technical digression</i>: Coq provides a fairly sophisticated
     <i>module system</i>, to aid in organizing large developments.  In this
@@ -512,6 +536,7 @@ The types we have defined so far are examples of "enumerated
 The clauses of this definition can be read: 
 
 <div class="paragraph"> </div>
+<span class="comment">Claudia</span>
 
 <ul class="doclist">
 <li> <span class="inlinecode"><span class="id" type="var">O</span></span> is a natural number (note that this is the letter "<span class="inlinecode"><span class="id" type="var">O</span></span>," not
@@ -526,16 +551,19 @@ The clauses of this definition can be read:
 </ul>
 
 <div class="paragraph"> </div>
+<span class="comment">Dalay</span>
 
     Let's look at this in a little more detail.  
 
 <div class="paragraph"> </div>
+<span class="comment">Diego</span>
 
     Every inductively defined set (<span class="inlinecode"><span class="id" type="var">day</span></span>, <span class="inlinecode"><span class="id" type="var">nat</span></span>, <span class="inlinecode"><span class="id" type="var">bool</span></span>, etc.) is
     actually a set of <i>expressions</i>.  The definition of <span class="inlinecode"><span class="id" type="var">nat</span></span> says how
     expressions in the set <span class="inlinecode"><span class="id" type="var">nat</span></span> can be constructed:
 
 <div class="paragraph"> </div>
+<span class="comment">Francisco</span>
 
 <ul class="doclist">
 <li> the expression <span class="inlinecode"><span class="id" type="var">O</span></span> belongs to the set <span class="inlinecode"><span class="id" type="var">nat</span></span>; 
@@ -555,6 +583,7 @@ The clauses of this definition can be read:
     one for the <span class="inlinecode"><span class="id" type="var">O</span></span> constructor, and indicate that each of those
     constructors doesn't take any arguments. 
 <div class="paragraph"> </div>
+<span class="comment">Renan</span>
 
  These three conditions are the precise force of the
     <span class="inlinecode"><span class="id" type="keyword">Inductive</span></span> declaration.  They imply that the expression <span class="inlinecode"><span class="id" type="var">O</span></span>, the
@@ -564,6 +593,7 @@ The clauses of this definition can be read:
     not.
 
 <div class="paragraph"> </div>
+<span class="comment">Vítor</span>
 
     We can write simple functions that pattern match on natural
     numbers just as we did above &mdash; for example, the predecessor
@@ -640,6 +670,7 @@ These are all things that can be applied to a number to yield a
     Although it is like a function in the sense that it can be applied
     to an argument, it does not <i>do</i> anything at all! 
 <div class="paragraph"> </div>
+<span class="comment">Claudia</span>
 
  For most function definitions over numbers, pure pattern
     matching is not enough: we also need recursion.  For example, to
@@ -787,7 +818,7 @@ The _ in the first line is a <i>wildcard pattern</i>.  Writing _ in a
 </div>
 
 <div class="doc">
-<a name="lab23"></a><h4 class="section">Exercise: 1 star (factorial)</h4>
+<a name="lab23"></a><h4 class="section">Exercício: 1 star (factorial)</h4>
  Recall the standard factorial function:
 <pre>
     factorial(0)  =  1 
@@ -813,6 +844,7 @@ The _ in the first line is a <i>wildcard pattern</i>.  Writing _ in a
 <div class="doc">
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
+<span class="comment">Dalay</span>
 
  We can make numerical expressions a little easier to read and
     write by introducing "notations" for addition, multiplication, and
@@ -844,12 +876,14 @@ The _ in the first line is a <i>wildcard pattern</i>.  Writing _ in a
    "More on Notation" subsection in the "Advanced Material" section at
    the end of this chapter.) 
 <div class="paragraph"> </div>
+<span class="comment">Diego</span>
 
  Note that these do not change the definitions we've already
     made: they are simply instructions to the Coq parser to accept <span class="inlinecode"><span class="id" type="var">x</span></span>
     <span class="inlinecode">+</span> <span class="inlinecode"><span class="id" type="var">y</span></span> in place of <span class="inlinecode"><span class="id" type="var">plus</span></span> <span class="inlinecode"><span class="id" type="var">x</span></span> <span class="inlinecode"><span class="id" type="var">y</span></span> and, conversely, to the Coq
     pretty-printer to display <span class="inlinecode"><span class="id" type="var">plus</span></span> <span class="inlinecode"><span class="id" type="var">x</span></span> <span class="inlinecode"><span class="id" type="var">y</span></span> as <span class="inlinecode"><span class="id" type="var">x</span></span> <span class="inlinecode">+</span> <span class="inlinecode"><span class="id" type="var">y</span></span>. 
 <div class="paragraph"> </div>
+<span class="comment">Francisco</span>
 
  When we say that Coq comes with nothing built-in, we really
     mean it: even equality testing for numbers is a user-defined
@@ -904,7 +938,7 @@ Similarly, the <span class="inlinecode"><span class="id" type="var">ble_nat</spa
 </div>
 
 <div class="doc">
-<a name="lab24"></a><h4 class="section">Exercise: 2 stars (blt_nat)</h4>
+<a name="lab24"></a><h4 class="section">Exercício: 2 stars (blt_nat)</h4>
  The <span class="inlinecode"><span class="id" type="var">blt_nat</span></span> function tests <span class="inlinecode"><span class="id" type="var">nat</span></span>ural numbers for <span class="inlinecode"><span class="id" type="var">l</span></span>ess-<span class="inlinecode"><span class="id" type="var">t</span></span>han,
     yielding a <span class="inlinecode"><span class="id" type="var">b</span></span>oolean.  Instead of making up a new <span class="inlinecode"><span class="id" type="keyword">Fixpoint</span></span> for
     this one, define it in terms of a previously defined function. 
@@ -938,6 +972,7 @@ Similarly, the <span class="inlinecode"><span class="id" type="var">ble_nat</spa
 <a name="lab25"></a><h1 class="section">Proof by Simplification</h1>
 
 <div class="paragraph"> </div>
+<span class="comment">Renan</span>
 
  Now that we've defined a few datatypes and functions, let's
     turn to the question of how to state and prove properties of their
@@ -948,6 +983,7 @@ Similarly, the <span class="inlinecode"><span class="id" type="var">ble_nat</spa
     to check that both sides of the <span class="inlinecode">=</span> simplify to identical values. 
 
 <div class="paragraph"> </div>
+<span class="comment">Vítor</span>
 
     (By the way, it will be useful later to know that
     <span class="inlinecode"><span class="id" type="tactic">reflexivity</span></span> actually does somewhat more simplification than <span class="inlinecode"><span class="id" type="tactic">simpl</span></span> 
@@ -960,6 +996,7 @@ Similarly, the <span class="inlinecode"><span class="id" type="var">ble_nat</spa
     blindly expanding definitions.) 
 
 <div class="paragraph"> </div>
+<span class="comment">Claudia</span>
 
     The same sort of "proof by simplification" can be used to prove
     more interesting properties as well.  For example, the fact that
@@ -984,11 +1021,13 @@ Similarly, the <span class="inlinecode"><span class="id" type="var">ble_nat</spa
     "<i>forall</i>" reserved identifier. This gets printed as an
     upside-down "A", the familiar symbol used in logic.)  
 <div class="paragraph"> </div>
+<span class="comment">Dalay</span>
 
  The form of this theorem and proof are almost exactly the
     same as the examples above; there are just a few differences.
 
 <div class="paragraph"> </div>
+<span class="comment">Diego</span>
 
     First, we've used the keyword <span class="inlinecode"><span class="id" type="keyword">Theorem</span></span> instead of
     <span class="inlinecode"><span class="id" type="keyword">Example</span></span>.  Indeed, the difference is purely a matter of
@@ -997,6 +1036,7 @@ Similarly, the <span class="inlinecode"><span class="id" type="var">ble_nat</spa
     thing to Coq.
 
 <div class="paragraph"> </div>
+<span class="comment">Francisco</span>
 
     Secondly, we've added the quantifier <span class="inlinecode"><span style="font-family: arial;">&forall;</span></span> <span class="inlinecode"><span class="id" type="var">n</span>:<span class="id" type="var">nat</span></span>, so that our
     theorem talks about <i>all</i> natural numbers <span class="inlinecode"><span class="id" type="var">n</span></span>.  In order to prove
@@ -1007,6 +1047,7 @@ Similarly, the <span class="inlinecode"><span class="id" type="var">ble_nat</spa
     start the proof by saying "OK, suppose <span class="inlinecode"><span class="id" type="var">n</span></span> is some arbitrary number."
 
 <div class="paragraph"> </div>
+<span class="comment">Renan</span>
 
     The keywords <span class="inlinecode"><span class="id" type="tactic">intros</span></span>, <span class="inlinecode"><span class="id" type="tactic">simpl</span></span>, and <span class="inlinecode"><span class="id" type="tactic">reflexivity</span></span> are examples of
     <i>tactics</i>.  A tactic is a command that is used between <span class="inlinecode"><span class="id" type="keyword">Proof</span></span> and
@@ -1014,6 +1055,7 @@ Similarly, the <span class="inlinecode"><span class="id" type="var">ble_nat</spa
     claim we are making.  We will see several more tactics in the rest
     of this lecture, and yet more in future lectures. 
 <div class="paragraph"> </div>
+<span class="comment">Vítor</span>
 
  We could try to prove a similar theorem about <span class="inlinecode"><span class="id" type="var">plus</span></span> 
 </div>
@@ -1071,6 +1113,7 @@ The <span class="inlinecode"><span class="id" type="var">_l</span></span> suffix
 <a name="lab26"></a><h1 class="section">Proof by Rewriting</h1>
 
 <div class="paragraph"> </div>
+<span class="comment">Claudia</span>
 
  Here is a slightly more interesting theorem: 
 </div>
@@ -1091,6 +1134,7 @@ Instead of making a completely universal claim about all numbers
     "implies."
 
 <div class="paragraph"> </div>
+<span class="comment">Dalay</span>
 
     As before, we need to be able to reason by assuming the existence
     of some numbers <span class="inlinecode"><span class="id" type="var">n</span></span> and <span class="inlinecode"><span class="id" type="var">m</span></span>.  We also need to assume the hypothesis
@@ -1098,6 +1142,7 @@ Instead of making a completely universal claim about all numbers
     from the goal into assumptions in the current context. 
 
 <div class="paragraph"> </div>
+<span class="comment">Diego</span>
 
     Since <span class="inlinecode"><span class="id" type="var">n</span></span> and <span class="inlinecode"><span class="id" type="var">m</span></span> are arbitrary numbers, we can't just use
     simplification to prove this theorem.  Instead, we prove it by
@@ -1127,6 +1172,7 @@ The first line of the proof moves the universally quantified
     <span class="inlinecode"><span class="id" type="var">H</span></span> with the right side.
 
 <div class="paragraph"> </div>
+<span class="comment">Francisco</span>
 
     (The arrow symbol in the <span class="inlinecode"><span class="id" type="tactic">rewrite</span></span> has nothing to do with
     implication: it tells Coq to apply the rewrite from left to right.
@@ -1134,8 +1180,9 @@ The first line of the proof moves the universally quantified
     making this change in the above proof and see what difference it
     makes in Coq's behavior.) 
 <div class="paragraph"> </div>
+<span class="comment">Renan</span>
 
-<a name="lab27"></a><h4 class="section">Exercise: 1 star (plus_id_exercise)</h4>
+<a name="lab27"></a><h4 class="section">Exercício: 1 star (plus_id_exercise)</h4>
  Remove "<span class="inlinecode"><span class="id" type="var">Admitted</span>.</span>" and fill in the proof. 
 </div>
 <div class="code code-tight">
@@ -1150,6 +1197,7 @@ The first line of the proof moves the universally quantified
 <div class="doc">
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
+<span class="comment">Vítor</span>
 
  As we've seen in earlier examples, the <span class="inlinecode"><span class="id" type="var">Admitted</span></span> command
     tells Coq that we want to skip trying to prove this theorem and
@@ -1163,6 +1211,7 @@ The first line of the proof moves the universally quantified
     open for total nonsense to enter Coq's nice, rigorous, formally
     checked world! 
 <div class="paragraph"> </div>
+<span class="comment">Claudia</span>
 
  We can also use the <span class="inlinecode"><span class="id" type="tactic">rewrite</span></span> tactic with a previously proved
     theorem instead of a hypothesis from the context. 
@@ -1181,7 +1230,7 @@ The first line of the proof moves the universally quantified
 </div>
 
 <div class="doc">
-<a name="lab28"></a><h4 class="section">Exercise: 2 stars (mult_S_1)</h4>
+<a name="lab28"></a><h4 class="section">Exercício: 2 stars (mult_S_1)</h4>
 
 </div>
 <div class="code code-space">
@@ -1204,6 +1253,7 @@ The first line of the proof moves the universally quantified
 <a name="lab29"></a><h1 class="section">Proof by Case Analysis</h1>
 
 <div class="paragraph"> </div>
+<span class="comment">Dalay</span>
 
  Of course, not everything can be proved by simple
     calculation: In general, unknown, hypothetical values (arbitrary
@@ -1232,6 +1282,7 @@ The reason for this is that the definitions of both
     expression <span class="inlinecode"><span class="id" type="var">n</span></span> <span class="inlinecode">+</span> <span class="inlinecode">1</span>; neither can be simplified.
 
 <div class="paragraph"> </div>
+<span class="comment">Diego</span>
 
     What we need is to be able to consider the possible forms of <span class="inlinecode"><span class="id" type="var">n</span></span>
     separately.  If <span class="inlinecode"><span class="id" type="var">n</span></span> is <span class="inlinecode"><span class="id" type="var">O</span></span>, then we can calculate the final result
@@ -1242,6 +1293,7 @@ The reason for this is that the definitions of both
     that, again, <span class="inlinecode"><span class="id" type="var">beq_nat</span></span> <span class="inlinecode">(<span class="id" type="var">n</span></span> <span class="inlinecode">+</span> <span class="inlinecode">1)</span> <span class="inlinecode">0</span> will yield <span class="inlinecode"><span class="id" type="var">false</span></span>.
 
 <div class="paragraph"> </div>
+<span class="comment">Francisco</span>
 
     The tactic that tells Coq to consider, separately, the cases where
     <span class="inlinecode"><span class="id" type="var">n</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" type="var">O</span></span> and where <span class="inlinecode"><span class="id" type="var">n</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" type="var">S</span></span> <span class="inlinecode"><span class="id" type="var">n'</span></span> is called <span class="inlinecode"><span class="id" type="tactic">destruct</span></span>. 
@@ -1269,6 +1321,7 @@ The <span class="inlinecode"><span class="id" type="tactic">destruct</span></spa
     <span class="inlinecode"><span class="id" type="tactic">reflexivity</span></span>.
 
 <div class="paragraph"> </div>
+<span class="comment">Renan</span>
 
     The annotation "<span class="inlinecode"><span class="id" type="keyword">as</span></span> <span class="inlinecode">[|</span> <span class="inlinecode"><span class="id" type="var">n'</span>]</span>" is called an <i>intro pattern</i>.  It
     tells Coq what variable names to introduce in each subgoal.  In
@@ -1279,6 +1332,7 @@ The <span class="inlinecode"><span class="id" type="tactic">destruct</span></spa
     is a unary constructor.
 
 <div class="paragraph"> </div>
+<span class="comment">Vítor</span>
 
     The <span class="inlinecode"><span class="id" type="tactic">destruct</span></span> tactic can be used with any inductively defined
     datatype.  For example, we use it here to prove that boolean
@@ -1308,8 +1362,9 @@ Note that the <span class="inlinecode"><span class="id" type="tactic">destruct</
     style, since Coq often makes confusing choices of names when left
     to its own devices. 
 <div class="paragraph"> </div>
+<span class="comment">Claudia</span>
 
-<a name="lab30"></a><h4 class="section">Exercise: 1 star (zero_nbeq_plus_1)</h4>
+<a name="lab30"></a><h4 class="section">Exercício: 1 star (zero_nbeq_plus_1)</h4>
 
 </div>
 <div class="code code-space">
@@ -1330,11 +1385,12 @@ Note that the <span class="inlinecode"><span class="id" type="tactic">destruct</
 </div>
 
 <div class="doc">
-<a name="lab31"></a><h1 class="section">More Exercises</h1>
+<a name="lab31"></a><h1 class="section">Mais exercícios</h1>
 
 <div class="paragraph"> </div>
+<span class="comment">Dalay</span>
 
-<a name="lab32"></a><h4 class="section">Exercise: 2 stars (boolean_functions)</h4>
+<a name="lab32"></a><h4 class="section">Exercícios: 2 stars (boolean_functions)</h4>
  Use the tactics you have learned so far to prove the following 
     theorem about boolean functions. 
 </div>
@@ -1365,8 +1421,9 @@ Now state and prove a theorem <span class="inlinecode"><span class="id" type="va
 <div class="doc">
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
+<span class="comment">Diego</span>
 
-<a name="lab33"></a><h4 class="section">Exercise: 2 stars (andb_eq_orb)</h4>
+<a name="lab33"></a><h4 class="section">Exercícios: 2 stars (andb_eq_orb)</h4>
  Prove the following theorem.  (You may want to first prove a
     subsidiary lemma or two. Alternatively, remember that you do
     not have to introduce all hypotheses at the same time.) 
@@ -1385,14 +1442,16 @@ Now state and prove a theorem <span class="inlinecode"><span class="id" type="va
 <div class="doc">
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
+<span class="comment">Francisco</span>
 
-<a name="lab34"></a><h4 class="section">Exercise: 3 stars (binary)</h4>
+<a name="lab34"></a><h4 class="section">Exercícios: 3 stars (binary)</h4>
  Consider a different, more efficient representation of natural
     numbers using a binary rather than unary system.  That is, instead
     of saying that each natural number is either zero or the successor
     of a natural number, we can say that each binary number is either
 
 <div class="paragraph"> </div>
+<span class="comment">Renan</span>
 
 <ul class="doclist">
 <li> zero,
@@ -1407,21 +1466,25 @@ Now state and prove a theorem <span class="inlinecode"><span class="id" type="va
 </ul>
 
 <div class="paragraph"> </div>
+<span class="comment">Vítor</span>
 
     (a) First, write an inductive definition of the type <span class="inlinecode"><span class="id" type="var">bin</span></span>
         corresponding to this description of binary numbers. 
 
 <div class="paragraph"> </div>
+<span class="comment">Claudia</span>
 
     (Hint: Recall that the definition of <span class="inlinecode"><span class="id" type="var">nat</span></span> from class,
 
 <div class="paragraph"> </div>
+<span class="comment">Dalay</span>
 
 <div class="code code-tight">
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">Inductive</span>&nbsp;<span class="id" type="var">nat</span>&nbsp;:&nbsp;<span class="id" type="keyword">Type</span>&nbsp;:=<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;<span class="id" type="var">O</span>&nbsp;:&nbsp;<span class="id" type="var">nat</span><br/>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;<span class="id" type="var">S</span>&nbsp;:&nbsp;<span class="id" type="var">nat</span>&nbsp;<span style="font-family: arial;">&rarr;</span>&nbsp;<span class="id" type="var">nat</span>.
 <div class="paragraph"> </div>
+<span class="comment">Diego</span>
 
 </div>
     says nothing about what <span class="inlinecode"><span class="id" type="var">O</span></span> and <span class="inlinecode"><span class="id" type="var">S</span></span> "mean."  It just says "<span class="inlinecode"><span class="id" type="var">O</span></span> is
@@ -1434,11 +1497,13 @@ Now state and prove a theorem <span class="inlinecode"><span class="id" type="va
     mathematical meaning.)
 
 <div class="paragraph"> </div>
+<span class="comment">Francisco</span>
 
     (b) Next, write an increment function <span class="inlinecode"><span class="id" type="var">incr</span></span> for binary numbers, 
         and a function <span class="inlinecode"><span class="id" type="var">bin_to_nat</span></span> to convert binary numbers to unary numbers.
 
 <div class="paragraph"> </div>
+<span class="comment">Renan</span>
 
     (c) Write five unit tests <span class="inlinecode"><span class="id" type="var">test_bin_incr1</span></span>, <span class="inlinecode"><span class="id" type="var">test_bin_incr2</span></span>, etc.
         for your increment and binary-to-unary functions. Notice that 
@@ -1465,6 +1530,7 @@ Now state and prove a theorem <span class="inlinecode"><span class="id" type="va
 <a name="lab35"></a><h1 class="section">More on Notation (Advanced)</h1>
 
 <div class="paragraph"> </div>
+<span class="comment">Vítor</span>
 
  In general, sections marked Advanced are not needed to follow the
     rest of the book, except possibly other Advanced sections.  On a
@@ -1496,6 +1562,7 @@ For each notation-symbol in Coq we can specify its <i>precedence level</i>
     <i>left</i>, <i>right</i>, or <i>no</i> associativity.
 
 <div class="paragraph"> </div>
+<span class="comment">Claudia</span>
 
     Each notation-symbol in Coq is also active in a <i>notation scope</i>.  
     Coq tries to guess what scope you mean, so when you write <span class="inlinecode"><span class="id" type="var">S</span>(<span class="id" type="var">O</span>×<span class="id" type="var">O</span>)</span> 
@@ -1506,12 +1573,14 @@ For each notation-symbol in Coq we can specify its <i>precedence level</i>
     will use <span class="inlinecode">%<span class="id" type="var">nat</span></span> to indicate what scope a notation is in.
 
 <div class="paragraph"> </div>
+<span class="comment">Dalay</span>
 
     Notation scopes also apply to numeral notation (3,4,5, etc.), so you
     may sometimes see <span class="inlinecode">0%<span class="id" type="var">nat</span></span> which means <span class="inlinecode"><span class="id" type="var">O</span></span>, or <span class="inlinecode">0%<span class="id" type="var">Z</span></span> which means the
     Integer zero.
 
 <div class="paragraph"> </div>
+<span class="comment">Diego</span>
 
 <a name="lab36"></a><h1 class="section"><span class="inlinecode"><span class="id" type="keyword">Fixpoint</span></span> and Structural Recursion (Advanced)</h1>
 
@@ -1538,6 +1607,7 @@ When Coq checks this definition, it notes that <span class="inlinecode"><span cl
     definition is "decreasing".
 
 <div class="paragraph"> </div>
+<span class="comment">Francisco</span>
 
     This requirement is a fundamental feature of Coq's design: In
     particular, it guarantees that every function that can be defined
@@ -1545,8 +1615,9 @@ When Coq checks this definition, it notes that <span class="inlinecode"><span cl
     "decreasing analysis" is not very sophisticated, it is sometimes
     necessary to write functions in slightly unnatural ways. 
 <div class="paragraph"> </div>
+<span class="comment">Renan</span>
 
-<a name="lab37"></a><h4 class="section">Exercise: 2 stars, optional (decreasing)</h4>
+<a name="lab37"></a><h4 class="section">Exercícios: 2 stars, opcionais (decrescendo)</h4>
  To get a concrete sense of this, find a way to write a sensible
     <span class="inlinecode"><span class="id" type="keyword">Fixpoint</span></span> definition (of a simple function on numbers, say) that
     <i>does</i> terminate on all inputs, but that Coq will reject because
@@ -1561,6 +1632,7 @@ When Coq checks this definition, it notes that <span class="inlinecode"><span cl
 <div class="doc">
 <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
+<span class="comment">Vítor</span>
 
   
 </div>
