@@ -171,15 +171,15 @@
       Teorema de Feit-Thompson -- o primeiro maior passo na
       classificação de grupos finitos simples.
 
-   A propóstio, no caso de você está se perguntando sobre nome Coq, aqui está
-   o que o web site oficial diz: "Alguns cientistas franceses da computação 
-   tem a tradição de nomear seus softwares como espécies de animais: "Caml",
-   "Elan" , "Foc" ou "Phox" s~ao exemplos dessa conven'c`ao. In French,
-   'coq' means rooster, and it sounds like the initials of the
-   Calculus of Constructions (CoC) on which it is based."  The rooster
-   is also the national symbol of France, and "Coq" are the first
-   three letters of the name of Thierry Coquand, one of Coq's early
-   developers. *)
+   A propósito, no caso de você está se perguntando sobre nome Coq, aqui está
+   o que o web site oficial diz: "Alguns cientistas franceses da computação
+   tem a tradição de nomear seus softwares como espécies de animais: Caml,
+   Elan , Foc ou Phox são exemplos dessa convenção. Em francês,
+   'coq' significa galo, e além disse soa como as iniciais de
+   Calculus of Constructions (CoC), no qual é baseado."  O galo
+   é um simbolo nacional da França, e "Coq" são as três primeiras
+   letras do nome de Thierry Coquand, um dos primeiros
+   desenvolvedores do Coq. *)
 
 (** ** Functional Programming *)
 
@@ -407,10 +407,10 @@
     Suas contribuições são bem-vindas!
 
     Por favor, enviei um e-mail para Benjamin Pierce, descrevendo-se e
-    informando como gostaria de usar o material, incluindo o resultado
+    informando como gostaria de fazer uso do material, incluindo o resultado
     de fazer "htpasswd -s -n NAME", onde NAME é seu nome de
-    usuário.  Nós vamos configurar sua leitura/escrita com a nossa subversão no 
-    repositório e desenvolvedores' lista de contatos; no repositório você encontrará
+    usuário.  Nós vamos configurar sua leitura/acesso com a nossa subversão do
+    repositório e adiciona-lo na lista de contato de desenvolvedores; no repositório você encontrará
     um [README] com futuras instruções. *)
 
 (* ###################################################################### *)
