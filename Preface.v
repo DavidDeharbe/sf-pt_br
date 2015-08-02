@@ -114,7 +114,7 @@
          _false_, ou _ran out of time_.  Apesar de suas as capacidades
          serem limitadas para tipos bastante específicos de raciocínio, eles têm
          amadurecido tremendamente nos últimos anos e agora são utilizadas em
-         uma enorme variadede de definições. Exemplos destas ferramentas incluem solucionadores
+         uma enorme variadade de configurações. Exemplos destas ferramentas incluem solucionadores
          SAT, solucionadores SMT, e verificadores de modelo.
 
        - _Proof assistants_ são ferramentas hibridas que automatizam os mais 
@@ -126,55 +126,55 @@
     Esse curso é baseado em torno do Coq, um assistente de prova que tem estado
     em desenvolvimento desde 1983 por laboratório franceses de pesquisas
     e universidades.  Coq concede um rico ambiente para desenvolvimento 
-    interativo da maquina-raciocínio formal verificado.  O núcleo do
+    interativo de maquina-raciocínio formal verificado.  O núcleo do
     sistema Coq é um simples verificador de prova que garante somente
     passos corretos de dedução são realizados.  Além desse núcleo,
-    o ambiente do Coq provêm instalações de alto nível para
+    o ambiente Coq provêm meio de alto nível para
     desenvolvimento de prova, incluindo táticas poderosas para construção
     de complexos de prova semiautomáticos, além de uma grande biblioteca de definições
     comuns e normas.
 
-    Coq tem sido um facilitador para uma grande variedade de trabalhos através
+    Coq tem sido um fator crítico para uma grande variedade de trabalhos em
     da Ciência da Computação e da matemática:
 
     - Como uma _plataforma para modelagem de liguagem de programação_, o Coq se tornou
       uma ferramenta padrão para pesquisadores que precisam descrever e raciocinar
-      sobre definições complexas de liguagem.  Ele tem sido utilizado, por
-      exemplo, checar a segurança da plataforma JavaCard,
+      sobre definições de liguagens complexas.  Têm sido utilizado, por
+      exemplo, para checar a segurança da plataforma JavaCard,
       obtendo o mais alto nível de certificação common criteria, //common criteria certification,
       e para especificações formais do x86 e do conjuntos de intruções
       do LLVM.
 
-    - As an _environment for developing formally certified software_,
-      Coq has been used to build CompCert, a fully-verified optimizing
-      compiler for C, for proving the correctness of subtle algorithms
-      involving floating point numbers, and as the basis for
-      Certicrypt, an environment for reasoning about the security of
-      cryptographic algorithms.
+    - Como um _ambiente para desenvolver software certificado formalmente_,
+      Coq foi utilizado para construir o CompCert, um otimizador de compilação
+      totalmente verificado para C, para provar a exatidão de algoritmos sutis
+      envolvendo números de ponto flutuante, e como a base para o
+      Certicrypt, um ambiente para raciocínio sobre a segurança de
+      algoritmos criptografados.
 
-    - As a _realistic environment for programming with dependent
-      types_, it has inspired numerous innovations.  For example, the
-      Ynot project at Harvard embeds "relational Hoare reasoning" (an
-      extension of the _Hoare Logic_ we will see later in this course)
-      in Coq.
+    - Como um _ambiente realista para programação com tipos
+      dependentes_, inspirando numerosas inovações.  Por exemplo, o
+      projeto Ynot em Harvard "relational Hoare reasoning" (uma
+      extensão da _lógica de Hoare_ que veremos mais tarde nesse curso)
+      em Coq.
 
-    - As a _proof assistant for higher-order logic_, it has been used
-      to validate a number of important results in mathematics.  For
-      example, its ability to include complex computations inside
-      proofs made it possible to develop the first formally verified
-      proof of the 4-color theorem.  This proof had previously been
-      controversial among mathematicians because part of it included
-      checking a large number of configurations using a program. In
-      the Coq formalization, everything is checked, including the
-      correctness of the computational part.  More recently, an even
-      more massive effort led to a Coq formalization of the
-      Feit-Thompson Theorem -- the first major step in the
-      classification of finite simple groups.
+    - Como um _assistente de prova para lógica de ordem superior_, foi utilizado
+      para validar uma série de resultados importantes na matemática.  Por
+      exemplo, sua capacidade de incluir computações complexas dentro
+      de provas tornou possível desenvolver a primiera prova do teorema
+      formalmente verificada do teorema das 4 cores.  Essa prova havia sido
+      controversa entre matemáticos porque parte dela inclue
+      checar grande número de configurações usando um programa.  Na
+      formalização do Coq, tudo é checado, incluindo a
+      precisão da parte computacional.  Mais recentemente, um esforço
+      ainda maior levou a formalização através do Coq do
+      Teorema de Feit-Thompson -- o primeiro maior passo na
+      classificação de grupos finitos simples.
 
-   By the way, in case you're wondering about the name, here's what
-   the official Coq web site says: "Some French computer scientists
-   have a tradition of naming their software as animal species: Caml,
-   Elan, Foc or Phox are examples of this tacit convention. In French,
+   A propóstio, no caso de você está se perguntando sobre nome Coq, aqui está
+   o que o web site oficial diz: "Alguns cientistas franceses da computação 
+   tem a tradição de nomear seus softwares como espécies de animais: "Caml",
+   "Elan" , "Foc" ou "Phox" s~ao exemplos dessa conven'c`ao. In French,
    'coq' means rooster, and it sounds like the initials of the
    Calculus of Constructions (CoC) on which it is based."  The rooster
    is also the national symbol of France, and "Coq" are the first
