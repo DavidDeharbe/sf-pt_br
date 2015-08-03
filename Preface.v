@@ -101,85 +101,85 @@
     but in this course we will examine them much more deeply than you
     have probably done so far. *)
 
-(** ** Proof Assistants *)
+(** ** Assistentes de Prova *)
 
-(** The flow of ideas between logic and computer science has not been
-    in just one direction: CS has also made important contributions to
-    logic.  One of these has been the development of software tools
-    for helping construct proofs of logical propositions.  These tools
-    fall into two broad categories:
+(** O fluxo de idéias entre a lógica e a Ciência da Computação não
+    seguiu em uma única direção: A CC também realizou contribuições importantes para
+    a lógica.  Uma destas foi o desenvolvimento de ferramentas de software
+    para auxiliar na construção de provas de preposições lógicas.  Estas ferramentas
+    se dividem em duas grandes categorias:
 
-       - _Automated theorem provers_ provide "push-button" operation:
-         you give them a proposition and they return either _true_,
-         _false_, or _ran out of time_.  Although their capabilities
-         are limited to fairly specific sorts of reasoning, they have
-         matured tremendously in recent years and are used now in a
-         huge variety of settings.  Examples of such tools include SAT
-         solvers, SMT solvers, and model checkers.
+       - _Automated theorem provers_ fornecem a operação "push-button":
+         o operador entrega uma preposição e recebe em retorno _true_,
+         _false_, ou _ran out of time_.  Apesar de suas as capacidades
+         serem limitadas para tipos bastante específicos de raciocínio, eles têm
+         amadurecido tremendamente nos últimos anos e agora são utilizadas em
+         uma enorme variadade de configurações. Exemplos destas ferramentas incluem solucionadores
+         SAT, solucionadores SMT, e verificadores de modelo.
 
-       - _Proof assistants_ are hybrid tools that automate the more
-         routine aspects of building proofs while depending on human
-         guidance for more difficult aspects.  Widely used proof
-         assistants include Isabelle, Agda, Twelf, ACL2, PVS, and Coq,
-         among many others.
+       - _Proof assistants_ são ferramentas híbridas que automatizam os mais 
+         rotineiros aspectos dos construtores de prova enquanto dependem de orientação
+         humana para aspectos mais difíceis.  Assistentes de prova
+         largamente utilizados incluem Isabelle, Agda, Twelf, ACL2, PVS, e Coq,
+         entre muitos outros.
 
-    This course is based around Coq, a proof assistant that has been
-    under development since 1983 at a number of French research labs
-    and universities.  Coq provides a rich environment for interactive
-    development of machine-checked formal reasoning.  The kernel of
-    the Coq system is a simple proof-checker which guarantees that
-    only correct deduction steps are performed.  On top of this
-    kernel, the Coq environment provides high-level facilities for
-    proof development, including powerful tactics for constructing
-    complex proofs semi-automatically, and a large library of common
-    definitions and lemmas.
+    Esse curso é baseado em torno do Coq, um assistente de prova que tem estado
+    em desenvolvimento desde 1983 por laboratório franceses de pesquisas
+    e universidades.  Coq concede um rico ambiente para desenvolvimento 
+    interativo de maquina-raciocínio formal verificado.  O núcleo do
+    sistema Coq é um simples verificador de prova que garante somente
+    passos corretos de dedução são realizados.  Além desse núcleo,
+    o ambiente Coq provêm meio de alto nível para
+    desenvolvimento de prova, incluindo táticas poderosas para construção
+    de complexos de prova semiautomáticos, além de uma grande biblioteca de definições
+    comuns e normas.
 
-    Coq has been a critical enabler for a huge variety of work across
-    computer science and mathematics:
+    Coq tem sido um fator crítico para uma grande variedade de trabalhos em
+    da Ciência da Computação e da matemática:
 
-    - As a _platform for modeling programming languages_, it has become
-      a standard tool for researchers who need to describe and reason
-      about complex language definitions.  It has been used, for
-      example, to check the security of the JavaCard platform,
-      obtaining the highest level of common criteria certification,
-      and for formal specifications of the x86 and LLVM instruction
-      sets.
+    - Como uma _plataforma para modelagem de liguagem de programação_, o Coq se tornou
+      uma ferramenta padrão para pesquisadores que precisam descrever e raciocinar
+      sobre definições de liguagens complexas.  Têm sido utilizado, por
+      exemplo, para checar a segurança da plataforma JavaCard,
+      obtendo o mais alto nível de certificação common criteria, //common criteria certification,
+      e para especificações formais do x86 e do conjuntos de intruções
+      do LLVM.
 
-    - As an _environment for developing formally certified software_,
-      Coq has been used to build CompCert, a fully-verified optimizing
-      compiler for C, for proving the correctness of subtle algorithms
-      involving floating point numbers, and as the basis for
-      Certicrypt, an environment for reasoning about the security of
-      cryptographic algorithms.
+    - Como um _ambiente para desenvolver software certificado formalmente_,
+      Coq foi utilizado para construir o CompCert, um otimizador de compilação
+      totalmente verificado para C, para provar a exatidão de algoritmos sutis
+      envolvendo números de ponto flutuante, e como a base para o
+      Certicrypt, um ambiente para raciocínio sobre a segurança de
+      algoritmos criptografados.
 
-    - As a _realistic environment for programming with dependent
-      types_, it has inspired numerous innovations.  For example, the
-      Ynot project at Harvard embeds "relational Hoare reasoning" (an
-      extension of the _Hoare Logic_ we will see later in this course)
-      in Coq.
+    - Como um _ambiente realista para programação com tipos
+      dependentes_, inspirando numerosas inovações.  Por exemplo, o
+      projeto Ynot em Harvard "relational Hoare reasoning" (uma
+      extensão da _lógica de Hoare_ que veremos mais tarde nesse curso)
+      em Coq.
 
-    - As a _proof assistant for higher-order logic_, it has been used
-      to validate a number of important results in mathematics.  For
-      example, its ability to include complex computations inside
-      proofs made it possible to develop the first formally verified
-      proof of the 4-color theorem.  This proof had previously been
-      controversial among mathematicians because part of it included
-      checking a large number of configurations using a program. In
-      the Coq formalization, everything is checked, including the
-      correctness of the computational part.  More recently, an even
-      more massive effort led to a Coq formalization of the
-      Feit-Thompson Theorem -- the first major step in the
-      classification of finite simple groups.
+    - Como um _assistente de prova para lógica de ordem superior_, foi utilizado
+      para validar uma série de resultados importantes na matemática.  Por
+      exemplo, sua capacidade de incluir computações complexas dentro
+      de provas tornou possível desenvolver a primiera prova do teorema
+      formalmente verificada do teorema das 4 cores.  Essa prova havia sido
+      controversa entre matemáticos porque parte dela inclue
+      checar grande número de configurações usando um programa.  Na
+      formalização do Coq, tudo é checado, incluindo a
+      precisão da parte computacional.  Mais recentemente, um esforço
+      ainda maior levou a formalização através do Coq do
+      Teorema de Feit-Thompson -- o primeiro maior passo na
+      classificação de grupos finitos simples.
 
-   By the way, in case you're wondering about the name, here's what
-   the official Coq web site says: "Some French computer scientists
-   have a tradition of naming their software as animal species: Caml,
-   Elan, Foc or Phox are examples of this tacit convention. In French,
-   'coq' means rooster, and it sounds like the initials of the
-   Calculus of Constructions (CoC) on which it is based."  The rooster
-   is also the national symbol of France, and "Coq" are the first
-   three letters of the name of Thierry Coquand, one of Coq's early
-   developers. *)
+   A propósito, no caso de você está se perguntando sobre nome Coq, aqui está
+   o que o web site oficial diz: "Alguns cientistas franceses da computação
+   tem a tradição de nomear seus softwares como espécies de animais: Caml,
+   Elan , Foc ou Phox são exemplos dessa convenção. Em francês,
+   'coq' significa galo, e além disse soa como as iniciais de
+   Calculus of Constructions (CoC), no qual é baseado."  O galo
+   é um simbolo nacional da França, e "Coq" são as três primeiras
+   letras do nome de Thierry Coquand, um dos primeiros
+   desenvolvedores do Coq. *)
 
 (** ** Functional Programming *)
 
@@ -324,10 +324,10 @@
 (** * Practicalities *)
 
 (* ###################################################################### *)
-(** ** Chapter Dependencies *)
+(** ** Dependências entre capítulos *)
 
-(** A diagram of the dependencies between chapters and some suggested
-    paths through the material can be found in the file [deps.html]. *)
+(** Um diagrama da dependência entre os capítulos e alguns caminhos
+    sugeridos através do material pode ser encontrados no arquivo <deps.html>. *)
 
 (* ###################################################################### *)
 (** ** System Requirements *)
@@ -400,18 +400,18 @@
 *)
 
 (* ###################################################################### *)
-(** * Note for Instructors *)
+(** * Nota para instrutores *)
 
-(** If you intend to use these materials in your own course, you will
-    undoubtedly find things you'd like to change, improve, or add.
-    Your contributions are welcome!
+(** Se você pretende utilizar esse material em seu próprio curso, com certeza
+    encontrará coisas que gostará de modificar, aprimorar ou adicionar.
+    Suas contribuições são bem-vindas!
 
-    Please send an email to Benjamin Pierce describing yourself and
-    how you would like to use the materials, and including the result
-    of doing "htpasswd -s -n NAME", where NAME is your preferred user
-    name.  We'll set you up with read/write access to our subversion
-    repository and developers' mailing list; in the repository you'll
-    find a [README] with further instructions. *)
+    Por favor, enviei um e-mail para Benjamin Pierce, descrevendo-se e
+    informando como gostaria de fazer uso do material, incluindo o resultado
+    de fazer "htpasswd -s -n NAME", onde NAME é seu nome de
+    usuário.  Nós vamos configurar sua leitura/acesso com a nossa subversão do
+    repositório e adiciona-lo na lista de contato de desenvolvedores; no repositório você encontrará
+    um [README] com futuras instruções. *)
 
 (* ###################################################################### *)
 (** * Translations *)
