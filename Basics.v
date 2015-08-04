@@ -21,12 +21,13 @@ Definition admit {T: Type} : T.  Admitted.
     mathematical objects supports both formal proofs of correctness
     and sound informal reasoning about program behavior.
 
-    The other sense in which functional programming is "functional" is
-    that it emphasizes the use of functions (or methods) as
-    _first-class_ values -- i.e., values that can be passed as
-    arguments to other functions, returned as results, stored in data
-    structures, etc.  The recognition that functions can be treated as
-    data in this way enables a host of useful and powerful idioms.
+    O outro sentido no qual a programação funcional é "funcional" é a 
+    ênfase que ela dá ao uso de funções (ou métodos) como valores de 
+    primeira classe, como por exemplo, valores que podem ser passados 
+    como argumentos para outras funções, retornados como resultados, 
+    guardados em estruturas de dados, etc. O entendimento de que funções 
+    podem ser tratadas como dados dessa maneira permite uma série de
+    linguagens úteis e potentes.
 
     Other common features of functional languages include _algebraic
     data types_ and _pattern matching_, which make it easy to construct
@@ -62,10 +63,10 @@ Definition admit {T: Type} : T.  Admitted.
     example. *)
 
 (* ###################################################################### *)
-(** ** Days of the Week *)
+(** ** Dias da Semana *)
 
-(** The following declaration tells Coq that we are defining
-    a new set of data values -- a _type_. *)
+(** A declaração abaixo diz ao Coq que estamos definindo um novo conjunto
+    de valores -- um tipo *)
 
 Inductive day : Type :=
   | monday : day
@@ -76,9 +77,9 @@ Inductive day : Type :=
   | saturday : day
   | sunday : day.
 
-(** The type is called [day], and its members are [monday],
-    [tuesday], etc.  The second and following lines of the definition
-    can be read "[monday] is a [day], [tuesday] is a [day], etc."
+(** O tipo é chamado [day] e seus membros são [monday], [tuesday],
+    etc. A partir da segunda linha a definição pode ser lida como
+    "[monday] é um [day], [tuesday] é um [day], etc.
 
     Having defined [day], we can write functions that operate on
     days. *)
@@ -145,15 +146,16 @@ Proof. simpl. reflexivity.  Qed.
     we've just made can be proved by observing that both sides of the
     equality evaluate to the same thing, after some simplification." *)
 
-(** Third, we can ask Coq to _extract_, from our [Definition], a
-    program in some other, more conventional, programming
-    language (OCaml, Scheme, or Haskell) with a high-performance
-    compiler.  This facility is very interesting, since it gives us a
-    way to construct _fully certified_ programs in mainstream
-    languages.  Indeed, this is one of the main uses for which Coq was
-    developed.  We'll come back to this topic in later chapters.  More
-    information can also be found in the Coq'Art book by Bertot and
-    Casteran, as well as the Coq reference manual. *)
+(** Por último, nós podemos pedir ao Coq para extrair da nossa 
+    Definição, um programa em alguma outra linguagem de programação
+    mais convencional (OCaml, Scheme, ou Haskell) com um compilador de 
+    alta performance. Essa facilidade é muito interessante, posto que
+    isso nos dá um modo de construir programas totalmente provados em
+    liguagens mais comuns. De fato, esse é um dos usos principais para 
+    o qual Coq foi criado. Nós vamos voltar para esse assunto em 
+    capítulos posteriores. Mais informações podem ser encontradas no 
+    livro "Coq'Art" de Bertot e Casteran, assim como no manual de 
+    referência de Coq. *)
 
 
 (* ###################################################################### *)
@@ -226,10 +228,9 @@ Proof. reflexivity.  Qed.
     following exercises.  In general, your job in the exercises is 
     to replace [admit] or [Admitted] with real definitions or proofs. *)
 
-(** **** Exercise: 1 star (nandb)  *)
-(** Complete the definition of the following function, then make
-    sure that the [Example] assertions below can each be verified by
-    Coq.  *)
+(** **** Exercício: 1 estrela (nandb)  *)
+(** Complete a definição das seguintes funções, depois, certifique que
+    as asserções [Example] abaixo podem ser verificadas pelo Coq.  *)
 
 (** This function should return [true] if either or both of
     its inputs are [false]. *)
@@ -325,7 +326,7 @@ Inductive nat : Type :=
         another one -- that is, if [n] is a natural number, then [S n]
         is too.
 
-    Let's look at this in a little more detail.  
+    Vamos olhar isso com um pouco mais de detalhamento.
 
     Every inductively defined set ([day], [nat], [bool], etc.) is
     actually a set of _expressions_.  The definition of [nat] says how
@@ -499,9 +500,9 @@ Example test_factorial2:          (factorial 5) = (mult 10 12).
 
 (** [] *)
 
-(** We can make numerical expressions a little easier to read and
-    write by introducing "notations" for addition, multiplication, and
-    subtraction. *)
+(** Nós podemos tornar a leitura e a escrita de expressões numéricas
+    mais fáceis ao introduzir "notações" para adição, multiplicação 
+    e subtração. *)
 
 Notation "x + y" := (plus x y)  
                        (at level 50, left associativity) 
@@ -515,11 +516,11 @@ Notation "x * y" := (mult x y)
 
 Check ((0 + 1) + 1).
 
-(** (The [level], [associativity], and [nat_scope] annotations
-   control how these notations are treated by Coq's parser.  The
-   details are not important, but interested readers can refer to the
-   "More on Notation" subsection in the "Advanced Material" section at
-   the end of this chapter.) *)
+(** (As anotações [level], [associativity], e [nat_scope] controlam
+    como essas notações são tratadas pleo analisador do Coq. Os 
+    detalhes não são importantes, mas leitores interessados podem
+    se dirigir à subseção "Mais em Notações", na seção de "Material 
+    Avançado", no final desse capítulo.) *)
 
 (** Note that these do not change the definitions we've already
     made: they are simply instructions to the Coq parser to accept [x
@@ -620,8 +621,8 @@ Proof.
     "_forall_" reserved identifier. This gets printed as an
     upside-down "A", the familiar symbol used in logic.)  *)
 
-(** The form of this theorem and proof are almost exactly the
-    same as the examples above; there are just a few differences.
+(** As formas desse teorema e da prova são quase exatamente as mesmas
+    que no exemplo acima; Existem somente algumas diferenças.
 
     First, we've used the keyword [Theorem] instead of
     [Example].  Indeed, the difference is purely a matter of
