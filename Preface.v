@@ -109,7 +109,7 @@
     para auxiliar na construção de provas de preposições lógicas.  Estas ferramentas
     se dividem em duas grandes categorias:
 
-       - _Automated theorem provers_ fornecem a operação "push-button":
+       - _Provadores automáticos de teoremas_ fornecem a operação "push-button":
          o operador entrega uma preposição e recebe em retorno _true_,
          _false_, ou _ran out of time_.  Apesar de suas as capacidades
          serem limitadas para tipos bastante específicos de raciocínio, eles têm
@@ -117,7 +117,7 @@
          uma enorme variadade de configurações. Exemplos destas ferramentas incluem solucionadores
          SAT, solucionadores SMT, e verificadores de modelo.
 
-       - _Proof assistants_ são ferramentas híbridas que automatizam os mais 
+       - _Assistentes de prova_ são ferramentas híbridas que automatizam os mais 
          rotineiros aspectos dos construtores de prova enquanto dependem de orientação
          humana para aspectos mais difíceis.  Assistentes de prova
          largamente utilizados incluem Isabelle, Agda, Twelf, ACL2, PVS, e Coq,
@@ -141,7 +141,7 @@
       uma ferramenta padrão para pesquisadores que precisam descrever e raciocinar
       sobre definições de liguagens complexas.  Têm sido utilizado, por
       exemplo, para checar a segurança da plataforma JavaCard,
-      obtendo o mais alto nível de certificação common criteria, //common criteria certification,
+      obtendo o mais alto nível de certificação common criteria,
       e para especificações formais do x86 e do conjuntos de intruções
       do LLVM.
 
