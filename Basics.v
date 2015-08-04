@@ -364,8 +364,8 @@ Definition pred (n : nat) : nat :=
     | S n' => n'
   end.
 
-(** The second branch can be read: "if [n] has the form [S n']
-    for some [n'], then return [n']."  *)
+(** O segundo ramo pode ser lido assim:"se [n] possui a forma [S n'] para algum 
+[n'], então retorne [n']." *)
 
 End Playground1.
 
@@ -376,29 +376,30 @@ Definition minustwo (n : nat) : nat :=
     | S (S n') => n'
   end.
 
-(** Because natural numbers are such a pervasive form of data,
-    Coq provides a tiny bit of built-in magic for parsing and printing
-    them: ordinary arabic numerals can be used as an alternative to
-    the "unary" notation defined by the constructors [S] and [O].  Coq
-    prints numbers in arabic form by default: *)
-
+(** Como os números naturais são uma forma de informação tão difundida, Coq 
+provê um pouquinho de mágica construída internamente para interpretá-los e 
+imprimí-los: algarismos árabes comuns podem ser usados como alternativa para a 
+notação "unária" definida pelos construtores [S] e [O]. Por padrão, Coq imprime 
+números na forma árabe: *) 
+    
 Check (S (S (S (S O)))).
 Eval compute in (minustwo 4).
 
-(** The constructor [S] has the type [nat -> nat], just like the
-    functions [minustwo] and [pred]: *)
+(** O construtor [S] possui o tipo [nat -> nat], assim como as funções 
+[minustwo] e [pred]:
 
 Check S.
 Check pred.
 Check minustwo.
 
-(** These are all things that can be applied to a number to yield a
-    number.  However, there is a fundamental difference: functions
-    like [pred] and [minustwo] come with _computation rules_ -- e.g.,
-    the definition of [pred] says that [pred 2] can be simplified to
-    [1] -- while the definition of [S] has no such behavior attached.
-    Although it is like a function in the sense that it can be applied
-    to an argument, it does not _do_ anything at all! *)
+
+(** Estas são todas as coisas que podem ser aplicadas a um número para obter 
+outro número. Porém, existe uma diferença fundamental: funções como [pred] e 
+[minustwo] vêm com _regras computacionais_ -- por exemplo, a definição de 
+[pred] afirma que [pred 2] pode ser simplificado para [1] -- enquanto que a 
+definição de [S] não possui nenhum comportamento incorporado. Embora o último 
+seja uma função no sentido de que pode ser aplicado a um argumento, ele 
+realmente não _faz_ nada!  *)
 
 (** For most function definitions over numbers, pure pattern
     matching is not enough: we also need recursion.  For example, to
@@ -598,15 +599,14 @@ Example test_blt_nat3:             (blt_nat 4 2) = false.
     The proofs of these claims were always the same: use [reflexivity] 
     to check that both sides of the [=] simplify to identical values. 
 
-    (By the way, it will be useful later to know that
-    [reflexivity] actually does somewhat more simplification than [simpl] 
-    does -- for example, it tries "unfolding" defined terms, replacing them with
-    their right-hand sides.  The reason for this difference is that,
-    when reflexivity succeeds, the whole goal is finished and we don't
-    need to look at whatever expanded expressions [reflexivity] has
-    found; by contrast, [simpl] is used in situations where we may
-    have to read and understand the new goal, so we would not want it
-    blindly expanding definitions.) 
+	(A propósito, posteriormente será útil saber que [reflexivity] na verdade 
+	perfaz mais simplificação do que [simpl] -- por exemplo, ele tenta 
+	"desdobrar" termos definidos, substituindo-os pelos seus lados direitos. A 
+	razão para esta diferença é que, quando a aplicação da reflexividade é bem 
+	sucedida, todo o objetivo é finalizado e não precisaremos visualizar as 
+	expressões que foram expandidas por [reflexivity]. Em contrapartida, 
+	[simpl] é usado em situações onde devemos ler e entender o objetivo, então 
+	não queremos que definições sejam expandidas sem nosso conhecimento.) 
 
     The same sort of "proof by simplification" can be used to prove
     more interesting properties as well.  For example, the fact that
