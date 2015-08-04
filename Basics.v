@@ -50,13 +50,13 @@ Definition admit {T: Type} : T.  Admitted.
     defining new data types from scratch -- so powerful that all these
     familiar types arise as instances.  
 
-    Naturally, the Coq distribution comes with an extensive standard
-    library providing definitions of booleans, numbers, and many
-    common data structures like lists and hash tables.  But there is
-    nothing magic or primitive about these library definitions: they
-    are ordinary user code.  To illustrate this, we will explicitly
-    recapitulate all the definitions we need in this course, rather
-    than just getting them implicitly from the library.
+    Naturalmente, a distribuição Coq vem com uma extensiva biblioteca padrão,  
+    fornecendo definições de booleanos, números e muitas outras estruturas de 
+    dados como listas e tabelas de dispersão. Mas não há nada de mágico ou 
+    primitivo sobre estas definições da biblioteca: eles foram implementados 
+    com código simples de usuário. Para ilustrar isto, recapitularemos 
+    explicitamente todas as definições que precisarmos neste curso, ao invés de 
+    usar as definições da biblioteca.
 
     To see how this mechanism works, let's start with a very simple
     example. *)
@@ -120,10 +120,10 @@ Eval compute in (next_weekday (next_weekday saturday)).
     find the above example, submit it to Coq, and observe the
     result. *)
 
-(** The keyword [compute] tells Coq precisely how to
-    evaluate the expression we give it.  For the moment, [compute] is
-    the only one we'll need; later on we'll see some alternatives that
-    are sometimes useful. *)
+(** A palavra-chave [compute] informa ao Coq exatamente como avaliar as 
+expressões que lhe dermos. No momento, precisamos saber apenas sobre [compute]; 
+posteriormente vermos algumas alternativas que podem ser úteis em alguns casos. 
+*)
 
 (** Second, we can record what we _expect_ the result to be in
     the form of a Coq example: *)
@@ -215,6 +215,12 @@ Proof. reflexivity.  Qed.
     actually needed because [reflexivity] automatically performs
     simplification.) *)
 
+(** _Uma observação sobre anotações: Em arquivos .v, utilizamos colchetes 
+para delimitar fragmentos de código Coq nos comentários. O objetivo desta 
+convenção, também usada pela ferramenta de documentação [coqdoc], é manter 
+estes fragmentos visualmente diferentes do texto ao redor: na versão html dos 
+arquivos, estas partes do texto aparecem com uma [fonte diferente]. *)
+
 (** _A note on notation_: In .v files, we use square brackets to
     delimit fragments of Coq code within comments; this convention,
     also used by the [coqdoc] documentation tool, keeps them visually
@@ -296,15 +302,14 @@ Check negb.
 (* ###################################################################### *)
 (** ** Numbers *)
 
-(** _Technical digression_: Coq provides a fairly sophisticated
-    _module system_, to aid in organizing large developments.  In this
-    course we won't need most of its features, but one is useful: If
-    we enclose a collection of declarations between [Module X] and
-    [End X] markers, then, in the remainder of the file after the
-    [End], these definitions will be referred to by names like [X.foo]
-    instead of just [foo].  Here, we use this feature to introduce the
-    definition of the type [nat] in an inner module so that it does
-    not shadow the one from the standard library. *)
+(** _Digressão técnica_: O Coq fornece um _sistema modular_ bastante 
+sofisticado para auxiliar na organização de desenvolvimentos robustos. Neste 
+curso não precisaremos da maioria de suas funcionalidades, mas uma é bastente 
+útil: se inserimos uma coleção de declarações entre os marcadores [Module X] e 
+[End X], então, no restante do arquivo após o [End], estas definições serão 
+referenciadas através de nomes como [X.foo] no lugar de [foo]. Aqui, usaremos 
+esta funcionalidade para introduzir a definição do tipo [nat] em um módulo 
+interno, para que a definição presente na biblioteca padrão não seja omitida. 
 
 Module Playground1.
 
@@ -349,9 +354,9 @@ Inductive nat : Type :=
     expressions like [true], [andb true false], and [S (S false)] do
     not.
 
-    We can write simple functions that pattern match on natural
-    numbers just as we did above -- for example, the predecessor
-    function: *)
+	Nós podemos escrever funções simples que realiza combinação de padrões em 
+	números naturais assim como fizemos acima -- por exemplo, a função 
+	predecessor: *)
 
 Definition pred (n : nat) : nat :=
   match n with
