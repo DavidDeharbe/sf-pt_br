@@ -313,16 +313,13 @@ interno, para que a definição presente na biblioteca padrão não seja omitida
 
 Module Playground1.
 
-(** The types we have defined so far are examples of "enumerated
-    types": their definitions explicitly enumerate a finite set of
-    elements.  A more interesting way of defining a type is to give a
-    collection of "inductive rules" describing its elements.  For
-    example, we can define the natural numbers as follows: *)
+(** Os tipos que definimos até o momento são exemplos de “tipos enumerados”: suas definições enumeram explicitamente um conjunto finito de elementos. Uma forma mais interessante de definir um tipo é através de uma coleção de “regras indutivas” descrevendo seus elementos. Por exemplo, podemos definir os números naturais desta forma: *)
 
 Inductive nat : Type :=
   | O : nat
   | S : nat -> nat.
 
+(** As cláusulas desta definição podem ser lidas como: *)
 (** The clauses of this definition can be read: 
       - [O] is a natural number (note that this is the letter "[O]," not
         the numeral "[0]").
@@ -649,7 +646,7 @@ Proof.
     of this lecture, and yet more in future lectures. *)
 
 
-(** Poder´iamos provar um teorema similar sobre [plus] *)
+(** Poderíamos provar um teorema similar sobre [plus] *)
 
 Theorem plus_n_O : forall n, n + 0 = n.
 
@@ -659,8 +656,7 @@ Proof.
   simpl. (* Doesn't do anything! *)
 Abort.
 
-(** (Você consegue explicar por que isto acontece? Percorra ambas as provas com 
-Coq e perceba como o objetivo e o contexto mudam.) *)
+(** (Você consegue explicar por que isto acontece? Percorra ambas as provas com Coq e perceba como o objetivo e o contexto mudam.) *)
 
 Theorem plus_1_l : forall n:nat, 1 + n = S n. 
 Proof.
