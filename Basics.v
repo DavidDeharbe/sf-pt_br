@@ -648,19 +648,19 @@ Proof.
     claim we are making.  We will see several more tactics in the rest
     of this lecture, and yet more in future lectures. *)
 
-(** We could try to prove a similar theorem about [plus] *)
+
+(** Poder´iamos provar um teorema similar sobre [plus] *)
 
 Theorem plus_n_O : forall n, n + 0 = n.
 
-(** However, unlike the previous proof, [simpl] doesn't do anything in
-    this case *)
+(** Porém, diferentemente da prova anterior, [simpl] não faz nada neste caso *)
 
 Proof.
   simpl. (* Doesn't do anything! *)
 Abort.
 
-(** (Can you explain why this happens?  Step through both proofs with
-    Coq and notice how the goal and context change.) *)
+(** (Você consegue explicar por que isto acontece? Percorra ambas as provas com 
+Coq e perceba como o objetivo e o contexto mudam.) *)
 
 Theorem plus_1_l : forall n:nat, 1 + n = S n. 
 Proof.
@@ -670,9 +670,7 @@ Theorem mult_0_l : forall n:nat, 0 * n = 0.
 Proof.
   intros n. reflexivity.  Qed.
 
-(** The [_l] suffix in the names of these theorems is
-    pronounced "on the left." *)
-
+(**O sufixo [_l] nos nomes destes teoremas é pronunciado "à esquerda." *)
 
 (* ###################################################################### *)
 (** * Proof by Rewriting *)
@@ -728,17 +726,7 @@ Proof.
   (* FILL IN HERE *) Admitted.
 (** [] *)
 
-(** As we've seen in earlier examples, the [Admitted] command
-    tells Coq that we want to skip trying to prove this theorem and
-    just accept it as a given.  This can be useful for developing
-    longer proofs, since we can state subsidiary facts that we believe
-    will be useful for making some larger argument, use [Admitted] to
-    accept them on faith for the moment, and continue thinking about
-    the larger argument until we are sure it makes sense; then we can
-    go back and fill in the proofs we skipped.  Be careful, though:
-    every time you say [Admitted] (or [admit]) you are leaving a door
-    open for total nonsense to enter Coq's nice, rigorous, formally
-    checked world! *)
+(** Como vimos nos exemplos anteriores, o comando [Admitted] informa a Coq que queremos pular a tentativa de prova do teorema e simplesmente aceita a declaração dada. Isto pode ser útil no desenvolvimento de provas mais longas, uma vez que podemos determinar fatos subsidiários que acreditamos serem importantes na criação de argumentos maiores. Use [Admitted] para aceitar estes  teroremas na fé do momento, e continuar pensando no argumento maior até termos certeza de que faz sentido; e então, poderemos voltar e concluir as provas incompletas. Porém tenha cuidado: Toda vez que você usa [Admitted] (ou [admit]) você está deixando uma porta aberta para que um disparate total	entre no mundo formal, rigoroso, verificado e agradável do Coq. *)
 
 (** We can also use the [rewrite] tactic with a previously proved
     theorem instead of a hypothesis from the context. *)
@@ -815,10 +803,7 @@ Proof.
     data).  The second component gives a single name, [n'], since [S]
     is a unary constructor.
 
-    The [destruct] tactic can be used with any inductively defined
-    datatype.  For example, we use it here to prove that boolean
-    negation is involutive -- i.e., that negation is its own
-    inverse. *)
+A tática [destruct] pode ser usada com qualquer tipo de dado definido indutivamente. Por exemplo, nós podemos usá-lo aqui para provar que a negação booleana é involutiva – isto é, que a negação é a sua própria inversa. *)
 
 Theorem negb_involutive : forall b : bool,
   negb (negb b) = b.
@@ -827,14 +812,7 @@ Proof.
     reflexivity.
     reflexivity.  Qed.
 
-(** Note that the [destruct] here has no [as] clause because
-    none of the subcases of the [destruct] need to bind any variables,
-    so there is no need to specify any names.  (We could also have
-    written [as [|]], or [as []].)  In fact, we can omit the [as]
-    clause from _any_ [destruct] and Coq will fill in variable names
-    automatically.  Although this is convenient, it is arguably bad
-    style, since Coq often makes confusing choices of names when left
-    to its own devices. *)
+(** Note que [destruct] aqui não possui nenhuma cláusula [as] pois nenhum dos subcasos de [destruct] precisa ser vinculado a nenhuma das variáveis. Por isso, não há necessidade de especificar nenhum nome (Poderíamos ter escrito também [as [|]], ou [as []]). De fato, podemos omitir a cláusula [as] de qualquer [destruct] e Coq irá preencher automaticamente os nomes de variáveis. Embora seja conveniente, isto é indiscutivelmente um mal estilo, uma vez que o Coq pode fazer escolhas confusas de nomes quando lhe é deixado esta decisão. *)
 
 (** **** Exercise: 1 star (zero_nbeq_plus_1)  *)
 Theorem zero_nbeq_plus_1 : forall n : nat,
@@ -888,8 +866,7 @@ Proof.
       - twice a binary number, or
       - one more than twice a binary number.
 
-    (a) First, write an inductive definition of the type [bin]
-        corresponding to this description of binary numbers. 
+	(a) Primeiro, escreva uma definição indutiva para o tipo [bin] que corresponda a esta descrição de números binários.
 
     (Hint: Recall that the definition of [nat] from class,
     Inductive nat : Type :=
@@ -942,13 +919,8 @@ Notation "x * y" := (mult x y)
     [(1+((2*3)*4))]. Coq uses precedence levels from 0 to 100, and 
     _left_, _right_, or _no_ associativity.
 
-    Each notation-symbol in Coq is also active in a _notation scope_.  
-    Coq tries to guess what scope you mean, so when you write [S(O*O)] 
-    it guesses [nat_scope], but when you write the cartesian
-    product (tuple) type [bool*bool] it guesses [type_scope].
-    Occasionally you have to help it out with percent-notation by
-    writing [(x*y)%nat], and sometimes in Coq's feedback to you it
-    will use [%nat] to indicate what scope a notation is in.
+Cada símbolo de notação no Coq está também ativo num escopo de notação. 
+O Coq tenta adivinhar a qual é escopo você se refere, de modo que, quando você escreve [S(O*O)], ele advinha [nat_scope], mas quando você escreve o tipo produto cartesiano (tupla) [bool*bool], ele advinha [type_scope]. Ocasionalmente, você tem que ajudá-lo com uma notação de percentagem escrevendo [(x*y)%nat], e, algumas vezes, em suas respostas para você, o Coq usará [%nat] para indicar em qual escopo se encontra a notação.
 
     Notation scopes also apply to numeral notation (3,4,5, etc.), so you
     may sometimes see [0%nat] which means [O], or [0%Z] which means the
