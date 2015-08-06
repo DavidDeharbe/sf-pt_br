@@ -1,30 +1,30 @@
 (** * Preface *)
 
 (* ###################################################################### *)
-(** * Welcome *)
+(** * Bem-vindo *)
 
-(** This electronic book is a course on _Software Foundations_, the
-    mathematical underpinnings of reliable software.  Topics include
-    basic concepts of logic, computer-assisted theorem proving, the
-    Coq proof assistant, functional programming, operational
-    semantics, Hoare logic, and static type systems.  The exposition
-    is intended for a broad range of readers, from advanced
-    undergraduates to PhD students and researchers.  No specific
-    background in logic or programming languages is assumed, though a
-    degree of mathematical maturity will be helpful.
+(** Esse livro eletrônico é um curso em Fundações de Software, a base
+    base matemática de softwares confiáveis. Esse tópico inclui 
+    conceitos básicos de lógica, prova de teoremas assistida por
+    computador, o assistente de provas Coq, programação funcional,
+    semântica operacional, lógica de Hoare e sistemas do tipo 
+    estático. A leitura é direcionada a um grande conjunto de leitores,
+    desde os graduandos avançados até estudantes de PhD e pesquisadores. 
+    Nenhum conhecimento específico aterior em lógica ou linguagens de 
+    programação é requisitado, porém uma certa maturidade em matemática
+    será útil.
 
-    The principal novelty of the course is that it is one hundred per
-    cent formalized and machine-checked: the entire text is literally
-    a script for Coq.  It is intended to be read alongside an
-    interactive session with Coq.  All the details in the text are
-    fully formalized in Coq, and the exercises are designed to be
-    worked using Coq.
+    A principal novidade no curso é que ele é cem porcento formalizado
+    e checado: o texto inteiro é literalmente um script para Coq. Ele
+    é feito para ser lido juntamente com uma sessão interativa com Coq.
+    Todos os detalhes do texto são totalmente formalizados em Coq, e os
+    exercícios foram planejados para serem feitos usando o Coq.
 
-    The files are organized into a sequence of core chapters, covering
-    about one semester's worth of material and organized into a
-    coherent linear narrative, plus a number of "appendices" covering
-    additional topics.  All the core chapters are suitable for both
-    upper-level undergraduate and graduate students. *)
+    Os arquivos são organizados em uma sequencia de capítulos centrais,
+    cobrindo por volta de um semestre de material e organizado em uma 
+    narrativa linear e coerente, mais um número de apêndices envolvendo
+    tópicos adicionais. Todos os capítulos centrais são adequados para 
+    ambos os níveis de alunos, graduandos e graduados.*)
 
 
 (* ###################################################################### *)
@@ -297,26 +297,29 @@
     real-world software and hardware verification tasks.
 *)
 
-(** ** Type Systems *)
+(** ** Sistemas de Tipo *)
 
-(** Our final major topic, covering the last third of the course, is
-    _type systems_, a powerful set of tools for establishing
-    properties of _all_ programs in a given language.
+(** O nosso tópico final principal, cobrindo o último terço do curso, 
+    é Sistemas de Tipo, um conjunto poderoso de ferramentas para
+    estabelecer propriedade de todos os programas em uma dada 
+    linguagem.
 
-    Type systems are the best established and most popular example of
-    a highly successful class of formal verification techniques known
-    as _lightweight formal methods_.  These are reasoning techniques
-    of modest power -- modest enough that automatic checkers can be
-    built into compilers, linkers, or program analyzers and thus be
-    applied even by programmers unfamiliar with the underlying
-    theories.  (Other examples of lightweight formal methods include
-    hardware and software model checkers, contract checkers, and
-    run-time property monitoring techniques for detecting when some
-    component of a system is not behaving according to specification).
+    Systemas de tipos são os mais bem estabelecidos e populares 
+    exemplos de uma classe bem sucedida de técnicas de verificação 
+    formal, conhecida como métodos formais leves. Essas são técnicas
+    de raciocínio de poder modesto -- modesto o suficiente a ponto de
+    checadores automáticos poderem ser construídos em compiladores, 
+    conectores, ou analisadores de programas e assim serem aplicadas até
+    por programadores não familiarizados com as teorias básicas. (Outros
+    exemplos de métodos formais leves incluem checadores de modelos de 
+    software e hardware, checadores de contratos, e técnicas de 
+    monitoramento em tempo de execução para detectar quando algum 
+    componente de um sistema não está se comportando de acordo com a 
+    especificação).
 
-    This topic brings us full circle: the language whose properties we
-    study in this part, called the _simply typed lambda-calculus_, is
-    essentially a simplified model of the core of Coq itself!
+    Esse tópico fecha o círculo: a linguageem cujas propriedades nós 
+    estudamos nessa parte, chamada de _cálculo-lambda simplesmente 
+    digitada_, é essencialmente um modelo simplificado do Coq!
 
 *)
 
@@ -351,38 +354,42 @@
              such. *)
 
 (* ###################################################################### *)
-(** ** Exercises *)
+(** ** Exercícios *)
 
-(** Each chapter includes numerous exercises.  Each is marked with a
-    "star rating," which can be interpreted as follows:
+(** Cada capítulo inclui numerosos exercícios. Cada exercício é marcado
+    com uma "classificação de estrelas," a qual pode ser interpretada
+    da seguinte maneira:
 
-       - One star: easy exercises that underscore points in the text
-         and that, for most readers, should take only a minute or two.
-         Get in the habit of working these as you reach them.
+       - Uma estrela: exercícios fáceis que ressaltam pontos no texto e
+         que, para muitos leitores, deve tomar somente um ou dois 
+         minutos. Crie o hábito de fazer esses exercícios no momento
+         em que chegar neles.
 
-       - Two stars: straightforward exercises (five or ten minutes).
+       - Duas estrelas: exercícios simples (cinco ou dez minutos).
 
-       - Three stars: exercises requiring a bit of thought (ten
-         minutes to half an hour).
+       - Três estrelas: exercícios que requerem um pouco mais de 
+         raciocínio (de dez minutos a meia-hora).
 
-       - Four and five stars: more difficult exercises (half an hour
-         and up).
+       - Quatro e cinco estrelas: exercícios mais difíceis (a partir de 
+         meia-hora).
 
-    Also, some exercises are marked "advanced", and some are marked
-    "optional."  Doing just the non-optional, non-advanced exercises
-    should provide good coverage of the core material.  Optional
-    exercises provide a bit of extra practice with key concepts and
-    introduce secondary themes that may be of interest to some
-    readers.  Advanced exercises are for readers who want an extra
-    challenge (and, in return, a deeper contact with the material).
+    Além disso, alguns exercícios são marcados como "avançado", e alguns
+    outros são marcados como "opcional." Fazer somente os exercícios
+    não-opcionais e não-avançados deve proporcionar uma boa cobertura 
+    do assunto central. Exercícios opcionais porporcionam um pouco mais 
+    de prática com conceitos chaves e introduz temas secundários que 
+    podem ser do interesse de alguns leitores. Exercícios avançados são 
+    para leitores que querem um desafio extra (e, como retribuição, um
+    contato mais profundo com o material).
 
-    _Please do not post solutions to the exercises in public places_:
-    Software Foundations is widely used both for self-study and for
-    university courses.  Having solutions easily available makes it
-    much less useful for courses, which typically have graded homework
-    assignments.  The authors especially request that readers not post
-    solutions to the exercises anyplace where they can be found by
-    search engines.
+    _Por favor, não publique soluções para os exercícios em locais 
+    públicos_: Fundações de Software é largamente utilizado tanto para 
+    estudos pessoais quanto para cursos universitários. Ter as soluções
+    facilmente disponíveis torna o livro muito menos útil para cursos,
+    os quais tem as atividades normalmente graduadas. Os autores 
+    especialmente solicitam que os leitores não publiquem as soluções 
+    para os exercícios em qualquer lugar que possa ser encontrado por
+    mecanismos de busca.
 *)
 
 (* ###################################################################### *)
