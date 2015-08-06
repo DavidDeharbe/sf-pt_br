@@ -1,5 +1,8 @@
-function type : tipo funcional
-rewriting: reescrita
-to rewrite: reescrever
 case analysis: análise de casos
-
+correctness: corretude
+function type: tipo funcional
+machine-checked: verificado por máquina
+rewriting: reescrita
+side effects: efeitos colaterais
+soundness: correção
+to rewrite: reescrever

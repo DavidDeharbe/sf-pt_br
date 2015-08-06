@@ -1,4 +1,4 @@
-(** * Basics: Functional Programming in Coq *)
+(** * Embasamento: Programação Funcional em Coq *)
  
 (*
    [Admitted] is Coq's "escape hatch" that says accept this definition
@@ -9,17 +9,17 @@
 Definition admit {T: Type} : T.  Admitted.
 
 (* ###################################################################### *)
-(** * Introduction *)
+(** * Introdução *)
 
-(** The functional programming style brings programming closer to
-    simple, everyday mathematics: If a procedure or method has no side
-    effects, then pretty much all you need to understand about it is
-    how it maps inputs to outputs -- that is, you can think of it as
-    just a concrete method for computing a mathematical function.
-    This is one sense of the word "functional" in "functional
-    programming."  The direct connection between programs and simple
-    mathematical objects supports both formal proofs of correctness
-    and sound informal reasoning about program behavior.
+(** O estilo de programação funcional aproxima a programação à matemática
+simples do dia-a-dia: se um procedimento ou método não possui efeitos
+colaterais, então, basicamente, o que você deve entender sobre isto é como
+entradas são mapeadas para saídas -- isto é, você pode pensar nisto simplesmente
+como um método concreto para computar uma função matemática. Esse é um dos
+significados da palavra "funcional" em "programação funcional". A conexão direta
+entre programas e objetos matemáticos simples suporta tanto provas formais de
+corretude quanto raciocínio informal de correção sobre o comportamento do
+programa.
 
     O outro sentido no qual a programação funcional é "funcional" é a 
     ênfase que ela dá ao uso de funções (ou métodos) como valores de 
