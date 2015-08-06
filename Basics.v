@@ -51,13 +51,13 @@ Definition admit {T: Type} : T.  Admitted.
     defining new data types from scratch -- so powerful that all these
     familiar types arise as instances.  
 
-    Naturally, the Coq distribution comes with an extensive standard
-    library providing definitions of booleans, numbers, and many
-    common data structures like lists and hash tables.  But there is
-    nothing magic or primitive about these library definitions: they
-    are ordinary user code.  To illustrate this, we will explicitly
-    recapitulate all the definitions we need in this course, rather
-    than just getting them implicitly from the library.
+    Naturalmente, a distribuição Coq vem com uma extensiva biblioteca padrão,  
+    fornecendo definições de booleanos, números e muitas outras estruturas de 
+    dados como listas e tabelas de dispersão. Mas não há nada de mágico ou 
+    primitivo sobre estas definições da biblioteca: eles foram implementados 
+    com código simples de usuário. Para ilustrar isto, recapitularemos 
+    explicitamente todas as definições que precisarmos neste curso, ao invés de 
+    usar as definições da biblioteca.
 
     To see how this mechanism works, let's start with a very simple
     example. *)
@@ -121,10 +121,10 @@ Eval compute in (next_weekday (next_weekday saturday)).
     find the above example, submit it to Coq, and observe the
     result. *)
 
-(** The keyword [compute] tells Coq precisely how to
-    evaluate the expression we give it.  For the moment, [compute] is
-    the only one we'll need; later on we'll see some alternatives that
-    are sometimes useful. *)
+(** A palavra-chave [compute] informa ao Coq exatamente como avaliar as 
+expressões que lhe dermos. No momento, precisamos saber apenas sobre [compute]; 
+posteriormente vermos algumas alternativas que podem ser úteis em alguns casos. 
+*)
 
 (** Second, we can record what we _expect_ the result to be in
     the form of a Coq example: *)
@@ -217,6 +217,12 @@ Proof. reflexivity.  Qed.
     actually needed because [reflexivity] automatically performs
     simplification.) *)
 
+(** _Uma observação sobre anotações: Em arquivos .v, utilizamos colchetes 
+para delimitar fragmentos de código Coq nos comentários. O objetivo desta 
+convenção, também usada pela ferramenta de documentação [coqdoc], é manter 
+estes fragmentos visualmente diferentes do texto ao redor: na versão html dos 
+arquivos, estas partes do texto aparecem com uma [fonte diferente]. *)
+
 (** _A note on notation_: In .v files, we use square brackets to
     delimit fragments of Coq code within comments; this convention,
     also used by the [coqdoc] documentation tool, keeps them visually
@@ -297,28 +303,24 @@ Check negb.
 (* ###################################################################### *)
 (** ** Numbers *)
 
-(** _Technical digression_: Coq provides a fairly sophisticated
-    _module system_, to aid in organizing large developments.  In this
-    course we won't need most of its features, but one is useful: If
-    we enclose a collection of declarations between [Module X] and
-    [End X] markers, then, in the remainder of the file after the
-    [End], these definitions will be referred to by names like [X.foo]
-    instead of just [foo].  Here, we use this feature to introduce the
-    definition of the type [nat] in an inner module so that it does
-    not shadow the one from the standard library. *)
+(** _Digressão técnica_: O Coq fornece um _sistema modular_ bastante 
+sofisticado para auxiliar na organização de desenvolvimentos robustos. Neste 
+curso não precisaremos da maioria de suas funcionalidades, mas uma é bastente 
+útil: se inserimos uma coleção de declarações entre os marcadores [Module X] e 
+[End X], então, no restante do arquivo após o [End], estas definições serão 
+referenciadas através de nomes como [X.foo] no lugar de [foo]. Aqui, usaremos 
+esta funcionalidade para introduzir a definição do tipo [nat] em um módulo 
+interno, para que a definição presente na biblioteca padrão não seja omitida. 
 
 Module Playground1.
 
-(** The types we have defined so far are examples of "enumerated
-    types": their definitions explicitly enumerate a finite set of
-    elements.  A more interesting way of defining a type is to give a
-    collection of "inductive rules" describing its elements.  For
-    example, we can define the natural numbers as follows: *)
+(** Os tipos que definimos até o momento são exemplos de “tipos enumerados”: suas definições enumeram explicitamente um conjunto finito de elementos. Uma forma mais interessante de definir um tipo é através de uma coleção de “regras indutivas” descrevendo seus elementos. Por exemplo, podemos definir os números naturais desta forma: *)
 
 Inductive nat : Type :=
   | O : nat
   | S : nat -> nat.
 
+(** As cláusulas desta definição podem ser lidas como: *)
 (** The clauses of this definition can be read: 
       - [O] is a natural number (note that this is the letter "[O]," not
         the numeral "[0]").
@@ -350,9 +352,9 @@ Inductive nat : Type :=
     expressions like [true], [andb true false], and [S (S false)] do
     not.
 
-    We can write simple functions that pattern match on natural
-    numbers just as we did above -- for example, the predecessor
-    function: *)
+	Nós podemos escrever funções simples que realiza combinação de padrões em 
+	números naturais assim como fizemos acima -- por exemplo, a função 
+	predecessor: *)
 
 Definition pred (n : nat) : nat :=
   match n with
@@ -360,8 +362,8 @@ Definition pred (n : nat) : nat :=
     | S n' => n'
   end.
 
-(** The second branch can be read: "if [n] has the form [S n']
-    for some [n'], then return [n']."  *)
+(** O segundo ramo pode ser lido assim:"se [n] possui a forma [S n'] para algum 
+[n'], então retorne [n']." *)
 
 End Playground1.
 
@@ -372,29 +374,30 @@ Definition minustwo (n : nat) : nat :=
     | S (S n') => n'
   end.
 
-(** Because natural numbers are such a pervasive form of data,
-    Coq provides a tiny bit of built-in magic for parsing and printing
-    them: ordinary arabic numerals can be used as an alternative to
-    the "unary" notation defined by the constructors [S] and [O].  Coq
-    prints numbers in arabic form by default: *)
-
+(** Como os números naturais são uma forma de informação tão difundida, Coq 
+provê um pouquinho de mágica construída internamente para interpretá-los e 
+imprimí-los: algarismos árabes comuns podem ser usados como alternativa para a 
+notação "unária" definida pelos construtores [S] e [O]. Por padrão, Coq imprime 
+números na forma árabe: *) 
+    
 Check (S (S (S (S O)))).
 Eval compute in (minustwo 4).
 
-(** The constructor [S] has the type [nat -> nat], just like the
-    functions [minustwo] and [pred]: *)
+(** O construtor [S] possui o tipo [nat -> nat], assim como as funções 
+[minustwo] e [pred]:
 
 Check S.
 Check pred.
 Check minustwo.
 
-(** These are all things that can be applied to a number to yield a
-    number.  However, there is a fundamental difference: functions
-    like [pred] and [minustwo] come with _computation rules_ -- e.g.,
-    the definition of [pred] says that [pred 2] can be simplified to
-    [1] -- while the definition of [S] has no such behavior attached.
-    Although it is like a function in the sense that it can be applied
-    to an argument, it does not _do_ anything at all! *)
+
+(** Estas são todas as coisas que podem ser aplicadas a um número para obter 
+outro número. Porém, existe uma diferença fundamental: funções como [pred] e 
+[minustwo] vêm com _regras computacionais_ -- por exemplo, a definição de 
+[pred] afirma que [pred 2] pode ser simplificado para [1] -- enquanto que a 
+definição de [S] não possui nenhum comportamento incorporado. Embora o último 
+seja uma função no sentido de que pode ser aplicado a um argumento, ele 
+realmente não _faz_ nada!  *)
 
 (** For most function definitions over numbers, pure pattern
     matching is not enough: we also need recursion.  For example, to
@@ -594,15 +597,14 @@ Example test_blt_nat3:             (blt_nat 4 2) = false.
     The proofs of these claims were always the same: use [reflexivity] 
     to check that both sides of the [=] simplify to identical values. 
 
-    (By the way, it will be useful later to know that
-    [reflexivity] actually does somewhat more simplification than [simpl] 
-    does -- for example, it tries "unfolding" defined terms, replacing them with
-    their right-hand sides.  The reason for this difference is that,
-    when reflexivity succeeds, the whole goal is finished and we don't
-    need to look at whatever expanded expressions [reflexivity] has
-    found; by contrast, [simpl] is used in situations where we may
-    have to read and understand the new goal, so we would not want it
-    blindly expanding definitions.) 
+	(A propósito, posteriormente será útil saber que [reflexivity] na verdade 
+	perfaz mais simplificação do que [simpl] -- por exemplo, ele tenta 
+	"desdobrar" termos definidos, substituindo-os pelos seus lados direitos. A 
+	razão para esta diferença é que, quando a aplicação da reflexividade é bem 
+	sucedida, todo o objetivo é finalizado e não precisaremos visualizar as 
+	expressões que foram expandidas por [reflexivity]. Em contrapartida, 
+	[simpl] é usado em situações onde devemos ler e entender o objetivo, então 
+	não queremos que definições sejam expandidas sem nosso conhecimento.) 
 
     The same sort of "proof by simplification" can be used to prove
     more interesting properties as well.  For example, the fact that
@@ -644,19 +646,18 @@ Proof.
     claim we are making.  We will see several more tactics in the rest
     of this lecture, and yet more in future lectures. *)
 
-(** We could try to prove a similar theorem about [plus] *)
+
+(** Poderíamos provar um teorema similar sobre [plus] *)
 
 Theorem plus_n_O : forall n, n + 0 = n.
 
-(** However, unlike the previous proof, [simpl] doesn't do anything in
-    this case *)
+(** Porém, diferentemente da prova anterior, [simpl] não faz nada neste caso *)
 
 Proof.
   simpl. (* Doesn't do anything! *)
 Abort.
 
-(** (Can you explain why this happens?  Step through both proofs with
-    Coq and notice how the goal and context change.) *)
+(** (Você consegue explicar por que isto acontece? Percorra ambas as provas com Coq e perceba como o objetivo e o contexto mudam.) *)
 
 Theorem plus_1_l : forall n:nat, 1 + n = S n. 
 Proof.
@@ -666,9 +667,7 @@ Theorem mult_0_l : forall n:nat, 0 * n = 0.
 Proof.
   intros n. reflexivity.  Qed.
 
-(** The [_l] suffix in the names of these theorems is
-    pronounced "on the left." *)
-
+(**O sufixo [_l] nos nomes destes teoremas é pronunciado "à esquerda." *)
 
 (* ###################################################################### *)
 (** * Proof by Rewriting *)
@@ -724,17 +723,7 @@ Proof.
   (* FILL IN HERE *) Admitted.
 (** [] *)
 
-(** As we've seen in earlier examples, the [Admitted] command
-    tells Coq that we want to skip trying to prove this theorem and
-    just accept it as a given.  This can be useful for developing
-    longer proofs, since we can state subsidiary facts that we believe
-    will be useful for making some larger argument, use [Admitted] to
-    accept them on faith for the moment, and continue thinking about
-    the larger argument until we are sure it makes sense; then we can
-    go back and fill in the proofs we skipped.  Be careful, though:
-    every time you say [Admitted] (or [admit]) you are leaving a door
-    open for total nonsense to enter Coq's nice, rigorous, formally
-    checked world! *)
+(** Como vimos nos exemplos anteriores, o comando [Admitted] informa a Coq que queremos pular a tentativa de prova do teorema e simplesmente aceita a declaração dada. Isto pode ser útil no desenvolvimento de provas mais longas, uma vez que podemos determinar fatos subsidiários que acreditamos serem importantes na criação de argumentos maiores. Use [Admitted] para aceitar estes  teroremas na fé do momento, e continuar pensando no argumento maior até termos certeza de que faz sentido; e então, poderemos voltar e concluir as provas incompletas. Porém tenha cuidado: Toda vez que você usa [Admitted] (ou [admit]) você está deixando uma porta aberta para que um disparate total	entre no mundo formal, rigoroso, verificado e agradável do Coq. *)
 
 (** We can also use the [rewrite] tactic with a previously proved
     theorem instead of a hypothesis from the context. *)
@@ -811,10 +800,7 @@ Proof.
     data).  The second component gives a single name, [n'], since [S]
     is a unary constructor.
 
-    The [destruct] tactic can be used with any inductively defined
-    datatype.  For example, we use it here to prove that boolean
-    negation is involutive -- i.e., that negation is its own
-    inverse. *)
+A tática [destruct] pode ser usada com qualquer tipo de dado definido indutivamente. Por exemplo, nós podemos usá-lo aqui para provar que a negação booleana é involutiva – isto é, que a negação é a sua própria inversa. *)
 
 Theorem negb_involutive : forall b : bool,
   negb (negb b) = b.
@@ -823,14 +809,7 @@ Proof.
     reflexivity.
     reflexivity.  Qed.
 
-(** Note that the [destruct] here has no [as] clause because
-    none of the subcases of the [destruct] need to bind any variables,
-    so there is no need to specify any names.  (We could also have
-    written [as [|]], or [as []].)  In fact, we can omit the [as]
-    clause from _any_ [destruct] and Coq will fill in variable names
-    automatically.  Although this is convenient, it is arguably bad
-    style, since Coq often makes confusing choices of names when left
-    to its own devices. *)
+(** Note que [destruct] aqui não possui nenhuma cláusula [as] pois nenhum dos subcasos de [destruct] precisa ser vinculado a nenhuma das variáveis. Por isso, não há necessidade de especificar nenhum nome (Poderíamos ter escrito também [as [|]], ou [as []]). De fato, podemos omitir a cláusula [as] de qualquer [destruct] e Coq irá preencher automaticamente os nomes de variáveis. Embora seja conveniente, isto é indiscutivelmente um mal estilo, uma vez que o Coq pode fazer escolhas confusas de nomes quando lhe é deixado esta decisão. *)
 
 (** **** Exercise: 1 star (zero_nbeq_plus_1)  *)
 Theorem zero_nbeq_plus_1 : forall n : nat,
@@ -884,8 +863,7 @@ Proof.
       - twice a binary number, or
       - one more than twice a binary number.
 
-    (a) First, write an inductive definition of the type [bin]
-        corresponding to this description of binary numbers. 
+	(a) Primeiro, escreva uma definição indutiva para o tipo [bin] que corresponda a esta descrição de números binários.
 
     (Hint: Recall that the definition of [nat] from class,
     Inductive nat : Type :=
@@ -938,13 +916,8 @@ Notation "x * y" := (mult x y)
     [(1+((2*3)*4))]. Coq uses precedence levels from 0 to 100, and 
     _left_, _right_, or _no_ associativity.
 
-    Each notation-symbol in Coq is also active in a _notation scope_.  
-    Coq tries to guess what scope you mean, so when you write [S(O*O)] 
-    it guesses [nat_scope], but when you write the cartesian
-    product (tuple) type [bool*bool] it guesses [type_scope].
-    Occasionally you have to help it out with percent-notation by
-    writing [(x*y)%nat], and sometimes in Coq's feedback to you it
-    will use [%nat] to indicate what scope a notation is in.
+Cada símbolo de notação no Coq está também ativo num escopo de notação. 
+O Coq tenta adivinhar a qual é escopo você se refere, de modo que, quando você escreve [S(O*O)], ele advinha [nat_scope], mas quando você escreve o tipo produto cartesiano (tupla) [bool*bool], ele advinha [type_scope]. Ocasionalmente, você tem que ajudá-lo com uma notação de percentagem escrevendo [(x*y)%nat], e, algumas vezes, em suas respostas para você, o Coq usará [%nat] para indicar em qual escopo se encontra a notação.
 
     Notation scopes also apply to numeral notation (3,4,5, etc.), so you
     may sometimes see [0%nat] which means [O], or [0%Z] which means the
