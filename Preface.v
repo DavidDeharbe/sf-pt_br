@@ -103,83 +103,81 @@
 
 (** ** Assistentes de Prova *)
 
-(** O fluxo de idéias entre a lógica e a Ciência da Computação não
-    seguiu em uma única direção: A CC também realizou contribuições importantes para
-    a lógica.  Uma destas foi o desenvolvimento de ferramentas de software
-    para auxiliar na construção de provas de preposições lógicas.  Estas ferramentas
-    se dividem em duas grandes categorias:
+(** O fluxo de ideias entre a lógica e a Ciência da Computação não seguiu em uma
+    única direção: a CC também realizou contribuições importantes para a lógica. Uma
+    dessas foi o desenvolvimento de ferramentas de software para auxiliar na
+    construção de provas de proposições lógicas. Essas ferramentas se dividem em
+    duas grandes categorias:
 
-       - _Automated theorem provers_ fornecem a operação "push-button":
-         o operador entrega uma preposição e recebe em retorno _true_,
-         _false_, ou _ran out of time_.  Apesar de suas as capacidades
-         serem limitadas para tipos bastante específicos de raciocínio, eles têm
-         amadurecido tremendamente nos últimos anos e agora são utilizadas em
-         uma enorme variadade de configurações. Exemplos destas ferramentas incluem solucionadores
-         SAT, solucionadores SMT, e verificadores de modelo.
+    - _Provadores automáticos de teoremas_ fornecem a operação "push-button":
+    o operador entrega uma proposição e recebe em retorno _true_, _false_, ou _ran
+    out of time_.  Apesar de suas capacidades serem limitadas para tipos bastante
+    específicos de raciocínio, os provadores têm amadurecido tremendamente nos
+    últimos anos e agora são utilizados em uma enorme variadade de configurações.
+      Exemplos dessas ferramentas incluem solucionadores SAT, solucionadores SMT,
+      e verificadores de modelo.
 
-       - _Proof assistants_ são ferramentas híbridas que automatizam os mais 
-         rotineiros aspectos dos construtores de prova enquanto dependem de orientação
-         humana para aspectos mais difíceis.  Assistentes de prova
-         largamente utilizados incluem Isabelle, Agda, Twelf, ACL2, PVS, e Coq,
-         entre muitos outros.
+    - _Assistentes de Prova_ são ferramentas híbridas que automatizam os mais
+    rotineiros aspectos dos construtores de prova enquanto dependem da
+    orientação humana para aspectos mais difíceis. Assistentes de prova
+    largamente utilizados incluem Isabelle, Agda, Twelf, ACL2, PVS, e Coq, entre
+    muitos outros.
 
-    Esse curso é baseado em torno do Coq, um assistente de prova que tem estado
-    em desenvolvimento desde 1983 por laboratório franceses de pesquisas
-    e universidades.  Coq concede um rico ambiente para desenvolvimento 
-    interativo de maquina-raciocínio formal verificado.  O núcleo do
-    sistema Coq é um simples verificador de prova que garante somente
-    passos corretos de dedução são realizados.  Além desse núcleo,
-    o ambiente Coq provêm meio de alto nível para
-    desenvolvimento de prova, incluindo táticas poderosas para construção
-    de complexos de prova semiautomáticos, além de uma grande biblioteca de definições
-    comuns e normas.
+    Esse curso é baseado em torno de Coq, um assistente de prova que tem
+    estado em desenvolvimento desde 1983 por laboratórios franceses de
+    pesquisas e universidades. Coq fornece um rico ambiente para
+    desenvolvimento interativo de raciocínio formal com verificação de
+    máquina. O núcleo do sistema Coq é um simples verificador de prova que
+    garante que somente passos corretos de dedução sejam realizados. Além
+    desse núcleo, o ambiente Coq prove facilidades de alto nível para
+    desenvolvimento de prova, incluindo táticas poderosas para construção de
+    provas complexas semi-automaticamente, além de uma grande biblioteca de
+    definições comuns e lemas.
 
-    Coq tem sido um fator crítico para uma grande variedade de trabalhos em
-    da Ciência da Computação e da matemática:
+    Coq tem sido um fator crítico para uma grande variedade de trabalhos
+    da Ciência da Computação e da Matemática:
 
-    - Como uma _plataforma para modelagem de liguagem de programação_, o Coq se tornou
-      uma ferramenta padrão para pesquisadores que precisam descrever e raciocinar
-      sobre definições de liguagens complexas.  Têm sido utilizado, por
-      exemplo, para checar a segurança da plataforma JavaCard,
-      obtendo o mais alto nível de certificação common criteria, //common criteria certification,
-      e para especificações formais do x86 e do conjuntos de intruções
-      do LLVM.
 
-    - Como um _ambiente para desenvolver software certificado formalmente_,
-      Coq foi utilizado para construir o CompCert, um otimizador de compilação
-      totalmente verificado para C, para provar a exatidão de algoritmos sutis
-      envolvendo números de ponto flutuante, e como a base para o
-      Certicrypt, um ambiente para raciocínio sobre a segurança de
-      algoritmos criptografados.
+    - Como uma _plataforma para modelagem de liguagem de programação_,
+    o Coq se tornou uma ferramenta padrão para pesquisadores que
+    precisam descrever e raciocinar sobre definições de liguagens
+    complexas. Foi utilizado, por exemplo, para checar a segurança da
+    plataforma JavaCard, obtendo o mais alto nível da certificação
+    _common criteria_, e para especificações formais do x86 e dos
+    conjuntos de instruções da LLVM.
 
-    - Como um _ambiente realista para programação com tipos
-      dependentes_, inspirando numerosas inovações.  Por exemplo, o
-      projeto Ynot em Harvard "relational Hoare reasoning" (uma
-      extensão da _lógica de Hoare_ que veremos mais tarde nesse curso)
-      em Coq.
+    - Como um _ambiente para desenvolver software certificado
+    formalmente_, Coq foi utilizado para construir o CompCert, um
+    otimizador de compilação totalmente verificado para C, para
+    provar a exatidão de algoritmos sutis envolvendo números de
+    ponto flutuante, e como a base para o Certicrypt, um ambiente
+    para raciocínio sobre a segurança de algoritmos criptografados.
+
+    - Como um _ambiente realista para programação com tipos dependentes_,
+    inspirando numerosas inovações. Por exemplo, o projeto Ynot em Harvard
+    "raciocínio de Hoare relacional" (uma extensão da _lógica de Hoare_ que
+    veremos mais tarde nesse curso) em Coq.
 
     - Como um _assistente de prova para lógica de ordem superior_, foi utilizado
-      para validar uma série de resultados importantes na matemática.  Por
-      exemplo, sua capacidade de incluir computações complexas dentro
-      de provas tornou possível desenvolver a primiera prova do teorema
-      formalmente verificada do teorema das 4 cores.  Essa prova havia sido
-      controversa entre matemáticos porque parte dela inclue
-      checar grande número de configurações usando um programa.  Na
-      formalização do Coq, tudo é checado, incluindo a
-      precisão da parte computacional.  Mais recentemente, um esforço
-      ainda maior levou a formalização através do Coq do
-      Teorema de Feit-Thompson -- o primeiro maior passo na
-      classificação de grupos finitos simples.
+    para validar uma série de resultados importantes na matemática. Por exemplo,
+    sua capacidade de incluir computações complexas dentro de provas tornou
+    possível desenvolver a primeira prova de teorema formalmente verificada do
+    teorema das 4 cores. Essa prova havia sido controversa entre matemáticos
+    porque parte dela inclui a verificação de um grande número de
+    configurações usando um programa. Na formalização do Coq, tudo
+    é verificado, incluindo a precisão da parte computacional. Mais
+    recentemente, um esforço ainda maior levou à formalização através de Coq
+    do teorema de Feit-Thompson -- o primeiro maior passo na classificação de
+    grupos finitos simples.
 
-   A propósito, no caso de você está se perguntando sobre nome Coq, aqui está
-   o que o web site oficial diz: "Alguns cientistas franceses da computação
-   tem a tradição de nomear seus softwares como espécies de animais: Caml,
-   Elan , Foc ou Phox são exemplos dessa convenção. Em francês,
-   'coq' significa galo, e além disse soa como as iniciais de
-   Calculus of Constructions (CoC), no qual é baseado."  O galo
-   é um simbolo nacional da França, e "Coq" são as três primeiras
-   letras do nome de Thierry Coquand, um dos primeiros
-   desenvolvedores do Coq. *)
+    A propósito, caso você esteja se perguntando sobre o nome Coq, aqui está
+    o que o website oficial diz: "Alguns cientistas franceses da computação têm
+    a tradição de nomear seus software como espécies de animais: Caml, Elan, Foc
+    ou Phox são exemplos dessa convenção. Em francês, 'coq' significa galo, e,
+    além disso soa como as iniciais de Calculus of Constructions (CoC), no
+    qual é baseado." O galo é um simbolo nacional da França, e "Coq" são as
+    três primeiras letras do nome de Thierry Coquand, um dos primeiros
+    desenvolvedores do Coq. *)
 
 (** ** Functional Programming *)
 
