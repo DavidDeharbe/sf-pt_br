@@ -29,7 +29,7 @@ Definition admit {T: Type} : T.  Admitted.
     data in this way enables a host of useful and powerful idioms.
 
     Outra característica comum das linguagens funcionais incluem _tipos de dados
-    algébricos_ e _correspondência padrão_, tornando fácil de construir e
+    algébricos_ e _casamento de padrão_, tornando fácil de construir e
     manipular estruturas de dados rica, e sofistacados
     _sistemas de tipo polimórfico_ que suportam abstração e reuso
     de código.  Coq compartilha de todas essas características.
@@ -95,7 +95,7 @@ Definition next_weekday (d:day) : day :=
   end.
 
 (** Algo notável é que o argumento e os tipos de retorno dessa
-    função estão declaradas explicitamente.  Como a maioria linguagens
+    função estão declaradas explicitamente.  Como a maioria das linguagens
     de programação funcional, Coq pode frequentemente descobrir esses tipos
     sózinho, quando eles não são dados explictamente -- isto é, ele executa
     uma _inferência de tipo_ -- mas sempre devemos inclui-los para facilitar
@@ -159,7 +159,7 @@ Proof. simpl. reflexivity.  Qed.
 (* ###################################################################### *)
 (** ** Booleans *)
 
-(** De maneira similar, é possível definir a um tipo padrão [bool] de
+(** De maneira similar, é possível definir um tipo padrão [bool] de
     booleanos, com membros [true] e [false]. *)
 
 Inductive bool : Type :=
@@ -168,8 +168,8 @@ Inductive bool : Type :=
 
 (** Apesar de estarmos rodando nossas próprias booleanas com o objetivo
     de construir tudo do zero, o Coq, é claro,
-    provém uma implementação padrao de booleanas em sua biblioteca
-    padrão, junto com uma grande magnitude de funções úteis e
+    provém uma implementação padrão de booleanas em sua biblioteca
+    padrão, junto com uma grande quantidade de funções úteis e
     normas.  (Dê uma olhada em [Coq.Init.Datatypes] na biblioteca documental
     do Coq se estiver interessado.)  Sempre que possível, nomearemos
     nossa própria definição e teoremas, então elas iream coincidir exatamente
@@ -524,7 +524,7 @@ Check ((0 + 1) + 1).
 (** Note que estas não mudam as definições que já foram realizadas:
     elas são simplesmente instruções para que o analisador do Coq aceite [x
     + y] no lugar de [plus x y] e, reciprocamente, para que o Coq
-    imprima no display [plus x y] como [x + y]. *)
+    imprima [plus x y] como [x + y]. *)
 
 (** When we say that Coq comes with nothing built-in, we really
     mean it: even equality testing for numbers is a user-defined
@@ -688,8 +688,8 @@ Theorem plus_id_example : forall n m:nat,
     [n = m]. The [intros] tactic will serve to move all three of these
     from the goal into assumptions in the current context. 
 
-    Desde que [n] e [m] sejam número arbitrários, pode ser utilizado
-    simplifacação para provar este teorema.  Entretanto, provamos isso
+    Desde que [n] e [m] sejam números arbitrários, pode ser utilizado
+    simplificação para provar este teorema.  Entretanto, provamos isso
     observando que, se estamos assumindo que [n = m], então podemos substituir
     [n] com [m] na declaração dos objetivos e obtemos uma igualdade com a
     mesma expressão dos dois lados.  A tática que diz ao Coq para
@@ -779,7 +779,7 @@ Abort.
     É preciso considerar as possíveis formas de [n]
     separadamente.  Se [n] é [O], então é possível calcular o resultado final
     de [beq_nat (n + 1) 0] e verificar se é, de fato, [false].
-    E se [n = S n'] para algum [n'], então, embora nós não sabermos
+    E se [n = S n'] para algum [n'], então, embora nós não saberemos
     exatamente qual é o número [n + 1], podemos calcular que, pelo
     menos, irá começar com um [S], e isso é suficiente para calcular que, 
     novamente, [beq_nat (n + 1) 0] será [false].
@@ -966,8 +966,8 @@ Fixpoint plus' (n : nat) (m : nat) : nat :=
     terminate.  Coq demands that some argument of _every_ [Fixpoint]
     definition is "decreasing".
     
-    Esse requerimento é uma característica fundamental do design do Coq: De
-    maneira particular, isso garante que toda função que pode ser definida
+    Esse requisito é uma característica fundamental do projeto do Coq: em
+    particular, isso garante que toda função que pode ser definida
     no Coq irá funcionar com todas as entradas.  Entretanto, como o
     "analisador de decaimento" do Coq não é muito sofisticado, algumas vezes
     é necessário escrever funções de uma maneira não natural. *)
