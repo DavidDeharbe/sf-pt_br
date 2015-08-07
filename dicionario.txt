@@ -1,8 +1,12 @@
 case analysis: análise de casos
+(to) check: verificar
+(to) type: tipar
 correctness: corretude
 function type: tipo funcional
+linker: linkeditor
 machine-checked: verificado por máquina
 rewriting: reescrita
+script: script
 side effects: efeitos colaterais
 soundness: correção
 to rewrite: reescrever

@@ -1,6 +1,5 @@
 (** * Preface *)
 
-(* ###################################################################### *)
 (** * Bem-vindo *)
 
 (** Esse livro eletrônico é um curso em Fundações de Software, a base
@@ -10,12 +9,12 @@
     semântica operacional, lógica de Hoare e sistemas do tipo 
     estático. A leitura é direcionada a um grande conjunto de leitores,
     desde os graduandos avançados até estudantes de PhD e pesquisadores. 
-    Nenhum conhecimento específico aterior em lógica ou linguagens de 
+    Nenhum conhecimento específico anterior em lógica ou linguagens de 
     programação é requisitado, porém uma certa maturidade em matemática
     será útil.
 
-    A principal novidade no curso é que ele é cem porcento formalizado
-    e checado: o texto inteiro é literalmente um script para Coq. Ele
+    A principal novidade no curso é que ele é cem por cento formalizado
+    e verificado: o texto inteiro é literalmente um script para Coq. Ele
     é feito para ser lido juntamente com uma sessão interativa com Coq.
     Todos os detalhes do texto são totalmente formalizados em Coq, e os
     exercícios foram planejados para serem feitos usando o Coq.
@@ -26,8 +25,6 @@
     tópicos adicionais. Todos os capítulos centrais são adequados para 
     ambos os níveis de alunos, graduandos e graduados.*)
 
-
-(* ###################################################################### *)
 (** * Overview *)
 
 (** Building reliable software is hard.  The scale and complexity of
@@ -104,14 +101,14 @@
 (** ** Assistentes de Prova *)
 
 (** O fluxo de ideias entre a lógica e a Ciência da Computação não seguiu em uma
-    única direção: a CC também realizou contribuições importantes para a lógica. Uma
+    única direção: a Ciência da Computação também realizou contribuições importantes para a lógica. Uma
     dessas foi o desenvolvimento de ferramentas de software para auxiliar na
     construção de provas de proposições lógicas. Essas ferramentas se dividem em
     duas grandes categorias:
 
     - _Provadores automáticos de teoremas_ fornecem a operação "push-button":
-    o operador entrega uma proposição e recebe em retorno _true_, _false_, ou _ran
-    out of time_.  Apesar de suas capacidades serem limitadas para tipos bastante
+    o operador entrega uma proposição e recebe em retorno _true_ (verdadeiro), _false_ (falso), ou _ran
+    out of time_ (estouro de tempo).  Apesar de suas capacidades serem limitadas para tipos bastante
     específicos de raciocínio, os provadores têm amadurecido tremendamente nos
     últimos anos e agora são utilizados em uma enorme variadade de configurações.
       Exemplos dessas ferramentas incluem solucionadores SAT, solucionadores SMT,
@@ -120,7 +117,7 @@
     - _Assistentes de Prova_ são ferramentas híbridas que automatizam os mais
     rotineiros aspectos dos construtores de prova enquanto dependem da
     orientação humana para aspectos mais difíceis. Assistentes de prova
-    largamente utilizados incluem Isabelle, Agda, Twelf, ACL2, PVS, e Coq, entre
+    amplamente utilizados incluem Isabelle, Agda, Twelf, ACL2, PVS, e Coq, entre
     muitos outros.
 
     Esse curso é baseado em torno de Coq, um assistente de prova que tem
@@ -137,11 +134,10 @@
     Coq tem sido um fator crítico para uma grande variedade de trabalhos
     da Ciência da Computação e da Matemática:
 
-
-    - Como uma _plataforma para modelagem de liguagem de programação_,
+    - Como uma _plataforma para modelagem de linguagem de programação_,
     o Coq se tornou uma ferramenta padrão para pesquisadores que
-    precisam descrever e raciocinar sobre definições de liguagens
-    complexas. Foi utilizado, por exemplo, para checar a segurança da
+    precisam descrever e raciocinar sobre definições de linguagens
+    complexas. Foi utilizado, por exemplo, para verificar a segurança da
     plataforma JavaCard, obtendo o mais alto nível da certificação
     _common criteria_, e para especificações formais do x86 e dos
     conjuntos de instruções da LLVM.
@@ -302,35 +298,32 @@
     estabelecer propriedade de todos os programas em uma dada 
     linguagem.
 
-    Systemas de tipos são os mais bem estabelecidos e populares 
+    Sistemas de tipos são os mais bem estabelecidos e populares 
     exemplos de uma classe bem sucedida de técnicas de verificação 
     formal, conhecida como métodos formais leves. Essas são técnicas
     de raciocínio de poder modesto -- modesto o suficiente a ponto de
     checadores automáticos poderem ser construídos em compiladores, 
-    conectores, ou analisadores de programas e assim serem aplicadas até
+    linkeditores, ou analisadores de programas e assim serem aplicadas até
     por programadores não familiarizados com as teorias básicas. (Outros
-    exemplos de métodos formais leves incluem checadores de modelos de 
-    software e hardware, checadores de contratos, e técnicas de 
+    exemplos de métodos formais leves incluem verificadores de modelos de 
+    software e hardware, verificadores de contratos, e técnicas de 
     monitoramento em tempo de execução para detectar quando algum 
     componente de um sistema não está se comportando de acordo com a 
     especificação).
 
-    Esse tópico fecha o círculo: a linguageem cujas propriedades nós 
+    Esse tópico fecha o círculo: a linguagem cujas propriedades nós 
     estudamos nessa parte, chamada de _cálculo-lambda simplesmente 
-    digitada_, é essencialmente um modelo simplificado do Coq!
+    tipado_, é essencialmente um modelo simplificado do Coq!
 
 *)
 
-(* ###################################################################### *)
 (** * Practicalities *)
 
-(* ###################################################################### *)
 (** ** Dependências entre capítulos *)
 
 (** Um diagrama da dependência entre os capítulos e alguns caminhos
     sugeridos através do material pode ser encontrados no arquivo <deps.html>. *)
 
-(* ###################################################################### *)
 (** ** System Requirements *)
 
 (** Coq runs on Windows, Linux, and OS X.  You will need:
@@ -351,7 +344,6 @@
              installing additional packages for GUI libraries and
              such. *)
 
-(* ###################################################################### *)
 (** ** Exercícios *)
 
 (** Cada capítulo inclui numerosos exercícios. Cada exercício é marcado
@@ -390,7 +382,6 @@
     mecanismos de busca.
 *)
 
-(* ###################################################################### *)
 (** ** Downloading the Coq Files *)
 
 (** A tar file containing the full sources for the "release version"
@@ -404,7 +395,6 @@
     should use instead of the release version.
 *)
 
-(* ###################################################################### *)
 (** * Nota para instrutores *)
 
 (** Se você pretende utilizar esse material em seu próprio curso, com certeza
@@ -418,12 +408,9 @@
     repositório e adiciona-lo na lista de contato de desenvolvedores; no repositório você encontrará
     um [README] com futuras instruções. *)
 
-(* ###################################################################### *)
 (** * Translations *)
 
 (** Thanks to the efforts of a team of volunteer translators, _Software 
     Foundations_ can now be enjoyed in Japanese at [http://proofcafe.org/sf]
 *)
-
-(** $Date: 2014-12-31 15:31:47 -0500 (Wed, 31 Dec 2014) $ *)
 
