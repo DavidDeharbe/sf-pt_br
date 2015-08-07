@@ -79,7 +79,7 @@ Inductive day : Type :=
 
 (** O tipo é chamado [day] e seus membros são [monday], [tuesday],
     etc. A partir da segunda linha a definição pode ser lida como
-    "[monday] é um [day], [tuesday] é um [day], etc.
+    "[monday] é um [day], [tuesday] é um [day]", etc.
 
     Having defined [day], we can write functions that operate on
     days. *)
@@ -310,11 +310,11 @@ curso não precisaremos da maioria de suas funcionalidades, mas uma é bastente
 [End X], então, no restante do arquivo após o [End], estas definições serão 
 referenciadas através de nomes como [X.foo] no lugar de [foo]. Aqui, usaremos 
 esta funcionalidade para introduzir a definição do tipo [nat] em um módulo 
-interno, para que a definição presente na biblioteca padrão não seja omitida. 
+interno, para que a definição presente na biblioteca padrão não seja omitida. *)
 
 Module Playground1.
 
-(** Os tipos que definimos até o momento são exemplos de “tipos enumerados”: suas definições enumeram explicitamente um conjunto finito de elementos. Uma forma mais interessante de definir um tipo é através de uma coleção de “regras indutivas” descrevendo seus elementos. Por exemplo, podemos definir os números naturais desta forma: *)
+(** Os tipos que definimos até o momento são exemplos de “tipos enumerados”: suas definições enumeram explicitamente um conjunto finito de elementos. Uma forma mais interessante de definir um tipo é através de uma coleção de "regras indutivas" descrevendo seus elementos. Por exemplo, podemos definir os números naturais desta forma: *)
 
 Inductive nat : Type :=
   | O : nat
@@ -384,7 +384,7 @@ Check (S (S (S (S O)))).
 Eval compute in (minustwo 4).
 
 (** O construtor [S] possui o tipo [nat -> nat], assim como as funções 
-[minustwo] e [pred]:
+[minustwo] e [pred]: *)
 
 Check S.
 Check pred.
@@ -939,7 +939,7 @@ Fixpoint plus' (n : nat) (m : nat) : nat :=
     [n].  This implies that all calls to [plus'] will eventually
     terminate.  Coq demands that some argument of _every_ [Fixpoint]
     definition is "decreasing".
-    
+
     This requirement is a fundamental feature of Coq's design: In
     particular, it guarantees that every function that can be defined
     in Coq will terminate on all inputs.  However, because Coq's
@@ -952,8 +952,4 @@ Fixpoint plus' (n : nat) (m : nat) : nat :=
     _does_ terminate on all inputs, but that Coq will reject because
     of this restriction. *)
 
-(* FILL IN HERE *)
-(** [] *)
-
-(** $Date: 2014-12-31 15:31:47 -0500 (Wed, 31 Dec 2014) $ *)
 
