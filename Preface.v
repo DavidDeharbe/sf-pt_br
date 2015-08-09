@@ -1,33 +1,30 @@
 (** * Preface *)
 
-(* ###################################################################### *)
-(** * Welcome *)
+(** * Bem-vindo *)
 
-(** This electronic book is a course on _Software Foundations_, the
-    mathematical underpinnings of reliable software.  Topics include
-    basic concepts of logic, computer-assisted theorem proving, the
-    Coq proof assistant, functional programming, operational
-    semantics, Hoare logic, and static type systems.  The exposition
-    is intended for a broad range of readers, from advanced
-    undergraduates to PhD students and researchers.  No specific
-    background in logic or programming languages is assumed, though a
-    degree of mathematical maturity will be helpful.
+(** Esse livro eletrônico é um curso em Fundações de Software, a base
+    base matemática de softwares confiáveis. Esse tópico inclui 
+    conceitos básicos de lógica, prova de teoremas assistida por
+    computador, o assistente de provas Coq, programação funcional,
+    semântica operacional, lógica de Hoare e sistemas do tipo 
+    estático. A leitura é direcionada a um grande conjunto de leitores,
+    desde os graduandos avançados até estudantes de PhD e pesquisadores. 
+    Nenhum conhecimento específico anterior em lógica ou linguagens de 
+    programação é requisitado, porém uma certa maturidade em matemática
+    será útil.
 
-    The principal novelty of the course is that it is one hundred per
-    cent formalized and machine-checked: the entire text is literally
-    a script for Coq.  It is intended to be read alongside an
-    interactive session with Coq.  All the details in the text are
-    fully formalized in Coq, and the exercises are designed to be
-    worked using Coq.
+    A principal novidade no curso é que ele é cem por cento formalizado
+    e verificado: o texto inteiro é literalmente um script para Coq. Ele
+    é feito para ser lido juntamente com uma sessão interativa com Coq.
+    Todos os detalhes do texto são totalmente formalizados em Coq, e os
+    exercícios foram planejados para serem feitos usando o Coq.
 
-    The files are organized into a sequence of core chapters, covering
-    about one semester's worth of material and organized into a
-    coherent linear narrative, plus a number of "appendices" covering
-    additional topics.  All the core chapters are suitable for both
-    upper-level undergraduate and graduate students. *)
+    Os arquivos são organizados em uma sequencia de capítulos centrais,
+    cobrindo por volta de um semestre de material e organizado em uma 
+    narrativa linear e coerente, mais um número de apêndices envolvendo
+    tópicos adicionais. Todos os capítulos centrais são adequados para 
+    ambos os níveis de alunos, graduandos e graduados.*)
 
-
-(* ###################################################################### *)
 (** * Overview *)
 
 (** Building reliable software is hard.  The scale and complexity of
@@ -100,85 +97,82 @@
     curso você vai examiná-los muito mais profundamente do que você
     provavelmente tem feito até agora. *)
 
-(** ** Proof Assistants *)
+(** ** Assistentes de Prova *)
 
-(** The flow of ideas between logic and computer science has not been
-    in just one direction: CS has also made important contributions to
-    logic.  One of these has been the development of software tools
-    for helping construct proofs of logical propositions.  These tools
-    fall into two broad categories:
+(** O fluxo de ideias entre a lógica e a Ciência da Computação não seguiu em uma
+    única direção: a Ciência da Computação também realizou contribuições importantes para a lógica. Uma
+    dessas foi o desenvolvimento de ferramentas de software para auxiliar na
+    construção de provas de proposições lógicas. Essas ferramentas se dividem em
+    duas grandes categorias:
 
-       - _Automated theorem provers_ provide "push-button" operation:
-         you give them a proposition and they return either _true_,
-         _false_, or _ran out of time_.  Although their capabilities
-         are limited to fairly specific sorts of reasoning, they have
-         matured tremendously in recent years and are used now in a
-         huge variety of settings.  Examples of such tools include SAT
-         solvers, SMT solvers, and model checkers.
+    - _Provadores automáticos de teoremas_ fornecem a operação "push-button":
+    o operador entrega uma proposição e recebe em retorno _true_ (verdadeiro), _false_ (falso), ou _ran
+    out of time_ (estouro de tempo).  Apesar de suas capacidades serem limitadas para tipos bastante
+    específicos de raciocínio, os provadores têm amadurecido tremendamente nos
+    últimos anos e agora são utilizados em uma enorme variadade de configurações.
+      Exemplos dessas ferramentas incluem solucionadores SAT, solucionadores SMT,
+      e verificadores de modelo.
 
-       - _Proof assistants_ are hybrid tools that automate the more
-         routine aspects of building proofs while depending on human
-         guidance for more difficult aspects.  Widely used proof
-         assistants include Isabelle, Agda, Twelf, ACL2, PVS, and Coq,
-         among many others.
+    - _Assistentes de Prova_ são ferramentas híbridas que automatizam os mais
+    rotineiros aspectos dos construtores de prova enquanto dependem da
+    orientação humana para aspectos mais difíceis. Assistentes de prova
+    amplamente utilizados incluem Isabelle, Agda, Twelf, ACL2, PVS, e Coq, entre
+    muitos outros.
 
-    This course is based around Coq, a proof assistant that has been
-    under development since 1983 at a number of French research labs
-    and universities.  Coq provides a rich environment for interactive
-    development of machine-checked formal reasoning.  The kernel of
-    the Coq system is a simple proof-checker which guarantees that
-    only correct deduction steps are performed.  On top of this
-    kernel, the Coq environment provides high-level facilities for
-    proof development, including powerful tactics for constructing
-    complex proofs semi-automatically, and a large library of common
-    definitions and lemmas.
+    Esse curso é baseado em torno de Coq, um assistente de prova que tem
+    estado em desenvolvimento desde 1983 por laboratórios franceses de
+    pesquisas e universidades. Coq fornece um rico ambiente para
+    desenvolvimento interativo de raciocínio formal com verificação de
+    máquina. O núcleo do sistema Coq é um simples verificador de prova que
+    garante que somente passos corretos de dedução sejam realizados. Além
+    desse núcleo, o ambiente Coq prove facilidades de alto nível para
+    desenvolvimento de prova, incluindo táticas poderosas para construção de
+    provas complexas semi-automaticamente, além de uma grande biblioteca de
+    definições comuns e lemas.
 
-    Coq has been a critical enabler for a huge variety of work across
-    computer science and mathematics:
+    Coq tem sido um fator crítico para uma grande variedade de trabalhos
+    da Ciência da Computação e da Matemática:
 
-    - As a _platform for modeling programming languages_, it has become
-      a standard tool for researchers who need to describe and reason
-      about complex language definitions.  It has been used, for
-      example, to check the security of the JavaCard platform,
-      obtaining the highest level of common criteria certification,
-      and for formal specifications of the x86 and LLVM instruction
-      sets.
+    - Como uma _plataforma para modelagem de linguagem de programação_,
+    o Coq se tornou uma ferramenta padrão para pesquisadores que
+    precisam descrever e raciocinar sobre definições de linguagens
+    complexas. Foi utilizado, por exemplo, para verificar a segurança da
+    plataforma JavaCard, obtendo o mais alto nível da certificação
+    _common criteria_, e para especificações formais do x86 e dos
+    conjuntos de instruções da LLVM.
 
-    - As an _environment for developing formally certified software_,
-      Coq has been used to build CompCert, a fully-verified optimizing
-      compiler for C, for proving the correctness of subtle algorithms
-      involving floating point numbers, and as the basis for
-      Certicrypt, an environment for reasoning about the security of
-      cryptographic algorithms.
+    - Como um _ambiente para desenvolver software certificado
+    formalmente_, Coq foi utilizado para construir o CompCert, um
+    otimizador de compilação totalmente verificado para C, para
+    provar a exatidão de algoritmos sutis envolvendo números de
+    ponto flutuante, e como a base para o Certicrypt, um ambiente
+    para raciocínio sobre a segurança de algoritmos criptografados.
 
-    - As a _realistic environment for programming with dependent
-      types_, it has inspired numerous innovations.  For example, the
-      Ynot project at Harvard embeds "relational Hoare reasoning" (an
-      extension of the _Hoare Logic_ we will see later in this course)
-      in Coq.
+    - Como um _ambiente realista para programação com tipos dependentes_,
+    inspirando numerosas inovações. Por exemplo, o projeto Ynot em Harvard
+    "raciocínio de Hoare relacional" (uma extensão da _lógica de Hoare_ que
+    veremos mais tarde nesse curso) em Coq.
 
-    - As a _proof assistant for higher-order logic_, it has been used
-      to validate a number of important results in mathematics.  For
-      example, its ability to include complex computations inside
-      proofs made it possible to develop the first formally verified
-      proof of the 4-color theorem.  This proof had previously been
-      controversial among mathematicians because part of it included
-      checking a large number of configurations using a program. In
-      the Coq formalization, everything is checked, including the
-      correctness of the computational part.  More recently, an even
-      more massive effort led to a Coq formalization of the
-      Feit-Thompson Theorem -- the first major step in the
-      classification of finite simple groups.
+    - Como um _assistente de prova para lógica de ordem superior_, foi utilizado
+    para validar uma série de resultados importantes na matemática. Por exemplo,
+    sua capacidade de incluir computações complexas dentro de provas tornou
+    possível desenvolver a primeira prova de teorema formalmente verificada do
+    teorema das 4 cores. Essa prova havia sido controversa entre matemáticos
+    porque parte dela inclui a verificação de um grande número de
+    configurações usando um programa. Na formalização do Coq, tudo
+    é verificado, incluindo a precisão da parte computacional. Mais
+    recentemente, um esforço ainda maior levou à formalização através de Coq
+    do teorema de Feit-Thompson -- o primeiro maior passo na classificação de
+    grupos finitos simples.
 
-   By the way, in case you're wondering about the name, here's what
-   the official Coq web site says: "Some French computer scientists
-   have a tradition of naming their software as animal species: Caml,
-   Elan, Foc or Phox are examples of this tacit convention. In French,
-   'coq' means rooster, and it sounds like the initials of the
-   Calculus of Constructions (CoC) on which it is based."  The rooster
-   is also the national symbol of France, and "Coq" are the first
-   three letters of the name of Thierry Coquand, one of Coq's early
-   developers. *)
+    A propósito, caso você esteja se perguntando sobre o nome Coq, aqui está
+    o que o website oficial diz: "Alguns cientistas franceses da computação têm
+    a tradição de nomear seus software como espécies de animais: Caml, Elan, Foc
+    ou Phox são exemplos dessa convenção. Em francês, 'coq' significa galo, e,
+    além disso soa como as iniciais de Calculus of Constructions (CoC), no
+    qual é baseado." O galo é um simbolo nacional da França, e "Coq" são as
+    três primeiras letras do nome de Thierry Coquand, um dos primeiros
+    desenvolvedores do Coq. *)
 
 (** ** Functional Programming *)
 
@@ -296,39 +290,39 @@
     real-world software and hardware verification tasks.
 *)
 
-(** ** Type Systems *)
+(** ** Sistemas de Tipo *)
 
-(** Our final major topic, covering the last third of the course, is
-    _type systems_, a powerful set of tools for establishing
-    properties of _all_ programs in a given language.
+(** O nosso tópico final principal, cobrindo o último terço do curso, 
+    é Sistemas de Tipo, um conjunto poderoso de ferramentas para
+    estabelecer propriedade de todos os programas em uma dada 
+    linguagem.
 
-    Type systems are the best established and most popular example of
-    a highly successful class of formal verification techniques known
-    as _lightweight formal methods_.  These are reasoning techniques
-    of modest power -- modest enough that automatic checkers can be
-    built into compilers, linkers, or program analyzers and thus be
-    applied even by programmers unfamiliar with the underlying
-    theories.  (Other examples of lightweight formal methods include
-    hardware and software model checkers, contract checkers, and
-    run-time property monitoring techniques for detecting when some
-    component of a system is not behaving according to specification).
+    Sistemas de tipos são os mais bem estabelecidos e populares 
+    exemplos de uma classe bem sucedida de técnicas de verificação 
+    formal, conhecida como métodos formais leves. Essas são técnicas
+    de raciocínio de poder modesto -- modesto o suficiente a ponto de
+    checadores automáticos poderem ser construídos em compiladores, 
+    linkeditores, ou analisadores de programas e assim serem aplicadas até
+    por programadores não familiarizados com as teorias básicas. (Outros
+    exemplos de métodos formais leves incluem verificadores de modelos de 
+    software e hardware, verificadores de contratos, e técnicas de 
+    monitoramento em tempo de execução para detectar quando algum 
+    componente de um sistema não está se comportando de acordo com a 
+    especificação).
 
-    This topic brings us full circle: the language whose properties we
-    study in this part, called the _simply typed lambda-calculus_, is
-    essentially a simplified model of the core of Coq itself!
+    Esse tópico fecha o círculo: a linguagem cujas propriedades nós 
+    estudamos nessa parte, chamada de _cálculo-lambda simplesmente 
+    tipado_, é essencialmente um modelo simplificado do Coq!
 
 *)
 
-(* ###################################################################### *)
 (** * Practicalities *)
 
-(* ###################################################################### *)
-(** ** Chapter Dependencies *)
+(** ** Dependências entre capítulos *)
 
-(** A diagram of the dependencies between chapters and some suggested
-    paths through the material can be found in the file [deps.html]. *)
+(** Um diagrama da dependência entre os capítulos e alguns caminhos
+    sugeridos através do material pode ser encontrados no arquivo <deps.html>. *)
 
-(* ###################################################################### *)
 (** ** System Requirements *)
 
 (** Coq runs on Windows, Linux, and OS X.  You will need:
@@ -349,42 +343,44 @@
              installing additional packages for GUI libraries and
              such. *)
 
-(* ###################################################################### *)
-(** ** Exercises *)
+(** ** Exercícios *)
 
-(** Each chapter includes numerous exercises.  Each is marked with a
-    "star rating," which can be interpreted as follows:
+(** Cada capítulo inclui numerosos exercícios. Cada exercício é marcado
+    com uma "classificação de estrelas," a qual pode ser interpretada
+    da seguinte maneira:
 
-       - One star: easy exercises that underscore points in the text
-         and that, for most readers, should take only a minute or two.
-         Get in the habit of working these as you reach them.
+       - Uma estrela: exercícios fáceis que ressaltam pontos no texto e
+         que, para muitos leitores, deve tomar somente um ou dois 
+         minutos. Crie o hábito de fazer esses exercícios no momento
+         em que chegar neles.
 
-       - Two stars: straightforward exercises (five or ten minutes).
+       - Duas estrelas: exercícios simples (cinco ou dez minutos).
 
-       - Three stars: exercises requiring a bit of thought (ten
-         minutes to half an hour).
+       - Três estrelas: exercícios que requerem um pouco mais de 
+         raciocínio (de dez minutos a meia-hora).
 
-       - Four and five stars: more difficult exercises (half an hour
-         and up).
+       - Quatro e cinco estrelas: exercícios mais difíceis (a partir de 
+         meia-hora).
 
-    Also, some exercises are marked "advanced", and some are marked
-    "optional."  Doing just the non-optional, non-advanced exercises
-    should provide good coverage of the core material.  Optional
-    exercises provide a bit of extra practice with key concepts and
-    introduce secondary themes that may be of interest to some
-    readers.  Advanced exercises are for readers who want an extra
-    challenge (and, in return, a deeper contact with the material).
+    Além disso, alguns exercícios são marcados como "avançado", e alguns
+    outros são marcados como "opcional." Fazer somente os exercícios
+    não-opcionais e não-avançados deve proporcionar uma boa cobertura 
+    do assunto central. Exercícios opcionais porporcionam um pouco mais 
+    de prática com conceitos chaves e introduz temas secundários que 
+    podem ser do interesse de alguns leitores. Exercícios avançados são 
+    para leitores que querem um desafio extra (e, como retribuição, um
+    contato mais profundo com o material).
 
-    _Please do not post solutions to the exercises in public places_:
-    Software Foundations is widely used both for self-study and for
-    university courses.  Having solutions easily available makes it
-    much less useful for courses, which typically have graded homework
-    assignments.  The authors especially request that readers not post
-    solutions to the exercises anyplace where they can be found by
-    search engines.
+    _Por favor, não publique soluções para os exercícios em locais 
+    públicos_: Fundações de Software é largamente utilizado tanto para 
+    estudos pessoais quanto para cursos universitários. Ter as soluções
+    facilmente disponíveis torna o livro muito menos útil para cursos,
+    os quais tem as atividades normalmente graduadas. Os autores 
+    especialmente solicitam que os leitores não publiquem as soluções 
+    para os exercícios em qualquer lugar que possa ser encontrado por
+    mecanismos de busca.
 *)
 
-(* ###################################################################### *)
 (** ** Baixando os arquivos Coq *)
 
 (** Um arquivo tar contendo os fontes completos para a "versão de lançamento"
@@ -398,26 +394,22 @@
     em vez da versão de lançamento.
 *)
 
-(* ###################################################################### *)
-(** * Note for Instructors *)
+(** * Nota para instrutores *)
 
-(** If you intend to use these materials in your own course, you will
-    undoubtedly find things you'd like to change, improve, or add.
-    Your contributions are welcome!
+(** Se você pretende utilizar esse material em seu próprio curso, com certeza
+    encontrará coisas que gostará de modificar, aprimorar ou adicionar.
+    Suas contribuições são bem-vindas!
 
-    Please send an email to Benjamin Pierce describing yourself and
-    how you would like to use the materials, and including the result
-    of doing "htpasswd -s -n NAME", where NAME is your preferred user
-    name.  We'll set you up with read/write access to our subversion
-    repository and developers' mailing list; in the repository you'll
-    find a [README] with further instructions. *)
+    Por favor, enviei um e-mail para Benjamin Pierce, descrevendo-se e
+    informando como gostaria de fazer uso do material, incluindo o resultado
+    de fazer "htpasswd -s -n NAME", onde NAME é seu nome de
+    usuário.  Nós vamos configurar sua leitura/acesso com a nossa subversão do
+    repositório e adiciona-lo na lista de contato de desenvolvedores; no repositório você encontrará
+    um [README] com futuras instruções. *)
 
-(* ###################################################################### *)
 (** * Translations *)
 
 (** Thanks to the efforts of a team of volunteer translators, _Software 
     Foundations_ can now be enjoyed in Japanese at [http://proofcafe.org/sf]
 *)
-
-(** $Date: 2014-12-31 15:31:47 -0500 (Wed, 31 Dec 2014) $ *)
 

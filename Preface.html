@@ -5,72 +5,53 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <link href="coqdoc.css" rel="stylesheet" type="text/css"/>
-<title>Preface</title>
+<title>Embasamento: Programação Funcional em Coq</title>
 <script type="text/javascript" src="jquery-1.8.3.js"></script>
 <script type="text/javascript" src="main.js"></script>
 </head>
+<h1 class="libtitle">Library Preface</h1>
 
-<body>
-
-<div id="page">
-
-<div id="header">
-</div>
-
-<div id="main">
-
-<h1 class="libtitle">Preface</h1>
-
-<div class="code code-tight">
+<div class="code">
 </div>
 
 <div class="doc">
-
-</div>
-<div class="code code-tight">
-
-<br/>
-</div>
-
-<div class="doc">
-<a name="lab1"></a><h1 class="section">Welcome</h1>
+<a name="lab1"></a><h1 class="section">Preface</h1>
 
 <div class="paragraph"> </div>
 
- This electronic book is a course on <i>Software Foundations</i>, the
-    mathematical underpinnings of reliable software.  Topics include
-    basic concepts of logic, computer-assisted theorem proving, the
-    Coq proof assistant, functional programming, operational
-    semantics, Hoare logic, and static type systems.  The exposition
-    is intended for a broad range of readers, from advanced
-    undergraduates to PhD students and researchers.  No specific
-    background in logic or programming languages is assumed, though a
-    degree of mathematical maturity will be helpful.
+<a name="lab2"></a><h1 class="section">Bem-vindo</h1>
 
 <div class="paragraph"> </div>
 
-    The principal novelty of the course is that it is one hundred per
-    cent formalized and machine-checked: the entire text is literally
-    a script for Coq.  It is intended to be read alongside an
-    interactive session with Coq.  All the details in the text are
-    fully formalized in Coq, and the exercises are designed to be
-    worked using Coq.
+ Esse livro eletrônico é um curso em Fundações de Software, a base
+    base matemática de softwares confiáveis. Esse tópico inclui 
+    conceitos básicos de lógica, prova de teoremas assistida por
+    computador, o assistente de provas Coq, programação funcional,
+    semântica operacional, lógica de Hoare e sistemas do tipo 
+    estático. A leitura é direcionada a um grande conjunto de leitores,
+    desde os graduandos avançados até estudantes de PhD e pesquisadores. 
+    Nenhum conhecimento específico anterior em lógica ou linguagens de 
+    programação é requisitado, porém uma certa maturidade em matemática
+    será útil.
 
 <div class="paragraph"> </div>
 
-    The files are organized into a sequence of core chapters, covering
-    about one semester's worth of material and organized into a
-    coherent linear narrative, plus a number of "appendices" covering
-    additional topics.  All the core chapters are suitable for both
-    upper-level undergraduate and graduate students. 
-</div>
-<div class="code code-tight">
+    A principal novidade no curso é que ele é cem por cento formalizado
+    e verificado: o texto inteiro é literalmente um script para Coq. Ele
+    é feito para ser lido juntamente com uma sessão interativa com Coq.
+    Todos os detalhes do texto são totalmente formalizados em Coq, e os
+    exercícios foram planejados para serem feitos usando o Coq.
 
-<br/>
-</div>
+<div class="paragraph"> </div>
 
-<div class="doc">
-<a name="lab2"></a><h1 class="section">Overview</h1>
+    Os arquivos são organizados em uma sequencia de capítulos centrais,
+    cobrindo por volta de um semestre de material e organizado em uma 
+    narrativa linear e coerente, mais um número de apêndices envolvendo
+    tópicos adicionais. Todos os capítulos centrais são adequados para 
+    ambos os níveis de alunos, graduandos e graduados.
+<div class="paragraph"> </div>
+
+<a name="lab3"></a><h1 class="section">Overview</h1>
 
 <div class="paragraph"> </div>
 
@@ -138,14 +119,14 @@
     themes illuminate and amplify each other in useful ways, and that
     bringing them together creates a foundation from which it will be
     easy to dig into any of them more deeply.  Some suggestions for
-    further reading can be found in the <span class="inlinecode"><span class="id" type="var">Postscript</span></span> chapter. 
+    further reading can be found in the <span class="inlinecode"><span class="id" title="var">Postscript</span></span> chapter. 
 <div class="paragraph"> </div>
 
-<a name="lab3"></a><h2 class="section">Logic</h2>
+<a name="lab4"></a><h2 class="section">Logic</h2>
 
 <div class="paragraph"> </div>
 
- Logic is the field of study whose subject matter is <i>proofs</i> &mdash;
+ Logic is the field of study whose subject matter is <i>proofs</i> --
     unassailable arguments for the truth of particular propositions.
     Volumes have been written about the central role of logic in
     computer science.  Manna and Waldinger called it "the calculus of
@@ -167,124 +148,129 @@
     have probably done so far. 
 <div class="paragraph"> </div>
 
-<a name="lab4"></a><h2 class="section">Proof Assistants</h2>
+<a name="lab5"></a><h2 class="section">Assistentes de Prova</h2>
 
 <div class="paragraph"> </div>
 
- The flow of ideas between logic and computer science has not been
-    in just one direction: CS has also made important contributions to
-    logic.  One of these has been the development of software tools
-    for helping construct proofs of logical propositions.  These tools
-    fall into two broad categories:
-
-<div class="paragraph"> </div>
-
-<ul class="doclist">
-<li> <i>Automated theorem provers</i> provide "push-button" operation:
-         you give them a proposition and they return either <i>true</i>,
-         <i>false</i>, or <i>ran out of time</i>.  Although their capabilities
-         are limited to fairly specific sorts of reasoning, they have
-         matured tremendously in recent years and are used now in a
-         huge variety of settings.  Examples of such tools include SAT
-         solvers, SMT solvers, and model checkers.
-
-<div class="paragraph"> </div>
-
-
-</li>
-<li> <i>Proof assistants</i> are hybrid tools that automate the more
-         routine aspects of building proofs while depending on human
-         guidance for more difficult aspects.  Widely used proof
-         assistants include Isabelle, Agda, Twelf, ACL2, PVS, and Coq,
-         among many others.
-
-</li>
-</ul>
-
-<div class="paragraph"> </div>
-
-    This course is based around Coq, a proof assistant that has been
-    under development since 1983 at a number of French research labs
-    and universities.  Coq provides a rich environment for interactive
-    development of machine-checked formal reasoning.  The kernel of
-    the Coq system is a simple proof-checker which guarantees that
-    only correct deduction steps are performed.  On top of this
-    kernel, the Coq environment provides high-level facilities for
-    proof development, including powerful tactics for constructing
-    complex proofs semi-automatically, and a large library of common
-    definitions and lemmas.
-
-<div class="paragraph"> </div>
-
-    Coq has been a critical enabler for a huge variety of work across
-    computer science and mathematics:
+ O fluxo de ideias entre a lógica e a Ciência da Computação não seguiu em uma
+    única direção: a Ciência da Computação também realizou contribuições importantes para a lógica. Uma
+    dessas foi o desenvolvimento de ferramentas de software para auxiliar na
+    construção de provas de proposições lógicas. Essas ferramentas se dividem em
+    duas grandes categorias:
 
 <div class="paragraph"> </div>
 
 <ul class="doclist">
-<li> As a <i>platform for modeling programming languages</i>, it has become
-      a standard tool for researchers who need to describe and reason
-      about complex language definitions.  It has been used, for
-      example, to check the security of the JavaCard platform,
-      obtaining the highest level of common criteria certification,
-      and for formal specifications of the x86 and LLVM instruction
-      sets.
-
-<div class="paragraph"> </div>
-
-
-</li>
-<li> As an <i>environment for developing formally certified software</i>,
-      Coq has been used to build CompCert, a fully-verified optimizing
-      compiler for C, for proving the correctness of subtle algorithms
-      involving floating point numbers, and as the basis for
-      Certicrypt, an environment for reasoning about the security of
-      cryptographic algorithms.
-
-<div class="paragraph"> </div>
-
-
-</li>
-<li> As a <i>realistic environment for programming with dependent
-      types</i>, it has inspired numerous innovations.  For example, the
-      Ynot project at Harvard embeds "relational Hoare reasoning" (an
-      extension of the <i>Hoare Logic</i> we will see later in this course)
-      in Coq.
-
-<div class="paragraph"> </div>
-
-
-</li>
-<li> As a <i>proof assistant for higher-order logic</i>, it has been used
-      to validate a number of important results in mathematics.  For
-      example, its ability to include complex computations inside
-      proofs made it possible to develop the first formally verified
-      proof of the 4-color theorem.  This proof had previously been
-      controversial among mathematicians because part of it included
-      checking a large number of configurations using a program. In
-      the Coq formalization, everything is checked, including the
-      correctness of the computational part.  More recently, an even
-      more massive effort led to a Coq formalization of the
-      Feit-Thompson Theorem &mdash; the first major step in the
-      classification of finite simple groups.
+<li> <i>Provadores automáticos de teoremas</i> fornecem a operação "push-button":
 
 </li>
 </ul>
+    o operador entrega uma proposição e recebe em retorno <i>true</i> (verdadeiro), <i>false</i> (falso), ou <i>ran
+    out of time</i> (estouro de tempo).  Apesar de suas capacidades serem limitadas para tipos bastante
+    específicos de raciocínio, os provadores têm amadurecido tremendamente nos
+    últimos anos e agora são utilizados em uma enorme variadade de configurações.
+      Exemplos dessas ferramentas incluem solucionadores SAT, solucionadores SMT,
+      e verificadores de modelo.
 
 <div class="paragraph"> </div>
 
-   By the way, in case you're wondering about the name, here's what
-   the official Coq web site says: "Some French computer scientists
-   have a tradition of naming their software as animal species: Caml,
-   Elan, Foc or Phox are examples of this tacit convention. In French,
-   'coq' means rooster, and it sounds like the initials of the
-   Calculus of Constructions (CoC) on which it is based."  The rooster
-   is also the national symbol of France, and "Coq" are the first
-   three letters of the name of Thierry Coquand, one of Coq's early
-   developers. 
+<ul class="doclist">
+<li> <i>Assistentes de Prova</i> são ferramentas híbridas que automatizam os mais
+
+</li>
+</ul>
+    rotineiros aspectos dos construtores de prova enquanto dependem da
+    orientação humana para aspectos mais difíceis. Assistentes de prova
+    amplamente utilizados incluem Isabelle, Agda, Twelf, ACL2, PVS, e Coq, entre
+    muitos outros.
+
 <div class="paragraph"> </div>
 
-<a name="lab5"></a><h2 class="section">Functional Programming</h2>
+    Esse curso é baseado em torno de Coq, um assistente de prova que tem
+    estado em desenvolvimento desde 1983 por laboratórios franceses de
+    pesquisas e universidades. Coq fornece um rico ambiente para
+    desenvolvimento interativo de raciocínio formal com verificação de
+    máquina. O núcleo do sistema Coq é um simples verificador de prova que
+    garante que somente passos corretos de dedução sejam realizados. Além
+    desse núcleo, o ambiente Coq prove facilidades de alto nível para
+    desenvolvimento de prova, incluindo táticas poderosas para construção de
+    provas complexas semi-automaticamente, além de uma grande biblioteca de
+    definições comuns e lemas.
+
+<div class="paragraph"> </div>
+
+    Coq tem sido um fator crítico para uma grande variedade de trabalhos
+    da Ciência da Computação e da Matemática:
+
+<div class="paragraph"> </div>
+
+<ul class="doclist">
+<li> Como uma <i>plataforma para modelagem de linguagem de programação</i>,
+
+</li>
+</ul>
+    o Coq se tornou uma ferramenta padrão para pesquisadores que
+    precisam descrever e raciocinar sobre definições de linguagens
+    complexas. Foi utilizado, por exemplo, para verificar a segurança da
+    plataforma JavaCard, obtendo o mais alto nível da certificação
+    <i>common criteria</i>, e para especificações formais do x86 e dos
+    conjuntos de instruções da LLVM.
+
+<div class="paragraph"> </div>
+
+<ul class="doclist">
+<li> Como um <i>ambiente para desenvolver software certificado
+
+</li>
+</ul>
+    formalmente</i>, Coq foi utilizado para construir o CompCert, um
+    otimizador de compilação totalmente verificado para C, para
+    provar a exatidão de algoritmos sutis envolvendo números de
+    ponto flutuante, e como a base para o Certicrypt, um ambiente
+    para raciocínio sobre a segurança de algoritmos criptografados.
+
+<div class="paragraph"> </div>
+
+<ul class="doclist">
+<li> Como um <i>ambiente realista para programação com tipos dependentes</i>,
+
+</li>
+</ul>
+    inspirando numerosas inovações. Por exemplo, o projeto Ynot em Harvard
+    "raciocínio de Hoare relacional" (uma extensão da <i>lógica de Hoare</i> que
+    veremos mais tarde nesse curso) em Coq.
+
+<div class="paragraph"> </div>
+
+<ul class="doclist">
+<li> Como um <i>assistente de prova para lógica de ordem superior</i>, foi utilizado
+
+</li>
+</ul>
+    para validar uma série de resultados importantes na matemática. Por exemplo,
+    sua capacidade de incluir computações complexas dentro de provas tornou
+    possível desenvolver a primeira prova de teorema formalmente verificada do
+    teorema das 4 cores. Essa prova havia sido controversa entre matemáticos
+    porque parte dela inclui a verificação de um grande número de
+    configurações usando um programa. Na formalização do Coq, tudo
+    é verificado, incluindo a precisão da parte computacional. Mais
+    recentemente, um esforço ainda maior levou à formalização através de Coq
+    do teorema de Feit-Thompson -- o primeiro maior passo na classificação de
+    grupos finitos simples.
+
+<div class="paragraph"> </div>
+
+    A propósito, caso você esteja se perguntando sobre o nome Coq, aqui está
+    o que o website oficial diz: "Alguns cientistas franceses da computação têm
+    a tradição de nomear seus software como espécies de animais: Caml, Elan, Foc
+    ou Phox são exemplos dessa convenção. Em francês, 'coq' significa galo, e,
+    além disso soa como as iniciais de Calculus of Constructions (CoC), no
+    qual é baseado." O galo é um simbolo nacional da França, e "Coq" são as
+    três primeiras letras do nome de Thierry Coquand, um dos primeiros
+    desenvolvedores do Coq. 
+<div class="paragraph"> </div>
+
+<a name="lab6"></a><h2 class="section">Functional Programming</h2>
 
 <div class="paragraph"> </div>
 
@@ -296,7 +282,7 @@
 
 <div class="paragraph"> </div>
 
-    Functional programming has been developed over many decades &mdash;
+    Functional programming has been developed over many decades --
     indeed, its roots go back to Church's lambda-calculus, which was
     invented in the 1930s before the era of the computer began!  But
     since the early '90s it has enjoyed a surge of interest among
@@ -353,11 +339,11 @@
     programming language plus with a set of tools for stating and
     proving logical assertions.  Moreover, when we come to look more
     closely, we find that these two sides of Coq are actually aspects
-    of the very same underlying machinery &mdash; i.e., <i>proofs are
+    of the very same underlying machinery -- i.e., <i>proofs are
     programs</i>.  
 <div class="paragraph"> </div>
 
-<a name="lab6"></a><h2 class="section">Program Verification</h2>
+<a name="lab7"></a><h2 class="section">Program Verification</h2>
 
 <div class="paragraph"> </div>
 
@@ -401,7 +387,7 @@
     First, we consider what it means to say that two Imp programs are
     <i>equivalent</i> in the sense that they give the same behaviors for
     all initial memories.  This notion of equivalence then becomes a
-    criterion for judging the correctness of <i>metaprograms</i> &mdash;
+    criterion for judging the correctness of <i>metaprograms</i> --
     programs that manipulate other programs, such as compilers and
     optimizers.  We build a simple optimizer for Imp and prove that it
     is correct.
@@ -410,10 +396,10 @@
 
     Second, we develop a methodology for proving that Imp programs
     satisfy formal specifications of their behavior.  We introduce the
-    notion of <i>Hoare triples</i> &mdash; Imp programs annotated with pre- and
+    notion of <i>Hoare triples</i> -- Imp programs annotated with pre- and
     post-conditions describing what should be true about the memory in
     which they are started and what they promise to make true about
-    the memory in which they terminate &mdash; and the reasoning principles
+    the memory in which they terminate -- and the reasoning principles
     of <i>Hoare Logic</i>, a "domain-specific logic" specialized for
     convenient compositional reasoning about imperative programs, with
     concepts like "loop invariant" built in.
@@ -426,66 +412,54 @@
 
 <div class="paragraph"> </div>
 
-<a name="lab7"></a><h2 class="section">Type Systems</h2>
+<a name="lab8"></a><h2 class="section">Sistemas de Tipo</h2>
 
 <div class="paragraph"> </div>
 
- Our final major topic, covering the last third of the course, is
-    <i>type systems</i>, a powerful set of tools for establishing
-    properties of <i>all</i> programs in a given language.
+ O nosso tópico final principal, cobrindo o último terço do curso, 
+    é Sistemas de Tipo, um conjunto poderoso de ferramentas para
+    estabelecer propriedade de todos os programas em uma dada 
+    linguagem.
 
 <div class="paragraph"> </div>
 
-    Type systems are the best established and most popular example of
-    a highly successful class of formal verification techniques known
-    as <i>lightweight formal methods</i>.  These are reasoning techniques
-    of modest power &mdash; modest enough that automatic checkers can be
-    built into compilers, linkers, or program analyzers and thus be
-    applied even by programmers unfamiliar with the underlying
-    theories.  (Other examples of lightweight formal methods include
-    hardware and software model checkers, contract checkers, and
-    run-time property monitoring techniques for detecting when some
-    component of a system is not behaving according to specification).
+    Sistemas de tipos são os mais bem estabelecidos e populares 
+    exemplos de uma classe bem sucedida de técnicas de verificação 
+    formal, conhecida como métodos formais leves. Essas são técnicas
+    de raciocínio de poder modesto -- modesto o suficiente a ponto de
+    checadores automáticos poderem ser construídos em compiladores, 
+    linkeditores, ou analisadores de programas e assim serem aplicadas até
+    por programadores não familiarizados com as teorias básicas. (Outros
+    exemplos de métodos formais leves incluem verificadores de modelos de 
+    software e hardware, verificadores de contratos, e técnicas de 
+    monitoramento em tempo de execução para detectar quando algum 
+    componente de um sistema não está se comportando de acordo com a 
+    especificação).
 
 <div class="paragraph"> </div>
 
-    This topic brings us full circle: the language whose properties we
-    study in this part, called the <i>simply typed lambda-calculus</i>, is
-    essentially a simplified model of the core of Coq itself!
+    Esse tópico fecha o círculo: a linguagem cujas propriedades nós 
+    estudamos nessa parte, chamada de <i>cálculo-lambda simplesmente 
+    tipado</i>, é essencialmente um modelo simplificado do Coq!
 
 <div class="paragraph"> </div>
 
 
-</div>
-<div class="code code-tight">
+<div class="paragraph"> </div>
 
-<br/>
-</div>
-
-<div class="doc">
-<a name="lab8"></a><h1 class="section">Practicalities</h1>
-
-</div>
-<div class="code code-space">
-
-<br/>
-</div>
-
-<div class="doc">
-<a name="lab9"></a><h2 class="section">Chapter Dependencies</h2>
+<a name="lab9"></a><h1 class="section">Practicalities</h1>
 
 <div class="paragraph"> </div>
 
- A diagram of the dependencies between chapters and some suggested
-    paths through the material can be found in the file <span class="inlinecode"><span class="id" type="var">deps.html</span></span>. 
-</div>
-<div class="code code-tight">
+<a name="lab10"></a><h2 class="section">Dependências entre capítulos</h2>
 
-<br/>
-</div>
+<div class="paragraph"> </div>
 
-<div class="doc">
-<a name="lab10"></a><h2 class="section">System Requirements</h2>
+ Um diagrama da dependência entre os capítulos e alguns caminhos
+    sugeridos através do material pode ser encontrados no arquivo &lt;deps.html&gt;. 
+<div class="paragraph"> </div>
+
+<a name="lab11"></a><h2 class="section">System Requirements</h2>
 
 <div class="paragraph"> </div>
 
@@ -526,78 +500,72 @@
 </li>
 </ul>
 
-</div>
-<div class="code code-tight">
+<div class="paragraph"> </div>
 
-<br/>
-</div>
-
-<div class="doc">
-<a name="lab11"></a><h2 class="section">Exercises</h2>
+<a name="lab12"></a><h2 class="section">Exercícios</h2>
 
 <div class="paragraph"> </div>
 
- Each chapter includes numerous exercises.  Each is marked with a
-    "star rating," which can be interpreted as follows:
+ Cada capítulo inclui numerosos exercícios. Cada exercício é marcado
+    com uma "classificação de estrelas," a qual pode ser interpretada
+    da seguinte maneira:
 
 <div class="paragraph"> </div>
 
 <ul class="doclist">
-<li> One star: easy exercises that underscore points in the text
-         and that, for most readers, should take only a minute or two.
-         Get in the habit of working these as you reach them.
+<li> Uma estrela: exercícios fáceis que ressaltam pontos no texto e
+         que, para muitos leitores, deve tomar somente um ou dois 
+         minutos. Crie o hábito de fazer esses exercícios no momento
+         em que chegar neles.
 
 <div class="paragraph"> </div>
 
 
 </li>
-<li> Two stars: straightforward exercises (five or ten minutes).
+<li> Duas estrelas: exercícios simples (cinco ou dez minutos).
 
 <div class="paragraph"> </div>
 
 
 </li>
-<li> Three stars: exercises requiring a bit of thought (ten
-         minutes to half an hour).
+<li> Três estrelas: exercícios que requerem um pouco mais de 
+         raciocínio (de dez minutos a meia-hora).
 
 <div class="paragraph"> </div>
 
 
 </li>
-<li> Four and five stars: more difficult exercises (half an hour
-         and up).
+<li> Quatro e cinco estrelas: exercícios mais difíceis (a partir de 
+         meia-hora).
 
 </li>
 </ul>
 
 <div class="paragraph"> </div>
 
-    Also, some exercises are marked "advanced", and some are marked
-    "optional."  Doing just the non-optional, non-advanced exercises
-    should provide good coverage of the core material.  Optional
-    exercises provide a bit of extra practice with key concepts and
-    introduce secondary themes that may be of interest to some
-    readers.  Advanced exercises are for readers who want an extra
-    challenge (and, in return, a deeper contact with the material).
+    Além disso, alguns exercícios são marcados como "avançado", e alguns
+    outros são marcados como "opcional." Fazer somente os exercícios
+    não-opcionais e não-avançados deve proporcionar uma boa cobertura 
+    do assunto central. Exercícios opcionais porporcionam um pouco mais 
+    de prática com conceitos chaves e introduz temas secundários que 
+    podem ser do interesse de alguns leitores. Exercícios avançados são 
+    para leitores que querem um desafio extra (e, como retribuição, um
+    contato mais profundo com o material).
 
 <div class="paragraph"> </div>
 
-    <i>Please do not post solutions to the exercises in public places</i>:
-    Software Foundations is widely used both for self-study and for
-    university courses.  Having solutions easily available makes it
-    much less useful for courses, which typically have graded homework
-    assignments.  The authors especially request that readers not post
-    solutions to the exercises anyplace where they can be found by
-    search engines.
+    <i>Por favor, não publique soluções para os exercícios em locais 
+    públicos</i>: Fundações de Software é largamente utilizado tanto para 
+    estudos pessoais quanto para cursos universitários. Ter as soluções
+    facilmente disponíveis torna o livro muito menos útil para cursos,
+    os quais tem as atividades normalmente graduadas. Os autores 
+    especialmente solicitam que os leitores não publiquem as soluções 
+    para os exercícios em qualquer lugar que possa ser encontrado por
+    mecanismos de busca.
 
-</div>
-<div class="code code-tight">
+<div class="paragraph"> </div>
 
-<br/>
-</div>
-
-<div class="doc">
-<a name="lab12"></a><h2 class="section">Downloading the Coq Files</h2>
+<a name="lab13"></a><h2 class="section">Downloading the Coq Files</h2>
 
 <div class="paragraph"> </div>
 
@@ -611,55 +579,40 @@
     access to a locally extended version of the files, which you
     should use instead of the release version.
 
-</div>
-<div class="code code-tight">
+<div class="paragraph"> </div>
 
-<br/>
-</div>
-
-<div class="doc">
-<a name="lab13"></a><h1 class="section">Note for Instructors</h1>
+<a name="lab14"></a><h1 class="section">Nota para instrutores</h1>
 
 <div class="paragraph"> </div>
 
- If you intend to use these materials in your own course, you will
-    undoubtedly find things you'd like to change, improve, or add.
-    Your contributions are welcome!
+ Se você pretende utilizar esse material em seu próprio curso, com certeza
+    encontrará coisas que gostará de modificar, aprimorar ou adicionar.
+    Suas contribuições são bem-vindas!
 
 <div class="paragraph"> </div>
 
-    Please send an email to Benjamin Pierce describing yourself and
-    how you would like to use the materials, and including the result
-    of doing "htpasswd -s -n NAME", where NAME is your preferred user
-    name.  We'll set you up with read/write access to our subversion
-    repository and developers' mailing list; in the repository you'll
-    find a <span class="inlinecode"><span class="id" type="var">README</span></span> with further instructions. 
-</div>
-<div class="code code-tight">
+    Por favor, enviei um e-mail para Benjamin Pierce, descrevendo-se e
+    informando como gostaria de fazer uso do material, incluindo o resultado
+    de fazer "htpasswd -s -n NAME", onde NAME é seu nome de
+    usuário.  Nós vamos configurar sua leitura/acesso com a nossa subversão do
+    repositório e adiciona-lo na lista de contato de desenvolvedores; no repositório você encontrará
+    um <span class="inlinecode"><span class="id" title="var">README</span></span> com futuras instruções. 
+<div class="paragraph"> </div>
 
-<br/>
-</div>
-
-<div class="doc">
-<a name="lab14"></a><h1 class="section">Translations</h1>
+<a name="lab15"></a><h1 class="section">Translations</h1>
 
 <div class="paragraph"> </div>
 
  Thanks to the efforts of a team of volunteer translators, <i>Software 
-    Foundations</i> can now be enjoyed in Japanese at <span class="inlinecode"><span class="id" type="var">http</span>://<span class="id" type="var">proofcafe.org</span>/<span class="id" type="var">sf</span></span>
+    Foundations</i> can now be enjoyed in Japanese at <span class="inlinecode"><span class="id" title="var">http</span>://<span class="id" title="var">proofcafe.org</span>/<span class="id" title="var">sf</span></span>
 
-<div class="paragraph"> </div>
-
-  
 </div>
-<div class="code code-tight">
+<div class="code">
 
 <br/>
 </div>
+<hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
 </div>
-
-<div id="footer">
-<hr/><a href="coqindex.html">Index</a></div>
 
 </div>
 
