@@ -80,26 +80,25 @@
     easy to dig into any of them more deeply.  Some suggestions for
     further reading can be found in the [Postscript] chapter. *)
 
-(** ** Logic *)
+(** ** Lógica *)
 
-(** Logic is the field of study whose subject matter is _proofs_ --
-    unassailable arguments for the truth of particular propositions.
-    Volumes have been written about the central role of logic in
-    computer science.  Manna and Waldinger called it "the calculus of
-    computer science," while Halpern et al.'s paper _On the Unusual
-    Effectiveness of Logic in Computer Science_ catalogs scores of
-    ways in which logic offers critical tools and insights.  Indeed,
-    they observe that "As a matter of fact, logic has turned out to be
-    significiantly more effective in computer science than it has been
-    in mathematics.  This is quite remarkable, especially since much
-    of the impetus for the development of logic during the past one
-    hundred years came from mathematics."
+(** Lógica é o campo de estudo cujo o assunto é _provas_ --
+    argumentos incontestáveis para a verdade de proposições particulares.
+    Volumes foram escritos sobre o papel principal da lógica em ciência
+    da computação. Manna e Waldinger chamaram a lógica de "o cálculo da
+    ciência da computação," enquanto o artigo Halpern et al. _On the Unusual
+    Effectiveness of Logic in Computer Science_ cataloga dezenas de
+    maneiras em que lógica oferece ferramentas críticas e deias. De fato,
+    eles observam que "na verdade, lógica tem se tornado significativamente
+    mais efetivo em ciência da computação do que tem sido em matemática. Isso
+    é notável, especialmente porque grande parte do impulso para o
+    desenvolvimento da lógica durante os último cem anos veio da matemática.
 
-    In particular, the fundamental notion of inductive proofs is
-    ubiquitous in all of computer science.  You have surely seen them
-    before, in contexts from discrete math to analysis of algorithms,
-    but in this course we will examine them much more deeply than you
-    have probably done so far. *)
+    Em particular, a noção fundamental de provas indutivas está onipresente
+    em toda a ciência da computação. Você certamente já viu antes; em
+    contextos da matemática discreta para análise de algoritmos, mas neste
+    curso você vai examiná-los muito mais profundamente do que você
+    provavelmente tem feito até agora. *)
 
 (** ** Proof Assistants *)
 
@@ -386,17 +385,17 @@
 *)
 
 (* ###################################################################### *)
-(** ** Downloading the Coq Files *)
+(** ** Baixando os arquivos Coq *)
 
-(** A tar file containing the full sources for the "release version"
-    of these notes (as a collection of Coq scripts and HTML files) is
-    available here:
+(** Um arquivo tar contendo os fontes completos para a "versão de lançamento"
+    destas notas (como uma coleção de scripts de Coq e arquivos HTML) está
+    disponível aqui:
 <<
         http://www.cis.upenn.edu/~bcpierce/sf   
 >>
-    If you are using the notes as part of a class, you may be given
-    access to a locally extended version of the files, which you
-    should use instead of the release version.
+    Se você estiver usando as notas como parte de uma aula, você pode ter
+    acesso a uma versão local estendida dos arquivos, que você deve usar
+    em vez da versão de lançamento.
 *)
 
 (* ###################################################################### *)
