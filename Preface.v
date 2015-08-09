@@ -89,7 +89,7 @@
     eles observam que "na verdade, lógica tem se tornado significativamente
     mais efetivo em ciência da computação do que tem sido em matemática. Isso
     é notável, especialmente porque grande parte do impulso para o
-    desenvolvimento da lógica durante os último cem anos veio da matemática.
+    desenvolvimento da lógica durante os último cem anos veio da matemática".
 
     Em particular, a noção fundamental de provas indutivas está onipresente
     em toda a ciência da computação. Você certamente já viu antes; em
