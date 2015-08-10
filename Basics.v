@@ -8,7 +8,6 @@
    large proofs. *)
 Definition admit {T: Type} : T.  Admitted.
 
-(* ###################################################################### *)
 (** * Introdução *)
 
 (** O estilo de programação funcional aproxima a programação à matemática
@@ -41,8 +40,7 @@ programa.
     simple properties of Coq programs.
 *)
 
-(* ###################################################################### *)
-(** * Enumerated Types *)
+(** * Tipos Enumerados *)
 
 (** One unusual aspect of Coq is that its set of built-in
     features is _extremely_ small.  For example, instead of providing
@@ -62,7 +60,6 @@ programa.
     To see how this mechanism works, let's start with a very simple
     example. *)
 
-(* ###################################################################### *)
 (** ** Dias da Semana *)
 
 (** A declaração abaixo diz ao Coq que estamos definindo um novo conjunto
@@ -158,8 +155,7 @@ Proof. simpl. reflexivity.  Qed.
     referência de Coq. *)
 
 
-(* ###################################################################### *)
-(** ** Booleans *)
+(** ** Booleanos *)
 
 (** In a similar way, we can define the standard type [bool] of
     booleans, with members [true] and [false]. *)
@@ -217,7 +213,7 @@ Proof. reflexivity.  Qed.
     actually needed because [reflexivity] automatically performs
     simplification.) *)
 
-(** _Uma observação sobre anotações: Em arquivos .v, utilizamos colchetes 
+(** _Uma observação sobre anotações_: Em arquivos .v, utilizamos colchetes 
 para delimitar fragmentos de código Coq nos comentários. O objetivo desta 
 convenção, também usada pela ferramenta de documentação [coqdoc], é manter 
 estes fragmentos visualmente diferentes do texto ao redor: na versão html dos 
@@ -251,7 +247,7 @@ Example test_nandb4:               (nandb true true) = false.
 (* FILL IN HERE *) Admitted.
 (** [] *)
 
-(** **** Exercise: 1 star (andb3)  *)
+(** **** Exercício: 1 star (andb3)  *)
 (** Do the same for the [andb3] function below. This function should
     return [true] when all of its inputs are [true], and [false]
     otherwise. *)
@@ -269,8 +265,7 @@ Example test_andb34:                 (andb3 true true false) = false.
 (* FILL IN HERE *) Admitted.
 (** [] *)
 
-(* ###################################################################### *)
-(** ** Function Types *)
+(** ** Tipos funcionais *)
 
 (** The [Check] command causes Coq to print the type of an
     expression.  For example, the type of [negb true] is [bool]. *)
@@ -294,8 +289,7 @@ Check negb.
     be read, "Given two inputs, both of type [bool], this function
     produces an output of type [bool]." *)
 
-(* ###################################################################### *)
-(** ** Numbers *)
+(** ** Números *)
 
 (** _Digressão técnica_: O Coq fornece um _sistema modular_ bastante 
 sofisticado para auxiliar na organização de desenvolvimentos robustos. Neste 
@@ -479,7 +473,7 @@ Fixpoint exp (base power : nat) : nat :=
     | S p => mult base (exp base p)
   end.
 
-(** **** Exercise: 1 star (factorial)  *)
+(** **** Exercício: 1 star (factorial)  *)
 (** Recall the standard factorial function:
 <<
     factorial(0)  =  1 
@@ -563,7 +557,7 @@ Proof. reflexivity.  Qed.
 Example test_ble_nat3:             (ble_nat 4 2) = false.
 Proof. reflexivity.  Qed.
 
-(** **** Exercise: 2 stars (blt_nat)  *)
+(** **** Exercício: 2 stars (blt_nat)  *)
 (** The [blt_nat] function tests [nat]ural numbers for [l]ess-[t]han,
     yielding a [b]oolean.  Instead of making up a new [Fixpoint] for
     this one, define it in terms of a previously defined function. *)
@@ -580,8 +574,7 @@ Example test_blt_nat3:             (blt_nat 4 2) = false.
 
 (** [] *)
 
-(* ###################################################################### *)
-(** * Proof by Simplification *)
+(** * Prova por Simplificação *)
 
 (** Now that we've defined a few datatypes and functions, let's
     turn to the question of how to state and prove properties of their
@@ -663,8 +656,7 @@ Proof.
 
 (**O sufixo [_l] nos nomes destes teoremas é pronunciado "à esquerda." *)
 
-(* ###################################################################### *)
-(** * Proof by Rewriting *)
+(** * Prova por Reescrita *)
 
 (** Here is a slightly more interesting theorem: *)
 
@@ -708,7 +700,7 @@ Proof.
     making this change in the above proof and see what difference it
     makes in Coq's behavior.) *)
 
-(** **** Exercise: 1 star (plus_id_exercise)  *)
+(** **** Exercício: 1 star (plus_id_exercise)  *)
 (** Remove "[Admitted.]" and fill in the proof. *)
 
 Theorem plus_id_exercise : forall n m o : nat,
@@ -739,7 +731,7 @@ Proof.
   rewrite -> plus_O_n.
   reflexivity.  Qed.
 
-(** **** Exercise: 2 stars (mult_S_1)  *)
+(** **** Exercício: 2 stars (mult_S_1)  *)
 Theorem mult_S_1 : forall n m : nat,
   m = S n -> 
   m * (1 + n) = m * m.
@@ -748,8 +740,7 @@ Proof.
 (** [] *)
 
 
-(* ###################################################################### *)
-(** * Proof by Case Analysis *) 
+(** * Prova por Análise de Casos *) 
 
 (** Of course, not everything can be proved by simple
     calculation: In general, unknown, hypothetical values (arbitrary
@@ -824,7 +815,7 @@ não há necessidade de especificar nenhum nome (Poderíamos ter escrito também
 seja conveniente, isto é indiscutivelmente um estilo ruim, uma vez que o Coq 
 pode fazer escolhas confusas de nomes quando lhe é deixada esta decisão. *)
 
-(** **** Exercise: 1 star (zero_nbeq_plus_1)  *)
+(** **** Exercício: 1 star (zero_nbeq_plus_1)  *)
 Theorem zero_nbeq_plus_1 : forall n : nat,
   beq_nat 0 (n + 1) = false.
 Proof.
@@ -832,10 +823,9 @@ Proof.
 
 (** [] *)
 
-(* ###################################################################### *)
-(** * More Exercises *)
+(** * Mais Exercícios *)
 
-(** **** Exercise: 2 stars (boolean_functions)  *)
+(** **** Exercício: 2 stars (boolean_functions)  *)
 (** Use the tactics you have learned so far to prove the following 
     theorem about boolean functions. *)
 
@@ -853,7 +843,7 @@ Proof.
 (* FILL IN HERE *)
 (** [] *)
 
-(** **** Exercise: 2 stars (andb_eq_orb)  *)
+(** **** Exercício: 2 stars (andb_eq_orb)  *)
 (** Prove the following theorem.  (You may want to first prove a
     subsidiary lemma or two. Alternatively, remember that you do
     not have to introduce all hypotheses at the same time.) *)
@@ -866,7 +856,7 @@ Proof.
   (* FILL IN HERE *) Admitted.
 (** [] *)
 
-(** **** Exercise: 3 stars (binary)  *)
+(** **** Exercício: 3 stars (binary)  *)
 (** Consider a different, more efficient representation of natural
     numbers using a binary rather than unary system.  That is, instead
     of saying that each natural number is either zero or the successor
@@ -904,7 +894,6 @@ Proof.
 (* FILL IN HERE *)
 (** [] *)
 
-(* ###################################################################### *)
 (** * More on Notation (Advanced) *)
 
 (** In general, sections marked Advanced are not needed to follow the
@@ -942,7 +931,7 @@ para indicar em qual escopo se encontra a notação.
     Integer zero.
 *)
 
-(** * [Fixpoint] and Structural Recursion (Advanced) *)
+(** * [Fixpoint] e Recursão Estrutural (Avançado) *)
 
 Fixpoint plus' (n : nat) (m : nat) : nat :=
   match n with
@@ -964,7 +953,7 @@ Fixpoint plus' (n : nat) (m : nat) : nat :=
     "decreasing analysis" is not very sophisticated, it is sometimes
     necessary to write functions in slightly unnatural ways. *)
 
-(** **** Exercise: 2 stars, optional (decreasing)  *)
+(** **** Exercício: 2 stars, optional (decreasing)  *)
 (** To get a concrete sense of this, find a way to write a sensible
     [Fixpoint] definition (of a simple function on numbers, say) that
     _does_ terminate on all inputs, but that Coq will reject because
