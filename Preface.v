@@ -85,7 +85,7 @@
     da computação. Manna e Waldinger chamaram a lógica de "o cálculo da
     ciência da computação," enquanto o artigo Halpern et al. _On the Unusual
     Effectiveness of Logic in Computer Science_ cataloga dezenas de
-    maneiras em que lógica oferece ferramentas críticas e deias. De fato,
+    maneiras em que lógica oferece ferramentas críticas e ideias. De fato,
     eles observam que "na verdade, lógica tem se tornado significativamente
     mais efetivo em ciência da computação do que tem sido em matemática. Isso
     é notável, especialmente porque grande parte do impulso para o
@@ -93,7 +93,7 @@
 
     Em particular, a noção fundamental de provas indutivas está onipresente
     em toda a ciência da computação. Você certamente já viu antes; em
-    contextos da matemática discreta para análise de algoritmos, mas neste
+    contextos desde a matemática discreta até a análise de algoritmos, mas neste
     curso você vai examiná-los muito mais profundamente do que você
     provavelmente tem feito até agora. *)
 

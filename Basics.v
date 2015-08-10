@@ -13,11 +13,11 @@ Definition admit {T: Type} : T.  Admitted.
 
 (** O estilo de programação funcional aproxima a programação à matemática
 simples do dia-a-dia: se um procedimento ou método não possui efeitos
-colaterais, então, basicamente, o que você deve entender sobre isto é como
+colaterais, então, basicamente, tudo que você precisa entender é como
 entradas são mapeadas para saídas -- isto é, você pode pensar nisto simplesmente
 como um método concreto para computar uma função matemática. Esse é um dos
 significados da palavra "funcional" em "programação funcional". A conexão direta
-entre programas e objetos matemáticos simples suporta tanto provas formais de
+entre programas e objetos matemáticos simples autoriza tanto provas formais de
 corretude quanto raciocínio informal de correção sobre o comportamento do
 programa.
 
@@ -27,7 +27,7 @@ programa.
     como argumentos para outras funções, retornados como resultados, 
     guardados em estruturas de dados, etc. O entendimento de que funções 
     podem ser tratadas como dados dessa maneira permite uma série de
-    linguagens úteis e potentes.
+    idiomas úteis e poderosos.
 
     Other common features of functional languages include _algebraic
     data types_ and _pattern matching_, which make it easy to construct
@@ -223,12 +223,6 @@ convenção, também usada pela ferramenta de documentação [coqdoc], é manter
 estes fragmentos visualmente diferentes do texto ao redor: na versão html dos 
 arquivos, estas partes do texto aparecem com uma [fonte diferente]. *)
 
-(** _A note on notation_: In .v files, we use square brackets to
-    delimit fragments of Coq code within comments; this convention,
-    also used by the [coqdoc] documentation tool, keeps them visually
-    separate from the surrounding text.  In the html version of the
-    files, these pieces of text appear in a [different font]. *)
-
 (** The values [Admitted] and [admit] can be used to fill
     a hole in an incomplete definition or proof.  We'll use them in the
     following exercises.  In general, your job in the exercises is 
@@ -305,7 +299,7 @@ Check negb.
 
 (** _Digressão técnica_: O Coq fornece um _sistema modular_ bastante 
 sofisticado para auxiliar na organização de desenvolvimentos robustos. Neste 
-curso não precisaremos da maioria de suas funcionalidades, mas uma é bastente 
+curso não precisaremos da maioria de suas funcionalidades, mas uma é bastante 
 útil: se inserimos uma coleção de declarações entre os marcadores [Module X] e 
 [End X], então, no restante do arquivo após o [End], estas definições serão 
 referenciadas através de nomes como [X.foo] no lugar de [foo]. Aqui, usaremos 
@@ -321,7 +315,7 @@ Inductive nat : Type :=
   | S : nat -> nat.
 
 (** As cláusulas desta definição podem ser lidas como: *)
-(** The clauses of this definition can be read: 
+(** 
       - [O] is a natural number (note that this is the letter "[O]," not
         the numeral "[0]").
       - [S] is a "constructor" that takes a natural number and yields
@@ -520,7 +514,7 @@ Notation "x * y" := (mult x y)
 Check ((0 + 1) + 1).
 
 (** (As anotações [level], [associativity], e [nat_scope] controlam
-    como essas notações são tratadas pleo analisador do Coq. Os 
+    como essas notações são tratadas pelo analisador do Coq. Os 
     detalhes não são importantes, mas leitores interessados podem
     se dirigir à subseção "Mais em Notações", na seção de "Material 
     Avançado", no final desse capítulo.) *)
@@ -723,7 +717,17 @@ Proof.
   (* FILL IN HERE *) Admitted.
 (** [] *)
 
-(** Como vimos nos exemplos anteriores, o comando [Admitted] informa a Coq que queremos pular a tentativa de prova do teorema e simplesmente aceita a declaração dada. Isto pode ser útil no desenvolvimento de provas mais longas, uma vez que podemos determinar fatos subsidiários que acreditamos serem importantes na criação de argumentos maiores. Use [Admitted] para aceitar estes  teroremas na fé do momento, e continuar pensando no argumento maior até termos certeza de que faz sentido; e então, poderemos voltar e concluir as provas incompletas. Porém tenha cuidado: Toda vez que você usa [Admitted] (ou [admit]) você está deixando uma porta aberta para que um disparate total	entre no mundo formal, rigoroso, verificado e agradável do Coq. *)
+(** Como vimos nos exemplos anteriores, o comando [Admitted] informa a Coq que 
+queremos pular a tentativa de prova do teorema e simplesmente aceitar a 
+declaração dada. Isto pode ser útil no desenvolvimento de provas mais longas, 
+uma vez que podemos determinar fatos subsidiários que acreditamos serem 
+importantes na criação de argumentos maiores. Use [Admitted] para aceitar 
+estes teoremas na fé do momento, e continuar pensando no argumento maior 
+até termos certeza de que faz sentido; e então, poderemos voltar e concluir 
+as provas incompletas. Porém tenha cuidado: Toda vez que você usa [
+Admitted] (ou [admit]) você está deixando uma porta aberta para que um 
+disparate total	entre no mundo formal, rigoroso, verificado e agradável 
+do Coq. *)
 
 (** We can also use the [rewrite] tactic with a previously proved
     theorem instead of a hypothesis from the context. *)
@@ -800,7 +804,10 @@ Proof.
     data).  The second component gives a single name, [n'], since [S]
     is a unary constructor.
 
-A tática [destruct] pode ser usada com qualquer tipo de dado definido indutivamente. Por exemplo, nós podemos usá-lo aqui para provar que a negação booleana é involutiva – isto é, que a negação é a sua própria inversa. *)
+A tática [destruct] pode ser usada com qualquer tipo de dado definido 
+indutivamente. Por exemplo, nós podemos usá-lo aqui para provar que a 
+negação booleana é involutiva – isto é, que a negação é a sua própria 
+inversa. *)
 
 Theorem negb_involutive : forall b : bool,
   negb (negb b) = b.
@@ -809,7 +816,13 @@ Proof.
     reflexivity.
     reflexivity.  Qed.
 
-(** Note que [destruct] aqui não possui nenhuma cláusula [as] pois nenhum dos subcasos de [destruct] precisa ser vinculado a nenhuma das variáveis. Por isso, não há necessidade de especificar nenhum nome (Poderíamos ter escrito também [as [|]], ou [as []]). De fato, podemos omitir a cláusula [as] de qualquer [destruct] e Coq irá preencher automaticamente os nomes de variáveis. Embora seja conveniente, isto é indiscutivelmente um mal estilo, uma vez que o Coq pode fazer escolhas confusas de nomes quando lhe é deixado esta decisão. *)
+(** Note que [destruct] aqui não possui nenhuma cláusula [as] pois nenhum dos 
+subcasos de [destruct] precisa ser vinculado a nenhuma das variáveis. Por isso, 
+não há necessidade de especificar nenhum nome (Poderíamos ter escrito também 
+[as [|]], ou [as []]). De fato, podemos omitir a cláusula [as] de qualquer 
+[destruct] e Coq irá preencher automaticamente os nomes de variáveis. Embora 
+seja conveniente, isto é indiscutivelmente um estilo ruim, uma vez que o Coq 
+pode fazer escolhas confusas de nomes quando lhe é deixada esta decisão. *)
 
 (** **** Exercise: 1 star (zero_nbeq_plus_1)  *)
 Theorem zero_nbeq_plus_1 : forall n : nat,
@@ -917,7 +930,12 @@ Notation "x * y" := (mult x y)
     _left_, _right_, or _no_ associativity.
 
 Cada símbolo de notação no Coq está também ativo num escopo de notação. 
-O Coq tenta adivinhar a qual é escopo você se refere, de modo que, quando você escreve [S(O*O)], ele advinha [nat_scope], mas quando você escreve o tipo produto cartesiano (tupla) [bool*bool], ele advinha [type_scope]. Ocasionalmente, você tem que ajudá-lo com uma notação de percentagem escrevendo [(x*y)%nat], e, algumas vezes, em suas respostas para você, o Coq usará [%nat] para indicar em qual escopo se encontra a notação.
+O Coq tenta adivinhar a qual é escopo você se refere, de modo que, quando você 
+escreve [S(O*O)], ele advinha [nat_scope], mas quando você escreve o tipo 
+produto cartesiano (tupla) [bool*bool], ele advinha [type_scope]. 
+Ocasionalmente, você tem que ajudá-lo com uma notação de percentagem escrevendo 
+[(x*y)%nat], e, algumas vezes, em suas respostas para você, o Coq usará [%nat] 
+para indicar em qual escopo se encontra a notação.
 
     Notation scopes also apply to numeral notation (3,4,5, etc.), so you
     may sometimes see [0%nat] which means [O], or [0%Z] which means the
