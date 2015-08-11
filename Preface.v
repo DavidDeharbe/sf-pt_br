@@ -1,4 +1,4 @@
-(** * Preface *)
+(** * Prefácio *)
 
 (** * Bem-vindo *)
 
@@ -25,7 +25,7 @@
     tópicos adicionais. Todos os capítulos centrais são adequados para 
     ambos os níveis de alunos, graduandos e graduados.*)
 
-(** * Overview *)
+(** * Visão Geral *)
 
 (** Building reliable software is hard.  The scale and complexity of
     modern systems, the number of people involved in building them,
@@ -174,65 +174,67 @@
     três primeiras letras do nome de Thierry Coquand, um dos primeiros
     desenvolvedores do Coq. *)
 
-(** ** Functional Programming *)
+(** ** Programação funcional *)
 
-(** The term _functional programming_ refers both to a collection of
-    programming idioms that can be used in almost any programming
-    language and to a family of programming languages designed to
-    emphasize these idioms, including Haskell, OCaml, Standard ML,
-    F##, Scala, Scheme, Racket, Common Lisp, Clojure, Erlang, and Coq.
-
-    Functional programming has been developed over many decades --
-    indeed, its roots go back to Church's lambda-calculus, which was
-    invented in the 1930s before the era of the computer began!  But
-    since the early '90s it has enjoyed a surge of interest among
-    industrial engineers and language designers, playing a key role in
-    high-value systems at companies like Jane St. Capital, Microsoft,
-    Facebook, and Ericsson.
-
-    The most basic tenet of functional programming is that, as much as
-    possible, computation should be _pure_, in the sense that the only
-    effect of execution should be to produce a result: the computation
-    should be free from _side effects_ such as I/O, assignments to
-    mutable variables, redirecting pointers, etc.  For example,
-    whereas an _imperative_ sorting function might take a list of
-    numbers and rearrange its pointers to put the list in order, a
-    pure sorting function would take the original list and return a
-    _new_ list containing the same numbers in sorted order.
-
-    One significant benefit of this style of programming is that it
-    makes programs easier to understand and reason about.  If every
-    operation on a data structure yields a new data structure, leaving
-    the old one intact, then there is no need to worry about how that
-    structure is being shared and whether a change by one part of the
-    program might break an invariant that another part of the program
-    relies on.  These considerations are particularly critical in
-    concurrent programs, where every piece of mutable state that is
-    shared between threads is a potential source of pernicious bugs.
-    Indeed, a large part of the recent interest in functional
-    programming in industry is due to its simple behavior in the
-    presence of concurrency.
-
-    Another reason for the current excitement about functional
-    programming is related to the first: functional programs are often
-    much easier to parallelize than their imperative counterparts.  If
-    running a computation has no effect other than producing a result,
-    then it does not matter _where_ it is run.  Similarly, if a data
-    structure is never modified destructively, then it can be copied
-    freely, across cores or across the network.  Indeed, the MapReduce
-    idiom that lies at the heart of massively distributed query
-    processors like Hadoop and is used by Google to index the entire
-    web is a classic example of functional programming.
-
-    For purposes of this course, functional programming has yet
-    another significant attraction: it serves as a bridge between
-    logic and computer science.  Indeed, Coq itself can be viewed as a
-    combination of a small but extremely expressive functional
-    programming language plus with a set of tools for stating and
-    proving logical assertions.  Moreover, when we come to look more
-    closely, we find that these two sides of Coq are actually aspects
-    of the very same underlying machinery -- i.e., _proofs are
-    programs_.  *)
+(** O termo _programação funcional_ refere-se tanto a uma coleção de 
+	expressões de programação que podem ser usadas em praticamente qualquer 
+	linguagem de programação quanto a uma família de linguagens de programação 
+	projetadas para enfatizar essas expressões, incluindo Haskell, OCaml, 
+	Standard ML, F##, Scala, Scheme, Racket, Common Lisp, Clojure, Erlang, e Coq.
+	
+	A programação funcional tem sido desenvolvida ao longo de muitas 
+	décadas - de fato, as suas raízes remontam ao cálculo lambda da 
+	Igreja, que foi inventado na década de 1930, antes da era dos 
+	computadores começar! Porém, desde o início dos anos 90, ela se 
+	tornou uma onda de interesse crescente entre os engenheiros industriais 
+	e projetistas de linguagens, desempenhando um papel fundamental 
+	nos sistemas de alto valor em empresas como Jane St. Capital, 
+	Microsoft, Facebook, e Ericsson.
+	
+	O princípio mais básico da programação funcional é que, tanto quanto 
+	possível, a computação deve ser _pura_, no sentido de que o único efeito 
+	da execução deve ser o de produzir um resultado: a computação deve ser 
+	livre de _efeitos colaterais_, tais como I/O, atribuições a variáveis 
+	mutáveis, redirecionamento de ponteiros, etc. Por exemplo, enquanto uma 
+	função _imperativa_ de ordenação pode receber uma lista de números 
+	e reorganizar seus ponteiros para colocar a lista em ordem, uma 
+	função de ordenação pura receberia a lista original e retornaria uma 
+	_nova_ lista contendo os mesmos números na ordem de classificação.
+	
+	Um benefício significativo deste estilo de programação é que ele 
+	torna os programas mais fáceis de entender e de se raciocinar sobre. 
+	Se cada operação em uma estrutura de dados produz uma nova estrutura 
+	de dados, deixando a antiga intacta, então não há necessidade de 
+	se preocupar sobre como essa estrutura está sendo compartilhada 
+	e se uma mudança por uma parte do programa pode quebrar uma invariante 
+	em que outra parte do programa se baseia. Essas considerações 
+	são particularmente críticas em programas concorrentes, onde cada 
+	pedaço de estado mutável que é compartilhado entre threads é uma 
+	fonte em potencial de erros perniciosos. Na verdade, uma grande parte 
+	do recente interesse em programação funcional por parte da indústria 
+	é devido ao seu comportamento simples na presença de concorrência.
+	
+	Outro motivo para o entusiasmo atual sobre a programação funcional 
+	está relacionado com o primeiro: programas funcionais são frequentemente 
+	muito mais fáceis de paralelizar do que suas contrapartes imperativas. 
+	Se a execução de um algoritmo não possui qualquer outro efeito além de 
+	produzir um resultado, então não importa _onde_ ele é executado. 
+	Da mesma forma, se uma estrutura de dados nunca é modificada 
+	destrutivamente, então ela pode ser copiada livremente, entre núcleos 
+	ou em toda a rede. De fato, o idioma MapReduce, que está no cerne de 
+	processadores de consulta maciçamente distribuídos como o Hadoop e é 
+	usado pelo Google para indexar toda a web, é um exemplo clássico 
+	de programação funcional.
+	
+	Para os fins deste curso, a programação funcional tem ainda uma 
+	outra atração significativa: ela serve como uma ponte entre a 
+	lógica e a ciência da computação. De fato, o próprio Coq pode 
+	ser vista como uma combinação de uma pequena porém extremamente 
+	expressiva linguagem de programação funcional com um conjunto 
+	de ferramentas para indicar e provar afirmações lógicas. Além 
+	disso, quando chegamos a olhar mais de perto, descobrimos que 
+	esses dois lados do Coq são na verdade aspectos da mesma maquinaria 
+	subjacente - ou seja, _provas são programas_. *)
 
 (** ** Program Verification *)
 
@@ -323,25 +325,24 @@
 (** Um diagrama da dependência entre os capítulos e alguns caminhos
     sugeridos através do material pode ser encontrados no arquivo <deps.html>. *)
 
-(** ** System Requirements *)
+(** ** Requisitos de Sistema *)
 
-(** Coq runs on Windows, Linux, and OS X.  You will need:
+(** Coq executa em Windows, Linux e OS X. Você precisará de:
 
-       - A current installation of Coq, available from the Coq home
-         page.  Everything should work with version 8.4.
+       - A instalação atual do Coq, disponível a partir da home page do Coq. 
+         Tudo deve funcionar corretamente com a versão 8.4.
 
-       - An IDE for interacting with Coq.  Currently, there are two
-         choices:
+       - Uma IDE para interagir com o Coq. Atualmente, existem duas escolhas:
 
-           - Proof General is an Emacs-based IDE.  It tends to be
-             preferred by users who are already comfortable with
-             Emacs.  It requires a separate installation (google
+           - Proof General é uma IDE baseada no Emacs. Ela tende 
+             a ser preferida por usuários que já estão confortáveis 
+             com o Emacs. Ela requer uma instalação separada (Google 
              "Proof General").
 
-           - CoqIDE is a simpler stand-alone IDE.  It is distributed
-             with Coq, but on some platforms compiling it involves
-             installing additional packages for GUI libraries and
-             such. *)
+           - CoqIDE é uma IDE stand-alone simples. Ela é distribuída 
+             com o Coq, mas, em algumas plataformas, para compilá-lo
+             é necessária a instalação de pacotes adicionais para as 
+             bibliotecas GUI e etc. *)
 
 (** ** Exercícios *)
 
@@ -400,16 +401,16 @@
     encontrará coisas que gostará de modificar, aprimorar ou adicionar.
     Suas contribuições são bem-vindas!
 
-    Por favor, enviei um e-mail para Benjamin Pierce, descrevendo-se e
+    Por favor, envie um e-mail para Benjamin Pierce, descrevendo-se e
     informando como gostaria de fazer uso do material, incluindo o resultado
     de fazer "htpasswd -s -n NAME", onde NAME é seu nome de
     usuário.  Nós vamos configurar sua leitura/acesso com a nossa subversão do
     repositório e adiciona-lo na lista de contato de desenvolvedores; no repositório você encontrará
     um [README] com futuras instruções. *)
 
-(** * Translations *)
+(** * Traduções *)
 
-(** Thanks to the efforts of a team of volunteer translators, _Software 
-    Foundations_ can now be enjoyed in Japanese at [http://proofcafe.org/sf]
+(** Graças aos esforços de uma equipe de tradutores voluntários, _Fundações 
+    de Software_ pode agora ser apreciado em Japonês em [http://proofcafe.org/sf]
 *)
 
