@@ -143,7 +143,7 @@ Proof. simpl. reflexivity.  Qed.
   calculado em ambos os lados da igualdade é o mesmo." *)
 
 (** Por último, podemos pedir ao Coq para extrair da nossa 
-    Definição, um programa em alguma outra linguagem de programação
+    [Definition], um programa em alguma outra linguagem de programação
     mais convencional (OCaml, Scheme, ou Haskell) com um compilador de 
     alta performance. Essa facilidade é muito interessante, já que
     nos dá um modo de construir programas totalmente provados em
@@ -218,10 +218,10 @@ convenção, também usada pela ferramenta de documentação [coqdoc], é manter
 estes fragmentos visualmente diferentes do texto ao redor: na versão html dos 
 arquivos, estas partes do texto aparecem com uma [fonte diferente]. *)
 
-(** The values [Admitted] and [admit] can be used to fill
-    a hole in an incomplete definition or proof.  We'll use them in the
-    following exercises.  In general, your job in the exercises is 
-    to replace [admit] or [Admitted] with real definitions or proofs. *)
+(** Os valores [Admitted] e [admit] podem ser usados para preencher um espaço em
+uma definição ou prova imcompletas. Usaremos tais valores nos próximos
+exercícios. Em geral, nossa tarefa nos exercícios é substituir [admit] ou
+[Admitted] por definições ou provas reais. *)
 
 (** **** Exercício: 1 estrela (nandb)  *)
 (** Complete a definição das seguintes funções, depois, certifique que
@@ -301,7 +301,11 @@ interno, para que a definição presente na biblioteca padrão não seja omitida
 
 Module Playground1.
 
-(** Os tipos que definimos até o momento são exemplos de “tipos enumerados”: suas definições enumeram explicitamente um conjunto finito de elementos. Uma forma mais interessante de definir um tipo é através de uma coleção de "regras indutivas" descrevendo seus elementos. Por exemplo, podemos definir os números naturais desta forma: *)
+(** Os tipos que definimos até o momento são exemplos de “tipos enumerados”:
+suas definições enumeram explicitamente um conjunto finito de elementos. Uma
+forma mais interessante de definir um tipo é através de uma coleção de "regras
+indutivas" descrevendo seus elementos. Por exemplo, podemos definir os números
+naturais desta forma: *)
 
 Inductive nat : Type :=
   | O : nat
@@ -309,11 +313,11 @@ Inductive nat : Type :=
 
 (** As cláusulas desta definição podem ser lidas como: *)
 (** 
-      - [O] is a natural number (note that this is the letter "[O]," not
-        the numeral "[0]").
-      - [S] is a "constructor" that takes a natural number and yields
-        another one -- that is, if [n] is a natural number, then [S n]
-        is too.
+      - [O] é um número natural (perceba que isto é a letra "[O]", e não
+      o numeral "[0]"). 
+      - [S] é um "construtor" que recebe um número natural e retorna um outro
+      número natural -- isto é, se [n] é um número natural, então [S n] também
+      o é.
 
     Vamos olhar isso com um pouco mais de detalhamento.
 
@@ -338,7 +342,7 @@ Inductive nat : Type :=
     pertencem ao conjunto [nat], enquanto outras expressões como [true], 
     [andb true false] e [S (S false)] não.
 
-	Nós podemos escrever funções simples que realiza combinação de padrões em 
+	Nós podemos escrever funções simples que realizam casamento de padrões em 
 	números naturais assim como fizemos acima -- por exemplo, a função 
 	predecessor: *)
 
@@ -385,11 +389,10 @@ definição de [S] não possui nenhum comportamento incorporado. Embora o últim
 seja uma função no sentido de que pode ser aplicado a um argumento, ele 
 realmente não _faz_ nada!  *)
 
-(** For most function definitions over numbers, pure pattern
-    matching is not enough: we also need recursion.  For example, to
-    check that a number [n] is even, we may need to recursively check
-    whether [n-2] is even.  To write such functions, we use the
-    keyword [Fixpoint]. *)
+(** Para muitas definições de funções sobre números, casamento de padrões puro
+não é suficiente: também precisamos de recursão. Por exemplo, para verificar que
+um número [n] é par, precisamos verificar recursivamente se [n-2] é par. Para
+escrever essas funções, usamos a palavra-chave [Fixpoint]. *) 
 
 Fixpoint evenb (n:nat) : bool :=
   match n with
@@ -398,8 +401,7 @@ Fixpoint evenb (n:nat) : bool :=
   | S (S n') => evenb n'
   end.
 
-(** We can define [oddb] by a similar [Fixpoint] declaration, but here
-    is a simpler definition that will be a bit easier to work with: *)
+(** Podemos definir [oddb] através de uma declaração [Fixpoint] similar, mas aqui está uma definição mais simples com a qual será um pouco mais fácil de trabalhar: *)
 
 Definition oddb (n:nat) : bool   :=   negb (evenb n).
 
@@ -408,9 +410,7 @@ Proof. reflexivity.  Qed.
 Example test_oddb2:    (oddb (S (S (S (S O))))) = false.
 Proof. reflexivity.  Qed.
 
-(** Naturally, we can also define multi-argument functions by
-    recursion.  (Once again, we use a module to avoid polluting the
-    namespace.) *)
+(** Naturalmente, também podemos definir funções com múltiplos argumentos através de recursão. (Mais uma vez, usamos um módulo para evitar a poluição do contexto para identificadores.) *)
 
 Module Playground2.
 
@@ -420,24 +420,23 @@ Fixpoint plus (n : nat) (m : nat) : nat :=
     | S n' => S (plus n' m)
   end.
 
-(** Adding three to two now gives us five, as we'd expect. *)
+(** Somar três com dois nos dá agora cinco, conforme esperado. *)
 
 Eval compute in (plus (S (S (S O))) (S (S O))).
 
-(** The simplification that Coq performs to reach this conclusion can
-    be visualized as follows: *)
+(** A simplificação que o Coq realiza para chegar à essa conclusão pode ser
+visualizada a seguir: *)
 
 (*  [plus (S (S (S O))) (S (S O))]    
-==> [S (plus (S (S O)) (S (S O)))] by the second clause of the [match]
-==> [S (S (plus (S O) (S (S O))))] by the second clause of the [match]
-==> [S (S (S (plus O (S (S O)))))] by the second clause of the [match]
-==> [S (S (S (S (S O))))]          by the first clause of the [match]
+==> [S (plus (S (S O)) (S (S O)))] pela segunda cláusula do [match]
+==> [S (S (plus (S O) (S (S O))))] pela segunda cláusula do [match]
+==> [S (S (S (plus O (S (S O)))))] pela segunda cláusula do [match]
+==> [S (S (S (S (S O))))]          pela primeira cláusula do [match]
 *)
 
-(** As a notational convenience, if two or more arguments have
-    the same type, they can be written together.  In the following
-    definition, [(n m : nat)] means just the same as if we had written
-    [(n : nat) (m : nat)]. *)
+(** Por convenção notacional, se dois ou mais argumentos têm o mesmo tipo, eles
+podem ser escritos juntos. Na definição à seguir, [(n m : nat)] significa apenas
+o mesmo que se tivéssemos escrito [(n : nat) (m : nat)]. *)
 
 Fixpoint mult (n m : nat) : nat :=
   match n with
@@ -448,8 +447,8 @@ Fixpoint mult (n m : nat) : nat :=
 Example test_mult1: (mult 3 3) = 9.
 Proof. reflexivity.  Qed.
 
-(** You can match two expressions at once by putting a comma
-    between them: *)
+(** Você pode casar duas expressões ao mesmo tempo colocando uma vírgula entre
+elas: *)
 
 Fixpoint minus (n m:nat) : nat :=
   match n, m with
@@ -458,10 +457,9 @@ Fixpoint minus (n m:nat) : nat :=
   | S n', S m' => minus n' m'
   end.
 
-(** The _ in the first line is a _wildcard pattern_.  Writing _ in a
-    pattern is the same as writing some variable that doesn't get used
-    on the right-hand side.  This avoids the need to invent a bogus
-    variable name. *)
+(** O _ na primeira linha é uma _padrão coringa_. Escrever _ em um padrão
+é o mesmo que escrever alguma variável que não será usada no lado direito. Isso
+evita a necessidade de inventar um nome falso de variável. *)
 
 End Playground2.
 
@@ -471,13 +469,13 @@ Fixpoint exp (base power : nat) : nat :=
     | S p => mult base (exp base p)
   end.
 
-(** **** Exercício: 1 star (factorial)  *)
-(** Recall the standard factorial function:
+(** **** Exercício: 1 estrela (factorial)  *)
+(** Relembrando a função fatorial tradicional:
 <<
     factorial(0)  =  1 
     factorial(n)  =  n * factorial(n-1)     (if n>0)
 >>
-    Translate this into Coq. *)
+    Traduza isto em Coq. *)
 
 Fixpoint factorial (n:nat) : nat := 
 (* FILL IN HERE *) admit.

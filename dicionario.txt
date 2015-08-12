@@ -5,9 +5,12 @@ correctness: corretude
 function type: tipo funcional
 linker: linkeditor
 machine-checked: verificado por máquina
+namespace: contexto para identificadores
+pattern matching: casamento de padrões
 (to) rewrite: reescrever
 rewriting: reescrita
 script: script
 side effects: efeitos colaterais
 soundness: correção
 (to) type: tipar
+wildcard: coringa
