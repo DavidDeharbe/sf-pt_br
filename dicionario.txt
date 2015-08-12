@@ -3,6 +3,7 @@ case analysis: análise de casos
 correctness: corretude
 (to) evaluate: calcular o valor
 function type: tipo funcional
+lemma: lema
 linker: linkeditor
 machine-checked: verificado por máquina
 namespace: contexto para identificadores
