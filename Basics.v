@@ -42,12 +42,12 @@ programa.
 
 (** * Tipos Enumerados *)
 
-(** One unusual aspect of Coq is that its set of built-in
-    features is _extremely_ small.  For example, instead of providing
-    the usual palette of atomic data types (booleans, integers,
-    strings, etc.), Coq offers an extremely powerful mechanism for
-    defining new data types from scratch -- so powerful that all these
-    familiar types arise as instances.  
+(** Um aspecto incomum de Coq é que o seu conjunto de recursos internos 
+    é extremamente pequeno. Por exemplo, em vez de fornecer a paleta habitual 
+    de tipos atômicos de dados (booleans, integers, strings, etc.), Coq oferece 
+    um mecanismo extremamente poderoso para a definição de novos tipos de 
+    dados a partir do zero - tão poderoso que todos estes tipos familiares 
+    surgem como instâncias.  
 
       Naturalmente, a distribuição Coq vem com uma extensiva biblioteca padrão,
       fornecendo definições de booleanos, números e muitas outras estruturas de
@@ -103,20 +103,20 @@ Definition next_weekday (d:day) : day :=
     some examples.  There are actually three different ways to do this
     in Coq.  
 
-    First, we can use the command [Eval compute] to evaluate a
-    compound expression involving [next_weekday].  *)
+    Primeiro, nós podemos usar o comando [Eval compute] para avaliar uma
+    expressão composta envolvendo [next_weekday].  *)
 
 Eval compute in (next_weekday friday).
    (* ==> monday : day *)
 Eval compute in (next_weekday (next_weekday saturday)).
    (* ==> tuesday : day *)
 
-(** If you have a computer handy, this would be an excellent
-    moment to fire up the Coq interpreter under your favorite IDE --
-    either CoqIde or Proof General -- and try this for yourself.  Load
-    this file ([Basics.v]) from the book's accompanying Coq sources,
-    find the above example, submit it to Coq, and observe the
-    result. *)
+(** Se você tiver um computador acessível, este seria um excelente 
+    momento de disparar o interpretador Coq sob seu IDE favorito - 
+    CoqIDE ou Proof General - e tentar isso por si próprio. Carregue 
+    este arquivo ([Basics.v]) a partir dos arquivos fontes do Coq anexos 
+    ao livro, encontre o exemplo acima, submeta-o ao Coq, e observe 
+    o resultado. *)
 
 (** A palavra-chave [compute] informa ao Coq exatamente como avaliar as 
 expressões que lhe damos. No momento, precisamos saber apenas sobre [compute]; 
@@ -196,8 +196,8 @@ Definition orb (b1:bool) (b2:bool) : bool :=
 (** The last two illustrate the syntax for multi-argument
     function definitions. *)
 
-(** The following four "unit tests" constitute a complete
-    specification -- a truth table -- for the [orb] function: *)
+(** Os quatro seguintes "testes unitários" constituem uma especificação
+    completa -- uma tabela verdade -- para a função [orb] *)
 
 Example test_orb1:  (orb true  false) = true. 
 Proof. reflexivity.  Qed.
@@ -208,9 +208,9 @@ Proof. reflexivity.  Qed.
 Example test_orb4:  (orb true  true)  = true.
 Proof. reflexivity.  Qed.
 
-(** (Note that we've dropped the [simpl] in the proofs.  It's not
-    actually needed because [reflexivity] automatically performs
-    simplification.) *)
+(** (Observe que nós removemos o [simpl] nas provas. Ele não é
+    realmente necessário porque [reflexivity] executa simplificação
+    automaticamente.) *)
 
 (** _Uma observação sobre anotações_: Em arquivos .v, utilizamos colchetes 
 para delimitar fragmentos de código Coq nos comentários. O objetivo desta 
@@ -266,27 +266,27 @@ Example test_andb34:                 (andb3 true true false) = false.
 
 (** ** Tipos funcionais *)
 
-(** The [Check] command causes Coq to print the type of an
-    expression.  For example, the type of [negb true] is [bool]. *)
+(** O comando [Check] faz com que Coq imprima o tipo de uma expressão
+    Por exemplo, o tipo de [negb true] é [bool]. *)
 
 Check true.
 (* ===> true : bool *)
 Check (negb true).
 (* ===> negb true : bool *)
 
-(** Functions like [negb] itself are also data values, just like
-    [true] and [false].  Their types are called _function types_, and
-    they are written with arrows. *)
+(** Funções como [negb] em si também são valores de dados, assim como 
+	[true] e [false]. Seus tipos são chamados _function types 
+	(tipos de funções)_, e eles são escritos com flechas. *)
 
 Check negb.
 (* ===> negb : bool -> bool *)
 
-(** The type of [negb], written [bool -> bool] and pronounced
-    "[bool] arrow [bool]," can be read, "Given an input of type
-    [bool], this function produces an output of type [bool]."
-    Similarly, the type of [andb], written [bool -> bool -> bool], can
-    be read, "Given two inputs, both of type [bool], this function
-    produces an output of type [bool]." *)
+(** O tipo de [negb], escrito [bool -> bool] e pronunciado 
+    "[bool] seta [bool]," pode ser lido: "Dada uma entrada do tipo 
+    [bool], esta função produz uma saída do tipo [bool]." Da mesma 
+    forma, o tipo de [andb], escrito [bool -> bool -> bool], pode ser 
+    lido, "Dadas duas entradas, ambas do tipo [bool], esta função produz 
+    uma saída do tipo [bool]." *)
 
 (** ** Números *)
 
@@ -332,12 +332,11 @@ Inductive nat : Type :=
     one for the [O] constructor, and indicate that each of those
     constructors doesn't take any arguments. *)
 
-(** These three conditions are the precise force of the
-    [Inductive] declaration.  They imply that the expression [O], the
-    expression [S O], the expression [S (S O)], the expression
-    [S (S (S O))], and so on all belong to the set [nat], while other
-    expressions like [true], [andb true false], and [S (S false)] do
-    not.
+(** Estas três condições são a força precisa da declaração [Inductive]. 
+    Elas implicam que a expressão [O], a expressão [S O], a expressão 
+    [S (S O)], a expressão [S (S (S O))], e assim por diante, todas 
+    pertencem ao conjunto [nat], enquanto outras expressões como [true], 
+    [andb true false] e [S (S false)] não.
 
 	Nós podemos escrever funções simples que realiza combinação de padrões em 
 	números naturais assim como fizemos acima -- por exemplo, a função 
