@@ -49,16 +49,16 @@ programa.
     defining new data types from scratch -- so powerful that all these
     familiar types arise as instances.  
 
-    Naturalmente, a distribuição Coq vem com uma extensiva biblioteca padrão,  
-    fornecendo definições de booleanos, números e muitas outras estruturas de 
-    dados como listas e tabelas de dispersão. Mas não há nada de mágico ou 
-    primitivo sobre estas definições da biblioteca: eles foram implementados 
-    com código simples de usuário. Para ilustrar isto, recapitularemos 
-    explicitamente todas as definições que precisarmos neste curso, ao invés de 
-    usar as definições da biblioteca.
+      Naturalmente, a distribuição Coq vem com uma extensiva biblioteca padrão,
+      fornecendo definições de booleanos, números e muitas outras estruturas de
+      dados como listas e tabelas de dispersão. Mas não há nada de mágico ou
+      primitivo sobre estas definições da biblioteca: elas foram implementadas
+      com código simples de usuário. Para ilustrar isto, recapitularemos
+      explicitamente todas as definições que precisarmos neste curso, ao invés
+      de usar as definições da biblioteca.
 
-    To see how this mechanism works, let's start with a very simple
-    example. *)
+      Para ver como este mecanismo funciona, começaremos com um exemplo muito
+      simples.*)
 
 (** ** Dias da Semana *)
 
@@ -119,37 +119,36 @@ Eval compute in (next_weekday (next_weekday saturday)).
     result. *)
 
 (** A palavra-chave [compute] informa ao Coq exatamente como avaliar as 
-expressões que lhe dermos. No momento, precisamos saber apenas sobre [compute]; 
-posteriormente vermos algumas alternativas que podem ser úteis em alguns casos. 
+expressões que lhe damos. No momento, precisamos saber apenas sobre [compute]; 
+posteriormente veremos algumas alternativas que podem ser úteis em alguns casos. 
 *)
 
-(** Second, we can record what we _expect_ the result to be in
-    the form of a Coq example: *)
+(** A segunda maneira consiste em registrar o resultado _esperado_ sob a a forma
+de um exemplo Coq: *)
 
 Example test_next_weekday:
   (next_weekday (next_weekday saturday)) = tuesday.
 
-(** This declaration does two things: it makes an
-    assertion (that the second weekday after [saturday] is [tuesday]),
-    and it gives the assertion a name that can be used to refer to it
-    later. *)
-(** Having made the assertion, we can also ask Coq to verify it,
-    like this: *)
+  (** Esta declaração faz duas coisas: define uma asserção (de que o segundo dia
+  da semana depois de [sábado] é [terça]), e dá a esta asserção um nome que pode
+  ser usado para referenciá-la posteriormente. *)
+  (** Tendo feito essa asserção, também podemos pedir ao Coq para verificá-la
+  da seguinte forma: *)
 
 Proof. simpl. reflexivity.  Qed.
 
-(** The details are not important for now (we'll come back to
-    them in a bit), but essentially this can be read as "The assertion
-    we've just made can be proved by observing that both sides of the
-    equality evaluate to the same thing, after some simplification." *)
+  (** Os detalhes não são importantes por enquanto (voltaremos a considerá-los em
+  breve), mas, essencialmente, isto pode ser lido como "A asserção que acabamos de
+  fazer pode ser provada pela observação de que, após simplificação, o valor
+  calculado em ambos os lados da igualdade é o mesmo." *)
 
-(** Por último, nós podemos pedir ao Coq para extrair da nossa 
+(** Por último, podemos pedir ao Coq para extrair da nossa 
     Definição, um programa em alguma outra linguagem de programação
     mais convencional (OCaml, Scheme, ou Haskell) com um compilador de 
-    alta performance. Essa facilidade é muito interessante, posto que
-    isso nos dá um modo de construir programas totalmente provados em
-    liguagens mais comuns. De fato, esse é um dos usos principais para 
-    o qual Coq foi criado. Nós vamos voltar para esse assunto em 
+    alta performance. Essa facilidade é muito interessante, já que
+    nos dá um modo de construir programas totalmente provados em
+    liguagens mais comuns. De fato, esse é um dos principais usos para 
+    o qual Coq foi criado. Voltaremos a esse assunto em 
     capítulos posteriores. Mais informações podem ser encontradas no 
     livro "Coq'Art" de Bertot e Casteran, assim como no manual de 
     referência de Coq. *)
