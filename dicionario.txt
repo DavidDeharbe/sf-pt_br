@@ -6,7 +6,7 @@ case analysis: análise de casos
 (to) check: verificar
 checker: verificador
 correctness: corretude
-(to) decrease: diminuir
+(to) decrease: decair (no contexto de funções definidas por recursão)
 (to) evaluate: calcular o valor
 function type: tipo funcional
 goal: meta
