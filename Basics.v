@@ -28,11 +28,11 @@ Definition admit {T: Type} : T.  Admitted.
     podem ser tratadas como dados dessa maneira permite uma série de
     idiomas úteis e poderosos.
 
-    Other common features of functional languages include _algebraic
-    data types_ and _pattern matching_, which make it easy to construct
-    and manipulate rich data structures, and sophisticated
-    _polymorphic type systems_ that support abstraction and code
-    reuse.  Coq shares all of these features.
+    Outra característica comum das linguagens funcionais incluem _tipos de dados
+    algébricos_ e _casamento de padrão_, tornando fácil de construir e
+    manipular estruturas de dados rica, e sofistacados
+    _sistemas de tipo polimórfico_ que suportam abstração e reuso
+    de código.  Coq compartilha de todas essas características.
 
     The first half of this chapter introduces the most essential
     elements of Coq's functional programming language.  The second
@@ -79,8 +79,8 @@ Inductive day : Type :=
     a definição pode ser lida como "[monday] é um [day], [tuesday] é um [day]",
     etc.
 
-    Having defined [day], we can write functions that operate on
-    days. *)
+    Uma vez definido [day], é possível escrever funções que operam em
+    dias. *)
 
 Definition next_weekday (d:day) : day :=
   match d with
@@ -93,12 +93,12 @@ Definition next_weekday (d:day) : day :=
   | sunday    => monday
   end.
 
-(** One thing to note is that the argument and return types of
-    this function are explicitly declared.  Like most functional
-    programming languages, Coq can often figure out these types for
-    itself when they are not given explicitly -- i.e., it performs
-    some _type inference_ -- but we'll always include them to make
-    reading easier. *)
+(** Algo notável é que o argumento e os tipos de retorno dessa
+    função estão declaradas explicitamente.  Como a maioria das linguagens
+    de programação funcional, Coq pode frequentemente descobrir esses tipos
+    sózinho, quando eles não são dados explictamente -- isto é, ele executa
+    uma _inferência de tipo_ -- mas sempre devemos inclui-los para facilitar
+    a leitura. *)
 
 (** Having defined a function, we should check that it works on
     some examples.  There are actually three different ways to do this
@@ -158,21 +158,22 @@ Proof. simpl. reflexivity.  Qed.
 
 (** ** Booleanos *)
 
-(** In a similar way, we can define the standard type [bool] of
-    booleans, with members [true] and [false]. *)
+(** De maneira similar, é possível definir um tipo padrão [bool] de
+    booleanos, com membros [true] e [false]. *)
 
 Inductive bool : Type :=
   | true : bool
   | false : bool.
 
-(** Although we are rolling our own booleans here for the sake
-    of building up everything from scratch, Coq does, of course,
-    provide a default implementation of the booleans in its standard
-    library, together with a multitude of useful functions and
-    lemmas.  (Take a look at [Coq.Init.Datatypes] in the Coq library
-    documentation if you're interested.)  Whenever possible, we'll
-    name our own definitions and theorems so that they exactly
-    coincide with the ones in the standard library. *)
+(** Apesar de estarmos rodando nossas próprias booleanas com o objetivo
+    de construir tudo do zero, o Coq, é claro,
+    provém uma implementação padrão de booleanas em sua biblioteca
+    padrão, junto com uma grande quantidade de funções úteis e
+    normas.  (Dê uma olhada em [Coq.Init.Datatypes] na biblioteca documental
+    do Coq se estiver interessado.)  Sempre que possível, nomearemos
+    nossa própria definição e teoremas, então elas iream coincidir exatamente
+    com as definições na biblioteca padrão. *)
+
 
 (** Functions over booleans can be defined in the same way as
     above: *)
@@ -230,13 +231,13 @@ Proof. reflexivity.  Qed.
 (** Complete a definição das seguintes funções, depois, certifique que as
     asserções [Example] (_exemplo_) abaixo podem ser verificadas pelo Coq.  *)
 
-(** This function should return [true] (_verdadeiro_) if either or both of its
-    inputs are [false] (_falso_). *)
+(** Essa função deve retornar [true] (_verdadeiro_) se um ou todas as
+    entradas sâo [false] (_falso_). *) 
 
 Definition nandb (b1:bool) (b2:bool) : bool :=
   (* PREENCHER *) admit.
 
-(** Remove "[Admitted.]" and fill in each proof with 
+(** Remova "[Admitted.]" e preencha cada prova com 
     "[Proof. reflexivity. Qed.]" *)
 
 Example test_nandb1:               (nandb true false) = true.
@@ -326,9 +327,9 @@ Inductive nat : Type :=
 
     Vamos olhar isso com um pouco mais de detalhamento.
 
-    Every inductively defined set ([day], [nat], [bool], etc.) is
-    actually a set of _expressions_.  The definition of [nat] says how
-    expressions in the set [nat] can be constructed:
+    Todo conjunto definido indutivamente ([day], [nat], [bool], etc.) é
+    na realidade um conjunto de _expressões_.  A definição de [nat] diz como
+    expressões do conjunto [nat] podem ser construidas:
 
     - the expression [O] belongs to the set [nat]; 
     - if [n] is an expression belonging to the set [nat], then [S n]
@@ -519,10 +520,10 @@ Check ((0 + 1) + 1).
     dirigir à subseção "Mais em Notações", na seção de "Material Avançado", no
     final desse capítulo.) *)
 
-(** Note that these do not change the definitions we've already
-    made: they are simply instructions to the Coq parser to accept [x
-    + y] in place of [plus x y] and, conversely, to the Coq
-    pretty-printer to display [plus x y] as [x + y]. *)
+(** Note que estas não mudam as definições que já foram realizadas:
+    elas são simplesmente instruções para que o analisador do Coq aceite [x
+    + y] no lugar de [plus x y] e, reciprocamente, para que o Coq
+    imprima [plus x y] como [x + y]. *)
 
 (** When we say that Coq comes with nothing built-in, we really
     mean it: even equality testing for numbers is a user-defined
@@ -620,11 +621,11 @@ Proof.
 (** As formas desse teorema e da prova são quase exatamente as mesmas
     que no exemplo acima; Existem somente algumas diferenças.
 
-    First, we've used the keyword [Theorem] instead of
-    [Example].  Indeed, the difference is purely a matter of
-    style; the keywords [Example] and [Theorem] (and a few others,
-    including [Lemma], [Fact], and [Remark]) mean exactly the same
-    thing to Coq.
+    Primeiramente, foi utilizado a palavra-chave [Theorem] no lugar de
+    [Example].  De fato, a diferença é puramente um questão de
+    estilo; as palavras-chave [Example] e [Theorem] (e algumas outras,
+    incluindo [Lemma], [Fact], e [Remark]) significam exatamente a mesma
+    coisa para o Coq.
 
     Secondly, we've added the quantifier [forall n:nat], so that our
     theorem talks about _all_ natural numbers [n].  In order to prove
@@ -681,25 +682,25 @@ Theorem plus_id_example : forall n m:nat,
     [n = m]. The [intros] tactic will serve to move all three of these
     from the goal into assumptions in the current context. 
 
-    Since [n] and [m] are arbitrary numbers, we can't just use
-    simplification to prove this theorem.  Instead, we prove it by
-    observing that, if we are assuming [n = m], then we can replace
-    [n] with [m] in the goal statement and obtain an equality with the
-    same expression on both sides.  The tactic that tells Coq to
-    perform this replacement is called [rewrite]. *)
+    Desde que [n] e [m] sejam números arbitrários, pode ser utilizado
+    simplificação para provar este teorema.  Entretanto, provamos isso
+    observando que, se estamos assumindo que [n = m], então podemos substituir
+    [n] com [m] na declaração dos objetivos e obtemos uma igualdade com a
+    mesma expressão dos dois lados.  A tática que diz ao Coq para
+    realizar essa substituição é chamada de [rewrite]. *)
 
 Proof.
-  intros n m.   (* move both quantifiers into the context *)
-  intros H.     (* move the hypothesis into the context *)
-  rewrite -> H. (* Rewrite the goal using the hypothesis *)
+  intros n m.   (* move ambos os quantificadores para o contexto *)
+  intros H.     (* move a hipótese para o contexto *)
+  rewrite -> H. (* Reescreve o objetivo usando a hipótese *)
   reflexivity.  Qed.
 
-(** The first line of the proof moves the universally quantified
-    variables [n] and [m] into the context.  The second moves the
-    hypothesis [n = m] into the context and gives it the (arbitrary)
-    name [H].  The third tells Coq to rewrite the current goal ([n + n
-    = m + m]) by replacing the left side of the equality hypothesis
-    [H] with the right side.
+(** A primeira linha da prova move as variáveis [n] e [m] universalmente
+    quantificadas para o contexto.  A segunda move a hipótese
+    [n = m] para o contexto e assume para ela o nome (arbitrário)
+    [H].  A terceira diz para o Coq reescrever o objetivo atual ([n + n
+    = m + m]) substituindo o lado esquerdo da hipótese de igualdade
+    [H] pelo lado direito.
 
     (The arrow symbol in the [rewrite] has nothing to do with
     implication: it tells Coq to apply the rewrite from left to right.
@@ -768,13 +769,13 @@ Abort.
     number [n] and the argument to [beq_nat] is the compound
     expression [n + 1]; neither can be simplified.
 
-    What we need is to be able to consider the possible forms of [n]
-    separately.  If [n] is [O], then we can calculate the final result
-    of [beq_nat (n + 1) 0] and check that it is, indeed, [false].
-    And if [n = S n'] for some [n'], then, although we don't know
-    exactly what number [n + 1] yields, we can calculate that, at
-    least, it will begin with one [S], and this is enough to calculate
-    that, again, [beq_nat (n + 1) 0] will yield [false].
+    É preciso considerar as possíveis formas de [n]
+    separadamente.  Se [n] é [O], então é possível calcular o resultado final
+    de [beq_nat (n + 1) 0] e verificar se é, de fato, [false].
+    E se [n = S n'] para algum [n'], então, embora nós não saberemos
+    exatamente qual é o número [n + 1], podemos calcular que, pelo
+    menos, irá começar com um [S], e isso é suficiente para calcular que, 
+    novamente, [beq_nat (n + 1) 0] será [false].
 
     The tactic that tells Coq to consider, separately, the cases where
     [n = O] and where [n = S n'] is called [destruct]. *)
@@ -853,10 +854,9 @@ Proof.
 (** [] *)
 
 (** **** Exercício: ** (andb_eq_orb)  *)
-
-(** Prove the following theorem.  (You may want to first prove a
-    subsidiary lemma or two. Alternatively, remember that you do
-    not have to introduce all hypotheses at the same time.) *)
+(** Prove o seguinte teorema.  (Você pode querer provar uma 
+    norma subsidirária ou duas. De maneira alternativa, lembre que você
+    não tem que intruduzir todas as hipótese ao mesmo tempo.) *)
 
 Theorem andb_eq_orb : 
   forall (b c : bool),
@@ -959,11 +959,11 @@ Fixpoint plus' (n : nat) (m : nat) : nat :=
     terminate.  Coq demands that some argument of _every_ [Fixpoint]
     definition is "decreasing".
 
-    This requirement is a fundamental feature of Coq's design: In
-    particular, it guarantees that every function that can be defined
-    in Coq will terminate on all inputs.  However, because Coq's
-    "decreasing analysis" is not very sophisticated, it is sometimes
-    necessary to write functions in slightly unnatural ways. *)
+    Esse requisito é uma característica fundamental do projeto do Coq: em
+    particular, isso garante que toda função que pode ser definida
+    no Coq irá funcionar com todas as entradas.  Entretanto, como o
+    "analisador de decaimento" do Coq não é muito sofisticado, algumas vezes
+    é necessário escrever funções de uma maneira não natural. *)
 
 (** **** Exercício: **, optional (decreasing)  *)
 
