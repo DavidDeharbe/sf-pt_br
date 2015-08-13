@@ -108,13 +108,13 @@
     construção de provas de proposições lógicas. Essas ferramentas se
     dividem em duas grandes categorias:
 
-    - _Provadores automáticos de teoremas_ trabaham em modo
-    completamente automáticp: o usuário entrega uma proposição e
+    - _Provadores automáticos de teoremas_ trabalham em modo
+    completamente automático: o usuário entrega uma proposição e
     recebe em retorno _true_ (verdadeiro), _false_ (falso), ou _ran
-    out of time_ (estouro de tempo).  Apesar de suas capacidades serem
+    out of time_ (estouro de tempo). Apesar de suas capacidades serem
     limitadas a tipos bastante específicos de raciocínio, os
     provadores têm amadurecido tremendamente nos últimos anos e agora
-    são utilizados em uma enorme variadade de configurações.  Exemplos
+    são utilizados em uma enorme variadade de configurações. Exemplos
     dessas ferramentas incluem solucionadores SAT, solucionadores SMT,
     e verificadores de modelo.
 
