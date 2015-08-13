@@ -11,14 +11,14 @@ Definition admit {T: Type} : T.  Admitted.
 (** * Introdução *)
 
 (** O estilo de programação funcional aproxima a programação à matemática
-simples do dia-a-dia: se um procedimento ou método não possui efeitos
-colaterais, então, basicamente, tudo que você precisa entender é como
-entradas são mapeadas para saídas -- isto é, você pode pensar nisto simplesmente
-como um método concreto para computar uma função matemática. Esse é um dos
-significados da palavra "funcional" em "programação funcional". A conexão direta
-entre programas e objetos matemáticos simples autoriza tanto provas formais de
-corretude quanto raciocínio informal de correção sobre o comportamento do
-programa.
+    simples do dia-a-dia: se um procedimento ou método não possui efeitos
+    colaterais, então, basicamente, tudo que você precisa entender é como
+    entradas são mapeadas para saídas -- isto é, você pode pensar nisto
+    simplesmente como um método concreto para computar uma função
+    matemática. Esse é um dos significados da palavra "funcional" em
+    "programação funcional". A conexão direta entre programas e objetos
+    matemáticos simples autoriza tanto provas formais de corretude quanto
+    raciocínio informal de correção sobre o comportamento do programa.
 
     O outro sentido no qual a programação funcional é "funcional" é a 
     ênfase que ela dá ao uso de funções (ou métodos) como valores de 
@@ -49,16 +49,16 @@ programa.
     dados a partir do zero - tão poderoso que todos estes tipos familiares 
     surgem como instâncias.  
 
-      Naturalmente, a distribuição Coq vem com uma extensiva biblioteca padrão,
-      fornecendo definições de booleanos, números e muitas outras estruturas de
-      dados como listas e tabelas de dispersão. Mas não há nada de mágico ou
-      primitivo sobre estas definições da biblioteca: elas foram implementadas
-      com código simples de usuário. Para ilustrar isto, recapitularemos
-      explicitamente todas as definições que precisarmos neste curso, ao invés
-      de usar as definições da biblioteca.
+    Naturalmente, a distribuição Coq vem com uma extensiva biblioteca padrão,
+    fornecendo definições de booleanos, números e muitas outras estruturas de
+    dados como listas e tabelas de dispersão. Mas não há nada de mágico ou
+    primitivo sobre estas definições da biblioteca: elas foram implementadas com
+    código simples de usuário. Para ilustrar isto, recapitularemos
+    explicitamente todas as definições que precisarmos neste curso, ao invés de
+    usar as definições da biblioteca.
 
-      Para ver como este mecanismo funciona, começaremos com um exemplo muito
-      simples.*)
+    Para ver como este mecanismo funciona, começaremos com um exemplo muito
+    simples.*)
 
 (** ** Dias da Semana *)
 
@@ -74,9 +74,10 @@ Inductive day : Type :=
   | saturday : day
   | sunday : day.
 
-(** O tipo é chamado [day] e seus membros são [monday], [tuesday],
-    etc. A partir da segunda linha a definição pode ser lida como
-    "[monday] é um [day], [tuesday] é um [day]", etc.
+(** O tipo é chamado [day] (_dia_) e seus membros são [monday]
+    (_segunda-feira_), [tuesday] (_terça-feira_), etc. A partir da segunda linha
+    a definição pode ser lida como "[monday] é um [day], [tuesday] é um [day]",
+    etc.
 
     Having defined [day], we can write functions that operate on
     days. *)
@@ -103,8 +104,8 @@ Definition next_weekday (d:day) : day :=
     some examples.  There are actually three different ways to do this
     in Coq.  
 
-    Primeiro, nós podemos usar o comando [Eval compute] para avaliar uma
-    expressão composta envolvendo [next_weekday].  *)
+    Primeiro, nós podemos usar o comando [Eval compute] (_avalia cálculo_) para
+    avaliar uma expressão composta envolvendo [next_weekday].  *)
 
 Eval compute in (next_weekday friday).
    (* ==> monday : day *)
@@ -118,40 +119,41 @@ Eval compute in (next_weekday (next_weekday saturday)).
     ao livro, encontre o exemplo acima, submeta-o ao Coq, e observe 
     o resultado. *)
 
-(** A palavra-chave [compute] informa ao Coq exatamente como avaliar as 
-expressões que lhe damos. No momento, precisamos saber apenas sobre [compute]; 
-posteriormente veremos algumas alternativas que podem ser úteis em alguns casos. 
-*)
+(** A palavra-chave [compute] (_calcular_) informa ao Coq exatamente como
+    avaliar as expressões que lhe damos. No momento, precisamos saber apenas
+    sobre [compute]; posteriormente veremos algumas alternativas que podem ser
+    úteis em alguns casos.  *)
 
 (** A segunda maneira consiste em registrar o resultado _esperado_ sob a a forma
-de um exemplo Coq: *)
+    de um exemplo Coq: *)
 
 Example test_next_weekday:
   (next_weekday (next_weekday saturday)) = tuesday.
 
-  (** Esta declaração faz duas coisas: define uma asserção (de que o segundo dia
-  da semana depois de [sábado] é [terça]), e dá a esta asserção um nome que pode
-  ser usado para referenciá-la posteriormente. *)
-  (** Tendo feito essa asserção, também podemos pedir ao Coq para verificá-la
-  da seguinte forma: *)
+(** Esta declaração faz duas coisas: define uma asserção de que o segundo dia da
+    semana depois de [saturday] (_sábado_) é [tuesday] (_terça_), e dá a esta
+    asserção um nome que pode ser usado para referenciá-la posteriormente. *)
+
+(** Tendo feito essa asserção, também podemos pedir ao Coq para verificá-la da
+    seguinte forma: *)
 
 Proof. simpl. reflexivity.  Qed.
 
-  (** Os detalhes não são importantes por enquanto (voltaremos a considerá-los em
-  breve), mas, essencialmente, isto pode ser lido como "A asserção que acabamos de
-  fazer pode ser provada pela observação de que, após simplificação, o valor
-  calculado em ambos os lados da igualdade é o mesmo." *)
+(** Os detalhes não são importantes por enquanto (voltaremos a considerá-los em
+    breve), mas, essencialmente, isto pode ser lido como "A asserção que
+    acabamos de fazer pode ser provada pela observação de que, após
+    simplificação, o valor calculado em ambos os lados da igualdade é o mesmo."
+    *)
 
-(** Por último, podemos pedir ao Coq para extrair da nossa 
-    [Definition], um programa em alguma outra linguagem de programação
-    mais convencional (OCaml, Scheme, ou Haskell) com um compilador de 
-    alta performance. Essa facilidade é muito interessante, já que
-    nos dá um modo de construir programas totalmente provados em
-    liguagens mais comuns. De fato, esse é um dos principais usos para 
-    o qual Coq foi criado. Voltaremos a esse assunto em 
-    capítulos posteriores. Mais informações podem ser encontradas no 
-    livro "Coq'Art" de Bertot e Casteran, assim como no manual de 
-    referência de Coq. *)
+(** Por último, podemos pedir ao Coq para extrair da nossa [Definition]
+    (definição), um programa em alguma outra linguagem de programação mais
+    convencional (OCaml, Scheme, ou Haskell) com um compilador de alta
+    performance. Essa facilidade é muito interessante, já que nos dá um modo de
+    construir programas totalmente provados em liguagens mais comuns. De fato,
+    esse é um dos principais usos para o qual Coq foi criado. Voltaremos a esse
+    assunto em capítulos posteriores. Mais informações podem ser encontradas no
+    livro "Coq'Art" de Bertot e Casteran, assim como no manual de referência de
+    Coq. *)
 
 
 (** ** Booleanos *)
@@ -196,8 +198,8 @@ Definition orb (b1:bool) (b2:bool) : bool :=
 (** The last two illustrate the syntax for multi-argument
     function definitions. *)
 
-(** Os quatro seguintes "testes unitários" constituem uma especificação
-    completa -- uma tabela verdade -- para a função [orb] *)
+(** Os quatro seguintes "testes unitários" constituem uma especificação completa
+    -- uma tabela verdade -- para a função [orb] *)
 
 Example test_orb1:  (orb true  false) = true. 
 Proof. reflexivity.  Qed.
@@ -212,38 +214,39 @@ Proof. reflexivity.  Qed.
     realmente necessário porque [reflexivity] executa simplificação
     automaticamente.) *)
 
-(** _Uma observação sobre anotações_: Em arquivos .v, utilizamos colchetes 
-para delimitar fragmentos de código Coq nos comentários. O objetivo desta 
-convenção, também usada pela ferramenta de documentação [coqdoc], é manter 
-estes fragmentos visualmente diferentes do texto ao redor: na versão html dos 
-arquivos, estas partes do texto aparecem com uma [fonte diferente]. *)
+(** _Uma observação sobre anotações_: Em arquivos .v, utilizamos colchetes para
+    delimitar fragmentos de código Coq nos comentários. O objetivo desta
+    convenção, também usada pela ferramenta de documentação [coqdoc], é manter
+    estes fragmentos visualmente diferentes do texto ao redor: na versão html
+    dos arquivos, estas partes do texto aparecem com uma [fonte diferente]. *)
 
-(** Os valores [Admitted] e [admit] podem ser usados para preencher um espaço em
-uma definição ou prova imcompletas. Usaremos tais valores nos próximos
-exercícios. Em geral, nossa tarefa nos exercícios é substituir [admit] ou
-[Admitted] por definições ou provas reais. *)
+(** Os valores [Admitted] (_admitido_) e [admit] (_admitir_) podem ser usados
+    para preencher um espaço em uma definição ou prova imcompletas. Usaremos
+    tais valores nos próximos exercícios. Em geral, nossa tarefa nos exercícios
+    é substituir [admit] ou [Admitted] por definições ou provas reais. *)
 
 (** **** Exercício: 1 estrela (nandb)  *)
-(** Complete a definição das seguintes funções, depois, certifique que
-    as asserções [Example] abaixo podem ser verificadas pelo Coq.  *)
 
-(** This function should return [true] if either or both of
-    its inputs are [false]. *)
+(** Complete a definição das seguintes funções, depois, certifique que as
+    asserções [Example] (_exemplo_) abaixo podem ser verificadas pelo Coq.  *)
+
+(** This function should return [true] (_verdadeiro_) if either or both of its
+    inputs are [false] (_falso_). *)
 
 Definition nandb (b1:bool) (b2:bool) : bool :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHER *) admit.
 
 (** Remove "[Admitted.]" and fill in each proof with 
     "[Proof. reflexivity. Qed.]" *)
 
 Example test_nandb1:               (nandb true false) = true.
-(* FILL IN HERE *) Admitted.
+(* PREENCHER *) Admitted.
 Example test_nandb2:               (nandb false false) = true.
-(* FILL IN HERE *) Admitted.
+(* PREENCHER *) Admitted.
 Example test_nandb3:               (nandb false true) = true.
-(* FILL IN HERE *) Admitted.
+(* PREENCHER *) Admitted.
 Example test_nandb4:               (nandb true true) = false.
-(* FILL IN HERE *) Admitted.
+(* PREENCHER *) Admitted.
 (** [] *)
 
 (** **** Exercício: 1 star (andb3)  *)
@@ -252,71 +255,73 @@ Example test_nandb4:               (nandb true true) = false.
     otherwise. *)
 
 Definition andb3 (b1:bool) (b2:bool) (b3:bool) : bool :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHER *) admit.
 
 Example test_andb31:                 (andb3 true true true) = true.
-(* FILL IN HERE *) Admitted.
+(* PREENCHER *) Admitted.
 Example test_andb32:                 (andb3 false true true) = false.
-(* FILL IN HERE *) Admitted.
+(* PREENCHER *) Admitted.
 Example test_andb33:                 (andb3 true false true) = false.
-(* FILL IN HERE *) Admitted.
+(* PREENCHER *) Admitted.
 Example test_andb34:                 (andb3 true true false) = false.
-(* FILL IN HERE *) Admitted.
+(* PREENCHER *) Admitted.
 (** [] *)
 
 (** ** Tipos funcionais *)
 
-(** O comando [Check] faz com que Coq imprima o tipo de uma expressão
-    Por exemplo, o tipo de [negb true] é [bool]. *)
+(** O comando [Check] (_verifique_) faz com que Coq imprima o tipo de uma
+    expressão. Por exemplo, o tipo de [negb true] é [bool]. *)
 
 Check true.
 (* ===> true : bool *)
 Check (negb true).
 (* ===> negb true : bool *)
 
-(** Funções como [negb] em si também são valores de dados, assim como 
-	[true] e [false]. Seus tipos são chamados _function types 
-	(tipos de funções)_, e eles são escritos com flechas. *)
+(** Funções como [negb] em si também são valores de dados, assim como [true] e
+    [false]. Seus tipos são chamados _function types_ (_tipos funcionais_), e
+    eles são escritos com setas. *)
 
 Check negb.
 (* ===> negb : bool -> bool *)
 
 (** O tipo de [negb], escrito [bool -> bool] e pronunciado 
     "[bool] seta [bool]," pode ser lido: "Dada uma entrada do tipo 
-    [bool], esta função produz uma saída do tipo [bool]." Da mesma 
+     [bool], esta função produz uma saída do tipo [bool]." Da mesma 
     forma, o tipo de [andb], escrito [bool -> bool -> bool], pode ser 
     lido, "Dadas duas entradas, ambas do tipo [bool], esta função produz 
     uma saída do tipo [bool]." *)
 
 (** ** Números *)
 
-(** _Digressão técnica_: O Coq fornece um _sistema modular_ bastante 
-sofisticado para auxiliar na organização de desenvolvimentos robustos. Neste 
-curso não precisaremos da maioria de suas funcionalidades, mas uma é bastante 
-útil: se inserimos uma coleção de declarações entre os marcadores [Module X] e 
-[End X], então, no restante do arquivo após o [End], estas definições serão 
-referenciadas através de nomes como [X.foo] no lugar de [foo]. Aqui, usaremos 
-esta funcionalidade para introduzir a definição do tipo [nat] em um módulo 
-interno, para que a definição presente na biblioteca padrão não seja omitida. *)
+(** _Digressão técnica_: O Coq fornece um _sistema modular_ bastante sofisticado
+    para auxiliar na organização de desenvolvimentos robustos. Neste curso não
+    precisaremos da maioria de suas funcionalidades, mas uma é bastante útil: se
+    inserimos uma coleção de declarações entre os marcadores [Module X] (_módulo
+    X_) e [End X] (_término X_), então, no restante do arquivo após o [End],
+    estas definições serão referenciadas através de nomes como [X.foo] no lugar
+    de [foo]. Aqui, usaremos esta funcionalidade para introduzir a definição do
+    tipo [nat] em um módulo interno, para que a definição presente na biblioteca
+    padrão não seja omitida. *)
 
 Module Playground1.
 
 (** Os tipos que definimos até o momento são exemplos de “tipos enumerados”:
-suas definições enumeram explicitamente um conjunto finito de elementos. Uma
-forma mais interessante de definir um tipo é através de uma coleção de "regras
-indutivas" descrevendo seus elementos. Por exemplo, podemos definir os números
-naturais desta forma: *)
+    suas definições enumeram explicitamente um conjunto finito de elementos. Uma
+    forma mais interessante de definir um tipo é através de uma coleção de
+    "regras indutivas" descrevendo seus elementos. Por exemplo, podemos definir
+    os números naturais desta forma: *)
 
 Inductive nat : Type :=
   | O : nat
   | S : nat -> nat.
 
 (** As cláusulas desta definição podem ser lidas como: *)
+
 (** 
       - [O] é um número natural (perceba que isto é a letra "[O]", e não
       o numeral "[0]"). 
       - [S] é um "construtor" que recebe um número natural e retorna um outro
-      número natural -- isto é, se [n] é um número natural, então [S n] também
+      número natural---isto é, se [n] é um número natural, então [S n] também
       o é.
 
     Vamos olhar isso com um pouco mais de detalhamento.
@@ -342,9 +347,9 @@ Inductive nat : Type :=
     pertencem ao conjunto [nat], enquanto outras expressões como [true], 
     [andb true false] e [S (S false)] não.
 
-	Nós podemos escrever funções simples que realizam casamento de padrões em 
-	números naturais assim como fizemos acima -- por exemplo, a função 
-	predecessor: *)
+    Nós podemos escrever funções simples que realizam casamento de padrões em
+    números naturais assim como fizemos acima -- por exemplo, a função
+    predecessor: *)
 
 Definition pred (n : nat) : nat :=
   match n with
@@ -352,8 +357,8 @@ Definition pred (n : nat) : nat :=
     | S n' => n'
   end.
 
-(** O segundo ramo pode ser lido assim:"se [n] possui a forma [S n'] para algum 
-[n'], então retorne [n']." *)
+(** O segundo ramo pode ser lido assim:"se [n] possui a forma [S n'] para algum
+    [n'], então retorne [n']." *)
 
 End Playground1.
 
@@ -364,35 +369,36 @@ Definition minustwo (n : nat) : nat :=
     | S (S n') => n'
   end.
 
-(** Como os números naturais são uma forma de informação tão difundida, Coq 
-provê um pouquinho de mágica construída internamente para interpretá-los e 
-imprimí-los: algarismos árabes comuns podem ser usados como alternativa para a 
-notação "unária" definida pelos construtores [S] e [O]. Por padrão, Coq imprime 
-números na forma árabe: *) 
-    
+(** Como os números naturais são uma forma de informação tão difundida, Coq
+    provê um pouquinho de mágica construída internamente para interpretá-los e
+    imprimí-los: algarismos árabes comuns podem ser usados como alternativa para
+    a notação "unária" definida pelos construtores [S] e [O]. Por padrão, Coq
+    imprime números na forma árabe: *) 
+
 Check (S (S (S (S O)))).
 Eval compute in (minustwo 4).
 
-(** O construtor [S] possui o tipo [nat -> nat], assim como as funções 
-[minustwo] e [pred]: *)
+(** O construtor [S] possui o tipo [nat -> nat], assim como as funções
+    [minustwo] e [pred]: *)
 
 Check S.
 Check pred.
 Check minustwo.
 
 
-(** Estas são todas as coisas que podem ser aplicadas a um número para obter 
-outro número. Porém, existe uma diferença fundamental: funções como [pred] e 
-[minustwo] vêm com _regras computacionais_ -- por exemplo, a definição de 
-[pred] afirma que [pred 2] pode ser simplificado para [1] -- enquanto que a 
-definição de [S] não possui nenhum comportamento incorporado. Embora o último 
-seja uma função no sentido de que pode ser aplicado a um argumento, ele 
-realmente não _faz_ nada!  *)
+(** Estas são todas as coisas que podem ser aplicadas a um número para obter
+    outro número. Porém, existe uma diferença fundamental: funções como [pred] e
+    [minustwo] vêm com _regras computacionais_ -- por exemplo, a definição de
+    [pred] afirma que [pred 2] pode ser simplificado para [1] -- enquanto que a
+    definição de [S] não possui nenhum comportamento incorporado. Embora o
+    último seja uma função no sentido de que pode ser aplicado a um argumento,
+    ele realmente não _faz_ nada!  *)
 
 (** Para muitas definições de funções sobre números, casamento de padrões puro
-não é suficiente: também precisamos de recursão. Por exemplo, para verificar que
-um número [n] é par, precisamos verificar recursivamente se [n-2] é par. Para
-escrever essas funções, usamos a palavra-chave [Fixpoint]. *) 
+    não é suficiente: também precisamos de recursão. Por exemplo, para verificar
+    que um número [n] é par, precisamos verificar recursivamente se [n-2] é
+    par. Para escrever essas funções, usamos a palavra-chave [Fixpoint] (_ponto
+    fixo_). *)
 
 Fixpoint evenb (n:nat) : bool :=
   match n with
@@ -401,7 +407,9 @@ Fixpoint evenb (n:nat) : bool :=
   | S (S n') => evenb n'
   end.
 
-(** Podemos definir [oddb] através de uma declaração [Fixpoint] similar, mas aqui está uma definição mais simples com a qual será um pouco mais fácil de trabalhar: *)
+(** Podemos definir [oddb] através de uma declaração [Fixpoint] similar, mas
+    aqui está uma definição mais simples com a qual será um pouco mais fácil de
+    trabalhar: *)
 
 Definition oddb (n:nat) : bool   :=   negb (evenb n).
 
@@ -410,7 +418,9 @@ Proof. reflexivity.  Qed.
 Example test_oddb2:    (oddb (S (S (S (S O))))) = false.
 Proof. reflexivity.  Qed.
 
-(** Naturalmente, também podemos definir funções com múltiplos argumentos através de recursão. (Mais uma vez, usamos um módulo para evitar a poluição do contexto para identificadores.) *)
+(** Naturalmente, também podemos definir funções com múltiplos argumentos
+    através de recursão. (Mais uma vez, usamos um módulo para evitar a poluição
+    do contexto para identificadores.) *)
 
 Module Playground2.
 
@@ -435,8 +445,8 @@ visualizada a seguir: *)
 *)
 
 (** Por convenção notacional, se dois ou mais argumentos têm o mesmo tipo, eles
-podem ser escritos juntos. Na definição à seguir, [(n m : nat)] significa apenas
-o mesmo que se tivéssemos escrito [(n : nat) (m : nat)]. *)
+    podem ser escritos juntos. Na definição à seguir, [(n m : nat)] significa
+    apenas o mesmo que se tivéssemos escrito [(n : nat) (m : nat)]. *)
 
 Fixpoint mult (n m : nat) : nat :=
   match n with
@@ -448,7 +458,7 @@ Example test_mult1: (mult 3 3) = 9.
 Proof. reflexivity.  Qed.
 
 (** Você pode casar duas expressões ao mesmo tempo colocando uma vírgula entre
-elas: *)
+    elas: *)
 
 Fixpoint minus (n m:nat) : nat :=
   match n, m with
@@ -457,9 +467,9 @@ Fixpoint minus (n m:nat) : nat :=
   | S n', S m' => minus n' m'
   end.
 
-(** O _ na primeira linha é uma _padrão coringa_. Escrever _ em um padrão
-é o mesmo que escrever alguma variável que não será usada no lado direito. Isso
-evita a necessidade de inventar um nome falso de variável. *)
+(** O _ na primeira linha é uma _padrão coringa_. Escrever _ em um padrão é o
+    mesmo que escrever alguma variável que não será usada no lado direito. Isso
+    evita a necessidade de inventar um nome falso de variável. *)
 
 End Playground2.
 
@@ -478,12 +488,12 @@ Fixpoint exp (base power : nat) : nat :=
     Traduza isto em Coq. *)
 
 Fixpoint factorial (n:nat) : nat := 
-(* FILL IN HERE *) admit.
+(* PREENCHER *) admit.
 
 Example test_factorial1:          (factorial 3) = 6.
-(* FILL IN HERE *) Admitted.
+(* PREENCHER *) Admitted.
 Example test_factorial2:          (factorial 5) = (mult 10 12).
-(* FILL IN HERE *) Admitted.
+(* PREENCHER *) Admitted.
 
 (** [] *)
 
@@ -503,11 +513,11 @@ Notation "x * y" := (mult x y)
 
 Check ((0 + 1) + 1).
 
-(** (As anotações [level], [associativity], e [nat_scope] controlam
-    como essas notações são tratadas pelo analisador do Coq. Os 
-    detalhes não são importantes, mas leitores interessados podem
-    se dirigir à subseção "Mais em Notações", na seção de "Material 
-    Avançado", no final desse capítulo.) *)
+(** (As anotações [level] (_nível_), [associativity] ( associatividade_), e
+    [nat_scope] controlam como essas notações são tratadas pelo analisador do
+    Coq. Os detalhes não são importantes, mas leitores interessados podem se
+    dirigir à subseção "Mais em Notações", na seção de "Material Avançado", no
+    final desse capítulo.) *)
 
 (** Note that these do not change the definitions we've already
     made: they are simply instructions to the Coq parser to accept [x
@@ -553,20 +563,21 @@ Proof. reflexivity.  Qed.
 Example test_ble_nat3:             (ble_nat 4 2) = false.
 Proof. reflexivity.  Qed.
 
-(** **** Exercício: 2 stars (blt_nat)  *)
+(** **** Exercício: ** (blt_nat)  *)
+
 (** The [blt_nat] function tests [nat]ural numbers for [l]ess-[t]han,
     yielding a [b]oolean.  Instead of making up a new [Fixpoint] for
     this one, define it in terms of a previously defined function. *)
 
 Definition blt_nat (n m : nat) : bool :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHER *) admit.
 
 Example test_blt_nat1:             (blt_nat 2 2) = false.
-(* FILL IN HERE *) Admitted.
+(* PREENCHER *) Admitted.
 Example test_blt_nat2:             (blt_nat 2 4) = true.
-(* FILL IN HERE *) Admitted.
+(* PREENCHER *) Admitted.
 Example test_blt_nat3:             (blt_nat 4 2) = false.
-(* FILL IN HERE *) Admitted.
+(* PREENCHER *) Admitted.
 
 (** [] *)
 
@@ -580,14 +591,14 @@ Example test_blt_nat3:             (blt_nat 4 2) = false.
     The proofs of these claims were always the same: use [reflexivity] 
     to check that both sides of the [=] simplify to identical values. 
 
-	(A propósito, posteriormente será útil saber que [reflexivity] na verdade 
-	perfaz mais simplificação do que [simpl] -- por exemplo, ele tenta 
-	"desdobrar" termos definidos, substituindo-os pelos seus lados direitos. A 
-	razão para esta diferença é que, quando a aplicação da reflexividade é bem 
-	sucedida, todo o objetivo é finalizado e não precisaremos visualizar as 
-	expressões que foram expandidas por [reflexivity]. Em contrapartida, 
-	[simpl] é usado em situações onde devemos ler e entender o objetivo, então 
-	não queremos que definições sejam expandidas sem nosso conhecimento.) 
+    (A propósito, posteriormente será útil saber que [reflexivity] na verdade 
+    perfaz mais simplificação do que [simpl] -- por exemplo, ele tenta 
+    "desdobrar" termos definidos, substituindo-os pelos seus lados direitos. A 
+    razão para esta diferença é que, quando a aplicação da reflexividade é bem 
+    sucedida, todo o objetivo é finalizado e não precisaremos visualizar as 
+    expressões que foram expandidas por [reflexivity]. Em contrapartida, 
+    [simpl] é usado em situações onde devemos ler e entender o objetivo, então 
+    não queremos que definições sejam expandidas sem nosso conhecimento.) 
 
     The same sort of "proof by simplification" can be used to prove
     more interesting properties as well.  For example, the fact that
@@ -702,20 +713,20 @@ Proof.
 Theorem plus_id_exercise : forall n m o : nat,
   n = m -> m = o -> n + m = m + o.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** Como vimos nos exemplos anteriores, o comando [Admitted] informa a Coq que 
-queremos pular a tentativa de prova do teorema e simplesmente aceitar a 
-declaração dada. Isto pode ser útil no desenvolvimento de provas mais longas, 
-uma vez que podemos determinar fatos subsidiários que acreditamos serem 
-importantes na criação de argumentos maiores. Use [Admitted] para aceitar 
-estes teoremas na fé do momento, e continuar pensando no argumento maior 
-até termos certeza de que faz sentido; e então, poderemos voltar e concluir 
-as provas incompletas. Porém tenha cuidado: Toda vez que você usa [
-Admitted] (ou [admit]) você está deixando uma porta aberta para que um 
-disparate total	entre no mundo formal, rigoroso, verificado e agradável 
-do Coq. *)
+(** Como vimos nos exemplos anteriores, o comando [Admitted] informa a Coq que
+    queremos pular a tentativa de prova do teorema e simplesmente aceitar a
+    declaração dada. Isto pode ser útil no desenvolvimento de provas mais
+    longas, uma vez que podemos determinar fatos subsidiários que acreditamos
+    serem importantes na criação de argumentos maiores. Use [Admitted] para
+    aceitar estes teoremas na fé do momento, e continuar pensando no argumento
+    maior até termos certeza de que faz sentido; e então, poderemos voltar e
+    concluir as provas incompletas. Porém tenha cuidado: Toda vez que você usa [
+    Admitted] (ou [admit]) você está deixando uma porta aberta para que um
+    disparate total entre no mundo formal, rigoroso, verificado e agradável do
+    Coq. *)
 
 (** We can also use the [rewrite] tactic with a previously proved
     theorem instead of a hypothesis from the context. *)
@@ -727,12 +738,12 @@ Proof.
   rewrite -> plus_O_n.
   reflexivity.  Qed.
 
-(** **** Exercício: 2 stars (mult_S_1)  *)
+(** **** Exercício: ** (mult_S_1)  *)
 Theorem mult_S_1 : forall n m : nat,
   m = S n -> 
   m * (1 + n) = m * m.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
 
@@ -791,10 +802,10 @@ Proof.
     data).  The second component gives a single name, [n'], since [S]
     is a unary constructor.
 
-A tática [destruct] pode ser usada com qualquer tipo de dado definido 
-indutivamente. Por exemplo, nós podemos usá-lo aqui para provar que a 
-negação booleana é involutiva – isto é, que a negação é a sua própria 
-inversa. *)
+    A tática [destruct] pode ser usada com qualquer tipo de dado definido
+    indutivamente. Por exemplo, nós podemos usá-lo aqui para provar que a
+    negação booleana é involutiva – isto é, que a negação é a sua própria
+    inversa. *)
 
 Theorem negb_involutive : forall b : bool,
   negb (negb b) = b.
@@ -803,25 +814,27 @@ Proof.
     reflexivity.
     reflexivity.  Qed.
 
-(** Note que [destruct] aqui não possui nenhuma cláusula [as] pois nenhum dos 
-subcasos de [destruct] precisa ser vinculado a nenhuma das variáveis. Por isso, 
-não há necessidade de especificar nenhum nome (Poderíamos ter escrito também 
-[as [|]], ou [as []]). De fato, podemos omitir a cláusula [as] de qualquer 
-[destruct] e Coq irá preencher automaticamente os nomes de variáveis. Embora 
-seja conveniente, isto é indiscutivelmente um estilo ruim, uma vez que o Coq 
-pode fazer escolhas confusas de nomes quando lhe é deixada esta decisão. *)
+(** Note que [destruct] aqui não possui nenhuma cláusula [as] pois nenhum dos
+    subcasos de [destruct] precisa ser vinculado a nenhuma das variáveis. Por
+    isso, não há necessidade de especificar nenhum nome (Poderíamos ter escrito
+    também [as [|]], ou [as []]). De fato, podemos omitir a cláusula [as] de
+    qualquer [destruct] e Coq irá preencher automaticamente os nomes de
+    variáveis. Embora seja conveniente, isto é indiscutivelmente um estilo ruim,
+    uma vez que o Coq pode fazer escolhas confusas de nomes quando lhe é deixada
+    esta decisão. *)
 
 (** **** Exercício: 1 star (zero_nbeq_plus_1)  *)
 Theorem zero_nbeq_plus_1 : forall n : nat,
   beq_nat 0 (n + 1) = false.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 
 (** [] *)
 
 (** * Mais Exercícios *)
 
-(** **** Exercício: 2 stars (boolean_functions)  *)
+(** **** Exercício: ** (boolean_functions)  *)
+
 (** Use the tactics you have learned so far to prove the following 
     theorem about boolean functions. *)
 
@@ -830,16 +843,17 @@ Theorem identity_fn_applied_twice :
   (forall (x : bool), f x = x) ->
   forall (b : bool), f (f b) = b.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 
 (** Now state and prove a theorem [negation_fn_applied_twice] similar
     to the previous one but where the second hypothesis says that the
     function [f] has the property that [f x = negb x].*)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
-(** **** Exercício: 2 stars (andb_eq_orb)  *)
+(** **** Exercício: ** (andb_eq_orb)  *)
+
 (** Prove the following theorem.  (You may want to first prove a
     subsidiary lemma or two. Alternatively, remember that you do
     not have to introduce all hypotheses at the same time.) *)
@@ -849,10 +863,11 @@ Theorem andb_eq_orb :
   (andb b c = orb b c) ->
   b = c.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercício: 3 stars (binary)  *)
+(** **** Exercício: *** (binary)  *)
+
 (** Consider a different, more efficient representation of natural
     numbers using a binary rather than unary system.  That is, instead
     of saying that each natural number is either zero or the successor
@@ -862,7 +877,8 @@ Proof.
       - twice a binary number, or
       - one more than twice a binary number.
 
-	(a) Primeiro, escreva uma definição indutiva para o tipo [bin] que corresponda a esta descrição de números binários.
+    (a) Primeiro, escreva uma definição indutiva para o tipo [bin] que
+    corresponda a esta descrição de números binários.
 
     (Hint: Recall that the definition of [nat] from class,
     Inductive nat : Type :=
@@ -887,7 +903,7 @@ Proof.
         then incrementing. 
 *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
 (** * More on Notation (Advanced) *)
@@ -914,13 +930,13 @@ Notation "x * y" := (mult x y)
     [(1+((2*3)*4))]. Coq uses precedence levels from 0 to 100, and 
     _left_, _right_, or _no_ associativity.
 
-Cada símbolo de notação no Coq está também ativo num escopo de notação. 
-O Coq tenta adivinhar a qual é escopo você se refere, de modo que, quando você 
-escreve [S(O*O)], ele advinha [nat_scope], mas quando você escreve o tipo 
-produto cartesiano (tupla) [bool*bool], ele advinha [type_scope]. 
-Ocasionalmente, você tem que ajudá-lo com uma notação de percentagem escrevendo 
-[(x*y)%nat], e, algumas vezes, em suas respostas para você, o Coq usará [%nat] 
-para indicar em qual escopo se encontra a notação.
+    Cada símbolo de notação no Coq está também ativo num escopo de notação.  O
+    Coq tenta descobrir a qual escopo é feito referência, de modo que, quando
+    você escreve [S(O*O)], ele infere [nat_scope], mas quando você escreve o
+    tipo produto cartesiano (produto cartesiano) [bool*bool], ele infere
+    [type_scope].  Ocasionalmente, você tem que ajudá-lo com uma notação de
+    percentagem escrevendo [(x*y)%nat], e, algumas vezes, em suas respostas para
+    você, o Coq usará [%nat] para indicar em qual escopo se encontra a notação.
 
     Notation scopes also apply to numeral notation (3,4,5, etc.), so you
     may sometimes see [0%nat] which means [O], or [0%Z] which means the
@@ -949,7 +965,8 @@ Fixpoint plus' (n : nat) (m : nat) : nat :=
     "decreasing analysis" is not very sophisticated, it is sometimes
     necessary to write functions in slightly unnatural ways. *)
 
-(** **** Exercício: 2 stars, optional (decreasing)  *)
+(** **** Exercício: **, optional (decreasing)  *)
+
 (** To get a concrete sense of this, find a way to write a sensible
     [Fixpoint] definition (of a simple function on numbers, say) that
     _does_ terminate on all inputs, but that Coq will reject because
