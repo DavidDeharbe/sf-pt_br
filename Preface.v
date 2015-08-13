@@ -27,56 +27,59 @@
 
 (** * Visão Geral *)
 
-(** Building reliable software is hard.  The scale and complexity of
-    modern systems, the number of people involved in building them,
-    and the range of demands placed on them make it extremely
-    difficult even to build software that is more or less correct,
-    much less to get it 100%% correct.  At the same time, the
-    increasing degree to which information processing is woven into
-    every aspect of society continually amplifies the cost of bugs and
-    insecurities.
+(** Construir sistemas confiáveis é difícil. A escala e a complexidade
+    dos sistemas modernos, a grande quantidade de pessoas envolvidas
+    na sua contrução, assim como a variedade das exigências fazem com
+    que é extremamente difícil construir software mais ou menos
+    correto, e mais ainda software 100%% correto!  Concomitantemente,
+    o grau crescente de informatização de cada aspecto da sociedade amplia
+    cada vez mais o custo de erros e falhas de segurança.
 
-    Computer scientists and software engineers have responded to these
-    challenges by developing a whole host of techniques for improving
-    software reliability, ranging from recommendations about managing
-    software projects and organizing programming teams (e.g., extreme
-    programming) to design philosophies for libraries (e.g.,
-    model-view-controller, publish-subscribe, etc.) and programming
-    languages (e.g., object-oriented programming, aspect-oriented
-    programming, functional programming, ...) and to mathematical
-    techniques for specifying and reasoning about properties of
-    software and tools for helping validate these properties.
+    Cientistas da computação e engenheiros de software tem respondido
+    a estes desafios criando um amplo leque de técnicas para melhorar
+    a confiabilidade do software, começando com recomendações sobre
+    como gerenciar projetos de software e organizar equipes de
+    programadores (por exemplo, programação extrema), passando por
+    padrões de projeto (por exemplo, modelo-visão-controlador,
+    publica-assina, etc.), linguagens de programação (pro exemplo,
+    programação orientada a objetos, programação orientada a aspectos,
+    programação funcional, ...), e até técnicas matemáticas para
+    especificar e raciocinar sobre propriedades do software e
+    ferramentas de apoio à validaçãp destas propriedades.
 
-    The present course is focused on this last set of techniques.  The
-    text weaves together five conceptual threads:
 
-    (1) basic tools from _logic_ for making and justifying precise
-        claims about programs;
+    Este curso tem como foco este último conjunto de técnicas. O texto
+    combina cinco temáticas conceituais:
 
-    (2) the use of _proof assistants_ to construct rigorous logical
-        arguments;
+    (1) ferramentas básicas de _lógica_ para fazer e justificar
+        afirmações precisas sobre programas;
 
-    (3) the idea of _functional programming_, both as a method of
-        programming and as a bridge between programming and logic;
+    (2) o emprego de _assistentes de prova_ para elaborar
+        argumentações lógicas rigorosas;
 
-    (4) formal techniques for _reasoning about the properties of
-        specific programs_ (e.g., the fact that a loop terminates on
-        all inputs, or that a sorting function or a compiler obeys a
-        particular specification); and
+    (3) a ideia de _programação funcional_, ao mesmo tempo como forma
+        de programar e como um elo entre a programação e a lógica;
 
-    (5) the use of _type systems_ for establishing well-behavedness
-        guarantees for _all_ programs in a given programming
-        language (e.g., the fact that well-typed Java programs cannot
-        be subverted at runtime).
+    (4) técnicas formais para _raciocinar sobre propriedades
+        específicas de programas_ (por exemplo, o fato que um laço
+        termina para qualquer valor das entradas, ou que uma função de
+        ordenação ou um compilador obedecem a uma determinada
+        especificação); e
 
-    Each of these topics is easily rich enough to fill a whole course
-    in its own right; taking all of them together naturally means that
-    much will be left unsaid.  But we hope readers will find that the
-    themes illuminate and amplify each other in useful ways, and that
-    bringing them together creates a foundation from which it will be
-    easy to dig into any of them more deeply.  Some suggestions for
-    further reading can be found in the [Postscript] chapter. *)
+    (5) o uso de _sistemas de tipos_ para garantir que _todos_ os
+        programas de uma dada linguagem de programação obedecem a
+        regras específicas (por exemplo, que programas Java bem
+        tipados não podem ser subvertidos em tempo de execução).
 
+    Cada um destes assuntos é amplo o suficiente para ser isoladamente
+    o tema de um curso próprio; assim, considerar todos eles
+    naturalmente implica que vários assuntos não serão abordados. Mas
+    esperemos que os leitors acharão que estes temas se enriquecem um
+    ao outro de forma útil, e que a combinação dos mesmos cria uma
+    fundação a partir da qual será mais fácil investigar mais
+    aprofundamente cada um deles. Algumas sugestões de leituras
+    complementares são fornecidas no capítulo [Postscript]. *)
+ 
 (** ** Lógica *)
 
 (** Lógica é o campo de estudo cujo o assunto é _provas_ -- argumentos
@@ -248,61 +251,63 @@
     lados do Coq são na verdade aspectos da mesma maquinaria
     subjacente - ou seja, _provas são programas_. *)
 
-(** ** Program Verification *)
+(** ** Verificação de Programas *)
 
-(** The first third of the book is devoted to developing the
-    conceptual framework of logic and functional programming and
-    gaining enough fluency with Coq to use it for modeling and
-    reasoning about nontrivial artifacts.  From this point on, we
-    increasingly turn our attention to two broad topics of critical
-    importance to the enterprise of building reliable software (and
-    hardware): techniques for proving specific properties of
-    particular _programs_ and for proving general properties of whole
-    programming _languages_.
+(** O primeiro terço deste livro é dedicado ao arcabouço conceitual de
+    lógica e programação funcional e a ganhar fluência suficiente com Coq
+    de forma a poder utilizar o mesmo para modelar artefatos não triviais e
+    raciocinar sobre eles. Tornamos então nossa atenção cada vez mais para
+    dois amplos assuntos que têm uma importância crítica no projeto de
+    software (e hardware) confiável: técnicas para provar propriedades
+    específicas de _programas_ particulares e para provar propriedades
+    gerais sobre _linguagens_ de programação inteiras.
 
-    For both of these, the first thing we need is a way of
-    representing programs as mathematical objects, so we can talk
-    about them precisely, and ways of describing their behavior in
-    terms of mathematical functions or relations.  Our tools for these
-    tasks are _abstract syntax_ and _operational semantics_, a method
-    of specifying the behavior of programs by writing abstract
-    interpreters.  At the beginning, we work with operational
-    semantics in the so-called "big-step" style, which leads to
-    somewhat simpler and more readable definitions, in those cases
-    where it is applicable.  Later on, we switch to a more detailed
-    "small-step" style, which helps make some useful distinctions
-    between different sorts of "nonterminating" program behaviors and
-    which is applicable to a broader range of language features,
-    including concurrency.
+    Para ambos, o nosso primeiro requisito é termos uma maneira de
+    representar programas como objetos matemáticos, para podermos
+    versar precisamente sobre eles, assim como formas de descrever o
+    seu comportamento através de funções e relações
+    matemáticas. Nossas ferramentas para estas tarefas são a _sintaxe
+    abtrata_ e a _semântica operacional_, um método para especificar o
+    comportamento de programas que consistem em escrever
+    interpretadores abstratos. Inicialmente, trabalhamos com semântica
+    operacional em um estilo chamado de "passos largos" ( big-step_),
+    o que leva a especificações geralmente mais simples e mais
+    legíveis, quando se aplica. Em seguida, passamos a um estilo mais
+    detalhado, apelidado de "pequenos passos" (_small-step_). Este
+    estilo permite distinguir entre diferentes tipos de comportamentos
+    de programas sem término, e que também é aplicável a uma maior
+    gama de características de linguagens, inclusive concorrência.
 
-    The first programming language we consider in detail is _Imp_, a
-    tiny toy language capturing the core features of conventional
-    imperative programming: variables, assignment, conditionals, and
-    loops. We study two different ways of reasoning about the
-    properties of Imp programs.
+    A primeira linguagem que consideramos detalhadamente é  Imp_,
+    uma minúscula linguagem brinquedo que engloba as características
+    essenciais da programação imperativa convencional: variáveis,
+    atribuições, condicionais, e laços. Estudamos duas formas diferentes
+    de raciocínio sobre as propriedades de programas Imp.
+ 
+    Primeiro, consideramos o significado de afirmar que dois programas
+    Imp são _equivalentes_ no sentido que propiciam os mesmos
+    comportamentos para todas as memórias iniciais. Essa noção de
+    equivalência torna-se então um critério para avaliar a corretude
+    de _metaprogramas_ -- programs que manipulam outros programs, como
+    compiladores e otimizadores. Construimos um otimizador simples
+    para Imp e programos que ele é correto.
 
-    First, we consider what it means to say that two Imp programs are
-    _equivalent_ in the sense that they give the same behaviors for
-    all initial memories.  This notion of equivalence then becomes a
-    criterion for judging the correctness of _metaprograms_ --
-    programs that manipulate other programs, such as compilers and
-    optimizers.  We build a simple optimizer for Imp and prove that it
-    is correct.
+    Segundo, desenvolvemos uma metodologia para provar que programas
+    Imp satisfazem especificações formais do seu
+    comportamento. Introduzimos a noção de _triplas de Hoare_ --
+    programas Imp anotados com uma pre-condição, que especifica como a
+    memória deve estar configurada como o programa é inicializado e
+    uma pós-condição descrevendo o programa se compromete a realizar
+    nesta memória uma vez que ele termina a sua execução. Também
+    apresentamos os princípios de raciocínio na _lógica de Hoare_, uma
+    "lógica de domínio específico", especializada para raciocinar
+    composicionalmente sobre programas imperativos, e com conceitos
+    embutidos como "invariantes de laço".
 
-    Second, we develop a methodology for proving that Imp programs
-    satisfy formal specifications of their behavior.  We introduce the
-    notion of _Hoare triples_ -- Imp programs annotated with pre- and
-    post-conditions describing what should be true about the memory in
-    which they are started and what they promise to make true about
-    the memory in which they terminate -- and the reasoning principles
-    of _Hoare Logic_, a "domain-specific logic" specialized for
-    convenient compositional reasoning about imperative programs, with
-    concepts like "loop invariant" built in.
-
-    This part of the course is intended to give readers a taste of the
-    key ideas and mathematical tools used for a wide variety of
-    real-world software and hardware verification tasks.
-*)
+    Essa parte do curso tem como objetivo iniciar os leitores com as
+    ideias chaves e as ferramentas matemáticas utilizadas em uma
+    grande variedade de atividades efetivamente utilizadas para a
+    verificação de software e de hardware.  *)
 
 (** ** Sistemas de Tipo *)
 
@@ -330,7 +335,7 @@
 
 *)
 
-(** * Practicalities *)
+(** * Informações práticas *)
 
 (** ** Dependências entre capítulos *)
 
@@ -413,11 +418,12 @@
     Suas contribuições são bem-vindas!
 
     Por favor, envie um e-mail para Benjamin Pierce, descrevendo-se e
-    informando como gostaria de fazer uso do material, incluindo o resultado
-    de fazer "htpasswd -s -n NAME", onde NAME é seu nome de
-    usuário.  Nós vamos configurar seus direitos de acesso em leitura/escrita 
-    ao nosso repositório _subversion  e adicioná-lo na lista de contato de desenvolvedores; no repositório você encontrará
-    um [README] com futuras instruções. *)
+    informando como gostaria de fazer uso do material, incluindo o
+    resultado de fazer "htpasswd -s -n NAME", onde NAME é seu nome de
+    usuário.  Nós vamos configurar seus direitos de acesso em
+    leitura/escrita ao nosso repositório _subversion_ e adicioná-lo na
+    lista de contato de desenvolvedores; no repositório você
+    encontrará um [README] com futuras instruções. *)
 
 (** * Traduções *)
 

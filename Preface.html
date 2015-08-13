@@ -8,30 +8,30 @@
 <script type="text/javascript" src="jquery-1.8.3.js"></script>
 <script type="text/javascript" src="main.js"></script>
 </head>
-<h1 class="libtitle">Library Preface</h1>
+<h1 class="libtitle">Preface</h1>
 
 <div class="code">
 </div>
 
 <div class="doc">
-<a name="lab1"></a><h1 class="section">Preface</h1>
+<a name="lab1"></a><h1 class="section">Prefácio</h1>
 
 <div class="paragraph"> </div>
 
-<a name="lab2"></a><h1 class="section">Bem-vindo</h1>
+<a name="lab2"></a><h1 class="section">Boas vindas</h1>
 
 <div class="paragraph"> </div>
 
  Esse livro eletrônico é um curso em Fundações de Software, a base
-    base matemática de softwares confiáveis. Esse tópico inclui 
+    base matemática de softwares confiáveis. Esse tópico inclui
     conceitos básicos de lógica, prova de teoremas assistida por
     computador, o assistente de provas Coq, programação funcional,
-    semântica operacional, lógica de Hoare e sistemas do tipo 
-    estático. A leitura é direcionada a um grande conjunto de leitores,
-    desde os graduandos avançados até estudantes de PhD e pesquisadores. 
-    Nenhum conhecimento específico anterior em lógica ou linguagens de 
-    programação é requisitado, porém uma certa maturidade em matemática
-    será útil.
+    semântica operacional, lógica de Hoare e sistemas de tipagem
+    estática. A leitura é direcionada a um grande conjunto de
+    leitores, desde os graduandos avançados até estudantes de PhD e
+    pesquisadores.  Não é requisitado nenhum conhecimento específico
+    anterior em lógica ou linguagens de programação, porém uma certa
+    maturidade em matemática será útil.
 
 <div class="paragraph"> </div>
 
@@ -43,132 +43,139 @@
 
 <div class="paragraph"> </div>
 
-    Os arquivos são organizados em uma sequencia de capítulos centrais,
+    Os arquivos são organizados em uma sequência de capítulos centrais,
     cobrindo por volta de um semestre de material e organizado em uma 
-    narrativa linear e coerente, mais um número de apêndices envolvendo
+    narrativa linear e coerente, seguida de diversos apêndices envolvendo
     tópicos adicionais. Todos os capítulos centrais são adequados para 
     ambos os níveis de alunos, graduandos e graduados.
 <div class="paragraph"> </div>
 
-<a name="lab3"></a><h1 class="section">Overview</h1>
+<a name="lab3"></a><h1 class="section">Visão Geral</h1>
 
 <div class="paragraph"> </div>
 
- Building reliable software is hard.  The scale and complexity of
-    modern systems, the number of people involved in building them,
-    and the range of demands placed on them make it extremely
-    difficult even to build software that is more or less correct,
-    much less to get it 100% correct.  At the same time, the
-    increasing degree to which information processing is woven into
-    every aspect of society continually amplifies the cost of bugs and
-    insecurities.
+ Construir sistemas confiáveis é difícil. A escala e a complexidade
+    dos sistemas modernos, a grande quantidade de pessoas envolvidas
+    na sua contrução, assim como a variedade das exigências fazem com
+    que é extremamente difícil construir software mais ou menos
+    correto, e mais ainda software 100% correto!  Concomitantemente,
+    o grau crescente de informatização de cada aspecto da sociedade amplia
+    cada vez mais o custo de erros e falhas de segurança.
 
 <div class="paragraph"> </div>
 
-    Computer scientists and software engineers have responded to these
-    challenges by developing a whole host of techniques for improving
-    software reliability, ranging from recommendations about managing
-    software projects and organizing programming teams (e.g., extreme
-    programming) to design philosophies for libraries (e.g.,
-    model-view-controller, publish-subscribe, etc.) and programming
-    languages (e.g., object-oriented programming, aspect-oriented
-    programming, functional programming, ...) and to mathematical
-    techniques for specifying and reasoning about properties of
-    software and tools for helping validate these properties.
+    Cientistas da computação e engenheiros de software tem respondido
+    a estes desafios criando um amplo leque de técnicas para melhorar
+    a confiabilidade do software, começando com recomendações sobre
+    como gerenciar projetos de software e organizar equipes de
+    programadores (por exemplo, programação extrema), passando por
+    padrões de projeto (por exemplo, modelo-visão-controlador,
+    publica-assina, etc.), linguagens de programação (pro exemplo,
+    programação orientada a objetos, programação orientada a aspectos,
+    programação funcional, ...), e até técnicas matemáticas para
+    especificar e raciocinar sobre propriedades do software e
+    ferramentas de apoio à validaçãp destas propriedades.
 
 <div class="paragraph"> </div>
 
-    The present course is focused on this last set of techniques.  The
-    text weaves together five conceptual threads:
+    Este curso tem como foco este último conjunto de técnicas. O texto
+    combina cinco temáticas conceituais:
 
 <div class="paragraph"> </div>
 
-    (1) basic tools from <i>logic</i> for making and justifying precise
-        claims about programs;
+    (1) ferramentas básicas de <i>lógica</i> para fazer e justificar
+        afirmações precisas sobre programas;
 
 <div class="paragraph"> </div>
 
-    (2) the use of <i>proof assistants</i> to construct rigorous logical
-        arguments;
+    (2) o emprego de <i>assistentes de prova</i> para elaborar
+        argumentações lógicas rigorosas;
 
 <div class="paragraph"> </div>
 
-    (3) the idea of <i>functional programming</i>, both as a method of
-        programming and as a bridge between programming and logic;
+    (3) a ideia de <i>programação funcional</i>, ao mesmo tempo como forma
+        de programar e como um elo entre a programação e a lógica;
 
 <div class="paragraph"> </div>
 
-    (4) formal techniques for <i>reasoning about the properties of
-        specific programs</i> (e.g., the fact that a loop terminates on
-        all inputs, or that a sorting function or a compiler obeys a
-        particular specification); and
+    (4) técnicas formais para <i>raciocinar sobre propriedades
+        específicas de programas</i> (por exemplo, o fato que um laço
+        termina para qualquer valor das entradas, ou que uma função de
+        ordenação ou um compilador obedecem a uma determinada
+        especificação); e
 
 <div class="paragraph"> </div>
 
-    (5) the use of <i>type systems</i> for establishing well-behavedness
-        guarantees for <i>all</i> programs in a given programming
-        language (e.g., the fact that well-typed Java programs cannot
-        be subverted at runtime).
+    (5) o uso de <i>sistemas de tipos</i> para garantir que <i>todos</i> os
+        programas de uma dada linguagem de programação obedecem a
+        regras específicas (por exemplo, que programas Java bem
+        tipados não podem ser subvertidos em tempo de execução).
 
 <div class="paragraph"> </div>
 
-    Each of these topics is easily rich enough to fill a whole course
-    in its own right; taking all of them together naturally means that
-    much will be left unsaid.  But we hope readers will find that the
-    themes illuminate and amplify each other in useful ways, and that
-    bringing them together creates a foundation from which it will be
-    easy to dig into any of them more deeply.  Some suggestions for
-    further reading can be found in the <span class="inlinecode"><span class="id" type="var">Postscript</span></span> chapter. 
+    Cada um destes assuntos é amplo o suficiente para ser isoladamente
+    o tema de um curso próprio; assim, considerar todos eles
+    naturalmente implica que vários assuntos não serão abordados. Mas
+    esperemos que os leitors acharão que estes temas se enriquecem um
+    ao outro de forma útil, e que a combinação dos mesmos cria uma
+    fundação a partir da qual será mais fácil investigar mais
+    aprofundamente cada um deles. Algumas sugestões de leituras
+    complementares são fornecidas no capítulo <span class="inlinecode"><span class="id" type="var">Postscript</span></span>. 
 <div class="paragraph"> </div>
 
 <a name="lab4"></a><h2 class="section">Lógica</h2>
 
 <div class="paragraph"> </div>
 
- Lógica é o campo de estudo cujo o assunto é <i>provas</i> --
-    argumentos incontestáveis para a verdade de proposições particulares.
-    Volumes foram escritos sobre o papel principal da lógica em ciência
-    da computação. Manna e Waldinger chamaram a lógica de "o cálculo da
-    ciência da computação," enquanto o artigo Halpern et al. <i>On the Unusual
-    Effectiveness of Logic in Computer Science</i> cataloga dezenas de
-    maneiras em que lógica oferece ferramentas críticas e ideias. De fato,
-    eles observam que "na verdade, lógica tem se tornado significativamente
-    mais efetivo em ciência da computação do que tem sido em matemática. Isso
-    é notável, especialmente porque grande parte do impulso para o
-    desenvolvimento da lógica durante os último cem anos veio da matemática".
+ Lógica é o campo de estudo cujo o assunto é <i>provas</i> -- argumentos
+    incontestáveis para a verdade de proposições particulares.
+    Volumes foram escritos sobre o papel fundamental da lógica em
+    ciência da computação. Manna e Waldinger chamaram a lógica de "o
+    cálculo da ciência da computação," enquanto o artigo <i>On the
+    Unusual Effectiveness of Logic in Computer Science</i> de Halpern et
+    al. cataloga dezenas de maneiras em que lógica oferece ferramentas
+    e idéias pivotais. De fato, eles observam que "na verdade, lógica
+    tem se tornado significativamente mais efetivo em ciência da
+    computação do que tem sido em matemática. Isso é notável,
+    especialmente porque grande parte do impulso para o
+    desenvolvimento da lógica durante os último cem anos veio da
+    matemática".
 
 <div class="paragraph"> </div>
 
-    Em particular, a noção fundamental de provas indutivas está onipresente
-    em toda a ciência da computação. Você certamente já viu antes; em
-    contextos desde a matemática discreta até a análise de algoritmos, mas neste
-    curso você vai examiná-los muito mais profundamente do que você
-    provavelmente tem feito até agora. 
+    Em particular, a noção fundamental de provas indutivas está
+    onipresente em toda a ciência da computação. Você certamente já
+    viu antes, quer seja em matemática discreta ou em análise de
+    algoritmos; mas neste curso você vai examiná-las muito mais
+    profundamente do que você provavelmente tem feito até agora. 
 <div class="paragraph"> </div>
 
 <a name="lab5"></a><h2 class="section">Assistentes de Prova</h2>
 
 <div class="paragraph"> </div>
 
- O fluxo de ideias entre a lógica e a Ciência da Computação não seguiu em uma
-    única direção: a Ciência da Computação também realizou contribuições importantes para a lógica. Uma
-    dessas foi o desenvolvimento de ferramentas de software para auxiliar na
-    construção de provas de proposições lógicas. Essas ferramentas se dividem em
-    duas grandes categorias:
+ O fluxo de ideias entre a lógica e a Ciência da Computação não
+    seguiu em uma única direção: a Ciência da Computação também
+    realizou contribuições importantes para a lógica. Uma dessas foi o
+    desenvolvimento de ferramentas de software para auxiliar na
+    construção de provas de proposições lógicas. Essas ferramentas se
+    dividem em duas grandes categorias:
 
 <div class="paragraph"> </div>
 
 <ul class="doclist">
-<li> <i>Provadores automáticos de teoremas</i> fornecem a operação "push-button":
+<li> <i>Provadores automáticos de teoremas</i> trabalham em modo
 
 </li>
 </ul>
-    o operador entrega uma proposição e recebe em retorno <i>true</i> (verdadeiro), <i>false</i> (falso), ou <i>ran
-    out of time</i> (estouro de tempo).  Apesar de suas capacidades serem limitadas para tipos bastante
-    específicos de raciocínio, os provadores têm amadurecido tremendamente nos
-    últimos anos e agora são utilizados em uma enorme variadade de configurações.
-      Exemplos dessas ferramentas incluem solucionadores SAT, solucionadores SMT,
-      e verificadores de modelo.
+    completamente automático: o usuário entrega uma proposição e
+    recebe em retorno <i>true</i> (verdadeiro), <i>false</i> (falso), ou <i>ran
+    out of time</i> (estouro de tempo). Apesar de suas capacidades serem
+    limitadas a tipos bastante específicos de raciocínio, os
+    provadores têm amadurecido tremendamente nos últimos anos e agora
+    são utilizados em uma enorme variadade de configurações. Exemplos
+    dessas ferramentas incluem solucionadores SAT, solucionadores SMT,
+    e verificadores de modelo.
 
 <div class="paragraph"> </div>
 
@@ -197,8 +204,8 @@
 
 <div class="paragraph"> </div>
 
-    Coq tem sido um fator crítico para uma grande variedade de trabalhos
-    da Ciência da Computação e da Matemática:
+    Coq tornou possível uma grande variedade de contribuições tanto
+    para a Ciência da Computação como para a Matemática:
 
 <div class="paragraph"> </div>
 
@@ -222,10 +229,10 @@
 </li>
 </ul>
     formalmente</i>, Coq foi utilizado para construir o CompCert, um
-    otimizador de compilação totalmente verificado para C, para
-    provar a exatidão de algoritmos sutis envolvendo números de
-    ponto flutuante, e como a base para o Certicrypt, um ambiente
-    para raciocínio sobre a segurança de algoritmos criptografados.
+    compilador com otimizações para C inteiramente verificado, para
+    provar a exatidão de algoritmos sutis envolvendo números de ponto
+    flutuante, e como a base para o Certicrypt, um ambiente para
+    raciocínio sobre a segurança de algoritmos criptografados.
 
 <div class="paragraph"> </div>
 
@@ -241,173 +248,184 @@
 <div class="paragraph"> </div>
 
 <ul class="doclist">
-<li> Como um <i>assistente de prova para lógica de ordem superior</i>, foi utilizado
+<li> Como um <i>assistente de prova para lógica de ordem superior</i>, foi
 
 </li>
 </ul>
-    para validar uma série de resultados importantes na matemática. Por exemplo,
-    sua capacidade de incluir computações complexas dentro de provas tornou
-    possível desenvolver a primeira prova de teorema formalmente verificada do
-    teorema das 4 cores. Essa prova havia sido controversa entre matemáticos
-    porque parte dela inclui a verificação de um grande número de
-    configurações usando um programa. Na formalização do Coq, tudo
-    é verificado, incluindo a precisão da parte computacional. Mais
-    recentemente, um esforço ainda maior levou à formalização através de Coq
-    do teorema de Feit-Thompson -- o primeiro maior passo na classificação de
-    grupos finitos simples.
+    utilizado para validar uma série de resultados importantes na
+    matemática. Por exemplo, sua capacidade de incluir computações
+    complexas dentro de provas tornou possível desenvolver a primeira
+    prova de teorema formalmente verificada do teorema das 4
+    cores. Essa prova havia sido controversa entre matemáticos porque
+    parte dela inclui a verificação de um grande número de
+    configurações usando um programa. Na formalização do Coq, tudo é
+    verificado, incluindo a precisão da parte computacional. Mais
+    recentemente, um esforço ainda maior levou à formalização através
+    de Coq do teorema de Feit-Thompson -- o primeiro avanço
+    significativo para classificar de grupos finitos simples.
 
 <div class="paragraph"> </div>
 
-    A propósito, caso você esteja se perguntando sobre o nome Coq, aqui está
-    o que o website oficial diz: "Alguns cientistas franceses da computação têm
-    a tradição de nomear seus software como espécies de animais: Caml, Elan, Foc
-    ou Phox são exemplos dessa convenção. Em francês, 'coq' significa galo, e,
-    além disso soa como as iniciais de Calculus of Constructions (CoC), no
-    qual é baseado." O galo é um simbolo nacional da França, e "Coq" são as
+    A propósito, caso você esteja se perguntando sobre o nome Coq,
+    aqui está o que o website oficial diz: "Alguns cientistas
+    franceses da computação têm a tradição de nomear seus softwares
+    como espécies de animais: Caml, Elan, Foc ou Phox são exemplos
+    dessa convenção. Em francês, 'coq' significa galo, e, além disso
+    soa como as iniciais de <i>Calculus of Constructions</i> (CoC), no qual
+    é baseado." O galo é um simbolo nacional da França, e "Coq" são as
     três primeiras letras do nome de Thierry Coquand, um dos primeiros
     desenvolvedores do Coq. 
 <div class="paragraph"> </div>
 
-<a name="lab6"></a><h2 class="section">Functional Programming</h2>
+<a name="lab6"></a><h2 class="section">Programação funcional</h2>
 
 <div class="paragraph"> </div>
 
- The term <i>functional programming</i> refers both to a collection of
-    programming idioms that can be used in almost any programming
-    language and to a family of programming languages designed to
-    emphasize these idioms, including Haskell, OCaml, Standard ML,
-    F#, Scala, Scheme, Racket, Common Lisp, Clojure, Erlang, and Coq.
+ O termo <i>programação funcional</i> refere-se tanto a uma coleção de
+    idiomatismos de programação que podem ser usados em praticamente
+    qualquer linguagem de programação quanto a uma família de
+    linguagens de programação projetadas para enfatizar esses
+    idiomatismos, incluindo Haskell, OCaml, Standard ML, F#, Scala,
+    Scheme, Racket, Common Lisp, Clojure, Erlang, e Coq.
 
 <div class="paragraph"> </div>
 
-    Functional programming has been developed over many decades --
-    indeed, its roots go back to Church's lambda-calculus, which was
-    invented in the 1930s before the era of the computer began!  But
-    since the early '90s it has enjoyed a surge of interest among
-    industrial engineers and language designers, playing a key role in
-    high-value systems at companies like Jane St. Capital, Microsoft,
-    Facebook, and Ericsson.
+    A programação funcional tem sido desenvolvida ao longo de muitas
+    décadas - de fato, as suas raízes remontam ao cálculo lambda da
+    Igreja, que foi inventado na década de 1930, antes da era dos
+    computadores começar! Porém, desde o início dos anos 90, ela se
+    tornou uma onda de interesse crescente entre os engenheiros
+    industriais e projetistas de linguagens, desempenhando um papel
+    fundamental nos sistemas de alto valor em empresas como Jane
+    St. Capital, Microsoft, Facebook, e Ericsson.
 
 <div class="paragraph"> </div>
 
-    The most basic tenet of functional programming is that, as much as
-    possible, computation should be <i>pure</i>, in the sense that the only
-    effect of execution should be to produce a result: the computation
-    should be free from <i>side effects</i> such as I/O, assignments to
-    mutable variables, redirecting pointers, etc.  For example,
-    whereas an <i>imperative</i> sorting function might take a list of
-    numbers and rearrange its pointers to put the list in order, a
-    pure sorting function would take the original list and return a
-    <i>new</i> list containing the same numbers in sorted order.
+    O princípio mais básico da programação funcional é que, tanto
+    quanto possível, a computação deve ser <i>pura</i>, no sentido de que o
+    único efeito da execução deve ser o de produzir um resultado: a
+    computação deve ser livre de <i>efeitos colaterais</i>, tais como
+    entradas e saídas, atribuições a variáveis mutáveis,
+    redirecionamento de ponteiros, etc. Por exemplo, enquanto uma
+    função <i>imperativa</i> de ordenação pode receber uma lista de números
+    e reorganizar seus ponteiros para colocar a lista em ordem, uma
+    função de ordenação pura receberia a lista original e retornaria
+    uma <i>nova</i> lista contendo os mesmos números na ordem de
+    classificação.
 
 <div class="paragraph"> </div>
 
-    One significant benefit of this style of programming is that it
-    makes programs easier to understand and reason about.  If every
-    operation on a data structure yields a new data structure, leaving
-    the old one intact, then there is no need to worry about how that
-    structure is being shared and whether a change by one part of the
-    program might break an invariant that another part of the program
-    relies on.  These considerations are particularly critical in
-    concurrent programs, where every piece of mutable state that is
-    shared between threads is a potential source of pernicious bugs.
-    Indeed, a large part of the recent interest in functional
-    programming in industry is due to its simple behavior in the
-    presence of concurrency.
+    Um benefício significativo deste estilo de programação é que ele
+    torna os programas mais fáceis de entender e de se analizar. Se
+    cada operação em uma estrutura de dados produz uma nova estrutura
+    de dados, deixando a antiga intacta, então não há necessidade de
+    se preocupar sobre como essa estrutura está sendo compartilhada e
+    se uma mudança por uma parte do programa pode quebrar um
+    invariante em que outra parte do programa se baseia. Essas
+    considerações são particularmente críticas em programas
+    concorrentes, onde cada pedaço de estado mutável que é
+    compartilhado entre <i>threads</i> é uma fonte em potencial de erros
+    perniciosos. Na verdade, uma grande parte do recente interesse em
+    programação funcional por parte da indústria é devido ao seu
+    comportamento simples na presença de concorrência.
 
 <div class="paragraph"> </div>
 
-    Another reason for the current excitement about functional
-    programming is related to the first: functional programs are often
-    much easier to parallelize than their imperative counterparts.  If
-    running a computation has no effect other than producing a result,
-    then it does not matter <i>where</i> it is run.  Similarly, if a data
-    structure is never modified destructively, then it can be copied
-    freely, across cores or across the network.  Indeed, the MapReduce
-    idiom that lies at the heart of massively distributed query
-    processors like Hadoop and is used by Google to index the entire
-    web is a classic example of functional programming.
+    Outro motivo para o entusiasmo atual sobre a programação funcional
+    está relacionado com o primeiro: programas funcionais são
+    frequentemente muito mais fáceis de paralelizar do que suas
+    contrapartes imperativas.  Se a execução de um algoritmo não
+    possui qualquer outro efeito além de produzir um resultado, então
+    não importa <i>onde</i> ele é executado.  Da mesma forma, se uma
+    estrutura de dados nunca é modificada destrutivamente, então ela
+    pode ser copiada livremente, entre núcleos ou em toda a rede. De
+    fato, o idiomatismo MapReduce, que está no cerne de processadores
+    de consulta maciçamente distribuídos como o Hadoop e é usado pelo
+    Google para indexar toda a web, é um exemplo clássico de
+    programação funcional.
 
 <div class="paragraph"> </div>
 
-    For purposes of this course, functional programming has yet
-    another significant attraction: it serves as a bridge between
-    logic and computer science.  Indeed, Coq itself can be viewed as a
-    combination of a small but extremely expressive functional
-    programming language plus with a set of tools for stating and
-    proving logical assertions.  Moreover, when we come to look more
-    closely, we find that these two sides of Coq are actually aspects
-    of the very same underlying machinery -- i.e., <i>proofs are
-    programs</i>.  
+    Para os fins deste curso, a programação funcional tem ainda uma
+    outra atração significativa: ela serve como uma ponte entre a
+    lógica e a ciência da computação. De fato, o próprio Coq pode ser
+    vista como uma combinação de uma pequena porém extremamente
+    expressiva linguagem de programação funcional com um conjunto de
+    ferramentas para indicar e provar afirmações lógicas. Além disso,
+    quando chegamos a olhar mais de perto, descobrimos que esses dois
+    lados do Coq são na verdade aspectos da mesma maquinaria
+    subjacente - ou seja, <i>provas são programas</i>. 
 <div class="paragraph"> </div>
 
-<a name="lab7"></a><h2 class="section">Program Verification</h2>
-
-<div class="paragraph"> </div>
-
- The first third of the book is devoted to developing the
-    conceptual framework of logic and functional programming and
-    gaining enough fluency with Coq to use it for modeling and
-    reasoning about nontrivial artifacts.  From this point on, we
-    increasingly turn our attention to two broad topics of critical
-    importance to the enterprise of building reliable software (and
-    hardware): techniques for proving specific properties of
-    particular <i>programs</i> and for proving general properties of whole
-    programming <i>languages</i>.
+<a name="lab7"></a><h2 class="section">Verificação de Programas</h2>
 
 <div class="paragraph"> </div>
 
-    For both of these, the first thing we need is a way of
-    representing programs as mathematical objects, so we can talk
-    about them precisely, and ways of describing their behavior in
-    terms of mathematical functions or relations.  Our tools for these
-    tasks are <i>abstract syntax</i> and <i>operational semantics</i>, a method
-    of specifying the behavior of programs by writing abstract
-    interpreters.  At the beginning, we work with operational
-    semantics in the so-called "big-step" style, which leads to
-    somewhat simpler and more readable definitions, in those cases
-    where it is applicable.  Later on, we switch to a more detailed
-    "small-step" style, which helps make some useful distinctions
-    between different sorts of "nonterminating" program behaviors and
-    which is applicable to a broader range of language features,
-    including concurrency.
+ O primeiro terço deste livro é dedicado ao arcabouço conceitual de
+    lógica e programação funcional e a ganhar fluência suficiente com Coq
+    de forma a poder utilizar o mesmo para modelar artefatos não triviais e
+    raciocinar sobre eles. Tornamos então nossa atenção cada vez mais para
+    dois amplos assuntos que têm uma importância crítica no projeto de
+    software (e hardware) confiável: técnicas para provar propriedades
+    específicas de <i>programas</i> particulares e para provar propriedades
+    gerais sobre <i>linguagens</i> de programação inteiras.
 
 <div class="paragraph"> </div>
 
-    The first programming language we consider in detail is <i>Imp</i>, a
-    tiny toy language capturing the core features of conventional
-    imperative programming: variables, assignment, conditionals, and
-    loops. We study two different ways of reasoning about the
-    properties of Imp programs.
+    Para ambos, o nosso primeiro requisito é termos uma maneira de
+    representar programas como objetos matemáticos, para podermos
+    versar precisamente sobre eles, assim como formas de descrever o
+    seu comportamento através de funções e relações
+    matemáticas. Nossas ferramentas para estas tarefas são a <i>sintaxe
+    abtrata</i> e a <i>semântica operacional</i>, um método para especificar o
+    comportamento de programas que consistem em escrever
+    interpretadores abstratos. Inicialmente, trabalhamos com semântica
+    operacional em um estilo chamado de "passos largos" ( big-step),
+    o que leva a especificações geralmente mais simples e mais
+    legíveis, quando se aplica. Em seguida, passamos a um estilo mais
+    detalhado, apelidado de "pequenos passos" (<i>small-step</i>). Este
+    estilo permite distinguir entre diferentes tipos de comportamentos
+    de programas sem término, e que também é aplicável a uma maior
+    gama de características de linguagens, inclusive concorrência.
 
 <div class="paragraph"> </div>
 
-    First, we consider what it means to say that two Imp programs are
-    <i>equivalent</i> in the sense that they give the same behaviors for
-    all initial memories.  This notion of equivalence then becomes a
-    criterion for judging the correctness of <i>metaprograms</i> --
-    programs that manipulate other programs, such as compilers and
-    optimizers.  We build a simple optimizer for Imp and prove that it
-    is correct.
+    A primeira linguagem que consideramos detalhadamente é  Imp,
+    uma minúscula linguagem brinquedo que engloba as características
+    essenciais da programação imperativa convencional: variáveis,
+    atribuições, condicionais, e laços. Estudamos duas formas diferentes
+    de raciocínio sobre as propriedades de programas Imp.
 
 <div class="paragraph"> </div>
 
-    Second, we develop a methodology for proving that Imp programs
-    satisfy formal specifications of their behavior.  We introduce the
-    notion of <i>Hoare triples</i> -- Imp programs annotated with pre- and
-    post-conditions describing what should be true about the memory in
-    which they are started and what they promise to make true about
-    the memory in which they terminate -- and the reasoning principles
-    of <i>Hoare Logic</i>, a "domain-specific logic" specialized for
-    convenient compositional reasoning about imperative programs, with
-    concepts like "loop invariant" built in.
+    Primeiro, consideramos o significado de afirmar que dois programas
+    Imp são <i>equivalentes</i> no sentido que propiciam os mesmos
+    comportamentos para todas as memórias iniciais. Essa noção de
+    equivalência torna-se então um critério para avaliar a corretude
+    de <i>metaprogramas</i> -- programs que manipulam outros programs, como
+    compiladores e otimizadores. Construimos um otimizador simples
+    para Imp e programos que ele é correto.
 
 <div class="paragraph"> </div>
 
-    This part of the course is intended to give readers a taste of the
-    key ideas and mathematical tools used for a wide variety of
-    real-world software and hardware verification tasks.
+    Segundo, desenvolvemos uma metodologia para provar que programas
+    Imp satisfazem especificações formais do seu
+    comportamento. Introduzimos a noção de <i>triplas de Hoare</i> --
+    programas Imp anotados com uma pre-condição, que especifica como a
+    memória deve estar configurada como o programa é inicializado e
+    uma pós-condição descrevendo o programa se compromete a realizar
+    nesta memória uma vez que ele termina a sua execução. Também
+    apresentamos os princípios de raciocínio na <i>lógica de Hoare</i>, uma
+    "lógica de domínio específico", especializada para raciocinar
+    composicionalmente sobre programas imperativos, e com conceitos
+    embutidos como "invariantes de laço".
 
+<div class="paragraph"> </div>
+
+    Essa parte do curso tem como objetivo iniciar os leitores com as
+    ideias chaves e as ferramentas matemáticas utilizadas em uma
+    grande variedade de atividades efetivamente utilizadas para a
+    verificação de software e de hardware.  
 <div class="paragraph"> </div>
 
 <a name="lab8"></a><h2 class="section">Sistemas de Tipo</h2>
@@ -425,7 +443,7 @@
     exemplos de uma classe bem sucedida de técnicas de verificação 
     formal, conhecida como métodos formais leves. Essas são técnicas
     de raciocínio de poder modesto -- modesto o suficiente a ponto de
-    checadores automáticos poderem ser construídos em compiladores, 
+    verificadores automáticos poderem ser construídos em compiladores, 
     linkeditores, ou analisadores de programas e assim serem aplicadas até
     por programadores não familiarizados com as teorias básicas. (Outros
     exemplos de métodos formais leves incluem verificadores de modelos de 
@@ -445,7 +463,7 @@
 
 <div class="paragraph"> </div>
 
-<a name="lab9"></a><h1 class="section">Practicalities</h1>
+<a name="lab9"></a><h1 class="section">Informações práticas</h1>
 
 <div class="paragraph"> </div>
 
@@ -457,41 +475,40 @@
     sugeridos através do material pode ser encontrados no arquivo &lt;deps.html&gt;. 
 <div class="paragraph"> </div>
 
-<a name="lab11"></a><h2 class="section">System Requirements</h2>
+<a name="lab11"></a><h2 class="section">Requisitos de Sistema</h2>
 
 <div class="paragraph"> </div>
 
- Coq runs on Windows, Linux, and OS X.  You will need:
+ Coq executa em Windows, Linux e OS X. Você precisará de:
 
 <div class="paragraph"> </div>
 
 <ul class="doclist">
-<li> A current installation of Coq, available from the Coq home
-         page.  Everything should work with version 8.4.
+<li> A instalação atual do Coq, disponível a partir da home page do Coq. 
+         Tudo deve funcionar corretamente com a versão 8.4.
 
 <div class="paragraph"> </div>
 
 
 </li>
-<li> An IDE for interacting with Coq.  Currently, there are two
-         choices:
+<li> Uma IDE para interagir com o Coq. Atualmente, existem duas escolhas:
 
 <div class="paragraph"> </div>
 
 <ul class="doclist">
-<li> Proof General is an Emacs-based IDE.  It tends to be
-             preferred by users who are already comfortable with
-             Emacs.  It requires a separate installation (google
+<li> Proof General é uma IDE baseada no Emacs. Ela tende 
+             a ser preferida por usuários que já estão confortáveis 
+             com o Emacs. Ela requer uma instalação separada (Google 
              "Proof General").
 
 <div class="paragraph"> </div>
 
 
 </li>
-<li> CoqIDE is a simpler stand-alone IDE.  It is distributed
-             with Coq, but on some platforms compiling it involves
-             installing additional packages for GUI libraries and
-             such. 
+<li> CoqIDE é uma IDE stand-alone simples. Ela é distribuída 
+             com o Coq, mas, em algumas plataformas, para compilá-lo
+             é necessária a instalação de pacotes adicionais para as 
+             bibliotecas GUI e etc. 
 </li>
 </ul>
 
@@ -544,23 +561,22 @@
     Além disso, alguns exercícios são marcados como "avançado", e alguns
     outros são marcados como "opcional." Fazer somente os exercícios
     não-opcionais e não-avançados deve proporcionar uma boa cobertura 
-    do assunto central. Exercícios opcionais porporcionam um pouco mais 
-    de prática com conceitos chaves e introduz temas secundários que 
+    do assunto central. Exercícios opcionais proporcionam um pouco mais 
+    de prática com conceitos chaves e introduzem temas secundários que 
     podem ser do interesse de alguns leitores. Exercícios avançados são 
     para leitores que querem um desafio extra (e, como retribuição, um
     contato mais profundo com o material).
 
 <div class="paragraph"> </div>
 
-    <i>Por favor, não publique soluções para os exercícios em locais 
-    públicos</i>: Fundações de Software é largamente utilizado tanto para 
-    estudos pessoais quanto para cursos universitários. Ter as soluções
-    facilmente disponíveis torna o livro muito menos útil para cursos,
-    os quais tem as atividades normalmente graduadas. Os autores 
-    especialmente solicitam que os leitores não publiquem as soluções 
-    para os exercícios em qualquer lugar que possa ser encontrado por
-    mecanismos de busca.
-
+    <i>Por favor, não publique soluções para os exercícios em locais
+    públicos</i>: <i>Fundações de Software</i> é largamente utilizado tanto
+    para estudos pessoais quanto para cursos universitários. Ter as
+    soluções facilmente disponíveis torna o livro muito menos útil
+    para cursos, os quais tem as atividades normalmente graduadas. Os
+    autores especialmente solicitam que os leitores não publiquem as
+    soluções para os exercícios em qualquer lugar que possa ser
+    encontrado por mecanismos de busca.  
 <div class="paragraph"> </div>
 
 <a name="lab13"></a><h2 class="section">Baixando os arquivos Coq</h2>
@@ -589,21 +605,22 @@
 
 <div class="paragraph"> </div>
 
-    Por favor, enviei um e-mail para Benjamin Pierce, descrevendo-se e
-    informando como gostaria de fazer uso do material, incluindo o resultado
-    de fazer "htpasswd -s -n NAME", onde NAME é seu nome de
-    usuário.  Nós vamos configurar sua leitura/acesso com a nossa subversão do
-    repositório e adiciona-lo na lista de contato de desenvolvedores; no repositório você encontrará
-    um <span class="inlinecode"><span class="id" type="var">README</span></span> com futuras instruções. 
+    Por favor, envie um e-mail para Benjamin Pierce, descrevendo-se e
+    informando como gostaria de fazer uso do material, incluindo o
+    resultado de fazer "htpasswd -s -n NAME", onde NAME é seu nome de
+    usuário.  Nós vamos configurar seus direitos de acesso em
+    leitura/escrita ao nosso repositório <i>subversion</i> e adicioná-lo na
+    lista de contato de desenvolvedores; no repositório você
+    encontrará um <span class="inlinecode"><span class="id" type="var">README</span></span> com futuras instruções. 
 <div class="paragraph"> </div>
 
-<a name="lab15"></a><h1 class="section">Translations</h1>
+<a name="lab15"></a><h1 class="section">Traduções</h1>
 
 <div class="paragraph"> </div>
 
- Thanks to the efforts of a team of volunteer translators, <i>Software 
-    Foundations</i> can now be enjoyed in Japanese at <span class="inlinecode"><span class="id" type="var">http</span>://<span class="id" type="var">proofcafe.org</span>/<span class="id" type="var">sf</span></span>
-
+ Graças aos esforços de uma equipe de tradutores voluntários,
+    <i>Fundações de Software</i> pode agora ser apreciado em Japonês em
+    <span class="inlinecode"><span class="id" type="var">http</span>://<span class="id" type="var">proofcafe.org</span>/<span class="id" type="var">sf</span></span> 
 </div>
 <div class="code">
 
