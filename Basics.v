@@ -28,13 +28,13 @@ Definition admit {T: Type} : T.  Admitted.
     podem ser tratadas como dados dessa maneira permite uma série de
     idiomas úteis e poderosos.
 
-    Other common features of functional languages include _algebraic
+    [Diego] Other common features of functional languages include _algebraic
     data types_ and _pattern matching_, which make it easy to construct
     and manipulate rich data structures, and sophisticated
     _polymorphic type systems_ that support abstraction and code
     reuse.  Coq shares all of these features.
 
-    The first half of this chapter introduces the most essential
+    [Francisco] The first half of this chapter introduces the most essential
     elements of Coq's functional programming language.  The second
     half introduces some basic _tactics_ that can be used to prove
     simple properties of Coq programs.
@@ -79,7 +79,7 @@ Inductive day : Type :=
     a definição pode ser lida como "[monday] é um [day], [tuesday] é um [day]",
     etc.
 
-    Having defined [day], we can write functions that operate on
+    [Diego] Having defined [day], we can write functions that operate on
     days. *)
 
 Definition next_weekday (d:day) : day :=
@@ -100,9 +100,8 @@ Definition next_weekday (d:day) : day :=
     some _type inference_ -- but we'll always include them to make
     reading easier. *)
 
-(** Having defined a function, we should check that it works on
-    some examples.  There are actually three different ways to do this
-    in Coq.  
+(** [Francisco] Having defined a function, we should check that it works on some
+    examples.  There are actually three different ways to do this in Coq.
 
     Primeiro, nós podemos usar o comando [Eval compute] (_avalia cálculo_) para
     avaliar uma expressão composta envolvendo [next_weekday].  *)
@@ -158,7 +157,7 @@ Proof. simpl. reflexivity.  Qed.
 
 (** ** Booleanos *)
 
-(** In a similar way, we can define the standard type [bool] of
+(** [Diego] In a similar way, we can define the standard type [bool] of
     booleans, with members [true] and [false]. *)
 
 Inductive bool : Type :=
@@ -174,7 +173,7 @@ Inductive bool : Type :=
     name our own definitions and theorems so that they exactly
     coincide with the ones in the standard library. *)
 
-(** Functions over booleans can be defined in the same way as
+(** [Francisco] Functions over booleans can be defined in the same way as
     above: *)
 
 Definition negb (b:bool) : bool := 
@@ -225,7 +224,7 @@ Proof. reflexivity.  Qed.
     tais valores nos próximos exercícios. Em geral, nossa tarefa nos exercícios
     é substituir [admit] ou [Admitted] por definições ou provas reais. *)
 
-(** **** Exercício: 1 estrela (nandb)  *)
+(** **** Exercício: * (nandb)  *)
 
 (** Complete a definição das seguintes funções, depois, certifique que as
     asserções [Example] (_exemplo_) abaixo podem ser verificadas pelo Coq.  *)
@@ -236,7 +235,7 @@ Proof. reflexivity.  Qed.
 Definition nandb (b1:bool) (b2:bool) : bool :=
   (* PREENCHER *) admit.
 
-(** Remove "[Admitted.]" and fill in each proof with 
+(** Remover "[Admitted.]" e preencher cada prova com
     "[Proof. reflexivity. Qed.]" *)
 
 Example test_nandb1:               (nandb true false) = true.
@@ -326,10 +325,11 @@ Inductive nat : Type :=
 
     Vamos olhar isso com um pouco mais de detalhamento.
 
-    Every inductively defined set ([day], [nat], [bool], etc.) is
+    [Diego] Every inductively defined set ([day], [nat], [bool], etc.) is
     actually a set of _expressions_.  The definition of [nat] says how
     expressions in the set [nat] can be constructed:
 
+    [Francisco]
     - the expression [O] belongs to the set [nat]; 
     - if [n] is an expression belonging to the set [nat], then [S n]
       is also an expression belonging to the set [nat]; and
@@ -369,11 +369,11 @@ Definition minustwo (n : nat) : nat :=
     | S (S n') => n'
   end.
 
-(** Como os números naturais são uma forma de informação tão difundida, Coq
-    provê um pouquinho de mágica construída internamente para interpretá-los e
+(** Como os números naturais são uma forma de informação difundida, Coq provê um
+    pouquinho de mágica construída internamente para interpretá-los e
     imprimí-los: algarismos árabes comuns podem ser usados como alternativa para
     a notação "unária" definida pelos construtores [S] e [O]. Por padrão, Coq
-    imprime números na forma árabe: *) 
+    imprime números na forma árabe: *)
 
 Check (S (S (S (S O)))).
 Eval compute in (minustwo 4).
@@ -479,7 +479,7 @@ Fixpoint exp (base power : nat) : nat :=
     | S p => mult base (exp base p)
   end.
 
-(** **** Exercício: 1 estrela (factorial)  *)
+(** **** Exercício: * (factorial)  *)
 (** Relembrando a função fatorial tradicional:
 <<
     factorial(0)  =  1 
@@ -519,12 +519,12 @@ Check ((0 + 1) + 1).
     dirigir à subseção "Mais em Notações", na seção de "Material Avançado", no
     final desse capítulo.) *)
 
-(** Note that these do not change the definitions we've already
-    made: they are simply instructions to the Coq parser to accept [x
-    + y] in place of [plus x y] and, conversely, to the Coq
-    pretty-printer to display [plus x y] as [x + y]. *)
+(** [Diego] Note that these do not change the definitions we've already made:
+    they are simply instructions to the Coq parser to accept [x + y] in place of
+    [plus x y] and, conversely, to the Coq pretty-printer to display [plus x y]
+    as [x + y]. *)
 
-(** When we say that Coq comes with nothing built-in, we really
+(** [Francisco] When we say that Coq comes with nothing built-in, we really
     mean it: even equality testing for numbers is a user-defined
     operation! *)
 (** The [beq_nat] function tests [nat]ural numbers for [eq]uality,
@@ -583,7 +583,7 @@ Example test_blt_nat3:             (blt_nat 4 2) = false.
 
 (** * Prova por Simplificação *)
 
-(** Now that we've defined a few datatypes and functions, let's
+(** [Renan] Now that we've defined a few datatypes and functions, let's
     turn to the question of how to state and prove properties of their
     behavior.  Actually, in a sense, we've already started doing this:
     each [Example] in the previous sections makes a precise claim
@@ -600,7 +600,7 @@ Example test_blt_nat3:             (blt_nat 4 2) = false.
     [simpl] é usado em situações onde devemos ler e entender o objetivo, então 
     não queremos que definições sejam expandidas sem nosso conhecimento.) 
 
-    The same sort of "proof by simplification" can be used to prove
+    [Claudia] The same sort of "proof by simplification" can be used to prove
     more interesting properties as well.  For example, the fact that
     [0] is a "neutral element" for [+] on the left can be proved
     just by observing that [0 + n] reduces to [n] no matter what
@@ -620,13 +620,13 @@ Proof.
 (** As formas desse teorema e da prova são quase exatamente as mesmas
     que no exemplo acima; Existem somente algumas diferenças.
 
-    First, we've used the keyword [Theorem] instead of
+    [Diego] First, we've used the keyword [Theorem] instead of
     [Example].  Indeed, the difference is purely a matter of
     style; the keywords [Example] and [Theorem] (and a few others,
     including [Lemma], [Fact], and [Remark]) mean exactly the same
     thing to Coq.
 
-    Secondly, we've added the quantifier [forall n:nat], so that our
+    [Francisco] Secondly, we've added the quantifier [forall n:nat], so that our
     theorem talks about _all_ natural numbers [n].  In order to prove
     theorems of this form, we need to to be able to reason by
     _assuming_ the existence of an arbitrary natural number [n].  This
@@ -634,7 +634,7 @@ Proof.
     from the goal to a "context" of current assumptions. In effect, we
     start the proof by saying "OK, suppose [n] is some arbitrary number."
 
-    The keywords [intros], [simpl], and [reflexivity] are examples of
+    [Renan] The keywords [intros], [simpl], and [reflexivity] are examples of
     _tactics_.  A tactic is a command that is used between [Proof] and
     [Qed] to tell Coq how it should check the correctness of some
     claim we are making.  We will see several more tactics in the rest
@@ -665,43 +665,43 @@ Proof.
 
 (** * Prova por Reescrita *)
 
-(** Here is a slightly more interesting theorem: *)
+(** Eis um teorema um pouco mais interessante: *)
 
 Theorem plus_id_example : forall n m:nat,
   n = m -> 
   n + n = m + m.
 
-(** Instead of making a completely universal claim about all numbers
-    [n] and [m], this theorem talks about a more specialized property
-    that only holds when [n = m].  The arrow symbol is pronounced
-    "implies."
+(** Ao invés de fazer um asserção completamente universal sobre todos os números
+    naturais [n] e [m], este teorema versa sobre uma propriedade mais
+    especializada, que apenas é satisfeita quando [n=m]. O símbolo de seta é
+    pronunciado "implica".
 
-    As before, we need to be able to reason by assuming the existence
-    of some numbers [n] and [m].  We also need to assume the hypothesis
-    [n = m]. The [intros] tactic will serve to move all three of these
-    from the goal into assumptions in the current context. 
+    Como anteriormente, nós precisamos ser capazes de supor a existência de
+    números naturais [n] e [m]. Também precisamos supor a hipótese [n = m]. A
+    tática [intros] será utilizada para deslocar essas três afirmações da meta
+    para tornarem-se hipóteses do contexto atual.
 
-    Since [n] and [m] are arbitrary numbers, we can't just use
-    simplification to prove this theorem.  Instead, we prove it by
-    observing that, if we are assuming [n = m], then we can replace
-    [n] with [m] in the goal statement and obtain an equality with the
-    same expression on both sides.  The tactic that tells Coq to
-    perform this replacement is called [rewrite]. *)
+    Como [n] e [m] são números quaisqueres, não podemos utilizar apenas
+    simplificação para provar este teorema. Ao invés, faremos esta prova
+    lançando mão do fato que, ao supor [n = m], é possível substituir [n] por
+    [m] na expressão meta, de forma que obtenhamos uma igualdade com a mesma
+    expressão em ambos lados. A tática que instrui Coq de realizar esta
+    substituição é chamada [rewrite] (_reescrever_). *)
 
 Proof.
-  intros n m.   (* move both quantifiers into the context *)
-  intros H.     (* move the hypothesis into the context *)
-  rewrite -> H. (* Rewrite the goal using the hypothesis *)
+  intros n m.   (* deslocar ambos quantificadores no contexto *)
+  intros H.     (* mover a hipótese no contexto *)
+  rewrite -> H. (* reescrever a meta utilizando a hipótese *)
   reflexivity.  Qed.
 
-(** The first line of the proof moves the universally quantified
-    variables [n] and [m] into the context.  The second moves the
-    hypothesis [n = m] into the context and gives it the (arbitrary)
-    name [H].  The third tells Coq to rewrite the current goal ([n + n
-    = m + m]) by replacing the left side of the equality hypothesis
-    [H] with the right side.
+(** A primeira linha da prova desloca as variáveis universalmente quantificadas
+    [n] e [m] para o contexto.  A segunda linha desloca a hipótese [n = m] para
+    o contexto e atribui a ela o nome [H] (qualquer nome poderia ter sido
+    usado). A terceira linha instrui Coq para reescrever a meta atual ([n + n =
+    m + m]), substituindo o lado esquerdo da igualdade hipótese [H] pelo seu
+    lado direito.
 
-    (The arrow symbol in the [rewrite] has nothing to do with
+    [Francisco] (The arrow symbol in the [rewrite] has nothing to do with
     implication: it tells Coq to apply the rewrite from left to right.
     To rewrite from right to left, you can use [rewrite <-].  Try
     making this change in the above proof and see what difference it
@@ -728,7 +728,7 @@ Proof.
     disparate total entre no mundo formal, rigoroso, verificado e agradável do
     Coq. *)
 
-(** We can also use the [rewrite] tactic with a previously proved
+(** [Claudia] We can also use the [rewrite] tactic with a previously proved
     theorem instead of a hypothesis from the context. *)
 
 Theorem mult_0_plus : forall n m : nat,
@@ -749,7 +749,7 @@ Proof.
 
 (** * Prova por Análise de Casos *) 
 
-(** Of course, not everything can be proved by simple
+(** [Dalay] Of course, not everything can be proved by simple
     calculation: In general, unknown, hypothetical values (arbitrary
     numbers, booleans, lists, etc.) can block the calculation.  
     For example, if we try to prove the following fact using the 
@@ -768,7 +768,7 @@ Abort.
     number [n] and the argument to [beq_nat] is the compound
     expression [n + 1]; neither can be simplified.
 
-    What we need is to be able to consider the possible forms of [n]
+    [Diego] What we need is to be able to consider the possible forms of [n]
     separately.  If [n] is [O], then we can calculate the final result
     of [beq_nat (n + 1) 0] and check that it is, indeed, [false].
     And if [n = S n'] for some [n'], then, although we don't know
@@ -776,7 +776,7 @@ Abort.
     least, it will begin with one [S], and this is enough to calculate
     that, again, [beq_nat (n + 1) 0] will yield [false].
 
-    The tactic that tells Coq to consider, separately, the cases where
+    [Francisco] The tactic that tells Coq to consider, separately, the cases where
     [n = O] and where [n = S n'] is called [destruct]. *)
 
 Theorem plus_1_neq_0 : forall n : nat,
@@ -794,7 +794,7 @@ Proof.
     proof, each of the subgoals is easily proved by a single use of
     [reflexivity].
 
-    The annotation "[as [| n']]" is called an _intro pattern_.  It
+    [Renan] The annotation "[as [| n']]" is called an _intro pattern_.  It
     tells Coq what variable names to introduce in each subgoal.  In
     general, what goes between the square brackets is a _list_ of
     lists of names, separated by [|].  Here, the first component is
@@ -835,7 +835,7 @@ Proof.
 
 (** **** Exercício: ** (boolean_functions)  *)
 
-(** Use the tactics you have learned so far to prove the following 
+(** [Dalay] Use the tactics you have learned so far to prove the following 
     theorem about boolean functions. *)
 
 Theorem identity_fn_applied_twice : 
@@ -854,7 +854,7 @@ Proof.
 
 (** **** Exercício: ** (andb_eq_orb)  *)
 
-(** Prove the following theorem.  (You may want to first prove a
+(** [Diego] Prove the following theorem.  (You may want to first prove a
     subsidiary lemma or two. Alternatively, remember that you do
     not have to introduce all hypotheses at the same time.) *)
 
@@ -868,11 +868,12 @@ Proof.
 
 (** **** Exercício: *** (binary)  *)
 
-(** Consider a different, more efficient representation of natural
+(** [Francisco] Consider a different, more efficient representation of natural
     numbers using a binary rather than unary system.  That is, instead
     of saying that each natural number is either zero or the successor
     of a natural number, we can say that each binary number is either
 
+    [Renan]
       - zero,
       - twice a binary number, or
       - one more than twice a binary number.
@@ -880,10 +881,12 @@ Proof.
     (a) Primeiro, escreva uma definição indutiva para o tipo [bin] que
     corresponda a esta descrição de números binários.
 
+    [Claudia]
     (Hint: Recall that the definition of [nat] from class,
     Inductive nat : Type :=
       | O : nat
       | S : nat -> nat.
+    [Dalay]
     says nothing about what [O] and [S] "mean."  It just says "[O] is
     in the set called [nat], and if [n] is in the set then so is [S
     n]."  The interpretation of [O] as zero and [S] as successor/plus
@@ -893,9 +896,11 @@ Proof.
     it is the functions you will write next that will give it
     mathematical meaning.)
 
+    [Francisco]
     (b) Next, write an increment function [incr] for binary numbers, 
         and a function [bin_to_nat] to convert binary numbers to unary numbers.
 
+    [Renan]
     (c) Write five unit tests [test_bin_incr1], [test_bin_incr2], etc.
         for your increment and binary-to-unary functions. Notice that 
         incrementing a binary number and then converting it to unary 
@@ -908,7 +913,7 @@ Proof.
 
 (** * More on Notation (Advanced) *)
 
-(** In general, sections marked Advanced are not needed to follow the
+(** [Vitor] In general, sections marked Advanced are not needed to follow the
     rest of the book, except possibly other Advanced sections.  On a
     first reading, you might want to skim these sections so that you
     know what's there for future reference. *)
@@ -938,10 +943,9 @@ Notation "x * y" := (mult x y)
     percentagem escrevendo [(x*y)%nat], e, algumas vezes, em suas respostas para
     você, o Coq usará [%nat] para indicar em qual escopo se encontra a notação.
 
-    Notation scopes also apply to numeral notation (3,4,5, etc.), so you
-    may sometimes see [0%nat] which means [O], or [0%Z] which means the
-    Integer zero.
-*)
+    [Dalay] Notation scopes also apply to numeral notation (3,4,5, etc.), so you
+    may sometimes see [0%nat] which means [O], or [0%Z] which means the Integer
+    zero.  *)
 
 (** * [Fixpoint] e Recursão Estrutural (Avançado) *)
 
@@ -959,15 +963,15 @@ Fixpoint plus' (n : nat) (m : nat) : nat :=
     terminate.  Coq demands that some argument of _every_ [Fixpoint]
     definition is "decreasing".
 
-    This requirement is a fundamental feature of Coq's design: In
+    [Francisco] This requirement is a fundamental feature of Coq's design: In
     particular, it guarantees that every function that can be defined
     in Coq will terminate on all inputs.  However, because Coq's
     "decreasing analysis" is not very sophisticated, it is sometimes
     necessary to write functions in slightly unnatural ways. *)
 
-(** **** Exercício: **, optional (decreasing)  *)
+(** **** Exercício: **, opcional (diminuindo)  *)
 
-(** To get a concrete sense of this, find a way to write a sensible
+(** [Renan] To get a concrete sense of this, find a way to write a sensible
     [Fixpoint] definition (of a simple function on numbers, say) that
     _does_ terminate on all inputs, but that Coq will reject because
     of this restriction. *)

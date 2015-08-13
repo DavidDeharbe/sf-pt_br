@@ -1,8 +1,16 @@
+arrow: seta
+assumption: hipótese
+branch: ramo
+cartesian product: produto cartesiano
 case analysis: análise de casos
 (to) check: verificar
+checker: verificador
 correctness: corretude
+(to) decrease: diminuir
 (to) evaluate: calcular o valor
 function type: tipo funcional
+goal: meta
+invariant: (um) invariante
 lemma: lema
 linker: linkeditor
 machine-checked: verificado por máquina
@@ -13,5 +21,6 @@ rewriting: reescrita
 script: script
 side effects: efeitos colaterais
 soundness: correção
+static type system: sistema de tipagem estática
 (to) type: tipar
 wildcard: coringa
