@@ -224,7 +224,7 @@ Proof. reflexivity.  Qed.
     tais valores nos próximos exercícios. Em geral, nossa tarefa nos exercícios
     é substituir [admit] ou [Admitted] por definições ou provas reais. *)
 
-(** **** Exercício: * (nandb)  *)
+(** **** * Exercício: [nandb]  *)
 
 (** Complete a definição das seguintes funções, depois, certifique que as
     asserções [Example] (_exemplo_) abaixo podem ser verificadas pelo Coq.  *)
@@ -248,7 +248,7 @@ Example test_nandb4:               (nandb true true) = false.
 (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercício: 1 star (andb3)  *)
+(** **** * Exercício [andb3]  *)
 (** Do the same for the [andb3] function below. This function should
     return [true] when all of its inputs are [true], and [false]
     otherwise. *)
@@ -479,7 +479,7 @@ Fixpoint exp (base power : nat) : nat :=
     | S p => mult base (exp base p)
   end.
 
-(** **** Exercício: * (factorial)  *)
+(** **** * Exercício [factorial]  *)
 (** Relembrando a função fatorial tradicional:
 <<
     factorial(0)  =  1 
@@ -563,7 +563,7 @@ Proof. reflexivity.  Qed.
 Example test_ble_nat3:             (ble_nat 4 2) = false.
 Proof. reflexivity.  Qed.
 
-(** **** Exercício: ** (blt_nat)  *)
+(** **** ** Exercício [blt_nat]  *)
 
 (** The [blt_nat] function tests [nat]ural numbers for [l]ess-[t]han,
     yielding a [b]oolean.  Instead of making up a new [Fixpoint] for
@@ -707,7 +707,7 @@ Proof.
     making this change in the above proof and see what difference it
     makes in Coq's behavior.) *)
 
-(** **** Exercício: 1 star (plus_id_exercise)  *)
+(** **** * Exercício [plus_id_exercise]  *)
 (** Remove "[Admitted.]" and fill in the proof. *)
 
 Theorem plus_id_exercise : forall n m o : nat,
@@ -738,7 +738,7 @@ Proof.
   rewrite -> plus_O_n.
   reflexivity.  Qed.
 
-(** **** Exercício: ** (mult_S_1)  *)
+(** **** ** Exercício [mult_S_1]  *)
 Theorem mult_S_1 : forall n m : nat,
   m = S n -> 
   m * (1 + n) = m * m.
@@ -823,7 +823,7 @@ Proof.
     uma vez que o Coq pode fazer escolhas confusas de nomes quando lhe é deixada
     esta decisão. *)
 
-(** **** Exercício: 1 star (zero_nbeq_plus_1)  *)
+(** **** * Exercício [zero_nbeq_plus_1]  *)
 Theorem zero_nbeq_plus_1 : forall n : nat,
   beq_nat 0 (n + 1) = false.
 Proof.
@@ -833,7 +833,7 @@ Proof.
 
 (** * Mais Exercícios *)
 
-(** **** Exercício: ** (boolean_functions)  *)
+(** **** ** Exercício (funções booleanas)  *)
 
 (** [Dalay] Use the tactics you have learned so far to prove the following 
     theorem about boolean functions. *)
@@ -852,7 +852,7 @@ Proof.
 (* PREENCHER *)
 (** [] *)
 
-(** **** Exercício: ** (andb_eq_orb)  *)
+(** **** ** Exercício [andb_eq_orb]  *)
 
 (** Prove o seguinte teorema.  (Você pode querer provar um lema
     subsidiário ou dois. De maneira alternativa, lembre que você
@@ -866,7 +866,7 @@ Proof.
   (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercício: *** (binary)  *)
+(** **** *** Exercício [binary]  *)
 
 (** [Francisco] Consider a different, more efficient representation of natural
     numbers using a binary rather than unary system.  That is, instead
@@ -911,7 +911,7 @@ Proof.
 (* PREENCHER *)
 (** [] *)
 
-(** * More on Notation (Advanced) *)
+(** * Mais sobre [Notation] (avançado) *)
 
 (** [Vitor] In general, sections marked Advanced are not needed to follow the
     rest of the book, except possibly other Advanced sections.  On a
@@ -969,7 +969,7 @@ Fixpoint plus' (n : nat) (m : nat) : nat :=
     "analisador de decaimento" do Coq não é muito sofisticado, algumas vezes
     é necessário escrever funções de uma maneira não natural. *)
 
-(** **** Exercício: **, opcional (decaimento)  *)
+(** **** ** Exercício opcional (decaimento)  *)
 
 (** [Renan] To get a concrete sense of this, find a way to write a sensible
     [Fixpoint] definition (of a simple function on numbers, say) that
