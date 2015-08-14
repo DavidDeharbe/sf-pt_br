@@ -184,7 +184,7 @@
     três primeiras letras do nome de Thierry Coquand, um dos primeiros
     desenvolvedores do Coq. *)
 
-(** ** Programação funcional *)
+(** ** Programação Funcional *)
 
 (** O termo _programação funcional_ refere-se tanto a uma coleção de
     idiomatismos de programação que podem ser usados em praticamente
@@ -309,7 +309,7 @@
     grande variedade de atividades efetivamente utilizadas para a
     verificação de software e de hardware.  *)
 
-(** ** Sistemas de Tipo *)
+(** ** Sistemas de Tipagem *)
 
 (** O nosso tópico final principal, cobrindo o último terço do curso, 
     é Sistemas de Tipo, um conjunto poderoso de ferramentas para
@@ -398,7 +398,7 @@
     soluções para os exercícios em qualquer lugar que possa ser
     encontrado por mecanismos de busca.  *)
 
-(** ** Baixando os arquivos Coq *)
+(** ** Para Obter os Arquivos Coq *)
 
 (** Um arquivo tar contendo os fontes completos para a "versão de lançamento"
     destas notas (como uma coleção de scripts de Coq e arquivos HTML) está
@@ -411,7 +411,7 @@
     em vez da versão de lançamento.
 *)
 
-(** * Nota para instrutores *)
+(** * Nota para Instrutores *)
 
 (** Se você pretende utilizar esse material em seu próprio curso, com certeza
     encontrará coisas que gostará de modificar, aprimorar ou adicionar.
@@ -427,7 +427,14 @@
 
 (** * Traduções *)
 
-(** Graças aos esforços de uma equipe de tradutores voluntários,
-    _Fundações de Software_ pode agora ser apreciado em Japonês em
-    [http://proofcafe.org/sf] *)
+(** O texto original foi escrito em inglês e está sendo distribuído
+    em [http://www.cis.upenn.edu/~bcpierce/sf/current/toc.html].
+
+    Graças aos esforços de uma equipe de tradutores voluntários,
+    _Fundações de Software_ pode ser apreciado em Japonês em
+    [http://proofcafe.org/sf]
+
+    Essa tradução está sendo realizada como trabalho de uma disciplina
+    do Programa de Pós-graduação em Sistemas e Computação da 
+    Universidade Federal do Rio Grande do Norte. *)
 
