@@ -911,12 +911,13 @@ Proof.
 (* PREENCHER *)
 (** [] *)
 
-(** * Mais sobre [Notation] (avançado) *)
+(** * Mais sobre [Notation] (avançado) *)						    
 
-(** [Vitor] In general, sections marked Advanced are not needed to follow the
-    rest of the book, except possibly other Advanced sections.  On a
-    first reading, you might want to skim these sections so that you
-    know what's there for future reference. *)
+(** Em geral, seções marcadas como "Avançado" não são necessárias para
+ compreender o restante do livro, exceto, talvez, entender outras
+ seções avançadas. Você pode fazer uma leitura superficial ao passar
+ pela primeira vez na seção, para que saiba o que esta escrito num
+ momento futuro. *)
 
 Notation "x + y" := (plus x y)  
                        (at level 50, left associativity) 
@@ -925,15 +926,15 @@ Notation "x * y" := (mult x y)
                        (at level 40, left associativity) 
                        : nat_scope.
 
-(** For each notation-symbol in Coq we can specify its _precedence level_
-    and its _associativity_. The precedence level n can be specified by the
-    keywords [at level n] and it is helpful to disambiguate
-    expressions containing different symbols. The associativity is helpful
-    to disambiguate expressions containing more occurrences of the same 
-    symbol. For example, the parameters specified above for [+] and [*]
-    say that the expression [1+2*3*4] is a shorthand for the expression
-    [(1+((2*3)*4))]. Coq uses precedence levels from 0 to 100, and 
-    _left_, _right_, or _no_ associativity.
+(** Para cada tipo de símbolo de notação no Coq, podemos especificar
+ seu _nível de precedência_. O nível de precedência n pode ser
+ especificado pelas palavras-chave [at level n] e é útil para
+ desambiguizar expressões que contêm símbolos diferentes. A
+ associatividade é útil para desambiguizar expressões que contêm mais
+ de uma ocorrência de um mesmo símbolo. Por exemplo, os parâmetros
+ definidos acima para [+] e [*] afirmam que a expressão [1+2*3*4] é
+ uma abreviação para [(1+((2*3)*4))]. Coq usa níveis de precedência de
+ 0 a 100 e associatividade _esquerda_ ou _direita_ ou _nenhuma_ associatividade.
 
     Cada símbolo de notação no Coq está também ativo num escopo de notação.  O
     Coq tenta descobrir a qual escopo é feito referência, de modo que, quando

@@ -24,3 +24,4 @@ soundness: correção
 static type system: sistema de tipagem estática
 (to) type: tipar
 wildcard: coringa
+notation-symbol: símbolo de notação
