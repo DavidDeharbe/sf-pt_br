@@ -109,13 +109,13 @@ Proof.
   (* PREENCHER AQUI *) Admitted.
 (** [] *)
 
-(** [Vítor] There are no hard and fast rules for how proofs should be
-    formatted in Coq -- in particular, where lines should be broken
-    and how sections of the proof should be indented to indicate their
-    nested structure.  However, if the places where multiple subgoals
-    are generated are marked with explicit [Case] tactics placed at
-    the beginning of lines, then the proof will be readable almost no
-    matter what choices are made about other aspects of layout.
+(** Não existem regras rígidas e rápidas para como as provas devem ser
+ formatadas no Coq -- em particular, sobre onde as linhas devem ser
+ quebradas e como seções da prova deveriam ser indentadas para indicar
+ suas estruturas aninhadas. Porém, se os lugares onde múltiplas metas
+ são geradas estão marcadas com táticas [Case] explícitas no início
+ das linhas, então a prova será legível independentemente de quais escolhas
+ foram feitas sobre outros aspectos do layout.
 
     [Claudia] This is a good place to mention one other piece of (possibly
     obvious) advice about line lengths.  Beginning Coq users sometimes
@@ -194,20 +194,20 @@ Proof.
   Case "n = 0".     reflexivity.
   Case "n = S n'".  simpl. rewrite -> IHn'. reflexivity.  Qed.
 
-(** [Vítor]Like [destruct], the [induction] tactic takes an [as...]
-    clause that specifies the names of the variables to be introduced
-    in the subgoals.  In the first branch, [n] is replaced by [0] and
-    the goal becomes [0 + 0 = 0], which follows by simplification.  In
-    the second, [n] is replaced by [S n'] and the assumption [n' + 0 =
-    n'] is added to the context (with the name [IHn'], i.e., the
-    Induction Hypothesis for [n']).  The goal in this case becomes [(S
-    n') + 0 = S n'], which simplifies to [S (n' + 0) = S n'], which in
-    turn follows from the induction hypothesis. *)
+(** Assim como [destruct], a tática [induction] usa a cláusula
+ [as...] para especificar os nomes das variáveis que serão
+ introduzidas nas submetas. No primeiro ramo, [n] é substituída por
+ [0] e a meta se torna  [0 + 0 = 0], que, em seguida, é
+ simplificada. No segundo ramo, [n] é substituído por [S n'] e a
+ hipótese [n' + 0 = n'] é adicionada no contexto (com o nome [IHn']:
+ Inductive Hypothesis for [n']). O objetivo se torna, neste
+ caso, [(S n') + 0 = S n'], que é simplificado para [S (n' + 0) = S
+ n'] devido à hipótese indutiva. *)
 
 Theorem minus_diag : forall n,
   minus n n = 0.
 Proof.
-  (* WORKED IN CLASS *)
+  (* TRABALHADO EM SALA *)
   intros n. induction n as [| n'].
   Case "n = 0".
     simpl. reflexivity.
@@ -310,25 +310,25 @@ Proof.
     fact to make progress on whatever we were trying to prove in the
     first place. *)
 
-(** [Vítor]Actually, [assert] will turn out to be handy in many sorts of
-    situations.  For example, suppose we want to prove that [(n + m)
-    + (p + q) = (m + n) + (p + q)]. The only difference between the
-    two sides of the [=] is that the arguments [m] and [n] to the
-    first inner [+] are swapped, so it seems we should be able to
-    use the commutativity of addition ([plus_comm]) to rewrite one
-    into the other.  However, the [rewrite] tactic is a little stupid
-    about _where_ it applies the rewrite.  There are three uses of
-    [+] here, and it turns out that doing [rewrite -> plus_comm]
-    will affect only the _outer_ one. *)
+(** Na verdade, [assert] será proveitoso em várias situações
+ diferentes. Por exemplo, suponha que queiramos provar [(n + m) + (p +
+ q) = (m + n) + (p + q)]. A única diferença entre os dois lados de [=]
+ é que os argumentos [m] e [n] no primeiro parênteses estão
+ trocados. Desta forma, podemos usar, aparentemente, a 
+ comutatividade da adição ([plus_comm]) para reescrever um dos termos,
+ torando ambos iguais. Porém, a tática [rewrite] é um pouco estúpida
+ com relação a _onde_ ele deve aplicar a reescrita. Há três usos
+ de [+] aqui, e a execução de [rewrite -> plus_comm] irá
+ afetar apenas a soma mais _externa_. *)
 
 Theorem plus_rearrange_firsttry : forall n m p q : nat,
   (n + m) + (p + q) = (m + n) + (p + q).
 Proof.
   intros n m p q.
-  (* We just need to swap (n + m) for (m + n)...
-     it seems like plus_comm should do the trick! *)
+  (* Precisamos apenas trocar (n + m) por (m + n)...
+    parece que com plus_comm podemos fazer isso! *)
   rewrite -> plus_comm.
-  (* Doesn't work...Coq rewrote the wrong plus! *)
+  (* Não funciona... Coq reescreveu a soma errada! *)
 Abort.
 
 (** [Claudia] To get [plus_comm] to apply at the point where we want it, we can
@@ -470,18 +470,18 @@ Proof.
 
 
 (** **** Exercício: *** (binary_commute)  *)
-(** [Vítor] Recall the [increment] and [binary-to-unary] functions that you
-    wrote for the [binary] exercise in the [Basics] chapter.  Prove
-    that these functions commute -- that is, incrementing a binary
-    number and then converting it to unary yields the same result as
-    first converting it to unary and then incrementing.
-    Name your theorem [bin_to_nat_pres_incr].
 
-    (Before you start working on this exercise, please copy the
-    definitions from your solution to the [binary] exercise here so
-    that this file can be graded on its own.  If you find yourself
-    wanting to change your original definitions to make the property
-    easier to prove, feel free to do so.) *)
+ (** Relembre as funções [increment] e [binary-to-unary] que você
+ escreveu para o exercício [binary] no capítulo [Basics]. Prove que
+ estas funções comutam -- isto é, incrementar um número para binário e
+ convertê-lo para unário possui o mesmo resultado que convertê-lo
+ primeiro e depois incrementá-lo. Nomeie seu teorema como [bin_to_nat_press_incr].
+
+  (Antes de começar a trabalhar neste exercício, por favor, copie as
+  definições de sua solução para o exercício [binary] daqui para que
+  este arquivo esteja completo por si só. Se você deseja mudar alguma
+  definição original para tornar a propriedade mais fácil de ser
+  provada, sinta-se livre para realizá-la.) *)
 
 (* PREENCHER AQUI *)
 (** [] *)
@@ -528,12 +528,13 @@ Proof.
     instills in the reader or hearer the certainty that [P] is true.
     That is, a proof is an act of communication.
 
-    [Vítor]Now, acts of communication may involve different sorts of readers.
-    On one hand, the "reader" can be a program like Coq, in which case
-    the "belief" that is instilled is a simple mechanical check that
-    [P] can be derived from a certain set of formal logical rules, and
-    the proof is a recipe that guides the program in performing this
-    check.  Such recipes are _formal_ proofs.
+ 
+ Agora, os atos de comunicação podem envolver diferentes tipos de
+ leitores. De um lado, o "leitor" pode ser um programa como o Coq, em
+ que, no caso, a "crença" transmitida é uma simples verificação
+ mecânica de que [P] pode ser derivada a partir de um conjunto de
+ regras lógicas formais, e a prova é uma receita que guia o programa
+ em sua verificação. Estas receitas são as provas _formais_.
 
     [Claudia]Alternatively, the reader can be a human being, in which case the
     proof will be written in English or some other natural language,
@@ -605,9 +606,9 @@ Proof. intros n m p. induction n as [| n']. reflexivity.
     informal proof reminds the reader several times where things
     stand). *)
 
-(** [Vítor]Here is a formal proof that shows the structure more
-    clearly: *)
-
+(** Aqui está uma prova formal que mostra a estrutura de forma mais
+ clara: *)
+		
 Theorem plus_assoc'' : forall n m p : nat,
   n + (m + p) = (n + m) + p.
 Proof.
@@ -618,19 +619,19 @@ Proof.
     simpl. rewrite -> IHn'. reflexivity.   Qed.
 
 (** **** Exercício: **, avançado (plus_comm_informal)  *)
-(** Translate your solution for [plus_comm] into an informal proof. *)
+(** Traduza sua a sua solução de [plus_comm] para uma prova informal. *) 
 
-(** Theorem: Addition is commutative.
+(** Teorema: Adição é comutativa.
  
     Proof: (* PREENCHER AQUI *)
 *)
 (** [] *)
 
-(** **** Exercise: **, opcional (beq_nat_refl_informal)  *)
-(** Write an informal proof of the following theorem, using the
-    informal proof of [plus_assoc] as a model.  Don't just
-    paraphrase the Coq tactics into English!
- 
+(** **** Exercício: **, opcional (beq_nat_refl_informal)  *)
+(** Escreva uma prova informal para o seguinte teorema, usando a prova
+ informal para [plus_assoc] como modelo. Não reescreva simplesmente as
+ táticas do Coq em inglês!
+
     Theorem: [true = beq_nat n n] for any [n].
     
     Proof: (* PREENCHER AQUI *) 
