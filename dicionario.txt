@@ -1,5 +1,6 @@
 arrow: seta
 assumption: hipótese
+bag: multiconjunto
 branch: ramo
 cartesian product: produto cartesiano
 case analysis: análise de casos
@@ -10,11 +11,13 @@ correctness: corretude
 (to) evaluate: calcular o valor
 function type: tipo funcional
 goal: meta
+head: cabeça
 invariant: (um) invariante
 lemma: lema
 linker: linkeditor
 machine-checked: verificado por máquina
 namespace: contexto para identificadores
+notation-symbol: símbolo de notação
 pattern matching: casamento de padrões
 (to) rewrite: reescrever
 rewriting: reescrita
@@ -22,6 +25,6 @@ script: script
 side effects: efeitos colaterais
 soundness: correção
 static type system: sistema de tipagem estática
+tail: cauda
 (to) type: tipar
 wildcard: coringa
-notation-symbol: símbolo de notação
