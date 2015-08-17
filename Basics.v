@@ -34,10 +34,10 @@ Definition admit {T: Type} : T.  Admitted.
     _sistemas de tipo polimórficos_ que suportam abstração e reuso
     de código.  Coq compartilha de todas essas características.
 
-    [Francisco] The first half of this chapter introduces the most essential
-    elements of Coq's functional programming language.  The second
-    half introduces some basic _tactics_ that can be used to prove
-    simple properties of Coq programs.
+    A primeira metade deste capítulo introduz os principais elementos da 
+    linguagem de programação funcional de Coq. A segunda metade introduz algumas
+    _táticas_ basicas que podem ser usados para provar propriedades simples dos
+    programas Coq.
 *)
 
 (** * Tipos Enumerados *)
@@ -99,8 +99,8 @@ Definition next_weekday (d:day) : day :=
     uma _inferência de tipo_ -- mas sempre devemos inclui-los para facilitar
     a leitura. *)
 
-(** [Francisco] Having defined a function, we should check that it works on some
-    examples.  There are actually three different ways to do this in Coq.
+(** Tendo definido uma função, nós devemos checar que ela funciona em alguns
+    exemplos. Na verdade existem três maneiras diferentes de fazer isso em Coq.
 
     Primeiro, nós podemos usar o comando [Eval compute] (_avalia cálculo_) para
     avaliar uma expressão composta envolvendo [next_weekday].  *)
@@ -173,8 +173,8 @@ Inductive bool : Type :=
     com as definições na biblioteca padrão. *)
 
 
-(** [Francisco] Functions over booleans can be defined in the same way as
-    above: *)
+(** Funções sobre booleanos podem ser definidos da mesma maneira como
+    acima: *)
 
 Definition negb (b:bool) : bool := 
   match b with
@@ -329,12 +329,11 @@ Inductive nat : Type :=
     na realidade um conjunto de _expressões_.  A definição de [nat] diz como
     expressões do conjunto [nat] podem ser construidas:
 
-    [Francisco]
-    - the expression [O] belongs to the set [nat]; 
-    - if [n] is an expression belonging to the set [nat], then [S n]
-      is also an expression belonging to the set [nat]; and
-    - expressions formed in these two ways are the only ones belonging
-      to the set [nat].
+    - a expressão [O] pertence ao conjunto [nat]; 
+    - se [n] é uma expressão que pertence ao conjunto [nat], então [S n]
+      é também uma expressão que pertence ao conjunto [nat]; e
+    - expressões formadas nestas duas maneiras são os únicos que pertencem
+      ao conjunto [nat].
 
     The same rules apply for our definitions of [day] and [bool]. The
     annotations we used for their constructors are analogous to the
@@ -524,12 +523,12 @@ Check ((0 + 1) + 1).
     + y] no lugar de [plus x y] e, reciprocamente, para que o Coq
     imprima [plus x y] como [x + y]. *)
 
-(** [Francisco] When we say that Coq comes with nothing built-in, we really
-    mean it: even equality testing for numbers is a user-defined
-    operation! *)
-(** The [beq_nat] function tests [nat]ural numbers for [eq]uality,
-    yielding a [b]oolean.  Note the use of nested [match]es (we could
-    also have used a simultaneous match, as we did in [minus].)  *)
+(** Quando nós dizemos que Coq vem com nada embutido, nós realmente
+    queremos dizer isso: até testar igualdade entre numéros é uma operação
+    definida pelo usuário! *)
+(** A função [beq_nat] testa a igualdade ([eq]) de números [nat]urais, 
+    fornecendo um [b]ooleano.  Note o uso de [match]es aninhados (nós também 
+    podemos usar match simultaneamente, assim como fizemos em [minus].)  *)
 
 Fixpoint beq_nat (n m : nat) : bool :=
   match n with
@@ -626,13 +625,13 @@ Proof.
     (_lema_), [Fact] (_fato_), e [Remark] ( observação)---significam exatamente
     a mesma coisa para o Coq.
 
-    [Francisco] Secondly, we've added the quantifier [forall n:nat], so that our
-    theorem talks about _all_ natural numbers [n].  In order to prove
-    theorems of this form, we need to to be able to reason by
-    _assuming_ the existence of an arbitrary natural number [n].  This
-    is achieved in the proof by [intros n], which moves the quantifier
-    from the goal to a "context" of current assumptions. In effect, we
-    start the proof by saying "OK, suppose [n] is some arbitrary number."
+    Em segundo lugar, nós adicionamos o quantificador [forall n:nat], 
+    assim o nosso teorema fala sobre _todos_ os números naturais [n]. A fim de
+    provar teoremas desta forma, nós precisamos ser capaz de assumir a razão
+    pela existência de um número natural arbitrário [n]. Isto é alcançado
+    na prova por [intros n], que move um quantificador a partir da meta de um
+    "contexto" de suposiçoẽs atuais. Na realidade, nós inicializamos a prova
+    dizendo "OK, suponha que [n] é algum número arbitrário."
 
     [Renan] The keywords [intros], [simpl], and [reflexivity] are examples of
     _tactics_.  A tactic is a command that is used between [Proof] and
@@ -701,14 +700,14 @@ Proof.
     m + m]), substituindo o lado esquerdo da igualdade hipótese [H] pelo seu
     lado direito.
 
-    [Francisco] (The arrow symbol in the [rewrite] has nothing to do with
-    implication: it tells Coq to apply the rewrite from left to right.
-    To rewrite from right to left, you can use [rewrite <-].  Try
-    making this change in the above proof and see what difference it
-    makes in Coq's behavior.) *)
+    (O símbolo da seta no [rewrite] não tem nada a ver com
+    implicação: ele informa ao Coq para aplicar a reescrita da esquerda para 
+    a direita. Para reescrever da direita para a esquerda, você pode usasr
+    [rewrite <-]. Tente fazer esta mudança na prova acima e veja qual a
+    diferença feita no comportamento de Coq.) *)
 
 (** **** * Exercício [plus_id_exercise]  *)
-(** Remove "[Admitted.]" and fill in the proof. *)
+(** Remover "[Admitted.]" e preencher na prova. *)
 
 Theorem plus_id_exercise : forall n m o : nat,
   n = m -> m = o -> n + m = m + o.
@@ -776,8 +775,8 @@ Abort.
     menos, irá começar com um [S], e isso é suficiente para calcular que, 
     novamente, [beq_nat (n + 1) 0] será [false].
 
-    [Francisco] The tactic that tells Coq to consider, separately, the cases where
-    [n = O] and where [n = S n'] is called [destruct]. *)
+    A tática que informa ao Coq para considerar, separadamente, os 
+    casos onde [n = O] e [n = S n'] é chamado de [destruct]. *)
 
 Theorem plus_1_neq_0 : forall n : nat,
   beq_nat (n + 1) 0 = false.
@@ -786,12 +785,12 @@ Proof.
     reflexivity.
     reflexivity.  Qed.
 
-(** The [destruct] generates _two_ subgoals, which we must then
-    prove, separately, in order to get Coq to accept the theorem as
-    proved.  (No special command is needed for moving from one subgoal
-    to the other.  When the first subgoal has been proved, it just
-    disappears and we are left with the other "in focus.")  In this
-    proof, each of the subgoals is easily proved by a single use of
+(** O [destruct] gera _duas_ submetas, ao qual nós devemos provar,
+    separadamente, a fim de Coq aceitar o teorema como provado.
+    (Nenhum comando especial é necessário para mover de uma submeta
+    para a outra. Quando a primeira submeta é provado, ele apenas
+    desaparece e nós ficamos com a outra "em foco.") Nesta prova, 
+    cada uma das submetas é facilmente provado pelo uso simples de
     [reflexivity].
 
     [Renan] The annotation "[as [| n']]" is called an _intro pattern_.  It
@@ -866,12 +865,12 @@ Proof.
   (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** *** Exercício [binary]  *)
+(** **** *** Exercício [binário]  *)
 
-(** [Francisco] Consider a different, more efficient representation of natural
-    numbers using a binary rather than unary system.  That is, instead
-    of saying that each natural number is either zero or the successor
-    of a natural number, we can say that each binary number is either
+(** Considere uma diferente, representação mais eficiente dos
+    números natural usando um sistema binário em vez de um sistema unário.
+    Isto é, em vez de dizer que cada número natural ou é zero ou é o sucessor
+    de um número natural, nós podemos dizer que cada número binário é ou
 
     [Renan]
       - zero,
@@ -896,9 +895,9 @@ Proof.
     it is the functions you will write next that will give it
     mathematical meaning.)
 
-    [Francisco]
-    (b) Next, write an increment function [incr] for binary numbers, 
-        and a function [bin_to_nat] to convert binary numbers to unary numbers.
+    (b) Depois, escreva uma função incrementa [incr] para números binários, 
+        e uma função [bin_to_nat] para converter números binários para
+        números unários.
 
     [Renan]
     (c) Write five unit tests [test_bin_incr1], [test_bin_incr2], etc.
