@@ -473,9 +473,10 @@ Proof.
 
  (** Relembre as funções [increment] e [binary-to-unary] que você
  escreveu para o exercício [binary] no capítulo [Basics]. Prove que
- estas funções comutam -- isto é, incrementar um número para binário e
+ estas funções comutam -- isto é, incrementar um número binário e
  convertê-lo para unário possui o mesmo resultado que convertê-lo
- primeiro e depois incrementá-lo. Nomeie seu teorema como [bin_to_nat_press_incr].
+ primeiro para binário e depois incrementá-lo. Nomeie seu teorema como
+ [bin_to_nat_press_incr]. 
 
   (Antes de começar a trabalhar neste exercício, por favor, copie as
   definições de sua solução para o exercício [binary] daqui para que
