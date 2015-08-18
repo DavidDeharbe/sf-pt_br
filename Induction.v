@@ -35,13 +35,13 @@ Require Export Basics.
     Disciplined use of indentation and comments can help, but a better
     way is to use the [Case] tactic. *)
 
-(** [Diego] [Case] is not built into Coq: we need to define it ourselves.
-    There is no need to understand how it works -- you can just skip
-    over the definition to the example that follows.  It uses some
-    facilities of Coq that we have not discussed -- the string
-    library (just for the concrete syntax of quoted strings) and the
-    [Ltac] command, which allows us to declare custom tactics.  Kudos
-    to Aaron Bohannon for this nice hack! *)
+(** [Case] (_Caso_) não é construido no Coq: é preciso defini-lo.
+    Não existe necessidade de entender seu funcionamento -- você pode somente 
+    pular a definição e ir direto para o exemplo que a segue.  _Case_ utiliza algumas
+    ferramentas do Coq que ainda não foram discutidas -- a biblioteca de
+    cadeias de caracteres (somente para a sintaxe concreta das cadeias de caracteres citadas) e o comando
+    [Ltac], o que permite a declaração de táticas costumizadas.  Muitos elogios
+    para Aaron Bohannon por esse ótimo truque! *)
 
 Require String. Open Scope string_scope.
 
@@ -69,17 +69,17 @@ Tactic Notation "SSSSCase" constr(name) := Case_aux SSSSCase name.
 Tactic Notation "SSSSSCase" constr(name) := Case_aux SSSSSCase name.
 Tactic Notation "SSSSSSCase" constr(name) := Case_aux SSSSSSCase name.
 Tactic Notation "SSSSSSSCase" constr(name) := Case_aux SSSSSSSCase name.
-(** Here's an example of how [Case] is used.  Step through the
-   following proof and observe how the context changes. *)
+(** Aqui está um exemplo de como [Case] é usado.  Veja a prova a seguir e
+    observe como o contexto muda. *)
 
 Theorem andb_true_elim1 : forall b c : bool,
   andb b c = true -> b = true.
 Proof.
   intros b c H.
   destruct b.
-  Case "b = true".  (* <----- here *)
+  Case "b = true".  (* <----- aqui *)
     reflexivity.
-  Case "b = false".  (* <---- and here *)
+  Case "b = false".  (* <---- e aqui *)
     rewrite <- H. 
     reflexivity.  
 Qed.
@@ -147,21 +147,22 @@ Abort.
 
 (** *** *)
 
-(** [Diego] And reasoning by cases using [destruct n] doesn't get us much
-   further: the branch of the case analysis where we assume [n = 0]
-   goes through, but in the branch where [n = S n'] for some [n'] we
-   get stuck in exactly the same way.  We could use [destruct n'] to
-   get one step further, but since [n] can be arbitrarily large, if we
-   try to keep on like this we'll never be done. *)
+(** E o raciocíonio utilizando [destruct n] não nos leva
+    muito mais longe: para o ramo da análise de caso em que é assumido [n = 0] nós
+    conseguimos passar, mas o ramo em que [n = S n'] para qualquer [n'] ficamos
+    presos da mesma maneira.  Nós podemos usar [destruct n'] para
+    ir um passo adiante, mas desde que [n] pode ser arbitrariamente grande, se nós
+    tentarmos continuar dessa maneira nós nunca chegaremos ao fim. *)
+
 
 Theorem plus_0_r_secondtry : forall n:nat,
   n + 0 = n.
 Proof.
   intros n. destruct n as [| n'].
   Case "n = 0".
-    reflexivity. (* so far so good... *)
+    reflexivity. (* até aqui tudo bem... *)
   Case "n = S n'".
-    simpl.       (* ...but here we are stuck again *)
+    simpl.       (* ...mas aqui ficamos presos novamente *)
 Abort.
 
 (** *** *)
@@ -261,8 +262,8 @@ Proof.
 
 
 (** **** Exercício: 1 star (destruct_induction)  *)
-(** [Diego] Briefly explain the difference between the tactics
-    [destruct] and [induction].  
+(** Explicar brevemente a diferença entre as táticas
+    [destruct] e [induction].
 
 (* PREENCHER AQUI *)
 
@@ -369,7 +370,7 @@ Proof.
 
 (** **** Exercício: **, opcional (evenb_n__oddb_Sn)  *)
 
-(** [Diego] Prove the following simple fact: *)
+(** Provar o simples fato a seguir: *)
 
 Theorem evenb_n__oddb_Sn : forall n : nat,
   evenb n = negb (evenb (S n)).
@@ -380,13 +381,13 @@ Proof.
 (** * Mais Exercícios *)
 
 (** **** Exercício: ***, opcional (more_exercises)  *)
-(** [Diego] Take a piece of paper.  For each of the following theorems, first
-    _think_ about whether (a) it can be proved using only
-    simplification and rewriting, (b) it also requires case
-    analysis ([destruct]), or (c) it also requires induction.  Write
-    down your prediction.  Then fill in the proof.  (There is no need
-    to turn in your piece of paper; this is just to encourage you to
-    reflect before hacking!) *)
+(** Pegar um pedaço de papel.  Para cada teorema a seguir, primeiro
+    _pensar_ se (a) pode ser provado utilizando somente
+    simplificações e reescritas, ou (b) é também necessário uma análise
+    de caso ([destruct]), ou (c) é também necessário indução.  Escrever
+    sua previsão.  Então preencher a prova.  (Não há necessidade
+    de utilizar um pedaço de papel; isto é somente para encorajar você a 
+    refletir antes de resolver a base de tentativa e erro!) *)
 
 Theorem ble_nat_refl : forall n:nat,
   true = ble_nat n n.
@@ -497,11 +498,11 @@ Proof.
         converting to binary, then converting back yields the same
         natural number you started with.
 
-    (b)[Diego]You might naturally think that we should also prove the
-        opposite direction: that starting with a binary number,
-        converting to a natural, and then back to binary yields the
-        same number we started with.  However, it is not true!
-        Explain what the problem is.
+    (b) Você naturalmente deve pensar que nós deveriamos também provar a
+        direção oposta: a de que começando com um número binário,
+        convertendo para um número natural, e então voltando para um número binário
+        teriamos o mesmo número que começamos.  Entretanto, isso não é verdade!
+        Explique qual é o problema.
 
     (c)[Francisco]Define a "direct" normalization function -- i.e., a function
         [normalize] from binary numbers to binary numbers such that,
@@ -558,13 +559,14 @@ Proof.
     conventions of this stylized form of communication give a fairly
     clear standard for judging proofs good or bad.
 
-    [Diego]Because we are using Coq in this course, we will be working
-    heavily with formal proofs.  But this doesn't mean we can ignore
-    the informal ones!  Formal proofs are useful in many ways, but
-    they are _not_ very efficient ways of communicating ideas between
-    human beings. *)
+    Como estamos utilizando Coq nesse curso, nós iremos trabalhar
+    exaustivamente com provas formais.  Mas isto não significa que podemos ignorar
+    as provas informais!  Provas formais são úteis em várias maneiras, mas
+    elas _não_ são um meio muito eficiente para comunicar idéias entre
+    seres humanos. *)
 
-(** For example, here is a proof that addition is associative: *)
+(** Por exemplo, aqui está uma prova que adição é associativa: *)
+
 
 Theorem plus_assoc' : forall n m p : nat,
   n + (m + p) = (n + m) + p.
