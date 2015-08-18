@@ -866,13 +866,12 @@ There is a hard way and an easy way to solve this exercise.
 
 (** * Opções *)
 
-
-(** [ Vítor ] One use of [natoption] is as a way of returning "error
-    codes" from functions.  For example, suppose we want to write a
-    function that returns the [n]th element of some list.  If we give
-    it type [nat -> natlist -> nat], then we'll have to return some
-    number when the list is too short! *)
-
+(** O tipo [natoption] pode ser usado como uma forma de retornar
+  "códigos de erro" de funções. Por exemplo, suponha que queiramos
+  escrever uma função que retorne o [n]-ésimo elemento de uma
+  lista. Se seu tipo for [nat -> natlist -> nat], então a função terá
+  que retornar algum número mesmo se o tamanho da lista for menor que [n]! *)  
+						    
 Fixpoint index_bad (n:nat) (l:natlist) : nat :=
   match l with
   | nil => 42  (* arbitrary! *)
@@ -958,7 +957,7 @@ Example test_hd_opt3 : hd_opt [5;6] = Some 5.
 
 (** **** Exercício: 1 star, opcional (option_elim_hd)  *)
 
-(** [ Vitor ] This exercise relates your new [hd_opt] to the old [hd]. *)
+(** Este exercício relaciona o seu novo [hd_opt] com o velho [hd]. *)
 
 Theorem option_elim_hd : forall (l:natlist) (default:nat),
   hd default l = option_elim default (hd_opt l).
