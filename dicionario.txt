@@ -11,8 +11,8 @@ correctness: corretude
 (to) evaluate: calcular o valor
 function type: tipo funcional
 goal: meta
-hack:
-hacking:
+hack: truque
+hacking: resolver a base de tentativa e erro (?)
 head: cabeça
 invariant: (um) invariante
 lemma: lema
@@ -28,7 +28,7 @@ script: script
 side effects: efeitos colaterais
 soundness: correção
 static type system: sistema de tipagem estática
-string(s):
+string(s): cadeia de caracteres
 tail: cauda
 (to) type: tipar
 wildcard: coringa
