@@ -21,6 +21,7 @@ machine-checked: verificado por máquina
 namespace: contexto para identificadores
 notation-symbol: símbolo de notação
 pattern matching: casamento de padrões
+pretty printer: formatador de código
 (to) rewrite: reescrever
 rewriting: reescrita
 script: script
