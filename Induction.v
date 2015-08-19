@@ -35,12 +35,13 @@ Require Export Basics.
     Disciplined use of indentation and comments can help, but a better
     way is to use the [Case] tactic. *)
 
-(** [Case] (_Caso_) não é construido no Coq: é preciso defini-lo.
-    Não existe necessidade de entender seu funcionamento -- você pode somente 
+(** [Case] (_Caso_) não é predefinido no Coq: é preciso definí-lo.
+    Não existe necessidade de entender os detalhes desta definição -- você 
+    pode somente 
     pular a definição e ir direto para o exemplo que a segue.  _Case_ utiliza algumas
     ferramentas do Coq que ainda não foram discutidas -- a biblioteca de
     cadeias de caracteres (somente para a sintaxe concreta das cadeias de caracteres citadas) e o comando
-    [Ltac], o que permite a declaração de táticas costumizadas.  Muitos elogios
+    [Ltac], que permite a declaração de táticas costumizadas.  Muitos elogios
     para Aaron Bohannon por esse ótimo truque! *)
 
 Require String. Open Scope string_scope.
@@ -148,10 +149,10 @@ Abort.
 (** *** *)
 
 (** E o raciocíonio utilizando [destruct n] não nos leva
-    muito mais longe: para o ramo da análise de caso em que é assumido [n = 0] nós
-    conseguimos passar, mas o ramo em que [n = S n'] para qualquer [n'] ficamos
-    presos da mesma maneira.  Nós podemos usar [destruct n'] para
-    ir um passo adiante, mas desde que [n] pode ser arbitrariamente grande, se nós
+    muito mais longe: conseguimos fechar o ramo da análise de caso em 
+    que é assumido [n = 0], mas o ramo em que [n = S n'] para qualquer [n'] 
+    ficamos bloqueados da mesma maneira.  Nós podemos usar [destruct n'] para
+    ir um passo adiante, mas como [n] pode ser arbitrariamente grande, se nós
     tentarmos continuar dessa maneira nós nunca chegaremos ao fim. *)
 
 
@@ -381,12 +382,12 @@ Proof.
 (** * Mais Exercícios *)
 
 (** **** Exercício: ***, opcional (more_exercises)  *)
-(** Pegar um pedaço de papel.  Para cada teorema a seguir, primeiro
+(** Pegar uma folha branca.  Para cada teorema a seguir, primeiro
     _pensar_ se (a) pode ser provado utilizando somente
     simplificações e reescritas, ou (b) é também necessário uma análise
     de caso ([destruct]), ou (c) é também necessário indução.  Escrever
     sua previsão.  Então preencher a prova.  (Não há necessidade
-    de utilizar um pedaço de papel; isto é somente para encorajar você a 
+    de entregar a sua folha; isto é somente para encorajar você a 
     refletir antes de resolver a base de tentativa e erro!) *)
 
 Theorem ble_nat_refl : forall n:nat,
@@ -562,7 +563,7 @@ Proof.
 
     Como estamos utilizando Coq nesse curso, nós iremos trabalhar
     exaustivamente com provas formais.  Mas isto não significa que podemos ignorar
-    as provas informais!  Provas formais são úteis em várias maneiras, mas
+    as provas informais!  Provas formais são úteis em vários aspectos, mas
     elas _não_ são um meio muito eficiente para comunicar idéias entre
     seres humanos. *)
 

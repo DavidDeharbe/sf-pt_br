@@ -911,13 +911,14 @@ Similarly, the <span class="inlinecode"><span class="id" title="var">ble_nat</sp
 
 <div class="paragraph"> </div>
 
- <span class="inlinecode"><span class="id" title="var">Renan</span></span> Now that we've defined a few datatypes and functions, let's
-    turn to the question of how to state and prove properties of their
-    behavior.  Actually, in a sense, we've already started doing this:
-    each <span class="inlinecode"><span class="id" title="keyword">Example</span></span> in the previous sections makes a precise claim
-    about the behavior of some function on some particular inputs.
-    The proofs of these claims were always the same: use <span class="inlinecode"><span class="id" title="tactic">reflexivity</span></span> 
-    to check that both sides of the <span class="inlinecode">=</span> simplify to identical values. 
+ Agora que nós definimos alguns tipos de dados e funções, vamos voltar 
+    à questão de como declarar e provar propriedades de seu comportamento. 
+    Na verdade, em certo sentido, nós já começamos a fazer isso: cada 
+    <span class="inlinecode"><span class="id" title="keyword">Example</span></span> nas seções anteriores faz uma afirmação precisa sobre o 
+    comportamento de alguma função para algumas entradas específicas. As 
+    provas dessas afirmações eram sempre as mesmas: usar <span class="inlinecode"><span class="id" title="tactic">reflexivity</span></span> 
+    para verificar que ambos os lados do <span class="inlinecode">=</span> são simplificados para 
+    valores idênticos.
 
 <div class="paragraph"> </div>
 
@@ -979,11 +980,11 @@ Similarly, the <span class="inlinecode"><span class="id" title="var">ble_nat</sp
 
 <div class="paragraph"> </div>
 
-    <span class="inlinecode"><span class="id" title="var">Renan</span></span> The keywords <span class="inlinecode"><span class="id" title="tactic">intros</span></span>, <span class="inlinecode"><span class="id" title="tactic">simpl</span></span>, and <span class="inlinecode"><span class="id" title="tactic">reflexivity</span></span> are examples of
-    <i>tactics</i>.  A tactic is a command that is used between <span class="inlinecode"><span class="id" title="keyword">Proof</span></span> and
-    <span class="inlinecode"><span class="id" title="keyword">Qed</span></span> to tell Coq how it should check the correctness of some
-    claim we are making.  We will see several more tactics in the rest
-    of this lecture, and yet more in future lectures. 
+    As palavras-chave <span class="inlinecode"><span class="id" title="tactic">intros</span></span>, <span class="inlinecode"><span class="id" title="tactic">simpl</span></span> e <span class="inlinecode"><span class="id" title="tactic">reflexivity</span></span> são exemplos 
+    de <i>táticas</i>. Uma tática é um comando que é usado entre <span class="inlinecode"><span class="id" title="keyword">Proof</span></span> e <span class="inlinecode"><span class="id" title="keyword">Qed</span></span> 
+    para dizer ao Coq como ele deve verificar a correção de algumas afirmações 
+    que estamos fazendo. Veremos mais algumas táticas no resto desta 
+    lição, e ainda mais em lições futuras. 
 <div class="paragraph"> </div>
 
  Poderíamos provar um teorema similar sobre <span class="inlinecode"><span class="id" title="var">plus</span></span> 
@@ -1222,13 +1223,13 @@ O <span class="inlinecode"><span class="id" title="tactic">destruct</span></span
 
 <div class="paragraph"> </div>
 
-    <span class="inlinecode"><span class="id" title="var">Renan</span></span> The annotation "<span class="inlinecode"><span class="id" title="keyword">as</span></span> <span class="inlinecode">[|</span> <span class="inlinecode"><span class="id" title="var">n&acute;</span>]</span>" is called an <i>intro pattern</i>.  It
-    tells Coq what variable names to introduce in each subgoal.  In
-    general, what goes between the square brackets is a <i>list</i> of
-    lists of names, separated by <span class="inlinecode">|</span>.  Here, the first component is
-    empty, since the <span class="inlinecode"><span class="id" title="var">O</span></span> constructor is nullary (it doesn't carry any
-    data).  The second component gives a single name, <span class="inlinecode"><span class="id" title="var">n&acute;</span></span>, since <span class="inlinecode"><span class="id" title="var">S</span></span>
-    is a unary constructor.
+    A anotação "<span class="inlinecode"><span class="id" title="keyword">as</span></span> <span class="inlinecode">[|</span> <span class="inlinecode"><span class="id" title="var">n</span></span> <span class="inlinecode">&acute;]</span>" é chamada de <i>padrão de introdução</i>. Ela 
+    diz ao Coq quais nomes de variáveis devem ser introduzidos em cada 
+    sub-objetivo. Em geral, o que se informa entre os colchetes é uma 
+    <i>lista</i> de listas de nomes, separados por <span class="inlinecode">|</span>. Aqui, o primeiro 
+    componente está vazio, uma vez que o construtor <span class="inlinecode"><span class="id" title="var">O</span></span> tem aridade zero
+    (não carrega nenhuma informação). O segundo componente dá um único nome, 
+    <span class="inlinecode"><span class="id" title="var">n&acute;</span></span>, uma vez que <span class="inlinecode"><span class="id" title="var">S</span></span> é um construtor unário.
 
 <div class="paragraph"> </div>
 
@@ -1349,18 +1350,14 @@ Now state and prove a theorem <span class="inlinecode"><span class="id" title="v
 
 <div class="paragraph"> </div>
 
-    <span class="inlinecode"><span class="id" title="var">Renan</span></span>
-
-<div class="paragraph"> </div>
-
 <ul class="doclist">
 <li> zero,
 
 </li>
-<li> twice a binary number, or
+<li> duas vezes um número binário, ou
 
 </li>
-<li> one more than twice a binary number.
+<li> um a mais do que duas vezes um número binário.
 
 </li>
 </ul>
@@ -1395,12 +1392,14 @@ Now state and prove a theorem <span class="inlinecode"><span class="id" title="v
 
 <div class="paragraph"> </div>
 
-    <span class="inlinecode"><span class="id" title="var">Renan</span></span>
-    (c) Write five unit tests <span class="inlinecode"><span class="id" title="var">test_bin_incr1</span></span>, <span class="inlinecode"><span class="id" title="var">test_bin_incr2</span></span>, etc.
-        for your increment and binary-to-unary functions. Notice that 
-        incrementing a binary number and then converting it to unary 
-        should yield the same result as first converting it to unary and 
-        then incrementing. 
+    (c) Escreva cinco testes unitários <span class="inlinecode"><span class="id" title="var">test_bin_incr1</span></span>, <span class="inlinecode"><span class="id" title="var">test_bin_incr2</span></span>, 
+    etc., para suas funções de incremento e de conversão binário-unário. 
+    Observe que incrementar um número binário e, em seguida, convertê-lo 
+    para unário deve produzir o mesmo resultado que o de primeiro convertê-lo 
+    para unário e, em seguida, incrementá-lo.
+
+<div class="paragraph"> </div>
+
 
 </div>
 <div class="code">
@@ -1500,10 +1499,10 @@ When Coq checks this definition, it notes that <span class="inlinecode"><span cl
 
 <div class="paragraph"> </div>
 
- <span class="inlinecode"><span class="id" title="var">Renan</span></span> To get a concrete sense of this, find a way to write a sensible
-    <span class="inlinecode"><span class="id" title="keyword">Fixpoint</span></span> definition (of a simple function on numbers, say) that
-    <i>does</i> terminate on all inputs, but that Coq will reject because
-    of this restriction. 
+ Para obter uma noção concreta disso, encontre uma maneira de escrever 
+    uma definição <span class="inlinecode"><span class="id" title="keyword">Fixpoint</span></span> sensata (de uma função simples em números, 
+    por exemplo) que <i>de fato</i> termine para todas as entradas, mas que Coq irá 
+    rejeitar por causa dessa restrição. 
 </div>
 <div class="code">
 

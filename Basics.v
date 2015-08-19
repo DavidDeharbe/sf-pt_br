@@ -585,7 +585,7 @@ Example test_blt_nat3:             (blt_nat 4 2) = false.
 (** Agora que nós definimos alguns tipos de dados e funções, vamos voltar 
     à questão de como declarar e provar propriedades de seu comportamento. 
     Na verdade, em certo sentido, nós já começamos a fazer isso: cada 
-    [Exemple] nas seções anteriores faz uma afirmação precisa sobre o 
+    [Example] nas seções anteriores faz uma afirmação precisa sobre o 
     comportamento de alguma função para algumas entradas específicas. As 
     provas dessas afirmações eram sempre as mesmas: usar [reflexivity] 
     para verificar que ambos os lados do [=] são simplificados para 
@@ -798,8 +798,8 @@ Proof.
     diz ao Coq quais nomes de variáveis devem ser introduzidos em cada 
     sub-objetivo. Em geral, o que se informa entre os colchetes é uma 
     _lista_ de listas de nomes, separados por [|]. Aqui, o primeiro 
-    componente está vazio, uma vez que o construtor [O] é nulo (não 
-    carrega nenhuma informação). O segundo componente dá um único nome, 
+    componente está vazio, uma vez que o construtor [O] tem aridade zero
+    (não carrega nenhuma informação). O segundo componente dá um único nome, 
     [n'], uma vez que [S] é um construtor unário.
 
     A tática [destruct] pode ser usada com qualquer tipo de dado definido
@@ -972,7 +972,7 @@ Fixpoint plus' (n : nat) (m : nat) : nat :=
 (** **** ** Exercício opcional (decaimento)  *)
 
 (** Para obter uma noção concreta disso, encontre uma maneira de escrever 
-    uma definição [Fixpoint] sensível (de uma função simples em números, 
+    uma definição [Fixpoint] sensata (de uma função simples em números, 
     por exemplo) que _de fato_ termine para todas as entradas, mas que Coq irá 
     rejeitar por causa dessa restrição. *)
 

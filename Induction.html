@@ -89,13 +89,14 @@ For it to work, you need to use <span class="inlinecode"><span class="id" title=
     way is to use the <span class="inlinecode"><span class="id" title="var">Case</span></span> tactic. 
 <div class="paragraph"> </div>
 
- <span class="inlinecode"><span class="id" title="var">Diego</span></span> <span class="inlinecode"><span class="id" title="var">Case</span></span> is not built into Coq: we need to define it ourselves.
-    There is no need to understand how it works -- you can just skip
-    over the definition to the example that follows.  It uses some
-    facilities of Coq that we have not discussed -- the string
-    library (just for the concrete syntax of quoted strings) and the
-    <span class="inlinecode"><span class="id" title="keyword">Ltac</span></span> command, which allows us to declare custom tactics.  Kudos
-    to Aaron Bohannon for this nice hack! 
+ <span class="inlinecode"><span class="id" title="var">Case</span></span> (<i>Caso</i>) não é predefinido no Coq: é preciso definí-lo.
+    Não existe necessidade de entender os detalhes desta definição -- você 
+    pode somente 
+    pular a definição e ir direto para o exemplo que a segue.  <i>Case</i> utiliza algumas
+    ferramentas do Coq que ainda não foram discutidas -- a biblioteca de
+    cadeias de caracteres (somente para a sintaxe concreta das cadeias de caracteres citadas) e o comando
+    <span class="inlinecode"><span class="id" title="keyword">Ltac</span></span>, que permite a declaração de táticas costumizadas.  Muitos elogios
+    para Aaron Bohannon por esse ótimo truque! 
 </div>
 <div class="code">
 
@@ -133,8 +134,8 @@ For it to work, you need to use <span class="inlinecode"><span class="id" title=
 </div>
 
 <div class="doc">
-Here's an example of how <span class="inlinecode"><span class="id" title="var">Case</span></span> is used.  Step through the
-   following proof and observe how the context changes. 
+Aqui está um exemplo de como <span class="inlinecode"><span class="id" title="var">Case</span></span> é usado.  Veja a prova a seguir e
+    observe como o contexto muda. 
 </div>
 <div class="code">
 
@@ -246,12 +247,12 @@ Here's an example of how <span class="inlinecode"><span class="id" title="var">C
 
 <div class="paragraph"> </div>
 
- <span class="inlinecode"><span class="id" title="var">Diego</span></span> And reasoning by cases using <span class="inlinecode"><span class="id" title="tactic">destruct</span></span> <span class="inlinecode"><span class="id" title="var">n</span></span> doesn't get us much
-   further: the branch of the case analysis where we assume <span class="inlinecode"><span class="id" title="var">n</span></span> <span class="inlinecode">=</span> <span class="inlinecode">0</span>
-   goes through, but in the branch where <span class="inlinecode"><span class="id" title="var">n</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">S</span></span> <span class="inlinecode"><span class="id" title="var">n&acute;</span></span> for some <span class="inlinecode"><span class="id" title="var">n&acute;</span></span> we
-   get stuck in exactly the same way.  We could use <span class="inlinecode"><span class="id" title="tactic">destruct</span></span> <span class="inlinecode"><span class="id" title="var">n&acute;</span></span> to
-   get one step further, but since <span class="inlinecode"><span class="id" title="var">n</span></span> can be arbitrarily large, if we
-   try to keep on like this we'll never be done. 
+ E o raciocíonio utilizando <span class="inlinecode"><span class="id" title="tactic">destruct</span></span> <span class="inlinecode"><span class="id" title="var">n</span></span> não nos leva
+    muito mais longe: conseguimos fechar o ramo da análise de caso em 
+    que é assumido <span class="inlinecode"><span class="id" title="var">n</span></span> <span class="inlinecode">=</span> <span class="inlinecode">0</span>, mas o ramo em que <span class="inlinecode"><span class="id" title="var">n</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">S</span></span> <span class="inlinecode"><span class="id" title="var">n&acute;</span></span> para qualquer <span class="inlinecode"><span class="id" title="var">n&acute;</span></span> 
+    ficamos bloqueados da mesma maneira.  Nós podemos usar <span class="inlinecode"><span class="id" title="tactic">destruct</span></span> <span class="inlinecode"><span class="id" title="var">n&acute;</span></span> para
+    ir um passo adiante, mas como <span class="inlinecode"><span class="id" title="var">n</span></span> pode ser arbitrariamente grande, se nós
+    tentarmos continuar dessa maneira nós nunca chegaremos ao fim. 
 </div>
 <div class="code">
 
@@ -422,8 +423,8 @@ Use induction to prove this simple fact about <span class="inlinecode"><span cla
 <div class="paragraph"> </div>
 
 <a name="lab10"></a><h4 class="section">Exercício: 1 star (destruct_induction)</h4>
- <span class="inlinecode"><span class="id" title="var">Diego</span></span> Briefly explain the difference between the tactics
-    <span class="inlinecode"><span class="id" title="tactic">destruct</span></span> and <span class="inlinecode"><span class="id" title="tactic">induction</span></span>.  
+ Explicar brevemente a diferença entre as táticas
+    <span class="inlinecode"><span class="id" title="tactic">destruct</span></span> e <span class="inlinecode"><span class="id" title="tactic">induction</span></span>.
 
 <div class="paragraph"> </div>
 
@@ -567,7 +568,7 @@ Now prove commutativity of multiplication.  (You will probably
 
 <div class="paragraph"> </div>
 
- <span class="inlinecode"><span class="id" title="var">Diego</span></span> Prove the following simple fact: 
+ Provar o simples fato a seguir: 
 </div>
 <div class="code">
 
@@ -587,13 +588,13 @@ Now prove commutativity of multiplication.  (You will probably
 <div class="paragraph"> </div>
 
 <a name="lab15"></a><h4 class="section">Exercício: ***, opcional (more_exercises)</h4>
- <span class="inlinecode"><span class="id" title="var">Diego</span></span> Take a piece of paper.  For each of the following theorems, first
-    <i>think</i> about whether (a) it can be proved using only
-    simplification and rewriting, (b) it also requires case
-    analysis (<span class="inlinecode"><span class="id" title="tactic">destruct</span></span>), or (c) it also requires induction.  Write
-    down your prediction.  Then fill in the proof.  (There is no need
-    to turn in your piece of paper; this is just to encourage you to
-    reflect before hacking!) 
+ Pegar uma folha branca.  Para cada teorema a seguir, primeiro
+    <i>pensar</i> se (a) pode ser provado utilizando somente
+    simplificações e reescritas, ou (b) é também necessário uma análise
+    de caso (<span class="inlinecode"><span class="id" title="tactic">destruct</span></span>), ou (c) é também necessário indução.  Escrever
+    sua previsão.  Então preencher a prova.  (Não há necessidade
+    de entregar a sua folha; isto é somente para encorajar você a 
+    refletir antes de resolver a base de tentativa e erro!) 
 </div>
 <div class="code">
 
@@ -712,9 +713,10 @@ problem using the theorem no matter which way we state it.
 
  Relembre as funções <span class="inlinecode"><span class="id" title="var">increment</span></span> e <span class="inlinecode"><span class="id" title="var">binary</span>-<span class="id" title="var">to</span>-<span class="id" title="var">unary</span></span> que você
  escreveu para o exercício <span class="inlinecode"><span class="id" title="var">binary</span></span> no capítulo <span class="inlinecode"><span class="id" title="var">Basics</span></span>. Prove que
- estas funções comutam -- isto é, incrementar um número para binário e
+ estas funções comutam -- isto é, incrementar um número binário e
  convertê-lo para unário possui o mesmo resultado que convertê-lo
- primeiro e depois incrementá-lo. Nomeie seu teorema como <span class="inlinecode"><span class="id" title="var">bin_to_nat_press_incr</span></span>.
+ primeiro para binário e depois incrementá-lo. Nomeie seu teorema como
+ <span class="inlinecode"><span class="id" title="var">bin_to_nat_press_incr</span></span>. 
 
 <div class="paragraph"> </div>
 
@@ -747,11 +749,11 @@ problem using the theorem no matter which way we state it.
 
 <div class="paragraph"> </div>
 
-    (b)<span class="inlinecode"><span class="id" title="var">Diego</span></span>You might naturally think that we should also prove the
-        opposite direction: that starting with a binary number,
-        converting to a natural, and then back to binary yields the
-        same number we started with.  However, it is not true!
-        Explain what the problem is.
+    (b) Você naturalmente deve pensar que nós deveriamos também provar a
+        direção oposta: a de que começando com um número binário,
+        convertendo para um número natural, e então voltando para um número binário
+        teriamos o mesmo número que começamos.  Entretanto, isso não é verdade!
+        Explique qual é o problema.
 
 <div class="paragraph"> </div>
 
@@ -833,14 +835,14 @@ problem using the theorem no matter which way we state it.
 
 <div class="paragraph"> </div>
 
-    <span class="inlinecode"><span class="id" title="var">Diego</span></span>Because we are using Coq in this course, we will be working
-    heavily with formal proofs.  But this doesn't mean we can ignore
-    the informal ones!  Formal proofs are useful in many ways, but
-    they are <i>not</i> very efficient ways of communicating ideas between
-    human beings. 
+    Como estamos utilizando Coq nesse curso, nós iremos trabalhar
+    exaustivamente com provas formais.  Mas isto não significa que podemos ignorar
+    as provas informais!  Provas formais são úteis em vários aspectos, mas
+    elas <i>não</i> são um meio muito eficiente para comunicar idéias entre
+    seres humanos. 
 <div class="paragraph"> </div>
 
- For example, here is a proof that addition is associative: 
+ Por exemplo, aqui está uma prova que adição é associativa: 
 </div>
 <div class="code">
 
