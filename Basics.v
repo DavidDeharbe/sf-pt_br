@@ -582,13 +582,14 @@ Example test_blt_nat3:             (blt_nat 4 2) = false.
 
 (** * Prova por Simplificação *)
 
-(** [Renan] Now that we've defined a few datatypes and functions, let's
-    turn to the question of how to state and prove properties of their
-    behavior.  Actually, in a sense, we've already started doing this:
-    each [Example] in the previous sections makes a precise claim
-    about the behavior of some function on some particular inputs.
-    The proofs of these claims were always the same: use [reflexivity] 
-    to check that both sides of the [=] simplify to identical values. 
+(** Agora que nós definimos alguns tipos de dados e funções, vamos voltar 
+    à questão de como declarar e provar propriedades de seu comportamento. 
+    Na verdade, em certo sentido, nós já começamos a fazer isso: cada 
+    [Exemple] nas seções anteriores faz uma afirmação precisa sobre o 
+    comportamento de alguma função para algumas entradas específicas. As 
+    provas dessas afirmações eram sempre as mesmas: usar [reflexivity] 
+    para verificar que ambos os lados do [=] são simplificados para 
+    valores idênticos.
 
     (A propósito, posteriormente será útil saber que [reflexivity] na verdade 
     perfaz mais simplificação do que [simpl] -- por exemplo, ele tenta 
@@ -632,12 +633,12 @@ Proof.
     na prova por [intros n], que move um quantificador a partir da meta de um
     "contexto" de suposiçoẽs atuais. Na realidade, nós inicializamos a prova
     dizendo "OK, suponha que [n] é algum número arbitrário."
-
-    [Renan] The keywords [intros], [simpl], and [reflexivity] are examples of
-    _tactics_.  A tactic is a command that is used between [Proof] and
-    [Qed] to tell Coq how it should check the correctness of some
-    claim we are making.  We will see several more tactics in the rest
-    of this lecture, and yet more in future lectures. *)
+    
+    As palavras-chave [intros], [simpl] e [reflexivity] são exemplos 
+    de _táticas_. Uma tática é um comando que é usado entre [Proof] e [Qed] 
+    para dizer ao Coq como ele deve verificar a correção de algumas afirmações 
+    que estamos fazendo. Veremos mais algumas táticas no resto desta 
+    lição, e ainda mais em lições futuras. *)
 
 
 (** Poderíamos provar um teorema similar sobre [plus] *)
@@ -793,13 +794,13 @@ Proof.
     cada uma das submetas é facilmente provado pelo uso simples de
     [reflexivity].
 
-    [Renan] The annotation "[as [| n']]" is called an _intro pattern_.  It
-    tells Coq what variable names to introduce in each subgoal.  In
-    general, what goes between the square brackets is a _list_ of
-    lists of names, separated by [|].  Here, the first component is
-    empty, since the [O] constructor is nullary (it doesn't carry any
-    data).  The second component gives a single name, [n'], since [S]
-    is a unary constructor.
+    A anotação "[as [| n ']]" é chamada de _padrão de introdução_. Ela 
+    diz ao Coq quais nomes de variáveis devem ser introduzidos em cada 
+    sub-objetivo. Em geral, o que se informa entre os colchetes é uma 
+    _lista_ de listas de nomes, separados por [|]. Aqui, o primeiro 
+    componente está vazio, uma vez que o construtor [O] é nulo (não 
+    carrega nenhuma informação). O segundo componente dá um único nome, 
+    [n'], uma vez que [S] é um construtor unário.
 
     A tática [destruct] pode ser usada com qualquer tipo de dado definido
     indutivamente. Por exemplo, nós podemos usá-lo aqui para provar que a
@@ -872,10 +873,9 @@ Proof.
     Isto é, em vez de dizer que cada número natural ou é zero ou é o sucessor
     de um número natural, nós podemos dizer que cada número binário é ou
 
-    [Renan]
       - zero,
-      - twice a binary number, or
-      - one more than twice a binary number.
+      - duas vezes um número binário, ou
+      - um a mais do que duas vezes um número binário.
 
     (a) Primeiro, escreva uma definição indutiva para o tipo [bin] que
     corresponda a esta descrição de números binários.
@@ -899,12 +899,12 @@ Proof.
         e uma função [bin_to_nat] para converter números binários para
         números unários.
 
-    [Renan]
-    (c) Write five unit tests [test_bin_incr1], [test_bin_incr2], etc.
-        for your increment and binary-to-unary functions. Notice that 
-        incrementing a binary number and then converting it to unary 
-        should yield the same result as first converting it to unary and 
-        then incrementing. 
+    (c) Escreva cinco testes unitários [test_bin_incr1], [test_bin_incr2], 
+    etc., para suas funções de incremento e de conversão binário-unário. 
+    Observe que incrementar um número binário e, em seguida, convertê-lo 
+    para unário deve produzir o mesmo resultado que o de primeiro convertê-lo 
+    para unário e, em seguida, incrementá-lo.
+     
 *)
 
 (* PREENCHER *)
@@ -971,9 +971,9 @@ Fixpoint plus' (n : nat) (m : nat) : nat :=
 
 (** **** ** Exercício opcional (decaimento)  *)
 
-(** [Renan] To get a concrete sense of this, find a way to write a sensible
-    [Fixpoint] definition (of a simple function on numbers, say) that
-    _does_ terminate on all inputs, but that Coq will reject because
-    of this restriction. *)
+(** Para obter uma noção concreta disso, encontre uma maneira de escrever 
+    uma definição [Fixpoint] sensível (de uma função simples em números, 
+    por exemplo) que _de fato_ termine para todas as entradas, mas que Coq irá 
+    rejeitar por causa dessa restrição. *)
 
 
