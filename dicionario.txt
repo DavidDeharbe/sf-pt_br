@@ -2,6 +2,7 @@ arrow: seta
 assumption: hipótese
 bag: multiconjunto
 branch: ramo
+buffer:
 cartesian product: produto cartesiano
 case analysis: análise de casos
 (to) check: verificar
@@ -12,7 +13,7 @@ correctness: corretude
 function type: tipo funcional
 goal: meta
 hack: truque
-hacking: resolver a base de tentativa e erro (?)
+hacking: resolver a base de tentativa e erro
 head: cabeça
 invariant: (um) invariante
 lemma: lema
