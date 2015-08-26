@@ -50,11 +50,10 @@ Eval compute in (fst (pair 3 5)).
 
 Notation "( x , y )" := (pair x y).
 
-(** [ Vitor ] The new notation can be used both in expressions and in
-    pattern matches (indeed, we've seen it already in the previous
-    chapter -- this notation is provided as part of the standard
-    library): *)
-
+(** A nova notação pode ser usada tanto em expressões quanto no
+ casamento de padrões (de fato, nós ja vimos isto no capítulo anterior
+ -- esta notação é disponibilizada pela biblioteca padrão): *)
+    
 Eval compute in (fst (3,5)).
 
 Definition fst' (p : natprod) : nat := 
@@ -132,7 +131,7 @@ Inductive natlist : Type :=
   | nil : natlist
   | cons : nat -> natlist -> natlist.
 
-(** [ Vitor ] For example, here is a three-element list: *)
+(** Por exemplo, se encontra abaixo uma lista de três elementos: *)
 
 Definition mylist := cons 1 (cons 2 (cons 3 nil)).
 
@@ -175,12 +174,11 @@ Notation "x + y" := (plus x y)
    instruct the "coqdoc" tool that the bracketed part should be
    displayed as Coq code rather than running text.)
 
-   [ Vitor ] The second and third [Notation] declarations above introduce the
-   standard square-bracket notation for lists; the right-hand side of
-   the third one illustrates Coq's syntax for declaring n-ary
-   notations and translating them to nested sequences of binary
-   constructors. *)
-
+A segunda e a terceira declaração de [Notation] acima introduzem a
+ notação padrão de colchetes para listas; o lado direito da terceira
+ declaração ilustra a sintaxe do Coq para declarar notações n-árias  e
+ traduzi-las para sequências aninhadas de construtores binários. *)  
+ 
 (** *** Repetição *)
 
 (** [ Claudia ] A number of functions are useful for manipulating lists.
@@ -256,9 +254,9 @@ Proof. reflexivity.  Qed.
 
 (** **** Exercício: ** ([ list_funs ])  *)
 
-(** [ Vitor ] Complete the definitions of [nonzeros], [oddmembers] and
-    [countoddmembers] below. Have a look at the tests to understand
-    what these functions should do. *)
+(** Complete as definições de [nonzeros], [oddmembers] e
+[countoddmembers] abaixo. Dê uma olhada nos testes para entender o que
+estas funções devem fazer. *)
 
 Fixpoint nonzeros (l:natlist) : natlist :=
   (* PREENCHER *) admit.
@@ -335,17 +333,19 @@ Example test_count1:              count 1 [1;2;3;1;4;1] = 3.
 Example test_count2:              count 6 [1;2;3;1;4;1] = 0.
  (* PREENCHER *) Admitted.
 
-(** [ Vitor ] Multiset [sum] is similar to set [union]: [sum a b] contains
-    all the elements of [a] and of [b].  (Mathematicians usually
-    define [union] on multisets a little bit differently, which
-    is why we don't use that name for this operation.)
-    For [sum] we're giving you a header that does not give explicit
-    names to the arguments.  Moreover, it uses the keyword
-    [Definition] instead of [Fixpoint], so even if you had names for
-    the arguments, you wouldn't be able to process them recursively.
-    The point of stating the question this way is to encourage you to
-    think about whether [sum] can be implemented in another way --
-    perhaps by using functions that have already been defined.  *)
+(** A função [sum] para multiconjuntos é similar à função [união] para
+conjuntos: [sum a b] contém todos os elementos de [a] e
+[b]. (Geralmente os matemáticos definem [union] em multiconjuntos de
+forma um pouquinho diferente, por isto que não estamos usando o mesmo
+nome para esta operação.)
+Para a função [sum] lhe daremos uma declaração que não determina
+explicitamente os nomes dos argumentos. Além disso, é utilizada a
+palavra-chave [Definition] ao invés de [Fixpoint]. Então, mesmo que
+você tivesse nome para os argumentos, não seria possível processá-los
+recursivamente.
+O motivo de declarar esta questão desta forma é encorajá-lo a pensar
+se [sum] pode ser implementado de uma maneira diferente -- talvez
+através de funções que já foram definidas. *) 
 
 Definition sum : bag -> bag -> bag := 
   (* PREENCHER *) admit.
@@ -436,9 +436,9 @@ Proof. reflexivity. Qed.
     in the definition of [app], allowing the match itself to be
     simplified. *)
 
-(** [ Vitor ] Also, as with numbers, it is sometimes helpful to perform case
-    analysis on the possible shapes (empty or non-empty) of an unknown
-    list. *)
+(** Algumas vezes, também é possível, assim como com números, realizar
+análise por casos nas possíveis formas (vazia ou não-vazia) de uma lista
+desconhecida. *)
 
 Theorem tl_length_pred : forall l:natlist,
   pred (length l) = length (tl l).
@@ -494,9 +494,10 @@ Proof.
         some number [n] and some smaller list [l'], assuming that [P]
         is true for [l'].
 
-    [ Vitor ] Since larger lists can only be built up from smaller ones,
-    eventually reaching [nil], these two things together establish the
-    truth of [P] for all lists [l].  Here's a concrete example: *)
+Já que listas maiores só podem ser construídas a partir de listas
+menores, chegando, em algum momento, em [nil], estas duas sentenças juntas
+estabelecem a verdade de [P] para todas as listas [l]. Veja abaixo um
+exemplo concreto: *)
 
 Theorem app_assoc : forall l1 l2 l3 : natlist, 
   (l1 ++ l2) ++ l3 = l1 ++ (l2 ++ l3).   
@@ -609,8 +610,8 @@ Proof.
     (* ... mas agora não podemos avançar mais. *)
 Abort.
 
-(** [ Vitor ] So let's take the equation about [snoc] that would have
-    enabled us to make progress and prove it as a separate lemma. 
+(** Agora, consideremos a equação sobre [snoc] que teria nos permitido
+progredir: vamos prová-la como um novo lema.
 *)
 
 Theorem length_snoc : forall n : nat, forall l : natlist,
@@ -711,13 +712,12 @@ Proof.
 (* ###################################################### *)
 (** ** O comando [SearchAbout] *)
 
-(** [ Vitor ] We've seen that proofs can make use of other theorems we've
-    already proved, using [rewrite], and later we will see other ways
-    of reusing previous theorems.  But in order to refer to a theorem,
-    we need to know its name, and remembering the names of all the
-    theorems we might ever want to use can become quite difficult!  It
-    is often hard even to remember what theorems have been proven,
-    much less what they are named.
+(** Nós vimos que podemos usar teoremas já provados nas novas
+provas, através de [rewrite], e posteriormente veremos outras formas
+de reutilizar teoremas já definidos. Mas, para usar um teorema, devemos
+saber seu nome, e relembrar o nome de todos os teoremas que poderíamos
+usar pode ficar bastante difícil! Já é muitas vezes penoso lembrar
+quais teoremas foram provados, sendo mais difícil ainda lembrar seus nomes.
 
     [ Claudia ] Coq's [SearchAbout] command is quite helpful with this.  Typing
     [SearchAbout foo] will cause Coq to display a list of all theorems
@@ -781,9 +781,9 @@ Proof.
 
 (** **** Exercício: ** (beq_natlist)  *)
 
-(** [ Vitor ] Fill in the definition of [beq_natlist], which compares
-    lists of numbers for equality.  Prove that [beq_natlist l l]
-    yields [true] for every list [l]. *)
+(** Complete a definição de [beq_natlist], que compara se listas de
+números são iguais. Prove que [beq_natlist l l] retorna [true] para
+toda lista [l]. *)
 
 Fixpoint beq_natlist (l1 l2 : natlist) : bool :=
   (* PREENCHER *) admit.
