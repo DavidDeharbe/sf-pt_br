@@ -454,15 +454,15 @@ Proof.
 (** [] *)
 
 (** **** Exercício: **, opcional (plus_swap')  *)
-(** [Renan] The [replace] tactic allows you to specify a particular subterm to
-   rewrite and what you want it rewritten to.  More precisely,
-   [replace (t) with (u)] replaces (all copies of) expression [t] in
-   the goal by expression [u], and generates [t = u] as an additional
-   subgoal. This is often useful when a plain [rewrite] acts on the wrong
-   part of the goal.  
-
-   Use the [replace] tactic to do a proof of [plus_swap'], just like
-   [plus_swap] but without needing [assert (n + m = m + n)]. 
+(** A tática [replace] permite que você especifique um subtermo em
+    particular para reescrever e para o que você quer que ele seja reescrito. 
+    Mais precisamente, [substituir (t) com (u)] substitui (todas as cópias de) 
+    expressões [t], nas metas, pela expressão [u], e gera [t = u] como uma
+    submeta adicional. Isso é frequentemente útil quando um simples [rewrite] 
+    atua sobre a parte errada da meta.
+    
+    Use a tática [replace] para fazer uma prova de [plus_swap'], tal como 
+    [plus_swap], mas sem a necessidade de fazer um [assert (n + m = m + n)].
 *)
 
 Theorem plus_swap' : forall n m p : nat, 
@@ -525,20 +525,19 @@ Proof.
 
 (** "Provas informais são algoritmos; provas formais são código." *)
 
-(** [Renan]The question of what, exactly, constitutes a "proof" of a
-    mathematical claim has challenged philosophers for millennia.  A
-    rough and ready definition, though, could be this: a proof of a
-    mathematical proposition [P] is a written (or spoken) text that
-    instills in the reader or hearer the certainty that [P] is true.
-    That is, a proof is an act of communication.
+(** A questão sobre o que, exatamente, constitui uma "prova" de uma 
+    alegação matemática tem desafiado os filósofos há milênios. Uma 
+    definição curta e grossa, no entanto, poderia ser esta: uma prova 
+    de uma proposição matemática [P] é um texto escrito (ou falado) 
+    que inspira no leitor ou ouvinte a certeza de que [P] é verdade. 
+    Ou seja, uma prova é um ato de comunicação.
 
- 
- Agora, os atos de comunicação podem envolver diferentes tipos de
- leitores. De um lado, o "leitor" pode ser um programa como o Coq, em
- que, no caso, a "crença" transmitida é uma simples verificação
- mecânica de que [P] pode ser derivada a partir de um conjunto de
- regras lógicas formais, e a prova é uma receita que guia o programa
- em sua verificação. Estas receitas são as provas _formais_.
+    Agora, os atos de comunicação podem envolver diferentes tipos de
+    leitores. De um lado, o "leitor" pode ser um programa como o Coq, em
+    que, no caso, a "crença" transmitida é uma simples verificação
+    mecânica de que [P] pode ser derivada a partir de um conjunto de
+    regras lógicas formais, e a prova é uma receita que guia o programa
+    em sua verificação. Estas receitas são as provas _formais_.
 
     [Claudia]Alternatively, the reader can be a human being, in which case the
     proof will be written in English or some other natural language,
@@ -600,16 +599,15 @@ Proof. intros n m p. induction n as [| n']. reflexivity.
       which is immediate from the induction hypothesis. *)
 (** _Qed_ *)
 
-(** [Renan]The overall form of the proof is basically similar.  This is
-    no accident: Coq has been designed so that its [induction] tactic
-    generates the same sub-goals, in the same order, as the bullet
-    points that a mathematician would write.  But there are
-    significant differences of detail: the formal proof is much more
-    explicit in some ways (e.g., the use of [reflexivity]) but much
-    less explicit in others (in particular, the "proof state" at any
-    given point in the Coq proof is completely implicit, whereas the
-    informal proof reminds the reader several times where things
-    stand). *)
+(** A forma geral da prova é basicamente similar. Isso não é por acaso: 
+    Coq foi concebido de modo que a sua tática de [induction] gera as 
+    mesmas submetas, na mesma ordem, como os pontos de linha que um 
+    matemático iria escrever. Mas existem diferenças significativas de 
+    detalhes: a prova formal é muito mais explícita em alguns aspectos 
+    (por exemplo, o uso de [reflexivity]), mas muito menos explícita 
+    em outros (em particular, o "estado da prova" em qualquer ponto na
+    prova do Coq é completamente implícita, enquanto a prova informal 
+    lembra ao leitor várias vezes onde as coisas estão). *)
 
 (** Aqui está uma prova formal que mostra a estrutura de forma mais
  clara: *)
