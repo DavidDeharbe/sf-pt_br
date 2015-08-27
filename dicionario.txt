@@ -15,6 +15,7 @@ goal: meta
 hack: truque
 hacking: resolver a base de tentativa e erro
 head: cabeça
+hint: dica
 invariant: (um) invariante
 lemma: lema
 linker: linkeditor
