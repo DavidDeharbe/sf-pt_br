@@ -1,8 +1,7 @@
 (** * Indução: Prova por Indução *)
  
 
-(** [Claudia] The next line imports all of our definitions from the
-    previous chapter. *)
+(** A próxima linha importa todas as nossas definições do capítulo anterior. *)
 
 Require Export Basics.
 
@@ -118,14 +117,14 @@ Proof.
  das linhas, então a prova será legível independentemente de quais escolhas
  foram feitas sobre outros aspectos do layout.
 
-    [Claudia] This is a good place to mention one other piece of (possibly
-    obvious) advice about line lengths.  Beginning Coq users sometimes
-    tend to the extremes, either writing each tactic on its own line
-    or entire proofs on one line.  Good style lies somewhere in the
-    middle.  In particular, one reasonable convention is to limit
-    yourself to 80-character lines.  Lines longer than this are hard
-    to read and can be inconvenient to display and print.  Many
-    editors have features that help enforce this. *)
+      Este é um bom lugar para mencionar um outro (possivelmente óbvio) conselho
+      sobre comprimentos de linha. Usuários iniciantes em Coq às vezes tendem
+      aos extremos, seja escrevendo cada tática em uma nova linha ou provas
+      inteiras em uma linha. Um bom estilo encontra-se entre os dois extremos.
+      Em particular, uma convenção razoável é limitar -se a linhas de 80
+      caracteres. Linhas com mais do que isso são difíceis de ler e podem ser
+      inconvenientes para exibir e imprimir. Muitos editores têm recursos que
+      ajudam a reforçar isso.
 
 (** * Prova por Indução *)
 
@@ -218,8 +217,8 @@ Proof.
 
 (** **** Exercício: ** (basic_induction)  *)
 
-(** [Claudia] Prove the following lemmas using induction. You might need
-    previously proven results. *)
+(** Prove os seguintes lemas usando indução. Você pode precisar de resultados
+    provados anteriormente. *)
 
 Theorem mult_0_r : forall n:nat,
   n * 0 = 0.
@@ -305,7 +304,7 @@ Proof.
     tanto para facilitar a leitura quanto para que, ao usar Coq 
     interativamente, nós possamos ver quando terminarmos de provar 
     a afirmação, observando quando a cadeira de caracteres 
-    ["Prova de afirmação"] desaparece do contexto.) A segunda meta 
+    ["Proof of assertion"] desaparece do contexto.) A segunda meta 
     é a mesma que aquela no ponto em que invocamos [assert], exceto 
     que, no contexto, temos a suposição [H] de que [0 + n = n]. 
     Ou seja, [assert] gera uma submeta onde temos que provar o 
@@ -334,11 +333,10 @@ Proof.
   (* Não funciona... Coq reescreveu a soma errada! *)
 Abort.
 
-(** [Claudia] To get [plus_comm] to apply at the point where we want it, we can
-    introduce a local lemma stating that [n + m = m + n] (for
-    the particular [m] and [n] that we are talking about here), prove
-    this lemma using [plus_comm], and then use this lemma to do the
-    desired rewrite. *)
+(** Para conseguir aplicar [plus_comm] no ponto onde queremos, podemos
+    introduzir um lema local afirmando que [n + m = m + n] (para os específicos [m]
+    e [n] dos quais falamos aqui), provar este lema usando [plus_comm] e, então,
+    usar este lema para fazer a reescrita desejada. *)
 
 Theorem plus_rearrange : forall n m p q : nat,
   (n + m) + (p + q) = (m + n) + (p + q).
@@ -539,35 +537,34 @@ Proof.
     regras lógicas formais, e a prova é uma receita que guia o programa
     em sua verificação. Estas receitas são as provas _formais_.
 
-    [Claudia]Alternatively, the reader can be a human being, in which case the
-    proof will be written in English or some other natural language,
-    thus necessarily _informal_.  Here, the criteria for success are
-    less clearly specified.  A "good" proof is one that makes the
-    reader believe [P].  But the same proof may be read by many
-    different readers, some of whom may be convinced by a particular
-    way of phrasing the argument, while others may not be.  One reader
-    may be particularly pedantic, inexperienced, or just plain
-    thick-headed; the only way to convince them will be to make the
-    argument in painstaking detail.  [Dalay]But another reader, more familiar
-    in the area, may find all this detail so overwhelming that they
-    lose the overall thread.  All they want is to be told the main
-    ideas, because it is easier to fill in the details for themselves.
-    Ultimately, there is no universal standard, because there is no
-    single way of writing an informal proof that is guaranteed to
-    convince every conceivable reader.  In practice, however,
-    mathematicians have developed a rich set of conventions and idioms
-    for writing about complex mathematical objects that, within a
-    certain community, make communication fairly reliable.  The
-    conventions of this stylized form of communication give a fairly
-    clear standard for judging proofs good or bad.
+    Além disso, o leitor pode ser um ser humano e, nesse caso, a prova será
+    escrita em português ou em alguma outra linguagem natural, portanto,
+    necessariamente _informal_. Aqui, os critérios para o sucesso são
+    especificados com menos clareza. Uma "boa" prova é aquela que faz o leitor
+    acreditar em [P]. Mas, a mesma prova pode ser lida por muitos leitores
+    diferentes, alguns deles podem ser convencidos por uma determinada forma
+    de frasear o argumento, enquanto outros podem não ser. Um leitor pode ser
+    particularmente minucioso, inexperiente ou, simplesmente, teimoso; a única
+    maneira de convencê-los será fazer o argumento nos mínimos detalhes. Mas,
+    outros leitores, mais familiarizados com a área, podem achar todos esses
+    detalhes tão sufocantes que perdem o traço principal. Tudo que eles querem
+    é conhecer as ideais principais, porque é mais fácil preenchê-las
+    sozinhos. Enfim, não existe um padrão universal, porque não há uma maneira
+    única de escrever uma prova informal que garanta o convencimento de todos
+    os prováveis leitores. Na prática, no entanto, matemáticos desenvolveram
+    um rico conjunto de convenções e expressões idiomáticas para escrever
+    sobre objetos matemáticos complexos que, dentro de uma determinada
+    comunidade, tornam a comunicação bastante confiável. As convenções dessa
+    forma estilizada de comunicação fornecem um padrão bastante claro para
+    julgar provas boas ou ruins.
 
     Como estamos utilizando Coq nesse curso, nós iremos trabalhar
-    exaustivamente com provas formais.  Mas isto não significa que podemos ignorar
-    as provas informais!  Provas formais são úteis em vários aspectos, mas
-    elas _não_ são um meio muito eficiente para comunicar idéias entre
+    exaustivamente com provas formais. Mas isto não significa que podemos ignorar
+    as provas informais! Provas formais são úteis em vários aspectos, mas
+    elas _não_ são um meio muito eficiente para comunicar ideias entre
     seres humanos. *)
 
-(** Por exemplo, aqui está uma prova que adição é associativa: *)
+(** Por exemplo, aqui está uma prova de que a adição é associativa: *)
 
 
 Theorem plus_assoc' : forall n m p : nat,
