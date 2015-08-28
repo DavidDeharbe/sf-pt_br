@@ -18,7 +18,7 @@ Inductive natprod : Type :=
     construct a pair of numbers: by applying the constructor [pair] to
     two arguments of type [nat]." *)
 
-(** [ Diego ] We can construct an element of [natprod] like this: *)
+(** Nós podemos construir um elemento de [natprod] dessa maneira: *)
 
 Check (pair 3 5).
 
@@ -92,8 +92,8 @@ Proof.
 Abort.
 
 (** *** *)
-(** [ Diego ] We have to expose the structure of [p] so that [simpl] can
-    perform the pattern match in [fst] and [snd].  We can do this with
+(** Nós temos que expor a estrutura de [p], então o [simpl] pode
+    realizar o casamento de padrão em [fst] e em [snd].  Nós podemos fazer isso com
     [destruct].
 
     [ Francisco ] Notice that, unlike for [nat]s, [destruct] doesn't generate an
@@ -149,9 +149,9 @@ Notation "[ x ; .. ; y ]" := (cons x .. (cons y nil) ..).
 (** [ Dalay ] It is not necessary to fully understand these declarations,
     but in case you are interested, here is roughly what's going on.
 
-    [ Diego ] The [right associativity] annotation tells Coq how to parenthesize
-    expressions involving several uses of [::] so that, for example,
-    the next three declarations mean exactly the same thing: *)
+    A anotação [right associativity] (_associatividade à direita_) diz ao Coq
+    como utilizar o parênteses em expressões envolvendo o uso de muitos [::], 
+    então, por exemplo, as três próximas declarações significam exatamente a mesma coisa: *)
 
 Definition mylist1 := 1 :: (2 :: (3 :: nil)).
 Definition mylist2 := 1 :: 2 :: 3 :: nil.
@@ -203,7 +203,7 @@ Fixpoint length (l:natlist) : nat :=
   end.
 
 (** *** Concatenação *)
-(** [ Diego ] The [app] ("append") function concatenates two lists. *)
+(** A função [app] "append" (_anexar_) concatena duas listas. *)
 
 Fixpoint app (l1 l2 : natlist) : natlist := 
   match l1 with
@@ -311,10 +311,10 @@ Example test_alternate4:        alternate [] [20;30] = [20;30].
 (* ###################################################### *)
 (** ** Multiconjuntos com Listas *)
 
-(** [ Diego ] A [bag] (or [multiset]) is like a set, but each element can appear
-    multiple times instead of just once.  One reasonable
-    implementation of bags is to represent a bag of numbers as a
-    list. *)
+(** Uma [bag] (ou [multiconjunto]) é como um conjunto, mas cada
+    elemento pode aparecer múltiplas vezes, em vez de unicamente.  Uma razoável
+    implementação de multiconjuntos é para representar um multiconjunto de
+    números como uma lista. *)
 
 Definition bag := natlist.  
 
@@ -411,11 +411,11 @@ Example test_subset2:              subset [1;2;2] [2;1;4;1] = false.
 
 (** **** Exercício: *** (bag_theorem)  *)
 
-(** [ Diego ] Write down an interesting theorem [bag_theorem] about bags
-    involving the functions [count] and [add], and prove it.  Note that, since
-    this problem is somewhat open-ended, it's possible that you may come up with
-    a theorem which is true, but whose proof requires techniques you haven't
-    learned yet.  Feel free to ask for help if you get stuck! *)
+(** Escrever abaixo um interessante teorema [bag_theorem] sobre multiconjuntos
+    envolvendo as funções [count] e [add], e provar o teorema.  Notar que, uma
+    vez que este problema é aberto, é possível que você imagine um teorema
+    que é verdadeiro, mas a prova dele requisite técnicas que você ainda
+    não aprendeu.  Sinta-se livre para pedir ajuda se você ficar preso! *)
 
 (* PREENCHER *)
 (** [] *)
@@ -461,11 +461,11 @@ Proof.
 (* ###################################################### *)
 (** ** Micro-Sermão *)
 
-(** [ Diego ] Simply reading example proof scripts will not get you very far!
-    It is very important to work through the details of each one,
-    using Coq and thinking about what each step achieves.  Otherwise
-    it is more or less guaranteed that the exercises will make no
-    sense... *)
+(** Simplesmente ler exemplos de scripts de prova não vai te levar muito longe!
+    É muito importante trabalhar os detalhes de cada uma das provas,
+    quando usar o Coq e pensar sobre o que cada passo da prova realiza.  Senão,
+    é mais ou menos, garantido que os exercícios não farão
+    sentido... *)
 
 (* ###################################################### *)
 (** ** Indução sobre Listas *)
@@ -556,9 +556,9 @@ Proof.
 
 (** *** Inversão de uma Lista *)
 
-(** [ Diego ] For a slightly more involved example of an inductive proof
-    over lists, suppose we define a "cons on the right" function
-    [snoc] like this... *)
+(** Para um exemplo um pouco mais envolvido de uma prova por indução
+    sobre listas, supor que nós definimos uma função "cons na direita"
+    [snoc], como a seguir... *)
 
 Fixpoint snoc (l:natlist) (v:nat) : natlist := 
   match l with
@@ -645,46 +645,46 @@ Proof.
     simpl. rewrite -> length_snoc. 
     rewrite -> IHl'. reflexivity.  Qed.
 
-(** [ Diego ] For comparison, here are informal proofs of these two theorems: 
+(** Para comparação, aqui está uma prova informal de dois destes teoremas:
 
-    _Theorem_: For all numbers [n] and lists [l],
+    _Teorema_: Para todo número [n] e lista [l],
        [length (snoc l n) = S (length l)].
  
-    _Proof_: By induction on [l].
+    _Prova_: Por indução em [l].
 
-    - First, suppose [l = []].  We must show
+    - Primeiramente, suponhamos que [l = []].  Nós devemos mostrar que
         length (snoc [] n) = S (length []),
-      which follows directly from the definitions of
-      [length] and [snoc].
+      o que segue diretamente para a definição de
+      [length] e [snoc].
 
-    - Next, suppose [l = n'::l'], with
+    - Em seguida, suponhamos que [l = n'::l'], com
         length (snoc l' n) = S (length l').
-      We must show
+      Nós devemos mostrar que
         length (snoc (n' :: l') n) = S (length (n' :: l')).
-      By the definitions of [length] and [snoc], this
-      follows from
+      Pela definição de [length] e [snoc], isto
+      segue para
         S (length (snoc l' n)) = S (S (length l')),
 ]] 
-      which is immediate from the induction hypothesis. [] *)
+      o que é direto da hipótese de indução. [] *)
                         
-(** _Theorem_: For all lists [l], [length (rev l) = length l].
+(** _Teorema_: Para toda lista [l], [length (rev l) = length l].
     
-    _Proof_: By induction on [l].  
+    _Prova_: Por indução em [l].  
 
-      - First, suppose [l = []].  We must show
+      - Primeiro, suponhamos que [l = []].  Nós devemos mostrar que
           length (rev []) = length [],
-        which follows directly from the definitions of [length] 
-        and [rev].
+        o que segue diretamente para a definição de [length] 
+        e [rev].
     
-      - Next, suppose [l = n::l'], with
+      - Em seguinda, suponhamos que [l = n::l'], com
           length (rev l') = length l'.
-        We must show
+        Nós devemos mostrar que
           length (rev (n :: l')) = length (n :: l').
-        By the definition of [rev], this follows from
+        Pela definição de [rev], isto segue para
           length (snoc (rev l') n) = S (length l')
-        which, by the previous lemma, is the same as
+        o que, pelo lema anterior, isso é o mesmo que
           S (length (rev l')) = S (length l').
-        This is immediate from the induction hypothesis. [] *)
+        Isto é direto da hipótese de indução. [] *)
 
 (** [ Francisco ] Obviously, the style of these proofs is rather longwinded
     and pedantic.  After the first few, we might find it easier to
@@ -729,9 +729,9 @@ quais teoremas foram provados, sendo mais difícil ainda lembrar seus nomes.
 (** [ Dalay ] Keep [SearchAbout] in mind as you do the following exercises and
     throughout the rest of the course; it can save you a lot of time! *)
 
-(** [ Diego ] Also, if you are using ProofGeneral, you can run [SearchAbout]
-    with [C-c C-a C-a]. Pasting its response into your buffer can be
-    accomplished with [C-c C-;]. *)
+(** Também, se você está usando a ProofGeneral (_Prova Geral_), você pode
+    executar um comando [SearchAbout] com [C-c C-a C-a]. Você pode colar sua
+    resposta em seu buffer com [C-c C-;]. *)
 
 (* ###################################################### *)
 (** ** Lista de Exercícios, Parte 1 *)
@@ -824,7 +824,7 @@ Theorem count_member_nonzero : forall (s : bag),
 Proof.
   (* PREENCHER *) Admitted.
 
-(** [ Diego ] The following lemma about [ble_nat] might help you in the next proof. *)
+(** O lema a seguir sobre [ble_nat] deve te ajudar na próxima prova. *)
 
 Theorem ble_n_Sn : forall n,
   ble_nat n (S n) = true.
@@ -920,13 +920,13 @@ Fixpoint index' (n:nat) (l:natlist) : natoption :=
   | a :: l' => if beq_nat n O then Some a else index' (pred n) l'
   end.
 
-(** [ Diego ] Coq's conditionals are exactly like those found in any other
-    language, with one small generalization.  Since the boolean type
-    is not built in, Coq actually allows conditional expressions over
-    _any_ inductively defined type with exactly two constructors.  The
-    guard is considered true if it evaluates to the first constructor
-    in the [Inductive] definition and false if it evaluates to the
-    second. *)
+(** As condicionais do Coq são exatamante como aquelas encontradas em qualquer
+    outra linguaguem, com uma pequena generalização.  Uma vez que o Coq não
+    define o tipo booleano, ele permite expressões condicionais sobre
+    _qualquer_ tipo indutivamente definido com exatamente dois construtores.  A
+    comparação quando é considerada verdadeira é avaliada para o primeiro
+    construtor na definição de indução [Inductive] e falsa se é avaliada para o
+    segundo. *)
 
 (** [ Francisco ] The function below pulls the [nat] out of a [natoption], returning
     a supplied default in the [None] case. *)
@@ -990,11 +990,11 @@ Inductive dictionary : Type :=
 Definition insert (key value : nat) (d : dictionary) : dictionary :=
   (record key value d).
 
-(** [ Diego ] Here is a function [find] that searches a [dictionary] for a
-    given key.  It evaluates evaluates to [None] if the key was not
-    found and [Some val] if the key was mapped to [val] in the
-    dictionary. If the same key is mapped to multiple values, [find]
-    will return the first one it finds. *)
+(** Aqui está a função [find] (_encontrar_), que procura um [dictionary]
+    (_dicionário_) para a chave dada. Atribuindo [None] (_nada_) se a chave não
+    for encontrada e [Some val] (_algum valor_) se a chave for mapeada até
+    [val] no dicionário. Se a mesma chave for mapeada em múltiplos valores,
+    [find] irá retorar o primeiro que encontrar. *)
 
 Fixpoint find (key : nat) (d : dictionary) : natoption := 
   match d with 
