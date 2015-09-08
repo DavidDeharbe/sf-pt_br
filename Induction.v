@@ -121,10 +121,10 @@ Proof.
       sobre comprimentos de linha. Usuários iniciantes em Coq às vezes tendem
       aos extremos, seja escrevendo cada tática em uma nova linha ou provas
       inteiras em uma linha. Um bom estilo encontra-se entre os dois extremos.
-      Em particular, uma convenção razoável é limitar -se a linhas de 80
+      Em particular, uma convenção razoável é limitar-se a linhas de 80
       caracteres. Linhas com mais do que isso são difíceis de ler e podem ser
       inconvenientes para exibir e imprimir. Muitos editores têm recursos que
-      ajudam a reforçar isso.
+      ajudam a cumprir isso.
 
 (** * Prova por Indução *)
 
@@ -455,7 +455,7 @@ Proof.
 (** A tática [replace] permite que você especifique um subtermo em
     particular para reescrever e para o que você quer que ele seja reescrito. 
     Mais precisamente, [substituir (t) com (u)] substitui (todas as cópias de) 
-    expressões [t], nas metas, pela expressão [u], e gera [t = u] como uma
+    expressões [t], na meta, pela expressão [u], e gera [t = u] como uma
     submeta adicional. Isso é frequentemente útil quando um simples [rewrite] 
     atua sobre a parte errada da meta.
     

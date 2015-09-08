@@ -92,9 +92,9 @@ Proof.
 Abort.
 
 (** *** *)
-(** Nós temos que expor a estrutura de [p], então o [simpl] pode
-    realizar o casamento de padrão em [fst] e em [snd].  Nós podemos fazer isso com
-    [destruct].
+(** Nós temos que expor a estrutura de [p], de tal maneira que [simpl] 
+    possa realizar o casamento de padrão em [fst] e em [snd].  
+    Nós podemos fazer isso através de [destruct].
 
     [ Francisco ] Notice that, unlike for [nat]s, [destruct] doesn't generate an
     extra subgoal here.  That's because [natprod]s can only be
@@ -150,7 +150,7 @@ Notation "[ x ; .. ; y ]" := (cons x .. (cons y nil) ..).
     but in case you are interested, here is roughly what's going on.
 
     A anotação [right associativity] (_associatividade à direita_) diz ao Coq
-    como utilizar o parênteses em expressões envolvendo o uso de muitos [::], 
+    como utilizar parênteses em expressões envolvendo o uso de muitos [::], 
     então, por exemplo, as três próximas declarações significam exatamente a mesma coisa: *)
 
 Definition mylist1 := 1 :: (2 :: (3 :: nil)).
@@ -312,9 +312,9 @@ Example test_alternate4:        alternate [] [20;30] = [20;30].
 (** ** Multiconjuntos com Listas *)
 
 (** Uma [bag] (ou [multiconjunto]) é como um conjunto, mas cada
-    elemento pode aparecer múltiplas vezes, em vez de unicamente.  Uma razoável
-    implementação de multiconjuntos é para representar um multiconjunto de
-    números como uma lista. *)
+    elemento pode aparecer múltiplas vezes, em vez de unicamente.  Uma 
+    implementação razoável de multiconjuntos é representar um multiconjunto 
+    de números através de uma lista. *)
 
 Definition bag := natlist.  
 
@@ -411,11 +411,12 @@ Example test_subset2:              subset [1;2;2] [2;1;4;1] = false.
 
 (** **** Exercício: *** (bag_theorem)  *)
 
-(** Escrever abaixo um interessante teorema [bag_theorem] sobre multiconjuntos
-    envolvendo as funções [count] e [add], e provar o teorema.  Notar que, uma
-    vez que este problema é aberto, é possível que você imagine um teorema
-    que é verdadeiro, mas a prova dele requisite técnicas que você ainda
-    não aprendeu.  Sinta-se livre para pedir ajuda se você ficar preso! *)
+(** Escrever abaixo um teorema interessante, chamado [bag_theorem], sobre 
+    multiconjuntos
+    envolvendo as funções [count] e [add], e provar o teorema.  Note que, uma
+    vez que este problema é aberto, é possível imaginar um teorema
+    que é verdadeiro, mas cuja prova requisite técnicas que você ainda
+    não aprendeu.  Sinta-se livre para pedir ajuda se você ficar travado! *)
 
 (* PREENCHER *)
 (** [] *)
@@ -461,10 +462,11 @@ Proof.
 (* ###################################################### *)
 (** ** Micro-Sermão *)
 
-(** Simplesmente ler exemplos de scripts de prova não vai te levar muito longe!
+(** Simplesmente ler exemplos de transrição de prova não vai te levar muito 
+    longe!
     É muito importante trabalhar os detalhes de cada uma das provas,
     quando usar o Coq e pensar sobre o que cada passo da prova realiza.  Senão,
-    é mais ou menos, garantido que os exercícios não farão
+    é mais ou menos garantido que os exercícios não farão
     sentido... *)
 
 (* ###################################################### *)
@@ -556,9 +558,9 @@ Proof.
 
 (** *** Inversão de uma Lista *)
 
-(** Para um exemplo um pouco mais envolvido de uma prova por indução
+(** Para um exemplo um pouco mais intricado de uma prova por indução
     sobre listas, supor que nós definimos uma função "cons na direita"
-    [snoc], como a seguir... *)
+    [snoc], como a que segue... *)
 
 Fixpoint snoc (l:natlist) (v:nat) : natlist := 
   match l with
@@ -654,18 +656,17 @@ Proof.
 
     - Primeiramente, suponhamos que [l = []].  Nós devemos mostrar que
         length (snoc [] n) = S (length []),
-      o que segue diretamente para a definição de
+      o que segue diretamente das definições de
       [length] e [snoc].
 
     - Em seguida, suponhamos que [l = n'::l'], com
         length (snoc l' n) = S (length l').
       Nós devemos mostrar que
         length (snoc (n' :: l') n) = S (length (n' :: l')).
-      Pela definição de [length] e [snoc], isto
-      segue para
+      Pela definição de [length] e [snoc], isto prossegue de
         S (length (snoc l' n)) = S (S (length l')),
-]] 
-      o que é direto da hipótese de indução. [] *)
+]].
+      Isto é uma consequência imediata da hipótese de indução. [] *)
                         
 (** _Teorema_: Para toda lista [l], [length (rev l) = length l].
     
@@ -729,7 +730,7 @@ quais teoremas foram provados, sendo mais difícil ainda lembrar seus nomes.
 (** [ Dalay ] Keep [SearchAbout] in mind as you do the following exercises and
     throughout the rest of the course; it can save you a lot of time! *)
 
-(** Também, se você está usando a ProofGeneral (_Prova Geral_), você pode
+(** Também, se você está usando ProofGeneral, você pode
     executar um comando [SearchAbout] com [C-c C-a C-a]. Você pode colar sua
     resposta em seu buffer com [C-c C-;]. *)
 
@@ -924,7 +925,7 @@ Fixpoint index' (n:nat) (l:natlist) : natoption :=
     outra linguaguem, com uma pequena generalização.  Uma vez que o Coq não
     define o tipo booleano, ele permite expressões condicionais sobre
     _qualquer_ tipo indutivamente definido com exatamente dois construtores.  A
-    comparação quando é considerada verdadeira é avaliada para o primeiro
+    condição é considerada verdadeira quando é avaliada para o primeiro
     construtor na definição de indução [Inductive] e falsa se é avaliada para o
     segundo. *)
 

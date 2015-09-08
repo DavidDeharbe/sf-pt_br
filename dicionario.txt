@@ -27,7 +27,7 @@ pedantic: minucioso(a)
 pretty printer: formatador de código
 (to) rewrite: reescrever
 rewriting: reescrita
-script: script
+script: transcrição
 side effects: efeitos colaterais
 soundness: correção
 static type system: sistema de tipagem estática
