@@ -43,10 +43,10 @@ Eval compute in (fst (pair 3 5)).
 
 (** *** *)
 
-(** [ Renan ] Since pairs are used quite a bit, it is nice to be able to
-    write them with the standard mathematical notation [(x,y)] instead
-    of [pair x y].  We can tell Coq to allow this with a [Notation]
-    declaration. *)
+(** Dado que pares são bastante usados, é bom ser capaz de escrevê-los 
+    com a notação matemática padrão [(x, y)] em vez de [pair xy]. 
+    Podemos dizer ao Coq para permitir isso com uma declaração 
+    [Notation]. *)
 
 Notation "( x , y )" := (pair x y).
 
@@ -121,10 +121,10 @@ Proof.
 (* ###################################################### *)
 (** * Listas de Números *)
 
-(** [ Renan ] Generalizing the definition of pairs a little, we can
-    describe the type of _lists_ of numbers like this: "A list is
-    either the empty list or else a pair of a number and another
-    list." *)
+(** Generalizando a definição de pares um pouco, podemos descrever 
+    o tipo de _listas_ de números da seguinte forma: "A lista é ou 
+    a lista vazia ou então um par contendo um número e outra 
+    lista." *)
 
 Inductive natlist : Type :=
   | nil : natlist
@@ -166,12 +166,13 @@ Notation "x + y" := (plus x y)
    will be parsed, as we'd expect, as [(1 + 2) :: [3]] rather than [1
    + (2 :: [3])].
 
-   [ Renan ] (By the way, it's worth noting in passing that expressions like "[1
-   + 2 :: [3]]" can be a little confusing when you read them in a .v
-   file.  The inner brackets, around 3, indicate a list, but the outer
-   brackets, which are invisible in the HTML rendering, are there to
-   instruct the "coqdoc" tool that the bracketed part should be
-   displayed as Coq code rather than running text.)
+   (A propósito, vale a pena notar de passagem que expressões como "[1
+    + 2 :: [3]]" podem ser um pouco confusas quando você as lê em um 
+    arquivo .v. Os colchetes internos, cerca de 3, indicam uma lista, 
+    porém os colchetes externos, que são invisíveis na renderização 
+    do HTML, estão lá para instruir à ferramenta "coqdoc" que a 
+    parte entre colchetes deve ser exibida como código Coq em vez 
+    de texto comum.)
 
 A segunda e a terceira declaração de [Notation] acima introduzem a
  notação padrão de colchetes para listas; o lado direito da terceira
@@ -222,12 +223,11 @@ Proof. reflexivity.  Qed.
 Example test_app3:             [1;2;3] ++ nil = [1;2;3].
 Proof. reflexivity.  Qed.
 
-(** [ Renan ] Here are two smaller examples of programming with lists.
-    The [hd] function returns the first element (the "head") of the
-    list, while [tl] returns everything but the first
-    element (the "tail").  
-    Of course, the empty list has no first element, so we
-    must pass a default value to be returned in that case.  *)
+(** Aqui estão dois exemplos menores de programação com listas. 
+    A função [hd] retorna o primeiro elemento (o "cabeça") da lista,
+    enquanto [tl] retorna tudo exceto o primeiro elemento (a "cauda"). 
+    Obviamente, a lista vazia não tem primeiro elemento, por isso, 
+    devemos fornecer um valor padrão a ser retornado nesse caso. *)
 
 (** *** Cabeça (com default) e cauda *)
 
@@ -324,7 +324,7 @@ Definition bag := natlist.
 Fixpoint count (v:nat) (s:bag) : nat := 
   (* PREENCHER *) admit.
 
-(** [ Renan ] All these proofs can be done just by [reflexivity]. *)
+(** Todas estas provas podem ser feitas usando apenas [reflexivity]. *)
 
 Example test_count1:              count 1 [1;2;3;1;4;1] = 3.
  (* PREENCHER *) Admitted.
@@ -432,9 +432,9 @@ Theorem nil_app : forall l:natlist,
   [] ++ l = l.
 Proof. reflexivity. Qed.
 
-(** [ Renan ] ... because the [[]] is substituted into the match position
-    in the definition of [app], allowing the match itself to be
-    simplified. *)
+(** ... porque o [[]] é substituído pela sua posição de correspondência
+    na definição de [app], permitindo que a própria correspondência 
+    seja simplificada. *)
 
 (** Algumas vezes, também é possível, assim como com números, realizar
 análise por casos nas possíveis formas (vazia ou não-vazia) de uma lista
