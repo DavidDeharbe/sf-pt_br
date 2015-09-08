@@ -7,9 +7,9 @@ Module NatList.
 (* ###################################################### *)
 (** * Pares de Números *)
 
-(** [ Claudia ] In an [Inductive] type definition, each constructor can take
-    any number of arguments -- none (as with [true] and [O]), one (as
-    with [S]), or more than one, as in this definition: *)
+(** Em uma definição de tipo indutivo usando [Inductive], cada construtor pode
+ter qualquer número de argumentos -- nenhum (como ocorre com [true] e [0]), um
+(como ocorre com [S]), ou mais de um, como na seguinte definição: *)
 
 Inductive natprod : Type :=
   pair : nat -> nat -> natprod.
@@ -72,10 +72,9 @@ Definition swap_pair (p : natprod) : natprod :=
 
 (** *** *)
 
-(** [ Claudia ] Let's try and prove a few simple facts about pairs.  If we
-    state the lemmas in a particular (and slightly peculiar) way, we
-    can prove them with just reflexivity (and its built-in
-    simplification): *)
+(** Vamos testar e provar alguns fatos simples sobre pares. Se definirmos os
+lemas de uma forma particular (e um pouco peculiar), podemos prová-los apenas
+usando reflexividade (e sua simplificação implícita): *)
 
 Theorem surjective_pairing' : forall (n m : nat),
   (n,m) = (fst (n,m), snd (n,m)).
@@ -137,10 +136,10 @@ Definition mylist := cons 1 (cons 2 (cons 3 nil)).
 
 
 (** *** *)
-(** [ Claudia ] As with pairs, it is more convenient to write lists in
-    familiar programming notation.  The following two declarations
-    allow us to use [::] as an infix [cons] operator and square
-    brackets as an "outfix" notation for constructing lists. *)
+(** Tal como acontece com os pares, é mais conveniente escrever listas usando
+notações habituais de programação. As duas declarações à seguir nos permitem
+usar [::] como um operador infixo [cons] e colchetes como uma notação "externa"
+para a construção de listas. *)
 
 Notation "x :: l" := (cons x l) (at level 60, right associativity).
 Notation "[ ]" := nil.
@@ -181,10 +180,9 @@ A segunda e a terceira declaração de [Notation] acima introduzem a
  
 (** *** Repetição *)
 
-(** [ Claudia ] A number of functions are useful for manipulating lists.
-    For example, the [repeat] function takes a number [n] and a
-    [count] and returns a list of length [count] where every element
-    is [n]. *)
+(** Algumas funções são úteis para a manipulação de listas. Por exemplo,
+  a função [repeat] recebe os números [n] e [count] e retorna uma lista com
+  comprimento [count] e elementos [n]. *)
 
 Fixpoint repeat (n count : nat) : natlist := 
   match count with
@@ -283,9 +281,9 @@ Example test_countoddmembers3:    countoddmembers nil = 0.
 
 (** **** Exercício: 3 stars, avançado (alternar)  *)
 
-(** [ Claudia ] Complete the definition of [alternate], which "zips up" two
-    lists into one, alternating between elements taken from the first list and
-    elements from the second.  See the tests below for more specific examples.
+(** Complete a definição de [alternate], que "compacta" duas listas em uma só,
+  alternando entre elementos retirados da primeira lista e elementos da segunda
+  lista. Veja os testes abaixo para exemplos mais específicos.
 
     [ Dalay ] Note: one natural and elegant way of writing [alternate] will fail
     to satisfy Coq's requirement that all [Fixpoint] definitions be "obviously
@@ -372,7 +370,8 @@ Example test_member2:             member 2 [1;4;1] = false.
 
 (** **** Exercício: ***, opcional (bag_more_functions)  *)
 
-(** [ Claudia ] Here are some more bag functions for you to practice with. *)
+(** Aqui estão mais algumas funções de multiconjuntos com as quais você pode
+praticar. *)
 
 Fixpoint remove_one (v:nat) (s:bag) : bag :=
   (* [ Dalay ] When remove_one is applied to a bag without the number to remove,
@@ -450,11 +449,10 @@ Proof.
   Case "l = cons n l'". 
     reflexivity.  Qed.
 
-(** [ Claudia ] Here, the [nil] case works because we've chosen to define
-    [tl nil = nil]. Notice that the [as] annotation on the [destruct]
-    tactic here introduces two names, [n] and [l'], corresponding to
-    the fact that the [cons] constructor for lists takes two
-    arguments (the head and tail of the list it is constructing). *)
+(** Aqui, o caso [nil] funciona porque nós optamos por definir [tl nil = nil].
+Observe que a anotação [as] na tática [destruct] introduz dois nomes, [n]
+e [l'], o que corresponde ao fato de que o construtor [cons] para listas tem
+dois argumentos (a cabeça e a cauda da lista que está sendo construída). *)
 
 (** [ Dalay ] Usually, though, interesting theorems about lists require
     induction for their proofs. *)
@@ -510,15 +508,14 @@ Proof.
   Case "l1 = cons n l1'".
     simpl. rewrite -> IHl1'. reflexivity.  Qed.
 
-(** [ Claudia ] Again, this Coq proof is not especially illuminating as a
-    static written document -- it is easy to see what's going on if
-    you are reading the proof in an interactive Coq session and you
-    can see the current goal and context at each point, but this state
-    is not visible in the written-down parts of the Coq proof.  So a
-    natural-language proof -- one written for human readers -- will
-    need to include more explicit signposts; in particular, it will
-    help the reader stay oriented if we remind them exactly what the
-    induction hypothesis is in the second case.  *)
+(** Mais uma vez, esta prova Coq não é especialmente esclarecedora como um
+documento estático escrito - é fácil entender o que está acontecendo se você
+está lendo a prova em uma sessão Coq interativa e pode ver a meta atual
+e o contexto em cada ponto, mas este estado não é visível nas partes registradas
+da prova Coq. Assim, uma prova em linguagem natural -- escrita para leitores
+humanos -- terá de incluir indicações mais explícitas; em particular, isto
+ajudará o leitor a permanecer orientado se nós lembrarmos à ele o que exatamente
+é a hipótese de indução no segundo caso. *)
 
 (** *** Versão Informal *)
 
@@ -625,16 +622,12 @@ Proof.
   Case "l = cons n' l'".
     simpl. rewrite -> IHl'. reflexivity.  Qed. 
 
-(**
-    [ Claudia ] Note that we make the lemma as _general_ as possible: in 
-    particular,
-    we quantify over _all_ [natlist]s, not just those that result
-    from an application of [rev]. This should seem natural, 
-    because the truth of the goal clearly doesn't depend on 
-    the list having been reversed.  Moreover, it is much easier
-    to prove the more general property. 
-*)
-    
+(** Observe que descrevemos o lema o mais _geral_ possível: em particular,
+quantificamos sobre _todas_ as [natlist]s, e não apenas aquelas que resultam da
+aplicação de [rev]. Isso deve parecer natural, porque está claro que
+a veracidade da meta não depende da lista que foi invertida. Além disso, é muito
+mais fácil provar a propriedade mais geral. *)
+
 (** [ Dalay ] Now we can complete the original proof. *)
 
 Theorem rev_length : forall l : natlist,
@@ -720,10 +713,10 @@ saber seu nome, e relembrar o nome de todos os teoremas que poderíamos
 usar pode ficar bastante difícil! Já é muitas vezes penoso lembrar
 quais teoremas foram provados, sendo mais difícil ainda lembrar seus nomes.
 
-    [ Claudia ] Coq's [SearchAbout] command is quite helpful with this.  Typing
-    [SearchAbout foo] will cause Coq to display a list of all theorems
-    involving [foo].  For example, try uncommenting the following to
-    see a list of theorems that we have proved about [rev]: *)
+O comando [SearchAbout] do Coq é bastante útil nesse caso. Digitar [SearchAbout
+foo] fará com que Coq exiba uma lista de todos os teoremas que envolvem [foo].
+Por exemplo, tente remover o seguinte comentário para ver uma lista dos
+teoremas que provamos sobre [rev]: *)
 
 (*  SearchAbout rev. *)
 
@@ -807,10 +800,10 @@ Proof.
 
 (** **** Exercício: ** (list_design)  *)
 
-(** [ Claudia ] Design exercise: 
-     - Write down a non-trivial theorem [cons_snoc_app]
-       involving [cons] ([::]), [snoc], and [app] ([++]).  
-     - Prove it. *) 
+(** Exercício de planejamento:
+     - Escreva um teorema não trivial [cons_snoc_app] envolvendo [cons] ([::]),
+     [snoc], e [app] ([++]).
+     - Prove-o. *)
 
 (* PREENCHER *)
 (** [] *)
@@ -883,10 +876,9 @@ Fixpoint index_bad (n:nat) (l:natlist) : nat :=
   end.
 
 (** *** *)
-(** [ Claudia ] On the other hand, if we give it type [nat -> natlist ->
-    natoption], then we can return [None] when the list is too short
-    and [Some a] when the list has enough members and [a] appears at
-    position [n]. *)
+(** Por outro lado, se dermos à ela o tipo [nat -> natlist ->  natoption], então
+poderemos retornar [None] quando a lista for muito curta e um [Some a] quando
+a lista tiver elementos suficientes e [a] aparecer na posição [n]. *)
 
 Inductive natoption : Type :=
   | Some : nat -> natoption
@@ -970,11 +962,11 @@ Proof.
 
 (** * Dicionários *)
 
-(** [ Claudia ] As a final illustration of how fundamental data structures
-    can be defined in Coq, here is the declaration of a simple
-    [dictionary] data type, using numbers for both the keys and the
-    values stored under these keys.  (That is, a dictionary represents
-    a finite map from numbers to numbers.) *)
+(** Como ilustração final de como as estruturas de dados fundamentais podem ser
+definidas em Coq, aqui está a declaração de um tipo de dados _dicionário_
+simples, chamado [dictionary], utilizando números tanto para as chaves quanto
+para os valores armazenados nestas chaves. (Ou seja, um dicionário representa um
+mapeamento finito de números para números.) *)
 
 Module Dictionary.
 
