@@ -26,9 +26,9 @@ As partes em português já foram traduzidas. As partes com ambos idiomas estão
 em processo de tradução.
 
 
-- Preface
+- Prefácio
 
-    - Welcome [Dalay] Boas-Vindas
+    - Boas-Vindas
     - Overview
         - Logic [ Francisco ]
         - Proof Assistants [ Diego + Claudia ]

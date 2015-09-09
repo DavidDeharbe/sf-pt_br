@@ -18,7 +18,7 @@ Inductive natprod : Type :=
     construct a pair of numbers: by applying the constructor [pair] to
     two arguments of type [nat]." *)
 
-(** [ Diego ] We can construct an element of [natprod] like this: *)
+(** Nós podemos construir um elemento de [natprod] dessa maneira: *)
 
 Check (pair 3 5).
 
@@ -50,11 +50,10 @@ Eval compute in (fst (pair 3 5)).
 
 Notation "( x , y )" := (pair x y).
 
-(** [ Vitor ] The new notation can be used both in expressions and in
-    pattern matches (indeed, we've seen it already in the previous
-    chapter -- this notation is provided as part of the standard
-    library): *)
-
+(** A nova notação pode ser usada tanto em expressões quanto no
+ casamento de padrões (de fato, nós ja vimos isto no capítulo anterior
+ -- esta notação é disponibilizada pela biblioteca padrão): *)
+    
 Eval compute in (fst (3,5)).
 
 Definition fst' (p : natprod) : nat := 
@@ -93,9 +92,9 @@ Proof.
 Abort.
 
 (** *** *)
-(** [ Diego ] We have to expose the structure of [p] so that [simpl] can
-    perform the pattern match in [fst] and [snd].  We can do this with
-    [destruct].
+(** Nós temos que expor a estrutura de [p], de tal maneira que [simpl] 
+    possa realizar o casamento de padrão em [fst] e em [snd].  
+    Nós podemos fazer isso através de [destruct].
 
     [ Francisco ] Notice that, unlike for [nat]s, [destruct] doesn't generate an
     extra subgoal here.  That's because [natprod]s can only be
@@ -132,7 +131,7 @@ Inductive natlist : Type :=
   | nil : natlist
   | cons : nat -> natlist -> natlist.
 
-(** [ Vitor ] For example, here is a three-element list: *)
+(** Por exemplo, se encontra abaixo uma lista de três elementos: *)
 
 Definition mylist := cons 1 (cons 2 (cons 3 nil)).
 
@@ -150,9 +149,9 @@ Notation "[ x ; .. ; y ]" := (cons x .. (cons y nil) ..).
 (** [ Dalay ] It is not necessary to fully understand these declarations,
     but in case you are interested, here is roughly what's going on.
 
-    [ Diego ] The [right associativity] annotation tells Coq how to parenthesize
-    expressions involving several uses of [::] so that, for example,
-    the next three declarations mean exactly the same thing: *)
+    A anotação [right associativity] (_associatividade à direita_) diz ao Coq
+    como utilizar parênteses em expressões envolvendo o uso de muitos [::], 
+    então, por exemplo, as três próximas declarações significam exatamente a mesma coisa: *)
 
 Definition mylist1 := 1 :: (2 :: (3 :: nil)).
 Definition mylist2 := 1 :: 2 :: 3 :: nil.
@@ -175,12 +174,11 @@ Notation "x + y" := (plus x y)
    instruct the "coqdoc" tool that the bracketed part should be
    displayed as Coq code rather than running text.)
 
-   [ Vitor ] The second and third [Notation] declarations above introduce the
-   standard square-bracket notation for lists; the right-hand side of
-   the third one illustrates Coq's syntax for declaring n-ary
-   notations and translating them to nested sequences of binary
-   constructors. *)
-
+A segunda e a terceira declaração de [Notation] acima introduzem a
+ notação padrão de colchetes para listas; o lado direito da terceira
+ declaração ilustra a sintaxe do Coq para declarar notações n-árias  e
+ traduzi-las para sequências aninhadas de construtores binários. *)  
+ 
 (** *** Repetição *)
 
 (** [ Claudia ] A number of functions are useful for manipulating lists.
@@ -205,7 +203,7 @@ Fixpoint length (l:natlist) : nat :=
   end.
 
 (** *** Concatenação *)
-(** [ Diego ] The [app] ("append") function concatenates two lists. *)
+(** A função [app] "append" (_anexar_) concatena duas listas. *)
 
 Fixpoint app (l1 l2 : natlist) : natlist := 
   match l1 with
@@ -256,9 +254,9 @@ Proof. reflexivity.  Qed.
 
 (** **** Exercício: ** ([ list_funs ])  *)
 
-(** [ Vitor ] Complete the definitions of [nonzeros], [oddmembers] and
-    [countoddmembers] below. Have a look at the tests to understand
-    what these functions should do. *)
+(** Complete as definições de [nonzeros], [oddmembers] e
+[countoddmembers] abaixo. Dê uma olhada nos testes para entender o que
+estas funções devem fazer. *)
 
 Fixpoint nonzeros (l:natlist) : natlist :=
   (* PREENCHER *) admit.
@@ -313,10 +311,10 @@ Example test_alternate4:        alternate [] [20;30] = [20;30].
 (* ###################################################### *)
 (** ** Multiconjuntos com Listas *)
 
-(** [ Diego ] A [bag] (or [multiset]) is like a set, but each element can appear
-    multiple times instead of just once.  One reasonable
-    implementation of bags is to represent a bag of numbers as a
-    list. *)
+(** Uma [bag] (ou [multiconjunto]) é como um conjunto, mas cada
+    elemento pode aparecer múltiplas vezes, em vez de unicamente.  Uma 
+    implementação razoável de multiconjuntos é representar um multiconjunto 
+    de números através de uma lista. *)
 
 Definition bag := natlist.  
 
@@ -335,17 +333,19 @@ Example test_count1:              count 1 [1;2;3;1;4;1] = 3.
 Example test_count2:              count 6 [1;2;3;1;4;1] = 0.
  (* PREENCHER *) Admitted.
 
-(** [ Vitor ] Multiset [sum] is similar to set [union]: [sum a b] contains
-    all the elements of [a] and of [b].  (Mathematicians usually
-    define [union] on multisets a little bit differently, which
-    is why we don't use that name for this operation.)
-    For [sum] we're giving you a header that does not give explicit
-    names to the arguments.  Moreover, it uses the keyword
-    [Definition] instead of [Fixpoint], so even if you had names for
-    the arguments, you wouldn't be able to process them recursively.
-    The point of stating the question this way is to encourage you to
-    think about whether [sum] can be implemented in another way --
-    perhaps by using functions that have already been defined.  *)
+(** A função [sum] para multiconjuntos é similar à função [união] para
+conjuntos: [sum a b] contém todos os elementos de [a] e
+[b]. (Geralmente os matemáticos definem [union] em multiconjuntos de
+forma um pouquinho diferente, por isto que não estamos usando o mesmo
+nome para esta operação.)
+Para a função [sum] lhe daremos uma declaração que não determina
+explicitamente os nomes dos argumentos. Além disso, é utilizada a
+palavra-chave [Definition] ao invés de [Fixpoint]. Então, mesmo que
+você tivesse nome para os argumentos, não seria possível processá-los
+recursivamente.
+O motivo de declarar esta questão desta forma é encorajá-lo a pensar
+se [sum] pode ser implementado de uma maneira diferente -- talvez
+através de funções que já foram definidas. *) 
 
 Definition sum : bag -> bag -> bag := 
   (* PREENCHER *) admit.
@@ -411,11 +411,12 @@ Example test_subset2:              subset [1;2;2] [2;1;4;1] = false.
 
 (** **** Exercício: *** (bag_theorem)  *)
 
-(** [ Diego ] Write down an interesting theorem [bag_theorem] about bags
-    involving the functions [count] and [add], and prove it.  Note that, since
-    this problem is somewhat open-ended, it's possible that you may come up with
-    a theorem which is true, but whose proof requires techniques you haven't
-    learned yet.  Feel free to ask for help if you get stuck! *)
+(** Escrever abaixo um teorema interessante, chamado [bag_theorem], sobre 
+    multiconjuntos
+    envolvendo as funções [count] e [add], e provar o teorema.  Note que, uma
+    vez que este problema é aberto, é possível imaginar um teorema
+    que é verdadeiro, mas cuja prova requisite técnicas que você ainda
+    não aprendeu.  Sinta-se livre para pedir ajuda se você ficar travado! *)
 
 (* PREENCHER *)
 (** [] *)
@@ -436,9 +437,9 @@ Proof. reflexivity. Qed.
     in the definition of [app], allowing the match itself to be
     simplified. *)
 
-(** [ Vitor ] Also, as with numbers, it is sometimes helpful to perform case
-    analysis on the possible shapes (empty or non-empty) of an unknown
-    list. *)
+(** Algumas vezes, também é possível, assim como com números, realizar
+análise por casos nas possíveis formas (vazia ou não-vazia) de uma lista
+desconhecida. *)
 
 Theorem tl_length_pred : forall l:natlist,
   pred (length l) = length (tl l).
@@ -461,11 +462,12 @@ Proof.
 (* ###################################################### *)
 (** ** Micro-Sermão *)
 
-(** [ Diego ] Simply reading example proof scripts will not get you very far!
-    It is very important to work through the details of each one,
-    using Coq and thinking about what each step achieves.  Otherwise
-    it is more or less guaranteed that the exercises will make no
-    sense... *)
+(** Simplesmente ler exemplos de transrição de prova não vai te levar muito 
+    longe!
+    É muito importante trabalhar os detalhes de cada uma das provas,
+    quando usar o Coq e pensar sobre o que cada passo da prova realiza.  Senão,
+    é mais ou menos garantido que os exercícios não farão
+    sentido... *)
 
 (* ###################################################### *)
 (** ** Indução sobre Listas *)
@@ -494,9 +496,10 @@ Proof.
         some number [n] and some smaller list [l'], assuming that [P]
         is true for [l'].
 
-    [ Vitor ] Since larger lists can only be built up from smaller ones,
-    eventually reaching [nil], these two things together establish the
-    truth of [P] for all lists [l].  Here's a concrete example: *)
+Já que listas maiores só podem ser construídas a partir de listas
+menores, chegando, em algum momento, em [nil], estas duas sentenças juntas
+estabelecem a verdade de [P] para todas as listas [l]. Veja abaixo um
+exemplo concreto: *)
 
 Theorem app_assoc : forall l1 l2 l3 : natlist, 
   (l1 ++ l2) ++ l3 = l1 ++ (l2 ++ l3).   
@@ -555,9 +558,9 @@ Proof.
 
 (** *** Inversão de uma Lista *)
 
-(** [ Diego ] For a slightly more involved example of an inductive proof
-    over lists, suppose we define a "cons on the right" function
-    [snoc] like this... *)
+(** Para um exemplo um pouco mais intricado de uma prova por indução
+    sobre listas, supor que nós definimos uma função "cons na direita"
+    [snoc], como a que segue... *)
 
 Fixpoint snoc (l:natlist) (v:nat) : natlist := 
   match l with
@@ -609,8 +612,8 @@ Proof.
     (* ... mas agora não podemos avançar mais. *)
 Abort.
 
-(** [ Vitor ] So let's take the equation about [snoc] that would have
-    enabled us to make progress and prove it as a separate lemma. 
+(** Agora, consideremos a equação sobre [snoc] que teria nos permitido
+progredir: vamos prová-la como um novo lema.
 *)
 
 Theorem length_snoc : forall n : nat, forall l : natlist,
@@ -644,46 +647,45 @@ Proof.
     simpl. rewrite -> length_snoc. 
     rewrite -> IHl'. reflexivity.  Qed.
 
-(** [ Diego ] For comparison, here are informal proofs of these two theorems: 
+(** Para comparação, aqui está uma prova informal de dois destes teoremas:
 
-    _Theorem_: For all numbers [n] and lists [l],
+    _Teorema_: Para todo número [n] e lista [l],
        [length (snoc l n) = S (length l)].
  
-    _Proof_: By induction on [l].
+    _Prova_: Por indução em [l].
 
-    - First, suppose [l = []].  We must show
+    - Primeiramente, suponhamos que [l = []].  Nós devemos mostrar que
         length (snoc [] n) = S (length []),
-      which follows directly from the definitions of
-      [length] and [snoc].
+      o que segue diretamente das definições de
+      [length] e [snoc].
 
-    - Next, suppose [l = n'::l'], with
+    - Em seguida, suponhamos que [l = n'::l'], com
         length (snoc l' n) = S (length l').
-      We must show
+      Nós devemos mostrar que
         length (snoc (n' :: l') n) = S (length (n' :: l')).
-      By the definitions of [length] and [snoc], this
-      follows from
+      Pela definição de [length] e [snoc], isto prossegue de
         S (length (snoc l' n)) = S (S (length l')),
-]] 
-      which is immediate from the induction hypothesis. [] *)
+]].
+      Isto é uma consequência imediata da hipótese de indução. [] *)
                         
-(** _Theorem_: For all lists [l], [length (rev l) = length l].
+(** _Teorema_: Para toda lista [l], [length (rev l) = length l].
     
-    _Proof_: By induction on [l].  
+    _Prova_: Por indução em [l].  
 
-      - First, suppose [l = []].  We must show
+      - Primeiro, suponhamos que [l = []].  Nós devemos mostrar que
           length (rev []) = length [],
-        which follows directly from the definitions of [length] 
-        and [rev].
+        o que segue diretamente para a definição de [length] 
+        e [rev].
     
-      - Next, suppose [l = n::l'], with
+      - Em seguinda, suponhamos que [l = n::l'], com
           length (rev l') = length l'.
-        We must show
+        Nós devemos mostrar que
           length (rev (n :: l')) = length (n :: l').
-        By the definition of [rev], this follows from
+        Pela definição de [rev], isto segue para
           length (snoc (rev l') n) = S (length l')
-        which, by the previous lemma, is the same as
+        o que, pelo lema anterior, isso é o mesmo que
           S (length (rev l')) = S (length l').
-        This is immediate from the induction hypothesis. [] *)
+        Isto é direto da hipótese de indução. [] *)
 
 (** [ Francisco ] Obviously, the style of these proofs is rather longwinded
     and pedantic.  After the first few, we might find it easier to
@@ -711,13 +713,12 @@ Proof.
 (* ###################################################### *)
 (** ** O comando [SearchAbout] *)
 
-(** [ Vitor ] We've seen that proofs can make use of other theorems we've
-    already proved, using [rewrite], and later we will see other ways
-    of reusing previous theorems.  But in order to refer to a theorem,
-    we need to know its name, and remembering the names of all the
-    theorems we might ever want to use can become quite difficult!  It
-    is often hard even to remember what theorems have been proven,
-    much less what they are named.
+(** Nós vimos que podemos usar teoremas já provados nas novas
+provas, através de [rewrite], e posteriormente veremos outras formas
+de reutilizar teoremas já definidos. Mas, para usar um teorema, devemos
+saber seu nome, e relembrar o nome de todos os teoremas que poderíamos
+usar pode ficar bastante difícil! Já é muitas vezes penoso lembrar
+quais teoremas foram provados, sendo mais difícil ainda lembrar seus nomes.
 
     [ Claudia ] Coq's [SearchAbout] command is quite helpful with this.  Typing
     [SearchAbout foo] will cause Coq to display a list of all theorems
@@ -729,9 +730,9 @@ Proof.
 (** [ Dalay ] Keep [SearchAbout] in mind as you do the following exercises and
     throughout the rest of the course; it can save you a lot of time! *)
 
-(** [ Diego ] Also, if you are using ProofGeneral, you can run [SearchAbout]
-    with [C-c C-a C-a]. Pasting its response into your buffer can be
-    accomplished with [C-c C-;]. *)
+(** Também, se você está usando ProofGeneral, você pode
+    executar um comando [SearchAbout] com [C-c C-a C-a]. Você pode colar sua
+    resposta em seu buffer com [C-c C-;]. *)
 
 (* ###################################################### *)
 (** ** Lista de Exercícios, Parte 1 *)
@@ -781,9 +782,9 @@ Proof.
 
 (** **** Exercício: ** (beq_natlist)  *)
 
-(** [ Vitor ] Fill in the definition of [beq_natlist], which compares
-    lists of numbers for equality.  Prove that [beq_natlist l l]
-    yields [true] for every list [l]. *)
+(** Complete a definição de [beq_natlist], que compara se listas de
+números são iguais. Prove que [beq_natlist l l] retorna [true] para
+toda lista [l]. *)
 
 Fixpoint beq_natlist (l1 l2 : natlist) : bool :=
   (* PREENCHER *) admit.
@@ -824,7 +825,7 @@ Theorem count_member_nonzero : forall (s : bag),
 Proof.
   (* PREENCHER *) Admitted.
 
-(** [ Diego ] The following lemma about [ble_nat] might help you in the next proof. *)
+(** O lema a seguir sobre [ble_nat] deve te ajudar na próxima prova. *)
 
 Theorem ble_n_Sn : forall n,
   ble_nat n (S n) = true.
@@ -920,13 +921,13 @@ Fixpoint index' (n:nat) (l:natlist) : natoption :=
   | a :: l' => if beq_nat n O then Some a else index' (pred n) l'
   end.
 
-(** [ Diego ] Coq's conditionals are exactly like those found in any other
-    language, with one small generalization.  Since the boolean type
-    is not built in, Coq actually allows conditional expressions over
-    _any_ inductively defined type with exactly two constructors.  The
-    guard is considered true if it evaluates to the first constructor
-    in the [Inductive] definition and false if it evaluates to the
-    second. *)
+(** As condicionais do Coq são exatamante como aquelas encontradas em qualquer
+    outra linguaguem, com uma pequena generalização.  Uma vez que o Coq não
+    define o tipo booleano, ele permite expressões condicionais sobre
+    _qualquer_ tipo indutivamente definido com exatamente dois construtores.  A
+    condição é considerada verdadeira quando é avaliada para o primeiro
+    construtor na definição de indução [Inductive] e falsa se é avaliada para o
+    segundo. *)
 
 (** [ Francisco ] The function below pulls the [nat] out of a [natoption], returning
     a supplied default in the [None] case. *)
@@ -990,11 +991,11 @@ Inductive dictionary : Type :=
 Definition insert (key value : nat) (d : dictionary) : dictionary :=
   (record key value d).
 
-(** [ Diego ] Here is a function [find] that searches a [dictionary] for a
-    given key.  It evaluates evaluates to [None] if the key was not
-    found and [Some val] if the key was mapped to [val] in the
-    dictionary. If the same key is mapped to multiple values, [find]
-    will return the first one it finds. *)
+(** Aqui está a função [find] (_encontrar_), que procura um [dictionary]
+    (_dicionário_) para a chave dada. Atribuindo [None] (_nada_) se a chave não
+    for encontrada e [Some val] (_algum valor_) se a chave for mapeada até
+    [val] no dicionário. Se a mesma chave for mapeada em múltiplos valores,
+    [find] irá retorar o primeiro que encontrar. *)
 
 Fixpoint find (key : nat) (d : dictionary) : natoption := 
   match d with 

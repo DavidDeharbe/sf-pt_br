@@ -600,22 +600,21 @@ Example test_blt_nat3:             (blt_nat 4 2) = false.
     [simpl] é usado em situações onde devemos ler e entender o objetivo, então 
     não queremos que definições sejam expandidas sem nosso conhecimento.) 
 
-    [Claudia] The same sort of "proof by simplification" can be used to prove
-    more interesting properties as well.  For example, the fact that
-    [0] is a "neutral element" for [+] on the left can be proved
-    just by observing that [0 + n] reduces to [n] no matter what
-    [n] is, a fact that can be read directly off the definition of [plus].*)
+    O mesmo tipo de "prova por simplificação" também pode ser usado para provar
+    propriedades mais interessantes. Por exemplo, o fato de que [0] é um
+    "elemento neutro" à esquerda para [+] pode ser provado apenas pela
+    observação de que [0 + n] se reduz a [n] para qualquer [n], um fato que pode
+    ser lido diretamente à partir da definição de [plus].*)
+    Theorem plus_O_n : forall n : nat, 0 + n = n.
+    Proof.
+      intros n. reflexivity.  Qed.
 
-Theorem plus_O_n : forall n : nat, 0 + n = n.
-Proof.
-  intros n. reflexivity.  Qed.
 
-
-(** (_Note_: You may notice that the above statement looks
-    different in the original source file and the final html output. In Coq
-    files, we write the [forall] universal quantifier using the
-    "_forall_" reserved identifier. This gets printed as an
-    upside-down "A", the familiar symbol used in logic.)  *)
+(** (_Nota_:Você pode perceber que a afirmação acima parece diferente no arquivo
+    fonte original e no arquivo html final. Em arquivos Coq, escrevemos
+    o quantificador universal [forall] usando identificador reservado "_forall_".
+    Isto é impresso como um "A" de cabeça para baixo, o símbolo habitualmente
+    usado em lógica.) *)
 
 (** As formas desse teorema e da prova são quase exatamente as mesmas
     que no exemplo acima; Existem somente algumas diferenças.
@@ -728,9 +727,8 @@ Proof.
     disparate total entre no mundo formal, rigoroso, verificado e agradável do
     Coq. *)
 
-(** [Claudia] We can also use the [rewrite] tactic with a previously proved
-    theorem instead of a hypothesis from the context. *)
-
+(** Também podemos usar a tática [rewrite] com um teorema provado anteriormente
+    ao invés de uma hipótese do contexto. *)
 Theorem mult_0_plus : forall n m : nat,
   (0 + n) * m = n * m.
 Proof.
@@ -880,20 +878,17 @@ Proof.
     (a) Primeiro, escreva uma definição indutiva para o tipo [bin] que
     corresponda a esta descrição de números binários.
 
-    [Claudia]
-    (Hint: Recall that the definition of [nat] from class,
+    (Dica : Lembre-se que a definição de [nat],
     Inductive nat : Type :=
       | O : nat
       | S : nat -> nat.
-    [Dalay]
-    says nothing about what [O] and [S] "mean."  It just says "[O] is
-    in the set called [nat], and if [n] is in the set then so is [S
-    n]."  The interpretation of [O] as zero and [S] as successor/plus
-    one comes from the way that we _use_ [nat] values, by writing
-    functions to do things with them, proving things about them, and
-    so on.  Your definition of [bin] should be correspondingly simple;
-    it is the functions you will write next that will give it
-    mathematical meaning.)
+    não diz nada quanto ao "significado" de [0] e [S]. Ela diz apenas que "[0]
+    está no conjunto chamado [nat], e se [n] está neste conjunto então [S n]
+    também está." A interpretação de [0] como zero e [S] como sucessor/mais um
+    vem do modo como _usamos_ os valores [nat], escrevendo funções para
+    utilizá-los, provando coisas sobre eles e assim por diante. Sua definição de
+    [bin] deve ser correspondentemente simples; seu significado matemático será
+    dado pelas funções que você escreverá à seguir.)
 
     (b) Depois, escreva uma função incrementa [incr] para números binários, 
         e uma função [bin_to_nat] para converter números binários para
