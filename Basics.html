@@ -933,28 +933,26 @@ Similarly, the <span class="inlinecode"><span class="id" title="var">ble_nat</sp
 
 <div class="paragraph"> </div>
 
-    <span class="inlinecode"><span class="id" title="var">Claudia</span></span> The same sort of "proof by simplification" can be used to prove
-    more interesting properties as well.  For example, the fact that
-    <span class="inlinecode">0</span> is a "neutral element" for <span class="inlinecode">+</span> on the left can be proved
-    just by observing that <span class="inlinecode">0</span> <span class="inlinecode">+</span> <span class="inlinecode"><span class="id" title="var">n</span></span> reduces to <span class="inlinecode"><span class="id" title="var">n</span></span> no matter what
-    <span class="inlinecode"><span class="id" title="var">n</span></span> is, a fact that can be read directly off the definition of <span class="inlinecode"><span class="id" title="var">plus</span></span>.
+    O mesmo tipo de "prova por simplificação" também pode ser usado para provar
+    propriedades mais interessantes. Por exemplo, o fato de que <span class="inlinecode">0</span> é um
+    "elemento neutro" à esquerda para <span class="inlinecode">+</span> pode ser provado apenas pela
+    observação de que <span class="inlinecode">0</span> <span class="inlinecode">+</span> <span class="inlinecode"><span class="id" title="var">n</span></span> se reduz a <span class="inlinecode"><span class="id" title="var">n</span></span> para qualquer <span class="inlinecode"><span class="id" title="var">n</span></span>, um fato que pode
+    ser lido diretamente à partir da definição de <span class="inlinecode"><span class="id" title="var">plus</span></span>.
 </div>
 <div class="code">
-
-<br/>
-<span class="id" title="keyword">Theorem</span> <span class="id" title="var">plus_O_n</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span> : <span class="id" title="var">nat</span>, 0 + <span class="id" title="var">n</span> = <span class="id" title="var">n</span>.<br/>
-<span class="id" title="keyword">Proof</span>.<br/>
-&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">n</span>. <span class="id" title="tactic">reflexivity</span>. <span class="id" title="keyword">Qed</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Theorem</span> <span class="id" title="var">plus_O_n</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span> : <span class="id" title="var">nat</span>, 0 + <span class="id" title="var">n</span> = <span class="id" title="var">n</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">n</span>. <span class="id" title="tactic">reflexivity</span>. <span class="id" title="keyword">Qed</span>.<br/>
 
 <br/>
 </div>
 
 <div class="doc">
-(<i>Note</i>: You may notice that the above statement looks
-    different in the original source file and the final html output. In Coq
-    files, we write the <span class="inlinecode"><span class="id" title="keyword">∀</span></span> universal quantifier using the
-    "<i>forall</i>" reserved identifier. This gets printed as an
-    upside-down "A", the familiar symbol used in logic.)  
+(<i>Nota</i>:Você pode perceber que a afirmação acima parece diferente no arquivo
+    fonte original e no arquivo html final. Em arquivos Coq, escrevemos
+    o quantificador universal <span class="inlinecode"><span class="id" title="keyword">∀</span></span> usando identificador reservado "<i>forall</i>".
+    Isto é impresso como um "A" de cabeça para baixo, o símbolo habitualmente
+    usado em lógica.) 
 <div class="paragraph"> </div>
 
  As formas desse teorema e da prova são quase exatamente as mesmas
@@ -1123,12 +1121,10 @@ A primeira linha da prova desloca as variáveis universalmente quantificadas
     Coq. 
 <div class="paragraph"> </div>
 
- <span class="inlinecode"><span class="id" title="var">Claudia</span></span> We can also use the <span class="inlinecode"><span class="id" title="tactic">rewrite</span></span> tactic with a previously proved
-    theorem instead of a hypothesis from the context. 
+ Também podemos usar a tática <span class="inlinecode"><span class="id" title="tactic">rewrite</span></span> com um teorema provado anteriormente
+    ao invés de uma hipótese do contexto. 
 </div>
 <div class="code">
-
-<br/>
 <span class="id" title="keyword">Theorem</span> <span class="id" title="var">mult_0_plus</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span> : <span class="id" title="var">nat</span>,<br/>
 &nbsp;&nbsp;(0 + <span class="id" title="var">n</span>) × <span class="id" title="var">m</span> = <span class="id" title="var">n</span> × <span class="id" title="var">m</span>.<br/>
 <span class="id" title="keyword">Proof</span>.<br/>
@@ -1369,20 +1365,17 @@ Now state and prove a theorem <span class="inlinecode"><span class="id" title="v
 
 <div class="paragraph"> </div>
 
-    <span class="inlinecode"><span class="id" title="var">Claudia</span></span>
-    (Hint: Recall that the definition of <span class="inlinecode"><span class="id" title="var">nat</span></span> from class,
+    (Dica : Lembre-se que a definição de <span class="inlinecode"><span class="id" title="var">nat</span></span>,
     Inductive nat : Type :=
       | O : nat
       | S : nat -&gt; nat.
-    <span class="inlinecode"><span class="id" title="var">Dalay</span></span>
-    says nothing about what <span class="inlinecode"><span class="id" title="var">O</span></span> and <span class="inlinecode"><span class="id" title="var">S</span></span> "mean."  It just says "<span class="inlinecode"><span class="id" title="var">O</span></span> is
-    in the set called <span class="inlinecode"><span class="id" title="var">nat</span></span>, and if <span class="inlinecode"><span class="id" title="var">n</span></span> is in the set then so is <span class="inlinecode"><span class="id" title="var">S</span></span>
-    <span class="inlinecode"><span class="id" title="var">n</span></span>."  The interpretation of <span class="inlinecode"><span class="id" title="var">O</span></span> as zero and <span class="inlinecode"><span class="id" title="var">S</span></span> as successor/plus
-    one comes from the way that we <i>use</i> <span class="inlinecode"><span class="id" title="var">nat</span></span> values, by writing
-    functions to do things with them, proving things about them, and
-    so on.  Your definition of <span class="inlinecode"><span class="id" title="var">bin</span></span> should be correspondingly simple;
-    it is the functions you will write next that will give it
-    mathematical meaning.)
+    não diz nada quanto ao "significado" de <span class="inlinecode">0</span> e <span class="inlinecode"><span class="id" title="var">S</span></span>. Ela diz apenas que "<span class="inlinecode">0</span>
+    está no conjunto chamado <span class="inlinecode"><span class="id" title="var">nat</span></span>, e se <span class="inlinecode"><span class="id" title="var">n</span></span> está neste conjunto então <span class="inlinecode"><span class="id" title="var">S</span></span> <span class="inlinecode"><span class="id" title="var">n</span></span>
+    também está." A interpretação de <span class="inlinecode">0</span> como zero e <span class="inlinecode"><span class="id" title="var">S</span></span> como sucessor/mais um
+    vem do modo como <i>usamos</i> os valores <span class="inlinecode"><span class="id" title="var">nat</span></span>, escrevendo funções para
+    utilizá-los, provando coisas sobre eles e assim por diante. Sua definição de
+    <span class="inlinecode"><span class="id" title="var">bin</span></span> deve ser correspondentemente simples; seu significado matemático será
+    dado pelas funções que você escreverá à seguir.)
 
 <div class="paragraph"> </div>
 
