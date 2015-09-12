@@ -24,10 +24,9 @@ Check (pair 3 5).
 
 (** *** *)
 
-(** [ Francisco ] Here are two simple function definitions for extracting the
-    first and second components of a pair.  (The definitions also
-    illustrate how to do pattern matching on two-argument
-    constructors.) *)
+(** Aqui estão duas simples definições de função para extrair o
+    primeiro e o segundo componente de um par. (As definições também
+    ilustram como fazer o casamento de padrões com dois argumentos.) *)
 
 Definition fst (p : natprod) : nat := 
   match p with
@@ -95,9 +94,9 @@ Abort.
     possa realizar o casamento de padrão em [fst] e em [snd].  
     Nós podemos fazer isso através de [destruct].
 
-    [ Francisco ] Notice that, unlike for [nat]s, [destruct] doesn't generate an
-    extra subgoal here.  That's because [natprod]s can only be
-    constructed in one way.  *)
+    Notar que, ao contrário para [nat]s, [destruct] não gera uma
+    submeta extra aqui.  Isso porque [natprod]s pode apenas ser contruído
+    de uma única maneira.  *)
 
 Theorem surjective_pairing : forall (p : natprod),
   p = (fst p, snd p).
@@ -156,14 +155,14 @@ Definition mylist1 := 1 :: (2 :: (3 :: nil)).
 Definition mylist2 := 1 :: 2 :: 3 :: nil.
 Definition mylist3 := [1;2;3].
 
-(** [ Francisco ] The [at level 60] part tells Coq how to parenthesize
-    expressions that involve both [::] and some other infix operator.
-    For example, since we defined [+] as infix notation for the [plus]
-    function at level 50,
+(** A parte [at level 60] fala para Coq como colocar em parênteses
+    expressões que envolvem ambos [::] e algum outro operador infixo.
+    Por exemplo, desde nós definimos [+] como uma notação infixa para a função [plus]
+    no nível 50,
 Notation "x + y" := (plus x y)  
                     (at level 50, left associativity).
-   The [+] operator will bind tighter than [::], so [1 + 2 :: [3]]
-   will be parsed, as we'd expect, as [(1 + 2) :: [3]] rather than [1
+   O operador [+] irá fazer uma ligação mais apertada do que [::], então [1 + 2 :: [3]]
+   será analisada, como nós esperamos, como [(1 + 2) :: [3]] em vez de [1
    + (2 :: [3])].
 
    (A propósito, vale a pena notar de passagem que expressões como "[1
@@ -210,8 +209,8 @@ Fixpoint app (l1 l2 : natlist) : natlist :=
   | h :: t => h :: (app t l2)
   end.
 
-(** [ Francisco ] Actually, [app] will be used a lot in some parts of what
-    follows, so it is convenient to have an infix operator for it. *)
+(** Atualmente, [app] será muito usado em algumas partes do que vem
+    a seguir, então é conveniente ter um operador infixo para ele. *)
 
 Notation "x ++ y" := (app x y) 
                      (right associativity, at level 60).
@@ -318,8 +317,8 @@ Definition bag := natlist.
 
 (** **** Exercício: *** (bag_functions)  *)
 
-(** [ Francisco ] Complete the following definitions for the functions
-    [count], [sum], [add], and [member] for bags. *)
+(** Complete as definições para as funções
+    [count], [sum], [add], e [member] para multiconjunto. *)
 
 Fixpoint count (v:nat) (s:bag) : nat := 
   (* PREENCHER *) admit.
@@ -423,10 +422,10 @@ Example test_subset2:              subset [1;2;2] [2;1;4;1] = false.
 (* ###################################################### *)
 (** * Raciocínio Sobre Listas *)
 
-(** [ Francisco ] Just as with numbers, simple facts about list-processing
-    functions can sometimes be proved entirely by simplification. For
-    example, the simplification performed by [reflexivity] is enough
-    for this theorem... *)
+(** Assim como os números, fatos simples sobre funções de 
+    processamento de listas pode algumas vezes ser inteiramente provado
+    por simplificação. Por exemplo, a simplificação realizada por [reflexivity] 
+    é suficiente para este teorema... *)
 
 Theorem nil_app : forall l:natlist,
   [] ++ l = l.
@@ -470,13 +469,13 @@ dois argumentos (a cabeça e a cauda da lista que está sendo construída). *)
 (* ###################################################### *)
 (** ** Indução sobre Listas *)
 
-(** [ Francisco ] Proofs by induction over datatypes like [natlist] are
-    perhaps a little less familiar than standard natural number
-    induction, but the basic idea is equally simple.  Each [Inductive]
-    declaration defines a set of data values that can be built up from
-    the declared constructors: a boolean can be either [true] or
-    [false]; a number can be either [O] or [S] applied to a number; a
-    list can be either [nil] or [cons] applied to a number and a list.
+(** Provas por indução em tipos de dados como [natlist] são
+    talvez um pouco menos familiar do que indução de número natural padrão, 
+    mas o ideia base é igualmente simples.  Cada declaração de [Inductive]
+    define um conjunto de valores de dados que pode ser contruídos
+    a partir de contrutores declarados: um booleano pode ou ser [true] ou
+    [false]; um número pode ou ser [O] ou [S] aplicado a um número; uma
+    lista pode ser ou [nil] ou [cons] aplicado a um número e a uma lista.
 
     [ Renan ] Moreover, applications of the declared constructors to one another
     are the _only_ possible shapes that elements of an inductively
@@ -565,8 +564,8 @@ Fixpoint snoc (l:natlist) (v:nat) : natlist :=
   | h :: t => h :: (snoc t v)
   end.
 
-(** [ Francisco ] ... and use it to define a list-reversing function [rev]
-    like this: *)
+(** ... e use ele para definir função de lista reversa [rev]
+    como isso: *)
 
 Fixpoint rev (l:natlist) : natlist := 
   match l with
@@ -680,22 +679,22 @@ Proof.
           S (length (rev l')) = S (length l').
         Isto é direto da hipótese de indução. [] *)
 
-(** [ Francisco ] Obviously, the style of these proofs is rather longwinded
-    and pedantic.  After the first few, we might find it easier to
-    follow proofs that give fewer details (since we can easily work
-    them out in our own minds or on scratch paper if necessary) and
-    just highlight the non-obvious steps.  In this more compressed
-    style, the above proof might look more like this: *)
+(** Obviamente, o estilo dessas provas bastante cansativo
+    e pedante.  Depois de alguns primeiros, nós devemos acha isso mais fácil
+    para as provas seguintes que dão pouquissímos detalhes (desde nós podemos facilmente
+    trabalhar com eles foram da nossa mente ou rabiscar em um papel se necessário) e
+    apenas os melhores momentos dos passos não óbvios.  Em neste estilo mais comprimido, 
+    a prova acima pode parecer como isto: *)
 
-(** _Theorem_:
-     For all lists [l], [length (rev l) = length l].
+(** _Teorema_:
+     Para todas as listas [l], [length (rev l) = length l].
 
-    _Proof_: First, observe that
+    _Prova_: primeiro, observe que
        length (snoc l n) = S (length l)
-     for any [l].  This follows by a straightforward induction on [l].
-     The main property now follows by another straightforward
-     induction on [l], using the observation together with the
-     induction hypothesis in the case where [l = n'::l']. [] *)
+     para qualquer [l].  Isto segue para uma indução sobre sobre [l].
+     A principal propriedade agora segue por outra simples indução sobre [l],
+     usando a observação junto com a hipótese de indução no caso onde
+     [l = n'::l']. [] *)
 
 (** [ Renan ] Which style is preferable in a given situation depends on
     the sophistication of the expected audience and on how similar the
@@ -745,9 +744,8 @@ Theorem rev_involutive : forall l : natlist,
 Proof.
   (* PREENCHER *) Admitted.
 
-(** [ Francisco ] There is a short solution to the next exercise.  If you find
-    yourself getting tangled up, step back and try to look for a
-    simpler way. *)
+(** Existe uma solução curta para o próximo exercício. Se você se encontrar perdido, 
+    dê um passo para traz e tente olhar para um caminho mais simples. *)
 
 Theorem app_assoc4 : forall l1 l2 l3 l4 : natlist,
   l1 ++ (l2 ++ (l3 ++ l4)) = ((l1 ++ l2) ++ l3) ++ l4.
@@ -837,8 +835,8 @@ Proof.
 
 (** **** Exercício: ***, opcional (bag_count_sum)  *)  
 
-(** [ Francisco ] Write down an interesting theorem [bag_count_sum] about bags 
-    involving the functions [count] and [sum], and prove it.*)
+(** Escreve abaixo um teorema interessante [bag_count_sum] sobre multiconjuntos
+    envolvendo as funções [count] e [sum], e prove.*)
 
 (* PREENCHER *)
 (** [] *)
@@ -921,8 +919,8 @@ Fixpoint index' (n:nat) (l:natlist) : natoption :=
     construtor na definição de indução [Inductive] e falsa se é avaliada para o
     segundo. *)
 
-(** [ Francisco ] The function below pulls the [nat] out of a [natoption], returning
-    a supplied default in the [None] case. *)
+(** A função abaixo retira um [nat] de [natoption], retornando
+    um padrão fornecido no caso [None]. *)
 
 Definition option_elim (d : nat) (o : natoption) : nat :=
   match o with
@@ -1001,7 +999,7 @@ Fixpoint find (key : nat) (d : dictionary) : natoption :=
 
 (** **** Exercício: * (dictionary_invariant1)  *)
 
-(** [ Francisco ] Complete the following proof. *)
+(** Complete a prova seguinte. *)
 
 Theorem dictionary_invariant1' : forall (d : dictionary) (k v: nat),
   (find k (insert k v d)) = Some v.

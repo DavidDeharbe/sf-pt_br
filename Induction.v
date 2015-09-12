@@ -84,16 +84,16 @@ Proof.
     reflexivity.  
 Qed.
 
-(** [Francisco] [Case] does something very straightforward: It simply adds a
-    string that we choose (tagged with the identifier "Case") to the
-    context for the current goal.  When subgoals are generated, this
-    string is carried over into their contexts.  When the last of
-    these subgoals is finally proved and the next top-level goal
-    becomes active, this string will no longer appear in the context
-    and we will be able to see that the case where we introduced it is
-    complete.  Also, as a sanity check, if we try to execute a new
-    [Case] tactic while the string left by the previous one is still
-    in the context, we get a nice clear error message.
+(** [Case] realiza algo muito simples: Ele simplesmente adiciona uma
+    cadeia de caracteres que nós escolhemos (marcado com o identificador "Case") para o
+    contexto para a meta atual.  Quando submetas são gerados, esta
+    cadeia de caracteres é levada para o seus contextos.  Quando a última dessas
+    submetas é finalmente provada e a próxima meta de nível superior
+    se torna ativa, esta cadeia de caracteres não irá mais aparecer no contexto
+    e nós poderemos ver que o caso onde nós introduzimos ela está completo. 
+    Também, como uma verificação de sanidade, se a gente tentar executar uma nova
+    tática de [Case] enquanto a cadeia de caracteres deixada pela anterior
+    ainda está no contexto, nós receberemos uma mensagem de erro.
 	
     Para as análises aninhadas de casos (por exemplo, quando nós queremos 
     usar um [destruct] para resolver uma meta que também foi gerada 
@@ -167,18 +167,17 @@ Abort.
 
 (** *** *)
 
-(** [Francisco] To prove such facts -- indeed, to prove most interesting
-    facts about numbers, lists, and other inductively defined sets --
-    we need a more powerful reasoning principle: _induction_.
+(** Para provar tais fatos -- de fato, para provar a maioria dos fatos
+    interessantes sobre números, listas, e outros conjuntos definidos indutivamente --
+    nós precisamos de um princípio de raciocínio mais poderoso: _induction_.
 
-    Recall (from high school) the principle of induction over natural
-    numbers: If [P(n)] is some proposition involving a natural number
-    [n] and we want to show that P holds for _all_ numbers [n], we can
-    reason like this:
-         - show that [P(O)] holds;
-         - show that, for any [n'], if [P(n')] holds, then so does
-           [P(S n')];
-         - conclude that [P(n)] holds for all [n].
+    Relembrando (a partir do ensino médio) o princípio de indução sobre os números
+    naturais: Se [P(n)] é alguma proposição que envolve um número natural
+    [n] e nós queremos mostrar que P é válido para _todos_ os números [n], nós podemos
+    raciocinar como:
+         - mostrar que [P(O)] é válido;
+         - mostrar que, para qualquer [n'], se [P(n')] é válido, [P(S n')] também é;
+         - conclui que [P(n)] é válido para todo [n].
 
     Em Coq, os passos são os mesmos, mas a ordem é inversa: começamos 
     com a meta de provar [P(n)] para todo [n] e dividimo-na (através 
@@ -274,17 +273,17 @@ Proof.
 (** * Provas dentro de Provas *)
 
 
-(** [Francisco]In Coq, as in informal mathematics, large proofs are very
-    often broken into a sequence of theorems, with later proofs
-    referring to earlier theorems.  Occasionally, however, a proof
-    will need some miscellaneous fact that is too trivial (and of too
-    little general interest) to bother giving it its own top-level
-    name.  In such cases, it is convenient to be able to simply state
-    and prove the needed "sub-theorem" right at the point where it is
-    used.  The [assert] tactic allows us to do this.  For example, our
-    earlier proof of the [mult_0_plus] theorem referred to a previous
-    theorem named [plus_O_n].  We can also use [assert] to state and
-    prove [plus_O_n] in-line: *)
+(** Em Coq, como em matemática informal, grandes provas são muito
+    frequente quebrados em uma sequencia de teoremas, com provas posteriores
+    referindo-se à provas anteriores. Ocasionalmente, contudo, uma prova
+    vai precisar de algum fato diverso que é muito trivial(e também
+    de pouco interesse geral) de se preocupar dando-lhe o seu próprio 
+    nome de nível superior. Em tais casos, isto é conveniente para ser capaz 
+    de um estado simples e provar direito "sub-teoremos" necessários 
+    no momento em que ele é usado. A tática [assert] permite a gente fazer isso.  
+    Por exemplo, nossa prova anterior do teorema [mult_0_plus] refere-se ao 
+    teorema anterior nomeado de [plus_O_n]. Nós podemos também usar [assert] para declarar
+    e provar [plus_O_n]: *)
 
 Theorem mult_0_plus' : forall n m : nat,
   (0 + n) * m = n * m.
@@ -439,11 +438,11 @@ Proof.
 (** [] *)
 
 (** **** Exercício: **, opcional (beq_nat_refl)  *)
-(** [Francisco] Prove the following theorem.  Putting [true] on the left-hand side
-of the equality may seem odd, but this is how the theorem is stated in
-the standard library, so we follow suit.  Since rewriting 
-works equally well in either direction, we will have no 
-problem using the theorem no matter which way we state it. *)
+(** Prove o seguinte teorema.  Colocar [verdadeiro] no lado esquerdo
+da igualdade pode parecer estranho, mas isso é como o teorema é declarado
+na biblioteca padrão, então a gente segue o exemplo.  Desde reescrever
+funciona igualmente em qualquer direção, nós não iremos ter problemas em usar
+o teorema não importa como nós o declaramos. *)
 
 Theorem beq_nat_refl : forall n : nat, 
   true = beq_nat n n.
@@ -505,14 +504,14 @@ Proof.
         teriamos o mesmo número que começamos.  Entretanto, isso não é verdade!
         Explique qual é o problema.
 
-    (c)[Francisco]Define a "direct" normalization function -- i.e., a function
-        [normalize] from binary numbers to binary numbers such that,
-        for any binary number b, converting to a natural and then back
-        to binary yields [(normalize b)].  Prove it.  (Warning: This
-        part is tricky!)
+    (c) Defina uma função de normalização "Direta" -- por exemplo, uma função
+        [normalize] de número binários para números binários tal que,
+        para qualquer número binário b, converta para um natural e então
+        volte para binário [(normalize b)].  Prove.  (Atenção: está
+        parte é complicado!)
 
-    Again, feel free to change your earlier definitions if this helps
-    here. 
+    Novamente, sinta-se livre para mudar as definições anteriores se isso ajudar
+    aqui. 
 *)
 
 (* PREENCHER AQUI *)
@@ -572,28 +571,27 @@ Theorem plus_assoc' : forall n m p : nat,
 Proof. intros n m p. induction n as [| n']. reflexivity. 
   simpl. rewrite -> IHn'. reflexivity.  Qed.
 
-(** [Francisco]Coq is perfectly happy with this as a proof.  For a human,
-    however, it is difficult to make much sense of it.  If you're used
-    to Coq you can probably step through the tactics one after the
-    other in your mind and imagine the state of the context and goal
-    stack at each point, but if the proof were even a little bit more
-    complicated this would be next to impossible.  Instead, a
-    mathematician might write it something like this: *)
+(** Coq está perfeitamente feliz com isso como uma prova. Para um humano,
+    contudo, isto é difícil fazer muito sentido. Se você esta acostumado com Coq,
+    você pode provavelmente passar os passos um após o outro em sua mente
+    e imaginar o estado do contexto e a meta presa em cada ponto,
+    mas se a prova foi mesmo um pouco mais complicado, isso seria quase
+    impossível.  Em vez, um matematico pode escreve isto algo como: *)
 (** - _Theorem_: For any [n], [m] and [p],
       n + (m + p) = (n + m) + p.
-    _Proof_: By induction on [n].
+    _Prova_: Por indução em [n].
 
-    - First, suppose [n = 0].  We must show 
+    - Primeiro, suponha [n = 0].  Nós devemos mostrar 
         0 + (m + p) = (0 + m) + p.  
-      This follows directly from the definition of [+].
+      Isso segue diretamente da definição de [+].
 
-    - Next, suppose [n = S n'], where
+    - próximo, suponha [n = S n'], onde
         n' + (m + p) = (n' + m) + p.
-      We must show
+      Nós devemos mostrar
         (S n') + (m + p) = ((S n') + m) + p.
-      By the definition of [+], this follows from
+      Pela definição de [+], isso segue de
         S (n' + (m + p)) = S ((n' + m) + p),
-      which is immediate from the induction hypothesis. *)
+      ao qual é imediato pela hipótese de indução. *)
 (** _Qed_ *)
 
 (** A forma geral da prova é basicamente similar. Isso não é por acaso: 
