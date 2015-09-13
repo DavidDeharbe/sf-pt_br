@@ -14,9 +14,9 @@ ter qualquer número de argumentos -- nenhum (como ocorre com [true] e [0]), um
 Inductive natprod : Type :=
   pair : nat -> nat -> natprod.
 
-(** [ Dalay ] This declaration can be read: "There is just one way to
-    construct a pair of numbers: by applying the constructor [pair] to
-    two arguments of type [nat]." *)
+(** Essa declaração pode ser lida como: há somente um caminho para 
+    construir um par de numeros: aplicando o construtor [pair] 
+    (parear) para dois arguemntos do tipo [nat]. *)
 
 (** Nós podemos construir um elemento de [natprod] dessa maneira: *)
 
@@ -80,8 +80,8 @@ Theorem surjective_pairing' : forall (n m : nat),
 Proof.
   reflexivity.  Qed.
 
-(** [ Dalay ] Note that [reflexivity] is not enough if we state the lemma in a
-    more natural way: *)
+(** [ Note que [reflexivity] não é o suficiente se nós declararmos o lema
+    de um modo mais natural: *)
 
 Theorem surjective_pairing_stuck : forall (p : natprod),
   p = (fst p, snd p).
@@ -144,8 +144,8 @@ Notation "x :: l" := (cons x l) (at level 60, right associativity).
 Notation "[ ]" := nil.
 Notation "[ x ; .. ; y ]" := (cons x .. (cons y nil) ..).
 
-(** [ Dalay ] It is not necessary to fully understand these declarations,
-    but in case you are interested, here is roughly what's going on.
+(** Não é necessário entender completamente essas declarações, mas, no caso
+    de você estar interessado, aqui está rapidamente o que está acontecendo.
 
     A anotação [right associativity] (_associatividade à direita_) diz ao Coq
     como utilizar parênteses em expressões envolvendo o uso de muitos [::], 
@@ -192,7 +192,7 @@ Fixpoint repeat (n count : nat) : natlist :=
 
 (** *** Comprimento *)
 
-(** [ Dalay ] The [length] function calculates the length of a list. *)
+(** A função [length] (comprimento) calcula o comprimento de uma lista. *)
 
 Fixpoint length (l:natlist) : nat := 
   match l with
@@ -284,12 +284,12 @@ Example test_countoddmembers3:    countoddmembers nil = 0.
   alternando entre elementos retirados da primeira lista e elementos da segunda
   lista. Veja os testes abaixo para exemplos mais específicos.
 
-    [ Dalay ] Note: one natural and elegant way of writing [alternate] will fail
-    to satisfy Coq's requirement that all [Fixpoint] definitions be "obviously
-    terminating."  If you find yourself in this rut, look for a slightly more
-    verbose solution that considers elements of both lists at the same time.
-    (One possible solution requires defining a new kind of pairs, but this is
-    not the only way.)  *)
+    Note: uma maneira natural e elegante de escrever [alternate] falhará em 
+    satisfazer o requisito do Coq de que toda definição de [Fixpoint] é 
+    "evidentemente encerrada." Se você se encontra com esse problema, procure
+    por uma solução levemente mais prolixa que considere elementos de ambas
+    as listas ao mesmo tempo. (Uma solução possível reque definir o novo tipo 
+    de par, mas esse não é a única solução. *)
 
 
 Fixpoint alternate (l1 l2 : natlist) : natlist :=
@@ -373,8 +373,8 @@ Example test_member2:             member 2 [1;4;1] = false.
 praticar. *)
 
 Fixpoint remove_one (v:nat) (s:bag) : bag :=
-  (* [ Dalay ] When remove_one is applied to a bag without the number to remove,
-     it should return the same bag unchanged. *)
+  (* Quando remove_one é aplicado a um conjunto sem o número para remover,
+    ele deve retornar o mesmo conjunto sem modificações. *)
   (* PREENCHER *) admit.
 
 Example test_remove_one1:         count 5 (remove_one 5 [2;1;5;4;1]) = 0.
@@ -453,8 +453,8 @@ Observe que a anotação [as] na tática [destruct] introduz dois nomes, [n]
 e [l'], o que corresponde ao fato de que o construtor [cons] para listas tem
 dois argumentos (a cabeça e a cauda da lista que está sendo construída). *)
 
-(** [ Dalay ] Usually, though, interesting theorems about lists require
-    induction for their proofs. *)
+(** Normalmente, porém, teoremas interessantes a respeito de listas requerem 
+    indução para as suas provas. *)
 
 (* ###################################################### *)
 (** ** Micro-Sermão *)
@@ -540,12 +540,12 @@ ajudará o leitor a permanecer orientado se nós lembrarmos à ele o que exatame
 
 (** *** Um Outro Exemplo *)
 (**
-  [ Dalay ] Here is a similar example to be worked together in class: *)
+   Aqui está um exemplo similar para ser trabalhado em conjunto em sala. *)
 
 Theorem app_length : forall l1 l2 : natlist, 
   length (l1 ++ l2) = (length l1) + (length l2).
 Proof.
-  (* WORKED IN CLASS *)
+  (* TRABALHADO EM SALA *)
   intros l1 l2. induction l1 as [| n l1'].
   Case "l1 = nil".
     reflexivity.
@@ -628,7 +628,7 @@ aplicação de [rev]. Isso deve parecer natural, porque está claro que
 a veracidade da meta não depende da lista que foi invertida. Além disso, é muito
 mais fácil provar a propriedade mais geral. *)
 
-(** [ Dalay ] Now we can complete the original proof. *)
+(** Agora nós podemos completar a prova original. *)
 
 Theorem rev_length : forall l : natlist,
   length (rev l) = length l.
@@ -719,8 +719,9 @@ teoremas que provamos sobre [rev]: *)
 
 (*  SearchAbout rev. *)
 
-(** [ Dalay ] Keep [SearchAbout] in mind as you do the following exercises and
-    throughout the rest of the course; it can save you a lot of time! *)
+(** Mantenha o [SearchAbout] em mente enquanto você faz os seguintes 
+    exercícios e ao longo do resto do curso; isso pode salvar você 
+    muitas vezes! *)
 
 (** Também, se você está usando ProofGeneral, você pode
     executar um comando [SearchAbout] com [C-c C-a C-a]. Você pode colar sua
@@ -808,8 +809,8 @@ Proof.
 
 (** **** Exercício: ***, avançado (bag_proofs)  *)
 
-(** [ Dalay ] Here are a couple of little theorems to prove about your
-    definitions about bags earlier in the file. *)
+(** Aqui está alguns pequenos teoremas para povar a respeito das suas
+    definições de conjuntos anteriormente nesse arquivo. *)
 
 Theorem count_member_nonzero : forall (s : bag),
   ble_nat 1 (count 1 (1 :: s)) = true.
@@ -899,9 +900,9 @@ Proof. reflexivity.  Qed.
 Example test_index3 :    index 10 [4;5;6;7] = None.
 Proof. reflexivity.  Qed.
 
-(** [ Dalay ] This example is also an opportunity to introduce one more
-    small feature of Coq's programming language: conditional
-    expressions... *)
+(** Esse éxemplo é também uma oportunidade para introduzir mais
+    uma característica  da liguagem de programação Coq: expressões
+    condicionais... *)
 
 (** *** *)
 
@@ -972,11 +973,11 @@ Inductive dictionary : Type :=
   | empty  : dictionary 
   | record : nat -> nat -> dictionary -> dictionary. 
 
-(** [ Dalay ] This declaration can be read: "There are two ways to construct a
-    [dictionary]: either using the constructor [empty] to represent an
-    empty dictionary, or by applying the constructor [record] to
-    a key, a value, and an existing [dictionary] to construct a
-    [dictionary] with an additional key to value mapping." *)
+(** Essa declaração pode ser lida como: "Existem duas maneiras de construir
+    um [dictionary] (_dicionário_): ou usando o construtor [empty] (_vazio_)
+    para representar um dicionário vazio, ou aplicando o construtor [record]
+    (_gravar_) para uma chave, um valor, e um [dictionary] existente para 
+    construir um [dictionary] com uma chave adicional para mapear valores." *)
 
 Definition insert (key value : nat) (d : dictionary) : dictionary :=
   (record key value d).
