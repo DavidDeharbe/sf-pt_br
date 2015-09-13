@@ -477,21 +477,22 @@ dois argumentos (a cabeça e a cauda da lista que está sendo construída). *)
     [false]; um número pode ou ser [O] ou [S] aplicado a um número; uma
     lista pode ser ou [nil] ou [cons] aplicado a um número e a uma lista.
 
-    [ Renan ] Moreover, applications of the declared constructors to one another
-    are the _only_ possible shapes that elements of an inductively
-    defined set can have, and this fact directly gives rise to a way
-    of reasoning about inductively defined sets: a number is either
-    [O] or else it is [S] applied to some _smaller_ number; a list is
-    either [nil] or else it is [cons] applied to some number and some
-    _smaller_ list; etc. So, if we have in mind some proposition [P]
-    that mentions a list [l] and we want to argue that [P] holds for
-    _all_ lists, we can reason as follows:
+    Além disso, aplicações dos construtores declarados um para com o outro 
+    são as _únicas_ formas possíveis que elementos de um conjunto 
+    indutivamente definido pode ter, e este fato dá diretamente origem a 
+    uma forma de raciocinar sobre conjuntos indutivamente definidos: um 
+    número é [O] ou então é [S] aplicado a algum número _menor_; uma 
+    lista é [nil] ou então é [cons] aplicada a um número e alguma lista 
+    _menor_; etc. Então, se temos em mente alguma proposição [P] que 
+    menciona uma lista [l] e queremos argumentar que [P] é válida para 
+    _todas_ as listas, podemos raciocinar da seguinte forma:
 
-      - First, show that [P] is true of [l] when [l] is [nil].
+      - Em primeiro lugar, mostrar que [P] é verdade de [l] quando 
+      [l] é [nil].
 
-      - Then show that [P] is true of [l] when [l] is [cons n l'] for
-        some number [n] and some smaller list [l'], assuming that [P]
-        is true for [l'].
+      - Em seguida, mostrar que [P] é verdade de [l] quando [l] é 
+      [cons n l '] para algum número [n] e alguma lista menor [l'], 
+      assumindo que [P] é verdadeiro para [l'].
 
 Já que listas maiores só podem ser construídas a partir de listas
 menores, chegando, em algum momento, em [nil], estas duas sentenças juntas
@@ -580,11 +581,11 @@ Proof. reflexivity.  Qed.
 
 (** *** Provas sobre inversão *)
 
-(** [ Renan ] Now let's prove some more list theorems using our newly
-    defined [snoc] and [rev].  For something a little more challenging
-    than the inductive proofs we've seen so far, let's prove that
-    reversing a list does not change its length.  Our first attempt at
-    this proof gets stuck in the successor case... *)
+(** Agora vamos provar mais alguns teoremas sobre listas usando os nossos 
+    recém-definidos [snoc] e [rev]. Para algo um pouco mais desafiador 
+    do que as provas indutivas que temos visto até agora, vamos provar 
+    que inverter uma lista não altera a sua extensão. Nossa primeira 
+    tentativa nesta prova fica presa no caso sucessor ... *)
 
 Theorem rev_length_firsttry : forall l : natlist,
   length (rev l) = length l.
@@ -696,11 +697,10 @@ Proof.
      usando a observação junto com a hipótese de indução no caso onde
      [l = n'::l']. [] *)
 
-(** [ Renan ] Which style is preferable in a given situation depends on
-    the sophistication of the expected audience and on how similar the
-    proof at hand is to ones that the audience will already be
-    familiar with.  The more pedantic style is a good default for
-    present purposes. *)
+(** Qual estilo é preferível em uma determinada situação depende 
+    da sofisticação do público esperado e de quão semelhante a prova em
+    questão é com relação àquelas com as quais o público já está familiarizado. 
+    O estilo mais rebuscado é um bom padrão para os propósitos presentes. *)
 
 (* ###################################################### *)
 (** ** O comando [SearchAbout] *)
@@ -763,7 +763,7 @@ Theorem distr_rev : forall l1 l2 : natlist,
 Proof.
   (* PREENCHER *) Admitted.
 
-(** [ Renan ] An exercise about your implementation of [nonzeros]: *)
+(** Um exercício sobre sua implementação de [nonzeros]: *)
 
 Lemma nonzeros_app : forall l1 l2 : natlist,
   nonzeros (l1 ++ l2) = (nonzeros l1) ++ (nonzeros l2).
@@ -843,11 +843,11 @@ Proof.
 
 (** **** Exercício: 4 stars, advanced (rev_injective)  *)
 
-(** [ Renan ] Prove that the [rev] function is injective, that is,
+(** Prove que a função [rev] é injetiva, ou seja,
 
     forall (l1 l2 : natlist), rev l1 = rev l2 -> l1 = l2.
 
-There is a hard way and an easy way to solve this exercise.
+Há uma maneira simples e outra difícil de resolver este exercício.
 *)
 
 (* PREENCHER *)
@@ -930,8 +930,8 @@ Definition option_elim (d : nat) (o : natoption) : nat :=
 
 (** **** Exercício: ** (hd_opt)  *)
 
-(** [ Renan ] Using the same idea, fix the [hd] function from earlier so we don't
-   have to pass a default element for the [nil] case.  *)
+(** Usando a mesma ideia, ajuste a função [hd] anterior para que não
+    precisemos ter que passar um elemento padrão para o caso [nil]. *)
 
 Definition hd_opt (l : natlist) : natoption :=
   (* PREENCHER *) admit.
@@ -1009,7 +1009,7 @@ Proof.
 
 (** **** Exercício: * (dictionary_invariant2)  *)
 
-(** [ Renan ] Complete the following proof. *)
+(** Complete a seguinte prova. *)
 
 Theorem dictionary_invariant2' : forall (d : dictionary) (m n o: nat),
   beq_nat m n = false -> find m d = find m (insert n o d).
