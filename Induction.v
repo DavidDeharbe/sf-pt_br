@@ -24,15 +24,16 @@ Require Export Basics.
 
 (** * Nomeando Casos *)
 
-(** [Dalay] The fact that there is no explicit command for moving from
-    one branch of a case analysis to the next can make proof scripts
-    rather hard to read.  In larger proofs, with nested case analyses,
-    it can even become hard to stay oriented when you're sitting with
-    Coq and stepping through the proof.  (Imagine trying to remember
-    that the first five subgoals belong to the inner case analysis and
-    the remaining seven cases are what remains of the outer one...)
-    Disciplined use of indentation and comments can help, but a better
-    way is to use the [Case] tactic. *)
+(** O falto de que não existe um comando explícito  para mover de 
+    uma ramificação de uma análise de caso para a próxima pode fazer
+    escriptes scripts de provas mais difíceis de serem lidos. Em 
+    provas maiores, com análises de casos aninhadas, isso pode fazer
+    com que seja difícil de se manter orientado quando você está 
+    caminhando em direção à prova no Coq. (Imagine tentar lembrar que
+    as cinco primeiras provas pertencem à análise de caso mais interna
+    e as outras sete provas restantes são as que se referem às mais 
+    externas...) O uso disciplinado da identação e comentários pode
+    ajudar, mas um melhor modo é fazer uso da tática [Case] (_Caso_). *)
 
 (** [Case] (_Caso_) não é predefinido no Coq: é preciso definí-lo.
     Não existe necessidade de entender os detalhes desta definição -- você 
@@ -124,25 +125,25 @@ Proof.
       Em particular, uma convenção razoável é limitar-se a linhas de 80
       caracteres. Linhas com mais do que isso são difíceis de ler e podem ser
       inconvenientes para exibir e imprimir. Muitos editores têm recursos que
-      ajudam a cumprir isso.
+      ajudam a cumprir isso.*)
 
 (** * Prova por Indução *)
 
-(** [Dalay]We proved in the last chapter that [0] is a neutral element
-    for [+] on the left using a simple argument.  The fact that it is
-    also a neutral element on the _right_... *)
+(** Nós provamos no último capítulo que [0] é um elemento neutro
+    para [+] ma esquerda, usando um simples argumnto. O fato que 
+    ele é também um elemento neutro na _direita_... *)
 
 Theorem plus_0_r_firsttry : forall n:nat,
   n + 0 = n.
 
-(** ... cannot be proved in the same simple way.  Just applying
-  [reflexivity] doesn't work: the [n] in [n + 0] is an arbitrary
-  unknown number, so the [match] in the definition of [+] can't be
-  simplified.  *)
+(** ... não pode ser provado da mesma maneira. Somente aplicando 
+    [reflexivity] não funciona: o [n] em [n + 0] é um número desconhecido
+    arbitrário, então o [match] na definição de [+] não pode ser 
+    simplificado.  *)
 
 Proof.
   intros n.
-  simpl. (* Does nothing! *)
+  simpl. (* Faz nada! *)
 Abort.
 
 (** *** *)
@@ -244,7 +245,7 @@ Proof.
 
 (** **** Exercício: ** (double_plus)  *)
 
-(** [Dalay] Consider the following function, which doubles its argument: *)
+(** Considere a seguinte função, a qual dobra seus argumentos: *)
 
 Fixpoint double (n:nat) :=
   match n with
@@ -252,7 +253,7 @@ Fixpoint double (n:nat) :=
   | S n' => S (S (double n'))
   end.
 
-(** Use induction to prove this simple fact about [double]: *)
+(** Use indução para provar esse fato simples a respeito de [double]: *)
 
 Lemma double_plus : forall n, double n = n + n .
 Proof.  
@@ -347,8 +348,8 @@ Proof.
   rewrite -> H. reflexivity.  Qed.
 
 (** **** Exercício: **** (mult_comm)  *)
-(** [Dalay]Use [assert] to help prove this theorem.  You shouldn't need to
-    use induction. *)
+(** Use [assert] para ajudar a provar esse teorema. Você não deve precisar
+    usar indução. *)
 
 Theorem plus_swap : forall n m p : nat, 
   n + (m + p) = m + (n + p).
@@ -356,10 +357,9 @@ Proof.
   (* PREENCHER AQUI *) Admitted.
 
 
-(** Now prove commutativity of multiplication.  (You will probably
-    need to define and prove a separate subsidiary theorem to be used
-    in the proof of this one.)  You may find that [plus_swap] comes in
-    handy. *)
+(** Agora prove a comutatividade da multiplicação. (você provavelmente
+    precisará definir e provar um teorema auxiliar separado para ser 
+    usado nessa prova.) Você deve achar que [plus_swap] seja útil. *)
 
 Theorem mult_comm : forall m n : nat,
  m * n = n * m.
@@ -493,10 +493,10 @@ Proof.
     binary numbers.  You will need your definitions and theorems from
     the previous exercise to complete this one.
 
-    (a)[Dalay]First, write a function to convert natural numbers to binary
-        numbers.  Then prove that starting with any natural number,
-        converting to binary, then converting back yields the same
-        natural number you started with.
+    (a) Primeiramente, escreva uma função para converter números naturais para 
+        números binários. Então prove que começando com qualquer número natural,
+        convertendo para binário, e então convertendo de volta resulta no mesmo
+        número natural que você começou.
 
     (b) Você naturalmente deve pensar que nós deveriamos também provar a
         direção oposta: a de que começando com um número binário,
