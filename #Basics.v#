@@ -747,25 +747,24 @@ Proof.
 
 (** * Prova por Análise de Casos *) 
 
-(** É claro que nem tudo pode ser provado por simples cálculos:
-    geralmente, valores hipotéticos desconhecidos (números 
-    arbitrários, booleanos, listas, etc.) podem bloquear o cálculo. 
-    Por exemplo, se nós tentarmos provar o seguinte fato usando a 
-    tática do [simpl] (_simplificação_) como acima, nós ficamos 
-    presos. *)
+(** [Dalay] Of course, not everything can be proved by simple
+    calculation: In general, unknown, hypothetical values (arbitrary
+    numbers, booleans, lists, etc.) can block the calculation.  
+    For example, if we try to prove the following fact using the 
+    [simpl] tactic as above, we get stuck. *)
 
 Theorem plus_1_neq_0_firsttry : forall n : nat,
   beq_nat (n + 1) 0 = false.
 Proof.
   intros n. 
-  simpl.  (* Faz nada! *)
+  simpl.  (* does nothing! *)
 Abort.
 
-(** O motivo para isso é que as definições de ambos [beq_nat] e [+]
-    começam realizando o [match] (_combinação_) nos seus primeiros 
-    argumentos. Mas aqui, o primeiro argumento para [+] é o número
-    desconhecido [n] e o argumento para o [beq_nat] é a expressão 
-    composta [n + 1]; nenhum pode ser simplificado.
+(** The reason for this is that the definitions of both
+    [beq_nat] and [+] begin by performing a [match] on their first
+    argument.  But here, the first argument to [+] is the unknown
+    number [n] and the argument to [beq_nat] is the compound
+    expression [n + 1]; neither can be simplified.
 
     É preciso considerar as possíveis formas de [n]
     separadamente.  Se [n] é [O], então é possível calcular o resultado final
@@ -834,8 +833,8 @@ Proof.
 
 (** **** ** Exercício (funções booleanas)  *)
 
-(** Use as táticas que você aprendeu até agora para provar o seguinte
-    teorema a respeito de funções booleanas. *)
+(** [Dalay] Use the tactics you have learned so far to prove the following 
+    theorem about boolean functions. *)
 
 Theorem identity_fn_applied_twice : 
   forall (f : bool -> bool), 
@@ -844,9 +843,9 @@ Theorem identity_fn_applied_twice :
 Proof.
   (* PREENCHER *) Admitted.
 
-(** Agora crie e prove um teorema [negation_fn_applied_twice] similar
-    ao anterior, mas que na segunda hipótese diga que a função [f] 
-    tem a propriedade [f x = negb x]. *)
+(** Now state and prove a theorem [negation_fn_applied_twice] similar
+    to the previous one but where the second hypothesis says that the
+    function [f] has the property that [f x = negb x].*)
 
 (* PREENCHER *)
 (** [] *)
@@ -939,9 +938,9 @@ Notation "x * y" := (mult x y)
     percentagem escrevendo [(x*y)%nat], e, algumas vezes, em suas respostas para
     você, o Coq usará [%nat] para indicar em qual escopo se encontra a notação.
 
-    O escopo da notação também se aplica à notação numeral (3,4,5, etc.), logo
-    você pode às vezes ver [0%nat], o que significa [0], ou [0%Z] o que significa 
-    o  numero inteiro 0. *)
+    [Dalay] Notation scopes also apply to numeral notation (3,4,5, etc.), so you
+    may sometimes see [0%nat] which means [O], or [0%Z] which means the Integer
+    zero.  *)
 
 (** * [Fixpoint] e Recursão Estrutural (Avançado) *)
 
@@ -951,13 +950,13 @@ Fixpoint plus' (n : nat) (m : nat) : nat :=
     | S n' => S (plus' n' m)
   end.
 
-(** Quando o Coq checa essa definição, ele nota que [plus'] está 
-    "decrementando no primeiro argumento." Isso significa que nós estamos 
-    realizando uma _recursão estrutural_ sobre o argumento [n] -- por 
-    exemplo, que estamos fazendo chamadas recursivas somente nos valores 
-    estritamente menores de [n]. isso implica que todas as chamadas a 
-    [plus'] vão eventualmente terminar. Coq precisa que algum argumento
-    de _cada_ definição de [Fixpoint] esteja decrementando.
+(** When Coq checks this definition, it notes that [plus'] is
+    "decreasing on 1st argument."  What this means is that we are
+    performing a _structural recursion_ over the argument [n] -- i.e.,
+    that we make recursive calls only on strictly smaller values of
+    [n].  This implies that all calls to [plus'] will eventually
+    terminate.  Coq demands that some argument of _every_ [Fixpoint]
+    definition is "decreasing".
 
     Esse requisito é uma característica fundamental do projeto do Coq: em
     particular, isso garante que toda função que pode ser definida

@@ -24,15 +24,16 @@ Require Export Basics.
 
 (** * Nomeando Casos *)
 
-(** [Dalay] The fact that there is no explicit command for moving from
-    one branch of a case analysis to the next can make proof scripts
-    rather hard to read.  In larger proofs, with nested case analyses,
-    it can even become hard to stay oriented when you're sitting with
-    Coq and stepping through the proof.  (Imagine trying to remember
-    that the first five subgoals belong to the inner case analysis and
-    the remaining seven cases are what remains of the outer one...)
-    Disciplined use of indentation and comments can help, but a better
-    way is to use the [Case] tactic. *)
+(** O falto de que não existe um comando explícito  para mover de 
+    uma ramificação de uma análise de caso para a próxima pode fazer
+    escriptes scripts de provas mais difíceis de serem lidos. Em 
+    provas maiores, com análises de casos aninhadas, isso pode fazer
+    com que seja difícil de se manter orientado quando você está 
+    caminhando em direção à prova no Coq. (Imagine tentar lembrar que
+    as cinco primeiras provas pertencem à análise de caso mais interna
+    e as outras sete provas restantes são as que se referem às mais 
+    externas...) O uso disciplinado da identação e comentários pode
+    ajudar, mas um melhor modo é fazer uso da tática [Case] (_Caso_). *)
 
 (** [Case] (_Caso_) não é predefinido no Coq: é preciso definí-lo.
     Não existe necessidade de entender os detalhes desta definição -- você 
@@ -84,16 +85,16 @@ Proof.
     reflexivity.  
 Qed.
 
-(** [Francisco] [Case] does something very straightforward: It simply adds a
-    string that we choose (tagged with the identifier "Case") to the
-    context for the current goal.  When subgoals are generated, this
-    string is carried over into their contexts.  When the last of
-    these subgoals is finally proved and the next top-level goal
-    becomes active, this string will no longer appear in the context
-    and we will be able to see that the case where we introduced it is
-    complete.  Also, as a sanity check, if we try to execute a new
-    [Case] tactic while the string left by the previous one is still
-    in the context, we get a nice clear error message.
+(** [Case] realiza algo muito simples: Ele simplesmente adiciona uma
+    cadeia de caracteres que nós escolhemos (marcado com o identificador "Case") para o
+    contexto para a meta atual.  Quando submetas são gerados, esta
+    cadeia de caracteres é levada para o seus contextos.  Quando a última dessas
+    submetas é finalmente provada e a próxima meta de nível superior
+    se torna ativa, esta cadeia de caracteres não irá mais aparecer no contexto
+    e nós poderemos ver que o caso onde nós introduzimos ela está completo. 
+    Também, como uma verificação de sanidade, se a gente tentar executar uma nova
+    tática de [Case] enquanto a cadeia de caracteres deixada pela anterior
+    ainda está no contexto, nós receberemos uma mensagem de erro.
 	
     Para as análises aninhadas de casos (por exemplo, quando nós queremos 
     usar um [destruct] para resolver uma meta que também foi gerada 
@@ -124,25 +125,25 @@ Proof.
       Em particular, uma convenção razoável é limitar-se a linhas de 80
       caracteres. Linhas com mais do que isso são difíceis de ler e podem ser
       inconvenientes para exibir e imprimir. Muitos editores têm recursos que
-      ajudam a cumprir isso.
+      ajudam a cumprir isso.*)
 
 (** * Prova por Indução *)
 
-(** [Dalay]We proved in the last chapter that [0] is a neutral element
-    for [+] on the left using a simple argument.  The fact that it is
-    also a neutral element on the _right_... *)
+(** Nós provamos no último capítulo que [0] é um elemento neutro
+    para [+] ma esquerda, usando um simples argumnto. O fato que 
+    ele é também um elemento neutro na _direita_... *)
 
 Theorem plus_0_r_firsttry : forall n:nat,
   n + 0 = n.
 
-(** ... cannot be proved in the same simple way.  Just applying
-  [reflexivity] doesn't work: the [n] in [n + 0] is an arbitrary
-  unknown number, so the [match] in the definition of [+] can't be
-  simplified.  *)
+(** ... não pode ser provado da mesma maneira. Somente aplicando 
+    [reflexivity] não funciona: o [n] em [n + 0] é um número desconhecido
+    arbitrário, então o [match] na definição de [+] não pode ser 
+    simplificado.  *)
 
 Proof.
   intros n.
-  simpl. (* Does nothing! *)
+  simpl. (* Faz nada! *)
 Abort.
 
 (** *** *)
@@ -167,18 +168,17 @@ Abort.
 
 (** *** *)
 
-(** [Francisco] To prove such facts -- indeed, to prove most interesting
-    facts about numbers, lists, and other inductively defined sets --
-    we need a more powerful reasoning principle: _induction_.
+(** Para provar tais fatos -- de fato, para provar a maioria dos fatos
+    interessantes sobre números, listas, e outros conjuntos definidos indutivamente --
+    nós precisamos de um princípio de raciocínio mais poderoso: _induction_.
 
-    Recall (from high school) the principle of induction over natural
-    numbers: If [P(n)] is some proposition involving a natural number
-    [n] and we want to show that P holds for _all_ numbers [n], we can
-    reason like this:
-         - show that [P(O)] holds;
-         - show that, for any [n'], if [P(n')] holds, then so does
-           [P(S n')];
-         - conclude that [P(n)] holds for all [n].
+    Relembrando (a partir do ensino médio) o princípio de indução sobre os números
+    naturais: Se [P(n)] é alguma proposição que envolve um número natural
+    [n] e nós queremos mostrar que P é válido para _todos_ os números [n], nós podemos
+    raciocinar como:
+         - mostrar que [P(O)] é válido;
+         - mostrar que, para qualquer [n'], se [P(n')] é válido, [P(S n')] também é;
+         - conclui que [P(n)] é válido para todo [n].
 
     Em Coq, os passos são os mesmos, mas a ordem é inversa: começamos 
     com a meta de provar [P(n)] para todo [n] e dividimo-na (através 
@@ -245,7 +245,7 @@ Proof.
 
 (** **** Exercício: ** (double_plus)  *)
 
-(** [Dalay] Consider the following function, which doubles its argument: *)
+(** Considere a seguinte função, a qual dobra seus argumentos: *)
 
 Fixpoint double (n:nat) :=
   match n with
@@ -253,7 +253,7 @@ Fixpoint double (n:nat) :=
   | S n' => S (S (double n'))
   end.
 
-(** Use induction to prove this simple fact about [double]: *)
+(** Use indução para provar esse fato simples a respeito de [double]: *)
 
 Lemma double_plus : forall n, double n = n + n .
 Proof.  
@@ -274,17 +274,17 @@ Proof.
 (** * Provas dentro de Provas *)
 
 
-(** [Francisco]In Coq, as in informal mathematics, large proofs are very
-    often broken into a sequence of theorems, with later proofs
-    referring to earlier theorems.  Occasionally, however, a proof
-    will need some miscellaneous fact that is too trivial (and of too
-    little general interest) to bother giving it its own top-level
-    name.  In such cases, it is convenient to be able to simply state
-    and prove the needed "sub-theorem" right at the point where it is
-    used.  The [assert] tactic allows us to do this.  For example, our
-    earlier proof of the [mult_0_plus] theorem referred to a previous
-    theorem named [plus_O_n].  We can also use [assert] to state and
-    prove [plus_O_n] in-line: *)
+(** Em Coq, como em matemática informal, grandes provas são muito
+    frequente quebrados em uma sequencia de teoremas, com provas posteriores
+    referindo-se à provas anteriores. Ocasionalmente, contudo, uma prova
+    vai precisar de algum fato diverso que é muito trivial(e também
+    de pouco interesse geral) de se preocupar dando-lhe o seu próprio 
+    nome de nível superior. Em tais casos, isto é conveniente para ser capaz 
+    de um estado simples e provar direito "sub-teoremos" necessários 
+    no momento em que ele é usado. A tática [assert] permite a gente fazer isso.  
+    Por exemplo, nossa prova anterior do teorema [mult_0_plus] refere-se ao 
+    teorema anterior nomeado de [plus_O_n]. Nós podemos também usar [assert] para declarar
+    e provar [plus_O_n]: *)
 
 Theorem mult_0_plus' : forall n m : nat,
   (0 + n) * m = n * m.
@@ -348,8 +348,8 @@ Proof.
   rewrite -> H. reflexivity.  Qed.
 
 (** **** Exercício: **** (mult_comm)  *)
-(** [Dalay]Use [assert] to help prove this theorem.  You shouldn't need to
-    use induction. *)
+(** Use [assert] para ajudar a provar esse teorema. Você não deve precisar
+    usar indução. *)
 
 Theorem plus_swap : forall n m p : nat, 
   n + (m + p) = m + (n + p).
@@ -357,10 +357,9 @@ Proof.
   (* PREENCHER AQUI *) Admitted.
 
 
-(** Now prove commutativity of multiplication.  (You will probably
-    need to define and prove a separate subsidiary theorem to be used
-    in the proof of this one.)  You may find that [plus_swap] comes in
-    handy. *)
+(** Agora prove a comutatividade da multiplicação. (você provavelmente
+    precisará definir e provar um teorema auxiliar separado para ser 
+    usado nessa prova.) Você deve achar que [plus_swap] seja útil. *)
 
 Theorem mult_comm : forall m n : nat,
  m * n = n * m.
@@ -439,11 +438,11 @@ Proof.
 (** [] *)
 
 (** **** Exercício: **, opcional (beq_nat_refl)  *)
-(** [Francisco] Prove the following theorem.  Putting [true] on the left-hand side
-of the equality may seem odd, but this is how the theorem is stated in
-the standard library, so we follow suit.  Since rewriting 
-works equally well in either direction, we will have no 
-problem using the theorem no matter which way we state it. *)
+(** Prove o seguinte teorema.  Colocar [verdadeiro] no lado esquerdo
+da igualdade pode parecer estranho, mas isso é como o teorema é declarado
+na biblioteca padrão, então a gente segue o exemplo.  Desde reescrever
+funciona igualmente em qualquer direção, nós não iremos ter problemas em usar
+o teorema não importa como nós o declaramos. *)
 
 Theorem beq_nat_refl : forall n : nat, 
   true = beq_nat n n.
@@ -494,10 +493,10 @@ Proof.
     binary numbers.  You will need your definitions and theorems from
     the previous exercise to complete this one.
 
-    (a)[Dalay]First, write a function to convert natural numbers to binary
-        numbers.  Then prove that starting with any natural number,
-        converting to binary, then converting back yields the same
-        natural number you started with.
+    (a) Primeiramente, escreva uma função para converter números naturais para 
+        números binários. Então prove que começando com qualquer número natural,
+        convertendo para binário, e então convertendo de volta resulta no mesmo
+        número natural que você começou.
 
     (b) Você naturalmente deve pensar que nós deveriamos também provar a
         direção oposta: a de que começando com um número binário,
@@ -505,14 +504,14 @@ Proof.
         teriamos o mesmo número que começamos.  Entretanto, isso não é verdade!
         Explique qual é o problema.
 
-    (c)[Francisco]Define a "direct" normalization function -- i.e., a function
-        [normalize] from binary numbers to binary numbers such that,
-        for any binary number b, converting to a natural and then back
-        to binary yields [(normalize b)].  Prove it.  (Warning: This
-        part is tricky!)
+    (c) Defina uma função de normalização "Direta" -- por exemplo, uma função
+        [normalize] de número binários para números binários tal que,
+        para qualquer número binário b, converta para um natural e então
+        volte para binário [(normalize b)].  Prove.  (Atenção: está
+        parte é complicado!)
 
-    Again, feel free to change your earlier definitions if this helps
-    here. 
+    Novamente, sinta-se livre para mudar as definições anteriores se isso ajudar
+    aqui. 
 *)
 
 (* PREENCHER AQUI *)
@@ -572,28 +571,27 @@ Theorem plus_assoc' : forall n m p : nat,
 Proof. intros n m p. induction n as [| n']. reflexivity. 
   simpl. rewrite -> IHn'. reflexivity.  Qed.
 
-(** [Francisco]Coq is perfectly happy with this as a proof.  For a human,
-    however, it is difficult to make much sense of it.  If you're used
-    to Coq you can probably step through the tactics one after the
-    other in your mind and imagine the state of the context and goal
-    stack at each point, but if the proof were even a little bit more
-    complicated this would be next to impossible.  Instead, a
-    mathematician might write it something like this: *)
+(** Coq está perfeitamente feliz com isso como uma prova. Para um humano,
+    contudo, isto é difícil fazer muito sentido. Se você esta acostumado com Coq,
+    você pode provavelmente passar os passos um após o outro em sua mente
+    e imaginar o estado do contexto e a meta presa em cada ponto,
+    mas se a prova foi mesmo um pouco mais complicado, isso seria quase
+    impossível.  Em vez, um matematico pode escreve isto algo como: *)
 (** - _Theorem_: For any [n], [m] and [p],
       n + (m + p) = (n + m) + p.
-    _Proof_: By induction on [n].
+    _Prova_: Por indução em [n].
 
-    - First, suppose [n = 0].  We must show 
+    - Primeiro, suponha [n = 0].  Nós devemos mostrar 
         0 + (m + p) = (0 + m) + p.  
-      This follows directly from the definition of [+].
+      Isso segue diretamente da definição de [+].
 
-    - Next, suppose [n = S n'], where
+    - próximo, suponha [n = S n'], onde
         n' + (m + p) = (n' + m) + p.
-      We must show
+      Nós devemos mostrar
         (S n') + (m + p) = ((S n') + m) + p.
-      By the definition of [+], this follows from
+      Pela definição de [+], isso segue de
         S (n' + (m + p)) = S ((n' + m) + p),
-      which is immediate from the induction hypothesis. *)
+      ao qual é imediato pela hipótese de indução. *)
 (** _Qed_ *)
 
 (** A forma geral da prova é basicamente similar. Isso não é por acaso: 
