@@ -24,15 +24,15 @@ Require Export Basics.
 
 (** * Nomeando Casos *)
 
-(** O falto de que não existe um comando explícito  para mover de 
+(** O fato de que não existe um comando explícito  para mover de 
     uma ramificação de uma análise de caso para a próxima pode fazer
-    escriptes scripts de provas mais difíceis de serem lidos. Em 
+    transcrições de provas mais difíceis de serem lidos. Em 
     provas maiores, com análises de casos aninhadas, isso pode fazer
     com que seja difícil de se manter orientado quando você está 
-    caminhando em direção à prova no Coq. (Imagine tentar lembrar que
+    avançando passo a passo na prova. (Imagine tentar lembrar que
     as cinco primeiras provas pertencem à análise de caso mais interna
     e as outras sete provas restantes são as que se referem às mais 
-    externas...) O uso disciplinado da identação e comentários pode
+    externas...) O uso disciplinado da indentação e comentários pode
     ajudar, mas um melhor modo é fazer uso da tática [Case] (_Caso_). *)
 
 (** [Case] (_Caso_) não é predefinido no Coq: é preciso definí-lo.
@@ -87,12 +87,12 @@ Qed.
 
 (** [Case] realiza algo muito simples: Ele simplesmente adiciona uma
     cadeia de caracteres que nós escolhemos (marcado com o identificador "Case") para o
-    contexto para a meta atual.  Quando submetas são gerados, esta
-    cadeia de caracteres é levada para o seus contextos.  Quando a última dessas
+    contexto da meta atual.  Quando submetas são gerados, esta
+    cadeia de caracteres é levada para os seus contextos.  Quando a última dessas
     submetas é finalmente provada e a próxima meta de nível superior
     se torna ativa, esta cadeia de caracteres não irá mais aparecer no contexto
-    e nós poderemos ver que o caso onde nós introduzimos ela está completo. 
-    Também, como uma verificação de sanidade, se a gente tentar executar uma nova
+    e nós poderemos ver que o caso onde nós introduzimos ela está concluído. 
+    Também, como uma verificação de sanidade, se tentarmos executar uma nova
     tática de [Case] enquanto a cadeia de caracteres deixada pela anterior
     ainda está no contexto, nós receberemos uma mensagem de erro.
 	
@@ -136,7 +136,7 @@ Proof.
 Theorem plus_0_r_firsttry : forall n:nat,
   n + 0 = n.
 
-(** ... não pode ser provado da mesma maneira. Somente aplicando 
+(** ... não pode ser provado da mesma maneira. Somente aplicar 
     [reflexivity] não funciona: o [n] em [n + 0] é um número desconhecido
     arbitrário, então o [match] na definição de [+] não pode ser 
     simplificado.  *)
@@ -245,7 +245,7 @@ Proof.
 
 (** **** Exercício: ** (double_plus)  *)
 
-(** Considere a seguinte função, a qual dobra seus argumentos: *)
+(** Considere a seguinte função, a qual dobra seu argumento: *)
 
 Fixpoint double (n:nat) :=
   match n with
@@ -275,16 +275,16 @@ Proof.
 
 
 (** Em Coq, como em matemática informal, grandes provas são muito
-    frequente quebrados em uma sequencia de teoremas, com provas posteriores
+    frequentemente divididas em uma sequencia de teoremas, com provas posteriores
     referindo-se à provas anteriores. Ocasionalmente, contudo, uma prova
-    vai precisar de algum fato diverso que é muito trivial(e também
-    de pouco interesse geral) de se preocupar dando-lhe o seu próprio 
-    nome de nível superior. Em tais casos, isto é conveniente para ser capaz 
-    de um estado simples e provar direito "sub-teoremos" necessários 
-    no momento em que ele é usado. A tática [assert] permite a gente fazer isso.  
+    vai precisar de algum fato qualquer que é tão trivial (e também
+    de pouco interesse geral) que não quer-se dar-lhe um nome dedicado
+    em nível global. Em tais casos, isto é conveniente ser capaz 
+    de enunciar e provar diretamente o "sub-teorema" necessário no ponto
+    onde é usado. A tática [assert] permite fazer isso.  
     Por exemplo, nossa prova anterior do teorema [mult_0_plus] refere-se ao 
-    teorema anterior nomeado de [plus_O_n]. Nós podemos também usar [assert] para declarar
-    e provar [plus_O_n]: *)
+    teorema anterior nomeado de [plus_O_n]. Pode-se também usar [assert] para 
+    declarar e provar [plus_O_n]: *)
 
 Theorem mult_0_plus' : forall n m : nat,
   (0 + n) * m = n * m.
@@ -359,7 +359,7 @@ Proof.
 
 (** Agora prove a comutatividade da multiplicação. (você provavelmente
     precisará definir e provar um teorema auxiliar separado para ser 
-    usado nessa prova.) Você deve achar que [plus_swap] seja útil. *)
+    usado nessa prova.) Você pode achar útil o teorema [plus_swap]. *)
 
 Theorem mult_comm : forall m n : nat,
  m * n = n * m.
@@ -438,11 +438,11 @@ Proof.
 (** [] *)
 
 (** **** Exercício: **, opcional (beq_nat_refl)  *)
-(** Prove o seguinte teorema.  Colocar [verdadeiro] no lado esquerdo
-da igualdade pode parecer estranho, mas isso é como o teorema é declarado
-na biblioteca padrão, então a gente segue o exemplo.  Desde reescrever
-funciona igualmente em qualquer direção, nós não iremos ter problemas em usar
-o teorema não importa como nós o declaramos. *)
+(** Prove o seguinte teorema.  Colocar [true] (_verdadeiro_) no lado esquerdo
+da igualdade pode parecer estranho, mas isso é a forma como o teorema é 
+declarado na biblioteca padrão, então segue-se este modelo. Como a
+reescrita funciona igualmente bem em qualquer direção, não haverá
+dificuldades em usar o teorema, independentemente de como foi enunciado. *)
 
 Theorem beq_nat_refl : forall n : nat, 
   true = beq_nat n n.
@@ -495,8 +495,8 @@ Proof.
 
     (a) Primeiramente, escreva uma função para converter números naturais para 
         números binários. Então prove que começando com qualquer número natural,
-        convertendo para binário, e então convertendo de volta resulta no mesmo
-        número natural que você começou.
+        convertendo para binário, e então convertendo de volta resulta no 
+        número natural inicial.
 
     (b) Você naturalmente deve pensar que nós deveriamos também provar a
         direção oposta: a de que começando com um número binário,
@@ -504,11 +504,11 @@ Proof.
         teriamos o mesmo número que começamos.  Entretanto, isso não é verdade!
         Explique qual é o problema.
 
-    (c) Defina uma função de normalização "Direta" -- por exemplo, uma função
+    (c) Defina uma função de normalização "direta" -- por exemplo, uma função
         [normalize] de número binários para números binários tal que,
-        para qualquer número binário b, converta para um natural e então
-        volte para binário [(normalize b)].  Prove.  (Atenção: está
-        parte é complicado!)
+        para qualquer número binário b, convertendo para um natural e então
+        de volta para binário resulte em [(normalize b)].  Prove.  (Atenção: 
+	está parte é complicada!)
 
     Novamente, sinta-se livre para mudar as definições anteriores se isso ajudar
     aqui. 
@@ -571,12 +571,13 @@ Theorem plus_assoc' : forall n m p : nat,
 Proof. intros n m p. induction n as [| n']. reflexivity. 
   simpl. rewrite -> IHn'. reflexivity.  Qed.
 
-(** Coq está perfeitamente feliz com isso como uma prova. Para um humano,
-    contudo, isto é difícil fazer muito sentido. Se você esta acostumado com Coq,
-    você pode provavelmente passar os passos um após o outro em sua mente
-    e imaginar o estado do contexto e a meta presa em cada ponto,
-    mas se a prova foi mesmo um pouco mais complicado, isso seria quase
-    impossível.  Em vez, um matematico pode escreve isto algo como: *)
+(** Coq está perfeitamente feliz com isso como prova. Para um humano,
+    contudo, isto é difícil fazer muito sentido. Se você esta acostumado com 
+    Coq, você pode provavelmente passar os passos um após o outro em sua mente
+    e imaginar o estado do contexto e a pilha de metas em cada ponto,
+    mas se a prova estivesse mesmo um pouco mais complicada, isso seria quase
+    impossível.  Em vez, um matemático pode escreve esta prova da seguinte
+    forma: *)
 (** - _Theorem_: For any [n], [m] and [p],
       n + (m + p) = (n + m) + p.
     _Prova_: Por indução em [n].

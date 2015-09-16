@@ -16,7 +16,7 @@ Inductive natprod : Type :=
 
 (** Essa declaração pode ser lida como: há somente um caminho para 
     construir um par de numeros: aplicando o construtor [pair] 
-    (parear) para dois arguemntos do tipo [nat]. *)
+    (_par_) a dois argumentos do tipo [nat]. *)
 
 (** Nós podemos construir um elemento de [natprod] dessa maneira: *)
 
@@ -43,8 +43,8 @@ Eval compute in (fst (pair 3 5)).
 (** *** *)
 
 (** Dado que pares são bastante usados, é bom ser capaz de escrevê-los 
-    com a notação matemática padrão [(x, y)] em vez de [pair xy]. 
-    Podemos dizer ao Coq para permitir isso com uma declaração 
+    com a notação matemática padrão [(x, y)] em vez de [pair x y]. 
+    Podemos instruir o Coq para permitir isso com uma declaração 
     [Notation]. *)
 
 Notation "( x , y )" := (pair x y).
@@ -155,13 +155,13 @@ Definition mylist1 := 1 :: (2 :: (3 :: nil)).
 Definition mylist2 := 1 :: 2 :: 3 :: nil.
 Definition mylist3 := [1;2;3].
 
-(** A parte [at level 60] fala para Coq como colocar em parênteses
+(** A parte [at level 60] instrui Coq como colocar interpretar
     expressões que envolvem ambos [::] e algum outro operador infixo.
-    Por exemplo, desde nós definimos [+] como uma notação infixa para a função [plus]
-    no nível 50,
+    Por exemplo, desde nós definimos [+] como uma notação infixa para a 
+    função [plus] no nível 50,
 Notation "x + y" := (plus x y)  
                     (at level 50, left associativity).
-   O operador [+] irá fazer uma ligação mais apertada do que [::], então [1 + 2 :: [3]]
+   O operador [+] irá fazer uma ligação mais forte do que [::], então [1 + 2 :: [3]]
    será analisada, como nós esperamos, como [(1 + 2) :: [3]] em vez de [1
    + (2 :: [3])].
 
@@ -209,7 +209,7 @@ Fixpoint app (l1 l2 : natlist) : natlist :=
   | h :: t => h :: (app t l2)
   end.
 
-(** Atualmente, [app] será muito usado em algumas partes do que vem
+(** De fato, [app] será muito usado em algumas partes do que vem
     a seguir, então é conveniente ter um operador infixo para ele. *)
 
 Notation "x ++ y" := (app x y) 
@@ -223,7 +223,7 @@ Example test_app3:             [1;2;3] ++ nil = [1;2;3].
 Proof. reflexivity.  Qed.
 
 (** Aqui estão dois exemplos menores de programação com listas. 
-    A função [hd] retorna o primeiro elemento (o "cabeça") da lista,
+    A função [hd] retorna o primeiro elemento (a "cabeça") da lista,
     enquanto [tl] retorna tudo exceto o primeiro elemento (a "cauda"). 
     Obviamente, a lista vazia não tem primeiro elemento, por isso, 
     devemos fornecer um valor padrão a ser retornado nesse caso. *)
@@ -285,10 +285,10 @@ Example test_countoddmembers3:    countoddmembers nil = 0.
   lista. Veja os testes abaixo para exemplos mais específicos.
 
     Note: uma maneira natural e elegante de escrever [alternate] falhará em 
-    satisfazer o requisito do Coq de que toda definição de [Fixpoint] é 
-    "evidentemente encerrada." Se você se encontra com esse problema, procure
+    satisfazer o requisito do Coq de que toda definição de [Fixpoint]  
+    "termina obviamente." Se você se encontra com esse problema, procure
     por uma solução levemente mais prolixa que considere elementos de ambas
-    as listas ao mesmo tempo. (Uma solução possível reque definir o novo tipo 
+    as listas ao mesmo tempo. (Uma solução possível requer definir o novo tipo 
     de par, mas esse não é a única solução. *)
 
 
@@ -318,7 +318,7 @@ Definition bag := natlist.
 (** **** Exercício: *** (bag_functions)  *)
 
 (** Complete as definições para as funções
-    [count], [sum], [add], e [member] para multiconjunto. *)
+    [count], [sum], [add], e [member] para multiconjuntos. *)
 
 Fixpoint count (v:nat) (s:bag) : nat := 
   (* PREENCHER *) admit.
@@ -373,7 +373,7 @@ Example test_member2:             member 2 [1;4;1] = false.
 praticar. *)
 
 Fixpoint remove_one (v:nat) (s:bag) : bag :=
-  (* Quando remove_one é aplicado a um conjunto sem o número para remover,
+  (* Quando [remove_one] é aplicado a um conjunto sem o número para remover,
     ele deve retornar o mesmo conjunto sem modificações. *)
   (* PREENCHER *) admit.
 
@@ -423,7 +423,7 @@ Example test_subset2:              subset [1;2;2] [2;1;4;1] = false.
 (** * Raciocínio Sobre Listas *)
 
 (** Assim como os números, fatos simples sobre funções de 
-    processamento de listas pode algumas vezes ser inteiramente provado
+    processamento de listas pode algumas vezes ser inteiramente provados
     por simplificação. Por exemplo, a simplificação realizada por [reflexivity] 
     é suficiente para este teorema... *)
 
@@ -431,7 +431,7 @@ Theorem nil_app : forall l:natlist,
   [] ++ l = l.
 Proof. reflexivity. Qed.
 
-(** ... porque o [[]] é substituído pela sua posição de correspondência
+(** ... porque o [[]] é substituído pela sua posição de casamento
     na definição de [app], permitindo que a própria correspondência 
     seja simplificada. *)
 
@@ -473,7 +473,7 @@ dois argumentos (a cabeça e a cauda da lista que está sendo construída). *)
     talvez um pouco menos familiar do que indução de número natural padrão, 
     mas o ideia base é igualmente simples.  Cada declaração de [Inductive]
     define um conjunto de valores de dados que pode ser contruídos
-    a partir de contrutores declarados: um booleano pode ou ser [true] ou
+    a partir de construtores declarados: um booleano pode ou ser [true] ou
     [false]; um número pode ou ser [O] ou [S] aplicado a um número; uma
     lista pode ser ou [nil] ou [cons] aplicado a um número e a uma lista.
 
@@ -540,7 +540,7 @@ ajudará o leitor a permanecer orientado se nós lembrarmos à ele o que exatame
 
 (** *** Um Outro Exemplo *)
 (**
-   Aqui está um exemplo similar para ser trabalhado em conjunto em sala. *)
+   Aqui está um exemplo similar para ser trabalhado em grupo em sala. *)
 
 Theorem app_length : forall l1 l2 : natlist, 
   length (l1 ++ l2) = (length l1) + (length l2).
@@ -565,8 +565,8 @@ Fixpoint snoc (l:natlist) (v:nat) : natlist :=
   | h :: t => h :: (snoc t v)
   end.
 
-(** ... e use ele para definir função de lista reversa [rev]
-    como isso: *)
+(** ... e use ele para definir uma função de inversão de lista [rev]
+    como segue: *)
 
 Fixpoint rev (l:natlist) : natlist := 
   match l with
@@ -680,19 +680,21 @@ Proof.
           S (length (rev l')) = S (length l').
         Isto é direto da hipótese de indução. [] *)
 
-(** Obviamente, o estilo dessas provas bastante cansativo
-    e pedante.  Depois de alguns primeiros, nós devemos acha isso mais fácil
-    para as provas seguintes que dão pouquissímos detalhes (desde nós podemos facilmente
-    trabalhar com eles foram da nossa mente ou rabiscar em um papel se necessário) e
-    apenas os melhores momentos dos passos não óbvios.  Em neste estilo mais comprimido, 
-    a prova acima pode parecer como isto: *)
+(** Obviamente, o estilo dessas provas bastante detalhista
+      e pedante.  Depois de algumas provas similares, 
+      nós devemos achar mais fácil acompanhar provas que entram
+      menos em detalhe (desde que nós possamos facilmente 
+      acompanhar elas mentalmente ou rabiscando em um papel
+      se necessário) e destacando apenas os os passos não óbvios.  
+      Neste estilo mais comprimido, a prova acima pode parecer 
+      como isto: *)
 
 (** _Teorema_:
      Para todas as listas [l], [length (rev l) = length l].
 
     _Prova_: primeiro, observe que
        length (snoc l n) = S (length l)
-     para qualquer [l].  Isto segue para uma indução sobre sobre [l].
+     para qualquer [l].  Isto segue através de uma indução sobre [l].
      A principal propriedade agora segue por outra simples indução sobre [l],
      usando a observação junto com a hipótese de indução no caso onde
      [l = n'::l']. [] *)
@@ -745,8 +747,8 @@ Theorem rev_involutive : forall l : natlist,
 Proof.
   (* PREENCHER *) Admitted.
 
-(** Existe uma solução curta para o próximo exercício. Se você se encontrar perdido, 
-    dê um passo para traz e tente olhar para um caminho mais simples. *)
+(** Existe uma solução curta para o próximo exercício. Se você se encontrar 
+    perdido, dê um passo para trás e tente buscar um caminho mais simples. *)
 
 Theorem app_assoc4 : forall l1 l2 l3 l4 : natlist,
   l1 ++ (l2 ++ (l3 ++ l4)) = ((l1 ++ l2) ++ l3) ++ l4.
@@ -809,7 +811,7 @@ Proof.
 
 (** **** Exercício: ***, avançado (bag_proofs)  *)
 
-(** Aqui está alguns pequenos teoremas para povar a respeito das suas
+(** Aqui está alguns pequenos teoremas a provar a respeito das suas
     definições de conjuntos anteriormente nesse arquivo. *)
 
 Theorem count_member_nonzero : forall (s : bag),

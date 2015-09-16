@@ -762,7 +762,7 @@ Proof.
 Abort.
 
 (** O motivo para isso é que as definições de ambos [beq_nat] e [+]
-    começam realizando o [match] (_combinação_) nos seus primeiros 
+    começam realizando o casamento [match] nos seus primeiros 
     argumentos. Mas aqui, o primeiro argumento para [+] é o número
     desconhecido [n] e o argumento para o [beq_nat] é a expressão 
     composta [n + 1]; nenhum pode ser simplificado.
@@ -954,9 +954,9 @@ Fixpoint plus' (n : nat) (m : nat) : nat :=
 (** Quando o Coq checa essa definição, ele nota que [plus'] está 
     "decrementando no primeiro argumento." Isso significa que nós estamos 
     realizando uma _recursão estrutural_ sobre o argumento [n] -- por 
-    exemplo, que estamos fazendo chamadas recursivas somente nos valores 
+    exemplo, que estamos fazendo chamadas recursivas somente em valores 
     estritamente menores de [n]. isso implica que todas as chamadas a 
-    [plus'] vão eventualmente terminar. Coq precisa que algum argumento
+    [plus'] vão acabar terminando. Coq precisa que algum argumento
     de _cada_ definição de [Fixpoint] esteja decrementando.
 
     Esse requisito é uma característica fundamental do projeto do Coq: em
