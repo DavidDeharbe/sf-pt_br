@@ -1155,11 +1155,12 @@ A primeira linha da prova desloca as variáveis universalmente quantificadas
 
 <div class="paragraph"> </div>
 
- <span class="inlinecode"><span class="id" title="var">Dalay</span></span> Of course, not everything can be proved by simple
-    calculation: In general, unknown, hypothetical values (arbitrary
-    numbers, booleans, lists, etc.) can block the calculation.  
-    For example, if we try to prove the following fact using the 
-    <span class="inlinecode"><span class="id" title="tactic">simpl</span></span> tactic as above, we get stuck. 
+ É claro que nem tudo pode ser provado por simples cálculos:
+    geralmente, valores hipotéticos desconhecidos (números 
+    arbitrários, booleanos, listas, etc.) podem bloquear o cálculo. 
+    Por exemplo, se nós tentarmos provar o seguinte fato usando a 
+    tática do <span class="inlinecode"><span class="id" title="tactic">simpl</span></span> (<i>simplificação</i>) como acima, nós ficamos 
+    presos. 
 </div>
 <div class="code">
 
@@ -1174,11 +1175,11 @@ A primeira linha da prova desloca as variáveis universalmente quantificadas
 </div>
 
 <div class="doc">
-The reason for this is that the definitions of both
-    <span class="inlinecode"><span class="id" title="var">beq_nat</span></span> and <span class="inlinecode">+</span> begin by performing a <span class="inlinecode"><span class="id" title="keyword">match</span></span> on their first
-    argument.  But here, the first argument to <span class="inlinecode">+</span> is the unknown
-    number <span class="inlinecode"><span class="id" title="var">n</span></span> and the argument to <span class="inlinecode"><span class="id" title="var">beq_nat</span></span> is the compound
-    expression <span class="inlinecode"><span class="id" title="var">n</span></span> <span class="inlinecode">+</span> <span class="inlinecode">1</span>; neither can be simplified.
+O motivo para isso é que as definições de ambos <span class="inlinecode"><span class="id" title="var">beq_nat</span></span> e <span class="inlinecode">+</span>
+    começam realizando o casamento <span class="inlinecode"><span class="id" title="keyword">match</span></span> nos seus primeiros 
+    argumentos. Mas aqui, o primeiro argumento para <span class="inlinecode">+</span> é o número
+    desconhecido <span class="inlinecode"><span class="id" title="var">n</span></span> e o argumento para o <span class="inlinecode"><span class="id" title="var">beq_nat</span></span> é a expressão 
+    composta <span class="inlinecode"><span class="id" title="var">n</span></span> <span class="inlinecode">+</span> <span class="inlinecode">1</span>; nenhum pode ser simplificado.
 
 <div class="paragraph"> </div>
 
@@ -1282,8 +1283,8 @@ Note que <span class="inlinecode"><span class="id" title="tactic">destruct</span
 
 <div class="paragraph"> </div>
 
- <span class="inlinecode"><span class="id" title="var">Dalay</span></span> Use the tactics you have learned so far to prove the following 
-    theorem about boolean functions. 
+ Use as táticas que você aprendeu até agora para provar o seguinte
+    teorema a respeito de funções booleanas. 
 </div>
 <div class="code">
 
@@ -1299,9 +1300,9 @@ Note que <span class="inlinecode"><span class="id" title="tactic">destruct</span
 </div>
 
 <div class="doc">
-Now state and prove a theorem <span class="inlinecode"><span class="id" title="var">negation_fn_applied_twice</span></span> similar
-    to the previous one but where the second hypothesis says that the
-    function <span class="inlinecode"><span class="id" title="var">f</span></span> has the property that <span class="inlinecode"><span class="id" title="var">f</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">negb</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span>.
+Agora crie e prove um teorema <span class="inlinecode"><span class="id" title="var">negation_fn_applied_twice</span></span> similar
+    ao anterior, mas que na segunda hipótese diga que a função <span class="inlinecode"><span class="id" title="var">f</span></span> 
+    tem a propriedade <span class="inlinecode"><span class="id" title="var">f</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">negb</span></span> <span class="inlinecode"><span class="id" title="var">x</span></span>. 
 </div>
 <div class="code">
 
@@ -1450,9 +1451,9 @@ Para cada tipo de símbolo de notação no Coq, podemos especificar
 
 <div class="paragraph"> </div>
 
-    <span class="inlinecode"><span class="id" title="var">Dalay</span></span> Notation scopes also apply to numeral notation (3,4,5, etc.), so you
-    may sometimes see <span class="inlinecode">0%<span class="id" title="var">nat</span></span> which means <span class="inlinecode"><span class="id" title="var">O</span></span>, or <span class="inlinecode">0%<span class="id" title="var">Z</span></span> which means the Integer
-    zero.  
+    O escopo da notação também se aplica à notação numeral (3,4,5, etc.), logo
+    você pode às vezes ver <span class="inlinecode">0%<span class="id" title="var">nat</span></span>, o que significa <span class="inlinecode">0</span>, ou <span class="inlinecode">0%<span class="id" title="var">Z</span></span> o que significa 
+    o  numero inteiro 0. 
 <div class="paragraph"> </div>
 
 <a name="lab23"></a><h1 class="section"><span class="inlinecode"><span class="id" title="keyword">Fixpoint</span></span> e Recursão Estrutural (Avançado)</h1>
@@ -1471,13 +1472,13 @@ Para cada tipo de símbolo de notação no Coq, podemos especificar
 </div>
 
 <div class="doc">
-When Coq checks this definition, it notes that <span class="inlinecode"><span class="id" title="var">plus&acute;</span></span> is
-    "decreasing on 1st argument."  What this means is that we are
-    performing a <i>structural recursion</i> over the argument <span class="inlinecode"><span class="id" title="var">n</span></span> -- i.e.,
-    that we make recursive calls only on strictly smaller values of
-    <span class="inlinecode"><span class="id" title="var">n</span></span>.  This implies that all calls to <span class="inlinecode"><span class="id" title="var">plus&acute;</span></span> will eventually
-    terminate.  Coq demands that some argument of <i>every</i> <span class="inlinecode"><span class="id" title="keyword">Fixpoint</span></span>
-    definition is "decreasing".
+Quando o Coq checa essa definição, ele nota que <span class="inlinecode"><span class="id" title="var">plus&acute;</span></span> está 
+    "decrementando no primeiro argumento." Isso significa que nós estamos 
+    realizando uma <i>recursão estrutural</i> sobre o argumento <span class="inlinecode"><span class="id" title="var">n</span></span> -- por 
+    exemplo, que estamos fazendo chamadas recursivas somente em valores 
+    estritamente menores de <span class="inlinecode"><span class="id" title="var">n</span></span>. isso implica que todas as chamadas a 
+    <span class="inlinecode"><span class="id" title="var">plus&acute;</span></span> vão acabar terminando. Coq precisa que algum argumento
+    de <i>cada</i> definição de <span class="inlinecode"><span class="id" title="keyword">Fixpoint</span></span> esteja decrementando.
 
 <div class="paragraph"> </div>
 

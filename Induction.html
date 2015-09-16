@@ -77,15 +77,16 @@ For it to work, you need to use <span class="inlinecode"><span class="id" title=
 
 <div class="paragraph"> </div>
 
- <span class="inlinecode"><span class="id" title="var">Dalay</span></span> The fact that there is no explicit command for moving from
-    one branch of a case analysis to the next can make proof scripts
-    rather hard to read.  In larger proofs, with nested case analyses,
-    it can even become hard to stay oriented when you're sitting with
-    Coq and stepping through the proof.  (Imagine trying to remember
-    that the first five subgoals belong to the inner case analysis and
-    the remaining seven cases are what remains of the outer one...)
-    Disciplined use of indentation and comments can help, but a better
-    way is to use the <span class="inlinecode"><span class="id" title="var">Case</span></span> tactic. 
+ O fato de que não existe um comando explícito  para mover de 
+    uma ramificação de uma análise de caso para a próxima pode fazer
+    transcrições de provas mais difíceis de serem lidos. Em 
+    provas maiores, com análises de casos aninhadas, isso pode fazer
+    com que seja difícil de se manter orientado quando você está 
+    avançando passo a passo na prova. (Imagine tentar lembrar que
+    as cinco primeiras provas pertencem à análise de caso mais interna
+    e as outras sete provas restantes são as que se referem às mais 
+    externas...) O uso disciplinado da indentação e comentários pode
+    ajudar, mas um melhor modo é fazer uso da tática <span class="inlinecode"><span class="id" title="var">Case</span></span> (<i>Caso</i>). 
 <div class="paragraph"> </div>
 
  <span class="inlinecode"><span class="id" title="var">Case</span></span> (<i>Caso</i>) não é predefinido no Coq: é preciso definí-lo.
@@ -153,16 +154,16 @@ Aqui está um exemplo de como <span class="inlinecode"><span class="id" title="v
 </div>
 
 <div class="doc">
-<span class="inlinecode"><span class="id" title="var">Francisco</span></span> <span class="inlinecode"><span class="id" title="var">Case</span></span> does something very straightforward: It simply adds a
-    string that we choose (tagged with the identifier "Case") to the
-    context for the current goal.  When subgoals are generated, this
-    string is carried over into their contexts.  When the last of
-    these subgoals is finally proved and the next top-level goal
-    becomes active, this string will no longer appear in the context
-    and we will be able to see that the case where we introduced it is
-    complete.  Also, as a sanity check, if we try to execute a new
-    <span class="inlinecode"><span class="id" title="var">Case</span></span> tactic while the string left by the previous one is still
-    in the context, we get a nice clear error message.
+<span class="inlinecode"><span class="id" title="var">Case</span></span> realiza algo muito simples: Ele simplesmente adiciona uma
+    cadeia de caracteres que nós escolhemos (marcado com o identificador "Case") para o
+    contexto da meta atual.  Quando submetas são gerados, esta
+    cadeia de caracteres é levada para os seus contextos.  Quando a última dessas
+    submetas é finalmente provada e a próxima meta de nível superior
+    se torna ativa, esta cadeia de caracteres não irá mais aparecer no contexto
+    e nós poderemos ver que o caso onde nós introduzimos ela está concluído. 
+    Também, como uma verificação de sanidade, se tentarmos executar uma nova
+    tática de <span class="inlinecode"><span class="id" title="var">Case</span></span> enquanto a cadeia de caracteres deixada pela anterior
+    ainda está no contexto, nós receberemos uma mensagem de erro.
 
 <div class="paragraph"> </div>
 
@@ -206,368 +207,742 @@ Aqui está um exemplo de como <span class="inlinecode"><span class="id" title="v
       caracteres. Linhas com mais do que isso são difíceis de ler e podem ser
       inconvenientes para exibir e imprimir. Muitos editores têm recursos que
       ajudam a cumprir isso.
-
-<div class="paragraph"> </div>
-
-
-<div class="paragraph"> </div>
-
-
-<div class="paragraph"> </div>
-
-Theorem plus_0_r_firsttry : forall n:nat,
-  n + 0 = n.
-
-<div class="paragraph"> </div>
-
-
-<div class="paragraph"> </div>
-
-Proof.
-  intros n.
-  simpl. Abort.
-
-<div class="paragraph"> </div>
-
-
-<div class="paragraph"> </div>
-
-
-<div class="paragraph"> </div>
-
-Theorem plus_0_r_secondtry : forall n:nat,
-  n + 0 = n.
-Proof.
-  intros n. destruct n as <span class="inlinecode">|</span> <span class="inlinecode"><span class="id" title="var">n&acute;</span></span>.
-  Case "n = 0".
-    reflexivity.   Case "n = S n'".
-    simpl.       Abort.
-
-<div class="paragraph"> </div>
-
-
-<div class="paragraph"> </div>
-
-
-<div class="paragraph"> </div>
-
-
-<div class="paragraph"> </div>
-
-Theorem plus_0_r : forall n:nat, n + 0 = n.
-Proof.
-  intros n. induction n as <span class="inlinecode">|</span> <span class="inlinecode"><span class="id" title="var">n&acute;</span></span>.
-  Case "n = 0".     reflexivity.
-  Case "n = S n'".  simpl. rewrite -&gt; IHn'. reflexivity.  Qed.
-
-<div class="paragraph"> </div>
-
-
-<div class="paragraph"> </div>
-
-Theorem minus_diag : forall n,
-  minus n n = 0.
-Proof.
-    intros n. induction n as <span class="inlinecode">|</span> <span class="inlinecode"><span class="id" title="var">n&acute;</span></span>.
-  Case "n = 0".
-    simpl. reflexivity.
-  Case "n = S n'".
-    simpl. rewrite -&gt; IHn'. reflexivity.  Qed.
-
-<div class="paragraph"> </div>
-
-
 <div class="paragraph"> </div>
 
+<a name="lab4"></a><h1 class="section">Prova por Indução</h1>
 
 <div class="paragraph"> </div>
 
-Theorem mult_0_r : forall n:nat,
-  n * 0 = 0.
-Proof.
-   Admitted.
+ Nós provamos no último capítulo que <span class="inlinecode">0</span> é um elemento neutro
+    para <span class="inlinecode">+</span> ma esquerda, usando um simples argumnto. O fato que 
+    ele é também um elemento neutro na <i>direita</i>... 
+</div>
+<div class="code">
 
-<div class="paragraph"> </div>
-
-Theorem plus_n_Sm : forall n m : nat, 
-  S (n + m) = n + (S m).
-Proof. 
-   Admitted.
-
-<div class="paragraph"> </div>
-
-Theorem plus_comm : forall n m : nat,
-  n + m = m + n.
-Proof.
-   Admitted.
-
-<div class="paragraph"> </div>
-
-Theorem plus_assoc : forall n m p : nat,
-  n + (m + p) = (n + m) + p.
-Proof.
-   Admitted.
-
-<div class="paragraph"> </div>
-
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">plus_0_r_firsttry</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span>:<span class="id" title="var">nat</span>,<br/>
+&nbsp;&nbsp;<span class="id" title="var">n</span> + 0 = <span class="id" title="var">n</span>.<br/>
 
-<div class="paragraph"> </div>
-
-
-<div class="paragraph"> </div>
+<br/>
+</div>
 
-Fixpoint double (n:nat) :=
-  match n with
-  | O =&gt; O
-  | S n' =&gt; S (S (double n'))
-  end.
-
-<div class="paragraph"> </div>
+<div class="doc">
+... não pode ser provado da mesma maneira. Somente aplicar 
+    <span class="inlinecode"><span class="id" title="tactic">reflexivity</span></span> não funciona: o <span class="inlinecode"><span class="id" title="var">n</span></span> em <span class="inlinecode"><span class="id" title="var">n</span></span> <span class="inlinecode">+</span> <span class="inlinecode">0</span> é um número desconhecido
+    arbitrário, então o <span class="inlinecode"><span class="id" title="keyword">match</span></span> na definição de <span class="inlinecode">+</span> não pode ser 
+    simplificado.  
+</div>
+<div class="code">
 
+<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">n</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>. <span class="id" title="keyword">Abort</span>.<br/>
 
-<div class="paragraph"> </div>
+<br/>
+</div>
 
-Lemma double_plus : forall n, double n = n + n .
-Proof.  
-   Admitted.
+<div class="doc">
+<a name="lab5"></a><h3 class="section"> </h3>
 
 <div class="paragraph"> </div>
 
-
-<div class="paragraph"> </div>
+ E o raciocíonio utilizando <span class="inlinecode"><span class="id" title="tactic">destruct</span></span> <span class="inlinecode"><span class="id" title="var">n</span></span> não nos leva
+    muito mais longe: conseguimos fechar o ramo da análise de caso em 
+    que é assumido <span class="inlinecode"><span class="id" title="var">n</span></span> <span class="inlinecode">=</span> <span class="inlinecode">0</span>, mas o ramo em que <span class="inlinecode"><span class="id" title="var">n</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">S</span></span> <span class="inlinecode"><span class="id" title="var">n&acute;</span></span> para qualquer <span class="inlinecode"><span class="id" title="var">n&acute;</span></span> 
+    ficamos bloqueados da mesma maneira.  Nós podemos usar <span class="inlinecode"><span class="id" title="tactic">destruct</span></span> <span class="inlinecode"><span class="id" title="var">n&acute;</span></span> para
+    ir um passo adiante, mas como <span class="inlinecode"><span class="id" title="var">n</span></span> pode ser arbitrariamente grande, se nós
+    tentarmos continuar dessa maneira nós nunca chegaremos ao fim. 
+</div>
+<div class="code">
 
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">plus_0_r_secondtry</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span>:<span class="id" title="var">nat</span>,<br/>
+&nbsp;&nbsp;<span class="id" title="var">n</span> + 0 = <span class="id" title="var">n</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">n</span>. <span class="id" title="tactic">destruct</span> <span class="id" title="var">n</span> <span class="id" title="keyword">as</span> [| <span class="id" title="var">n&acute;</span>].<br/>
+&nbsp;&nbsp;<span class="id" title="var">Case</span> "n = 0".<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>. &nbsp;&nbsp;<span class="id" title="var">Case</span> "n = S n'".<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>. <span class="id" title="keyword">Abort</span>.<br/>
 
-<div class="paragraph"> </div>
+<br/>
+</div>
 
+<div class="doc">
+<a name="lab6"></a><h3 class="section"> </h3>
 
 <div class="paragraph"> </div>
 
-Theorem mult_0_plus' : forall n m : nat,
-  (0 + n) * m = n * m.
-Proof.
-  intros n m.
-  assert (H: 0 + n = n). 
-    Case "Proof of assertion". reflexivity.
-  rewrite -&gt; H.
-  reflexivity.  Qed.
+ Para provar tais fatos -- de fato, para provar a maioria dos fatos
+    interessantes sobre números, listas, e outros conjuntos definidos indutivamente --
+    nós precisamos de um princípio de raciocínio mais poderoso: <i>induction</i>.
 
 <div class="paragraph"> </div>
 
+    Relembrando (a partir do ensino médio) o princípio de indução sobre os números
+    naturais: Se <span class="inlinecode"><span class="id" title="var">P</span>(<span class="id" title="var">n</span>)</span> é alguma proposição que envolve um número natural
+    <span class="inlinecode"><span class="id" title="var">n</span></span> e nós queremos mostrar que P é válido para <i>todos</i> os números <span class="inlinecode"><span class="id" title="var">n</span></span>, nós podemos
+    raciocinar como:
 
 <div class="paragraph"> </div>
 
-
-<div class="paragraph"> </div>
+<ul class="doclist">
+<li> mostrar que <span class="inlinecode"><span class="id" title="var">P</span>(<span class="id" title="var">O</span>)</span> é válido;
 
-Theorem plus_rearrange_firsttry : forall n m p q : nat,
-  (n + m) + (p + q) = (m + n) + (p + q).
-Proof.
-  intros n m p q.
-    rewrite -&gt; plus_comm.
-  Abort.
+</li>
+<li> mostrar que, para qualquer <span class="inlinecode"><span class="id" title="var">n&acute;</span></span>, se <span class="inlinecode"><span class="id" title="var">P</span>(<span class="id" title="var">n&acute;</span>)</span> é válido, <span class="inlinecode"><span class="id" title="var">P</span>(<span class="id" title="var">S</span></span> <span class="inlinecode"><span class="id" title="var">n&acute;</span>)</span> também é;
 
-<div class="paragraph"> </div>
+</li>
+<li> conclui que <span class="inlinecode"><span class="id" title="var">P</span>(<span class="id" title="var">n</span>)</span> é válido para todo <span class="inlinecode"><span class="id" title="var">n</span></span>.
 
+</li>
+</ul>
 
 <div class="paragraph"> </div>
-
-Theorem plus_rearrange : forall n m p q : nat,
-  (n + m) + (p + q) = (m + n) + (p + q).
-Proof.
-  intros n m p q.
-  assert (H: n + m = m + n).
-    Case "Proof of assertion".
-    rewrite -&gt; plus_comm. reflexivity.
-  rewrite -&gt; H. reflexivity.  Qed.
 
+    Em Coq, os passos são os mesmos, mas a ordem é inversa: começamos 
+    com a meta de provar <span class="inlinecode"><span class="id" title="var">P</span>(<span class="id" title="var">n</span>)</span> para todo <span class="inlinecode"><span class="id" title="var">n</span></span> e dividimo-na (através 
+    da aplicação da tática <span class="inlinecode"><span class="id" title="tactic">induction</span></span>) em duas submetas separadas: 
+    primeiro demonstrando <span class="inlinecode"><span class="id" title="var">P</span>(<span class="id" title="var">O</span>)</span> e, em seguida, demonstrando 
+    <span class="inlinecode"><span class="id" title="var">P</span>(<span class="id" title="var">n&acute;</span>)</span> <span class="inlinecode">→</span> <span class="inlinecode"><span class="id" title="var">P</span></span> <span class="inlinecode">(<span class="id" title="var">S</span></span> <span class="inlinecode"><span class="id" title="var">n&acute;</span>)</span>. A seguir está ilustrado como isso funciona 
+    para o teorema que estamos tentando provar no momento: 
 <div class="paragraph"> </div>
 
+<a name="lab7"></a><h3 class="section"> </h3>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">plus_0_r</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span>:<span class="id" title="var">nat</span>, <span class="id" title="var">n</span> + 0 = <span class="id" title="var">n</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">n</span>. <span class="id" title="tactic">induction</span> <span class="id" title="var">n</span> <span class="id" title="keyword">as</span> [| <span class="id" title="var">n&acute;</span>].<br/>
+&nbsp;&nbsp;<span class="id" title="var">Case</span> "n = 0". <span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">Case</span> "n = S n'". <span class="id" title="tactic">simpl</span>. <span class="id" title="tactic">rewrite</span> → <span class="id" title="var">IHn&acute;</span>. <span class="id" title="tactic">reflexivity</span>. <span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Assim como <span class="inlinecode"><span class="id" title="tactic">destruct</span></span>, a tática <span class="inlinecode"><span class="id" title="tactic">induction</span></span> usa a cláusula
+ <span class="inlinecode"><span class="id" title="keyword">as</span>...</span> para especificar os nomes das variáveis que serão
+ introduzidas nas submetas. No primeiro ramo, <span class="inlinecode"><span class="id" title="var">n</span></span> é substituída por
+ <span class="inlinecode">0</span> e a meta se torna  <span class="inlinecode">0</span> <span class="inlinecode">+</span> <span class="inlinecode">0</span> <span class="inlinecode">=</span> <span class="inlinecode">0</span>, que, em seguida, é
+ simplificada. No segundo ramo, <span class="inlinecode"><span class="id" title="var">n</span></span> é substituído por <span class="inlinecode"><span class="id" title="var">S</span></span> <span class="inlinecode"><span class="id" title="var">n&acute;</span></span> e a
+ hipótese <span class="inlinecode"><span class="id" title="var">n&acute;</span></span> <span class="inlinecode">+</span> <span class="inlinecode">0</span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">n&acute;</span></span> é adicionada no contexto (com o nome <span class="inlinecode"><span class="id" title="var">IHn&acute;</span></span>:
+ Inductive Hypothesis for <span class="inlinecode"><span class="id" title="var">n&acute;</span></span>). O objetivo se torna, neste
+ caso, <span class="inlinecode">(<span class="id" title="var">S</span></span> <span class="inlinecode"><span class="id" title="var">n&acute;</span>)</span> <span class="inlinecode">+</span> <span class="inlinecode">0</span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">S</span></span> <span class="inlinecode"><span class="id" title="var">n&acute;</span></span>, que é simplificado para <span class="inlinecode"><span class="id" title="var">S</span></span> <span class="inlinecode">(<span class="id" title="var">n&acute;</span></span> <span class="inlinecode">+</span> <span class="inlinecode">0)</span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">S</span></span>
+ <span class="inlinecode"><span class="id" title="var">n&acute;</span></span> devido à hipótese indutiva. 
+</div>
+<div class="code">
 
-<div class="paragraph"> </div>
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">minus_diag</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span>,<br/>
+&nbsp;&nbsp;<span class="id" title="var">minus</span> <span class="id" title="var">n</span> <span class="id" title="var">n</span> = 0.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">n</span>. <span class="id" title="tactic">induction</span> <span class="id" title="var">n</span> <span class="id" title="keyword">as</span> [| <span class="id" title="var">n&acute;</span>].<br/>
+&nbsp;&nbsp;<span class="id" title="var">Case</span> "n = 0".<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>. <span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">Case</span> "n = S n'".<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>. <span class="id" title="tactic">rewrite</span> → <span class="id" title="var">IHn&acute;</span>. <span class="id" title="tactic">reflexivity</span>. <span class="id" title="keyword">Qed</span>.<br/>
 
-Theorem plus_swap : forall n m p : nat, 
-  n + (m + p) = m + (n + p).
-Proof.
-   Admitted.
-
-<div class="paragraph"> </div>
+<br/>
+</div>
 
+<div class="doc">
+<a name="lab8"></a><h4 class="section">Exercício: ** (basic_induction)</h4>
 
 <div class="paragraph"> </div>
 
-Theorem mult_comm : forall m n : nat,
- m * n = n * m.
-Proof.
-   Admitted.
+ Prove os seguintes lemas usando indução. Você pode precisar de resultados
+    provados anteriormente. 
+</div>
+<div class="code">
 
-<div class="paragraph"> </div>
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">mult_0_r</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span>:<span class="id" title="var">nat</span>,<br/>
+&nbsp;&nbsp;<span class="id" title="var">n</span> × 0 = 0.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+ <span class="id" title="var">Admitted</span>.<br/>
 
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">plus_n_Sm</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span> : <span class="id" title="var">nat</span>, <br/>
+&nbsp;&nbsp;<span class="id" title="var">S</span> (<span class="id" title="var">n</span> + <span class="id" title="var">m</span>) = <span class="id" title="var">n</span> + (<span class="id" title="var">S</span> <span class="id" title="var">m</span>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+ <span class="id" title="var">Admitted</span>.<br/>
 
-<div class="paragraph"> </div>
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">plus_comm</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span> : <span class="id" title="var">nat</span>,<br/>
+&nbsp;&nbsp;<span class="id" title="var">n</span> + <span class="id" title="var">m</span> = <span class="id" title="var">m</span> + <span class="id" title="var">n</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+ <span class="id" title="var">Admitted</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">plus_assoc</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span> <span class="id" title="var">p</span> : <span class="id" title="var">nat</span>,<br/>
+&nbsp;&nbsp;<span class="id" title="var">n</span> + (<span class="id" title="var">m</span> + <span class="id" title="var">p</span>) = (<span class="id" title="var">n</span> + <span class="id" title="var">m</span>) + <span class="id" title="var">p</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+ <span class="id" title="var">Admitted</span>.<br/>
+</div>
 
+<div class="doc">
+<font size=-2>&#9744;</font> 
+<div class="paragraph"> </div>
+
+<a name="lab9"></a><h4 class="section">Exercício: ** (double_plus)</h4>
+
+<div class="paragraph"> </div>
+
+ Considere a seguinte função, a qual dobra seu argumento: 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Fixpoint</span> <span class="id" title="var">double</span> (<span class="id" title="var">n</span>:<span class="id" title="var">nat</span>) :=<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">match</span> <span class="id" title="var">n</span> <span class="id" title="keyword">with</span><br/>
+&nbsp;&nbsp;| <span class="id" title="var">O</span> ⇒ <span class="id" title="var">O</span><br/>
+&nbsp;&nbsp;| <span class="id" title="var">S</span> <span class="id" title="var">n&acute;</span> ⇒ <span class="id" title="var">S</span> (<span class="id" title="var">S</span> (<span class="id" title="var">double</span> <span class="id" title="var">n&acute;</span>))<br/>
+&nbsp;&nbsp;<span class="id" title="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Use indução para provar esse fato simples a respeito de <span class="inlinecode"><span class="id" title="var">double</span></span>: 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Lemma</span> <span class="id" title="var">double_plus</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span>, <span class="id" title="var">double</span> <span class="id" title="var">n</span> = <span class="id" title="var">n</span> + <span class="id" title="var">n</span> .<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+ <span class="id" title="var">Admitted</span>.<br/>
+</div>
+
+<div class="doc">
+<font size=-2>&#9744;</font> 
+<div class="paragraph"> </div>
+
+<a name="lab10"></a><h4 class="section">Exercício: 1 star (destruct_induction)</h4>
+ Explicar brevemente a diferença entre as táticas
+    <span class="inlinecode"><span class="id" title="tactic">destruct</span></span> e <span class="inlinecode"><span class="id" title="tactic">induction</span></span>.
+
+<div class="paragraph"> </div>
+
+
+<div class="paragraph"> </div>
+
+ <font size=-2>&#9744;</font> 
+<div class="paragraph"> </div>
+
+<a name="lab11"></a><h1 class="section">Provas dentro de Provas</h1>
+
+<div class="paragraph"> </div>
+
+ Em Coq, como em matemática informal, grandes provas são muito
+    frequentemente divididas em uma sequencia de teoremas, com provas posteriores
+    referindo-se à provas anteriores. Ocasionalmente, contudo, uma prova
+    vai precisar de algum fato qualquer que é tão trivial (e também
+    de pouco interesse geral) que não quer-se dar-lhe um nome dedicado
+    em nível global. Em tais casos, isto é conveniente ser capaz 
+    de enunciar e provar diretamente o "sub-teorema" necessário no ponto
+    onde é usado. A tática <span class="inlinecode"><span class="id" title="tactic">assert</span></span> permite fazer isso.  
+    Por exemplo, nossa prova anterior do teorema <span class="inlinecode"><span class="id" title="var">mult_0_plus</span></span> refere-se ao 
+    teorema anterior nomeado de <span class="inlinecode"><span class="id" title="var">plus_O_n</span></span>. Pode-se também usar <span class="inlinecode"><span class="id" title="tactic">assert</span></span> para 
+    declarar e provar <span class="inlinecode"><span class="id" title="var">plus_O_n</span></span>: 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">mult_0_plus&acute;</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span> : <span class="id" title="var">nat</span>,<br/>
+&nbsp;&nbsp;(0 + <span class="id" title="var">n</span>) × <span class="id" title="var">m</span> = <span class="id" title="var">n</span> × <span class="id" title="var">m</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">H</span>: 0 + <span class="id" title="var">n</span> = <span class="id" title="var">n</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">Case</span> "Proof of assertion". <span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> → <span class="id" title="var">H</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>. <span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A tática <span class="inlinecode"><span class="id" title="tactic">assert</span></span> introduz duas submetas. A primeira é a afirmação 
+    em si; prefixando-a com <span class="inlinecode"><span class="id" title="var">H</span>:</span>, nós passamos a chamar a afirmação 
+    de <span class="inlinecode"><span class="id" title="var">H</span></span>. (Observe que poderíamos também nomear a afirmação com 
+    <span class="inlinecode"><span class="id" title="keyword">as</span></span>, assim como fizemos anteriormente com <span class="inlinecode"><span class="id" title="tactic">destruct</span></span> e 
+    <span class="inlinecode"><span class="id" title="tactic">induction</span></span>, ou seja, <span class="inlinecode"><span class="id" title="tactic">assert</span></span> <span class="inlinecode">(0</span> <span class="inlinecode">+</span> <span class="inlinecode"><span class="id" title="var">n</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">n</span>)</span> <span class="inlinecode"><span class="id" title="keyword">as</span></span> <span class="inlinecode"><span class="id" title="var">H</span></span>. Observe 
+    também que nós marcamos a prova desta afirmação com um <span class="inlinecode"><span class="id" title="var">Case</span></span>, 
+    tanto para facilitar a leitura quanto para que, ao usar Coq 
+    interativamente, nós possamos ver quando terminarmos de provar 
+    a afirmação, observando quando a cadeira de caracteres 
+    <span class="inlinecode">&quot;<span class="id" title="keyword">Proof</span></span> <span class="inlinecode"><span class="id" title="var">of</span></span> <span class="inlinecode"><span class="id" title="var">assertion</span>&quot;</span> desaparece do contexto.) A segunda meta 
+    é a mesma que aquela no ponto em que invocamos <span class="inlinecode"><span class="id" title="tactic">assert</span></span>, exceto 
+    que, no contexto, temos a suposição <span class="inlinecode"><span class="id" title="var">H</span></span> de que <span class="inlinecode">0</span> <span class="inlinecode">+</span> <span class="inlinecode"><span class="id" title="var">n</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">n</span></span>. 
+    Ou seja, <span class="inlinecode"><span class="id" title="tactic">assert</span></span> gera uma submeta onde temos que provar o 
+    fato afirmado e uma segunda submeta onde podemos usar o fato 
+    afirmado para fazer progressos sobre o que nós estávamos 
+    tentando provar desde o início. 
+<div class="paragraph"> </div>
+
+ Na verdade, <span class="inlinecode"><span class="id" title="tactic">assert</span></span> será proveitoso em várias situações
+ diferentes. Por exemplo, suponha que queiramos provar <span class="inlinecode">(<span class="id" title="var">n</span></span> <span class="inlinecode">+</span> <span class="inlinecode"><span class="id" title="var">m</span>)</span> <span class="inlinecode">+</span> <span class="inlinecode">(<span class="id" title="var">p</span></span> <span class="inlinecode">+</span>
+ <span class="inlinecode"><span class="id" title="var">q</span>)</span> <span class="inlinecode">=</span> <span class="inlinecode">(<span class="id" title="var">m</span></span> <span class="inlinecode">+</span> <span class="inlinecode"><span class="id" title="var">n</span>)</span> <span class="inlinecode">+</span> <span class="inlinecode">(<span class="id" title="var">p</span></span> <span class="inlinecode">+</span> <span class="inlinecode"><span class="id" title="var">q</span>)</span>. A única diferença entre os dois lados de <span class="inlinecode">=</span>
+ é que os argumentos <span class="inlinecode"><span class="id" title="var">m</span></span> e <span class="inlinecode"><span class="id" title="var">n</span></span> no primeiro parênteses estão
+ trocados. Desta forma, podemos usar, aparentemente, a 
+ comutatividade da adição (<span class="inlinecode"><span class="id" title="var">plus_comm</span></span>) para reescrever um dos termos,
+ torando ambos iguais. Porém, a tática <span class="inlinecode"><span class="id" title="tactic">rewrite</span></span> é um pouco estúpida
+ com relação a <i>onde</i> ele deve aplicar a reescrita. Há três usos
+ de <span class="inlinecode">+</span> aqui, e a execução de <span class="inlinecode"><span class="id" title="tactic">rewrite</span></span> <span class="inlinecode">→</span> <span class="inlinecode"><span class="id" title="var">plus_comm</span></span> irá
+ afetar apenas a soma mais <i>externa</i>. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">plus_rearrange_firsttry</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span> <span class="id" title="var">p</span> <span class="id" title="var">q</span> : <span class="id" title="var">nat</span>,<br/>
+&nbsp;&nbsp;(<span class="id" title="var">n</span> + <span class="id" title="var">m</span>) + (<span class="id" title="var">p</span> + <span class="id" title="var">q</span>) = (<span class="id" title="var">m</span> + <span class="id" title="var">n</span>) + (<span class="id" title="var">p</span> + <span class="id" title="var">q</span>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span> <span class="id" title="var">p</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> → <span class="id" title="var">plus_comm</span>.<br/>
+<span class="id" title="keyword">Abort</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Para conseguir aplicar <span class="inlinecode"><span class="id" title="var">plus_comm</span></span> no ponto onde queremos, podemos
+    introduzir um lema local afirmando que <span class="inlinecode"><span class="id" title="var">n</span></span> <span class="inlinecode">+</span> <span class="inlinecode"><span class="id" title="var">m</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">m</span></span> <span class="inlinecode">+</span> <span class="inlinecode"><span class="id" title="var">n</span></span> (para os específicos <span class="inlinecode"><span class="id" title="var">m</span></span>
+    e <span class="inlinecode"><span class="id" title="var">n</span></span> dos quais falamos aqui), provar este lema usando <span class="inlinecode"><span class="id" title="var">plus_comm</span></span> e, então,
+    usar este lema para fazer a reescrita desejada. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">plus_rearrange</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span> <span class="id" title="var">p</span> <span class="id" title="var">q</span> : <span class="id" title="var">nat</span>,<br/>
+&nbsp;&nbsp;(<span class="id" title="var">n</span> + <span class="id" title="var">m</span>) + (<span class="id" title="var">p</span> + <span class="id" title="var">q</span>) = (<span class="id" title="var">m</span> + <span class="id" title="var">n</span>) + (<span class="id" title="var">p</span> + <span class="id" title="var">q</span>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span> <span class="id" title="var">p</span> <span class="id" title="var">q</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">assert</span> (<span class="id" title="var">H</span>: <span class="id" title="var">n</span> + <span class="id" title="var">m</span> = <span class="id" title="var">m</span> + <span class="id" title="var">n</span>).<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">Case</span> "Proof of assertion".<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> → <span class="id" title="var">plus_comm</span>. <span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">rewrite</span> → <span class="id" title="var">H</span>. <span class="id" title="tactic">reflexivity</span>. <span class="id" title="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab12"></a><h4 class="section">Exercício: **** (mult_comm)</h4>
+ Use <span class="inlinecode"><span class="id" title="tactic">assert</span></span> para ajudar a provar esse teorema. Você não deve precisar
+    usar indução. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">plus_swap</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span> <span class="id" title="var">p</span> : <span class="id" title="var">nat</span>, <br/>
+&nbsp;&nbsp;<span class="id" title="var">n</span> + (<span class="id" title="var">m</span> + <span class="id" title="var">p</span>) = <span class="id" title="var">m</span> + (<span class="id" title="var">n</span> + <span class="id" title="var">p</span>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+ <span class="id" title="var">Admitted</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Agora prove a comutatividade da multiplicação. (você provavelmente
+    precisará definir e provar um teorema auxiliar separado para ser 
+    usado nessa prova.) Você pode achar útil o teorema <span class="inlinecode"><span class="id" title="var">plus_swap</span></span>. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">mult_comm</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">m</span> <span class="id" title="var">n</span> : <span class="id" title="var">nat</span>,<br/>
+&nbsp;<span class="id" title="var">m</span> × <span class="id" title="var">n</span> = <span class="id" title="var">n</span> × <span class="id" title="var">m</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+ <span class="id" title="var">Admitted</span>.<br/>
+</div>
+
+<div class="doc">
+<font size=-2>&#9744;</font> 
+<div class="paragraph"> </div>
+
+<a name="lab13"></a><h4 class="section">Exercício: **, opcional (evenb_n__oddb_Sn)</h4>
+
+<div class="paragraph"> </div>
+
+ Provar o simples fato a seguir: 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">evenb_n__oddb_Sn</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span> : <span class="id" title="var">nat</span>,<br/>
+&nbsp;&nbsp;<span class="id" title="var">evenb</span> <span class="id" title="var">n</span> = <span class="id" title="var">negb</span> (<span class="id" title="var">evenb</span> (<span class="id" title="var">S</span> <span class="id" title="var">n</span>)).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+ <span class="id" title="var">Admitted</span>.<br/>
+</div>
+
+<div class="doc">
+<font size=-2>&#9744;</font> 
+<div class="paragraph"> </div>
+
+<a name="lab14"></a><h1 class="section">Mais Exercícios</h1>
+
+<div class="paragraph"> </div>
+
+<a name="lab15"></a><h4 class="section">Exercício: ***, opcional (more_exercises)</h4>
+ Pegar uma folha branca.  Para cada teorema a seguir, primeiro
+    <i>pensar</i> se (a) pode ser provado utilizando somente
+    simplificações e reescritas, ou (b) é também necessário uma análise
+    de caso (<span class="inlinecode"><span class="id" title="tactic">destruct</span></span>), ou (c) é também necessário indução.  Escrever
+    sua previsão.  Então preencher a prova.  (Não há necessidade
+    de entregar a sua folha; isto é somente para encorajar você a 
+    refletir antes de resolver a base de tentativa e erro!) 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">ble_nat_refl</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span>:<span class="id" title="var">nat</span>,<br/>
+&nbsp;&nbsp;<span class="id" title="var">true</span> = <span class="id" title="var">ble_nat</span> <span class="id" title="var">n</span> <span class="id" title="var">n</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+ <span class="id" title="var">Admitted</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">zero_nbeq_S</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span>:<span class="id" title="var">nat</span>,<br/>
+&nbsp;&nbsp;<span class="id" title="var">beq_nat</span> 0 (<span class="id" title="var">S</span> <span class="id" title="var">n</span>) = <span class="id" title="var">false</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+ <span class="id" title="var">Admitted</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">andb_false_r</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">b</span> : <span class="id" title="var">bool</span>,<br/>
+&nbsp;&nbsp;<span class="id" title="var">andb</span> <span class="id" title="var">b</span> <span class="id" title="var">false</span> = <span class="id" title="var">false</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+ <span class="id" title="var">Admitted</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">plus_ble_compat_l</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span> <span class="id" title="var">p</span> : <span class="id" title="var">nat</span>, <br/>
+&nbsp;&nbsp;<span class="id" title="var">ble_nat</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span> = <span class="id" title="var">true</span> → <span class="id" title="var">ble_nat</span> (<span class="id" title="var">p</span> + <span class="id" title="var">n</span>) (<span class="id" title="var">p</span> + <span class="id" title="var">m</span>) = <span class="id" title="var">true</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+ <span class="id" title="var">Admitted</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">S_nbeq_0</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span>:<span class="id" title="var">nat</span>,<br/>
+&nbsp;&nbsp;<span class="id" title="var">beq_nat</span> (<span class="id" title="var">S</span> <span class="id" title="var">n</span>) 0 = <span class="id" title="var">false</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+ <span class="id" title="var">Admitted</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">mult_1_l</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span>:<span class="id" title="var">nat</span>, 1 × <span class="id" title="var">n</span> = <span class="id" title="var">n</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+ <span class="id" title="var">Admitted</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">all3_spec</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">b</span> <span class="id" title="var">c</span> : <span class="id" title="var">bool</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="var">orb</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">andb</span> <span class="id" title="var">b</span> <span class="id" title="var">c</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">orb</span> (<span class="id" title="var">negb</span> <span class="id" title="var">b</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" title="var">negb</span> <span class="id" title="var">c</span>))<br/>
+&nbsp;&nbsp;= <span class="id" title="var">true</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+ <span class="id" title="var">Admitted</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">mult_plus_distr_r</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span> <span class="id" title="var">p</span> : <span class="id" title="var">nat</span>,<br/>
+&nbsp;&nbsp;(<span class="id" title="var">n</span> + <span class="id" title="var">m</span>) × <span class="id" title="var">p</span> = (<span class="id" title="var">n</span> × <span class="id" title="var">p</span>) + (<span class="id" title="var">m</span> × <span class="id" title="var">p</span>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+ <span class="id" title="var">Admitted</span>.<br/>
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">mult_assoc</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span> <span class="id" title="var">p</span> : <span class="id" title="var">nat</span>,<br/>
+&nbsp;&nbsp;<span class="id" title="var">n</span> × (<span class="id" title="var">m</span> × <span class="id" title="var">p</span>) = (<span class="id" title="var">n</span> × <span class="id" title="var">m</span>) × <span class="id" title="var">p</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+ <span class="id" title="var">Admitted</span>.<br/>
+</div>
+
+<div class="doc">
+<font size=-2>&#9744;</font> 
+<div class="paragraph"> </div>
+
+<a name="lab16"></a><h4 class="section">Exercício: **, opcional (beq_nat_refl)</h4>
+ Prove o seguinte teorema.  Colocar <span class="inlinecode"><span class="id" title="var">true</span></span> (<i>verdadeiro</i>) no lado esquerdo
+da igualdade pode parecer estranho, mas isso é a forma como o teorema é 
+declarado na biblioteca padrão, então segue-se este modelo. Como a
+reescrita funciona igualmente bem em qualquer direção, não haverá
+dificuldades em usar o teorema, independentemente de como foi enunciado. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">beq_nat_refl</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span> : <span class="id" title="var">nat</span>, <br/>
+&nbsp;&nbsp;<span class="id" title="var">true</span> = <span class="id" title="var">beq_nat</span> <span class="id" title="var">n</span> <span class="id" title="var">n</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+ <span class="id" title="var">Admitted</span>.<br/>
+</div>
+
+<div class="doc">
+<font size=-2>&#9744;</font> 
+<div class="paragraph"> </div>
+
+<a name="lab17"></a><h4 class="section">Exercício: **, opcional (plus_swap')</h4>
+ A tática <span class="inlinecode"><span class="id" title="tactic">replace</span></span> permite que você especifique um subtermo em
+    particular para reescrever e para o que você quer que ele seja reescrito. 
+    Mais precisamente, <span class="inlinecode"><span class="id" title="var">substituir</span></span> <span class="inlinecode">(<span class="id" title="var">t</span>)</span> <span class="inlinecode"><span class="id" title="var">com</span></span> <span class="inlinecode">(<span class="id" title="var">u</span>)</span> substitui (todas as cópias de) 
+    expressões <span class="inlinecode"><span class="id" title="var">t</span></span>, na meta, pela expressão <span class="inlinecode"><span class="id" title="var">u</span></span>, e gera <span class="inlinecode"><span class="id" title="var">t</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">u</span></span> como uma
+    submeta adicional. Isso é frequentemente útil quando um simples <span class="inlinecode"><span class="id" title="tactic">rewrite</span></span> 
+    atua sobre a parte errada da meta.
 
 <div class="paragraph"> </div>
 
-Theorem evenb_n__oddb_Sn : forall n : nat,
-  evenb n = negb (evenb (S n)).
-Proof.
-   Admitted.
+    Use a tática <span class="inlinecode"><span class="id" title="tactic">replace</span></span> para fazer uma prova de <span class="inlinecode"><span class="id" title="var">plus_swap&acute;</span></span>, tal como 
+    <span class="inlinecode"><span class="id" title="var">plus_swap</span></span>, mas sem a necessidade de fazer um <span class="inlinecode"><span class="id" title="tactic">assert</span></span> <span class="inlinecode">(<span class="id" title="var">n</span></span> <span class="inlinecode">+</span> <span class="inlinecode"><span class="id" title="var">m</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">m</span></span> <span class="inlinecode">+</span> <span class="inlinecode"><span class="id" title="var">n</span>)</span>.
 
-<div class="paragraph"> </div>
+</div>
+<div class="code">
 
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">plus_swap&acute;</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span> <span class="id" title="var">p</span> : <span class="id" title="var">nat</span>, <br/>
+&nbsp;&nbsp;<span class="id" title="var">n</span> + (<span class="id" title="var">m</span> + <span class="id" title="var">p</span>) = <span class="id" title="var">m</span> + (<span class="id" title="var">n</span> + <span class="id" title="var">p</span>).<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+ <span class="id" title="var">Admitted</span>.<br/>
+</div>
 
+<div class="doc">
+<font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
+<a name="lab18"></a><h4 class="section">Exercício: *** (binary_commute)</h4>
 
 <div class="paragraph"> </div>
 
-Theorem ble_nat_refl : forall n:nat,
-  true = ble_nat n n.
-Proof.
-   Admitted.
+ Relembre as funções <span class="inlinecode"><span class="id" title="var">increment</span></span> e <span class="inlinecode"><span class="id" title="var">binary</span>-<span class="id" title="var">to</span>-<span class="id" title="var">unary</span></span> que você
+ escreveu para o exercício <span class="inlinecode"><span class="id" title="var">binary</span></span> no capítulo <span class="inlinecode"><span class="id" title="var">Basics</span></span>. Prove que
+ estas funções comutam -- isto é, incrementar um número binário e
+ convertê-lo para unário possui o mesmo resultado que convertê-lo
+ primeiro para binário e depois incrementá-lo. Nomeie seu teorema como
+ <span class="inlinecode"><span class="id" title="var">bin_to_nat_press_incr</span></span>. 
 
 <div class="paragraph"> </div>
 
-Theorem zero_nbeq_S : forall n:nat,
-  beq_nat 0 (S n) = false.
-Proof.
-   Admitted.
+  (Antes de começar a trabalhar neste exercício, por favor, copie as
+  definições de sua solução para o exercício <span class="inlinecode"><span class="id" title="var">binary</span></span> daqui para que
+  este arquivo esteja completo por si só. Se você deseja mudar alguma
+  definição original para tornar a propriedade mais fácil de ser
+  provada, sinta-se livre para realizá-la.) 
+</div>
+<div class="code">
+
+<br/>
+</div>
 
+<div class="doc">
+<font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
-Theorem andb_false_r : forall b : bool,
-  andb b false = false.
-Proof.
-   Admitted.
+<a name="lab19"></a><h4 class="section">Exercício: *****, avançado (binary_inverse)</h4>
+ <span class="inlinecode"><span class="id" title="var">Cláudia</span></span> This exercise is a continuation of the previous exercise about
+    binary numbers.  You will need your definitions and theorems from
+    the previous exercise to complete this one.
 
 <div class="paragraph"> </div>
 
-Theorem plus_ble_compat_l : forall n m p : nat, 
-  ble_nat n m = true -&gt; ble_nat (p + n) (p + m) = true.
-Proof.
-   Admitted.
+    (a) Primeiramente, escreva uma função para converter números naturais para 
+        números binários. Então prove que começando com qualquer número natural,
+        convertendo para binário, e então convertendo de volta resulta no 
+        número natural inicial.
 
 <div class="paragraph"> </div>
 
-Theorem S_nbeq_0 : forall n:nat,
-  beq_nat (S n) 0 = false.
-Proof.
-   Admitted.
+    (b) Você naturalmente deve pensar que nós deveriamos também provar a
+        direção oposta: a de que começando com um número binário,
+        convertendo para um número natural, e então voltando para um número binário
+        teriamos o mesmo número que começamos.  Entretanto, isso não é verdade!
+        Explique qual é o problema.
 
 <div class="paragraph"> </div>
 
-Theorem mult_1_l : forall n:nat, 1 * n = n.
-Proof.
-   Admitted.
+    (c) Defina uma função de normalização "direta" -- por exemplo, uma função
+        <span class="inlinecode"><span class="id" title="var">normalize</span></span> de número binários para números binários tal que,
+        para qualquer número binário b, convertendo para um natural e então
+        de volta para binário resulte em <span class="inlinecode">(<span class="id" title="var">normalize</span></span> <span class="inlinecode"><span class="id" title="var">b</span>)</span>.  Prove.  (Atenção: 
+	está parte é complicada!)
 
 <div class="paragraph"> </div>
 
-Theorem all3_spec : forall b c : bool,
-    orb
-      (andb b c)
-      (orb (negb b)
-               (negb c))
-  = true.
-Proof.
-   Admitted.
+    Novamente, sinta-se livre para mudar as definições anteriores se isso ajudar
+    aqui. 
 
-<div class="paragraph"> </div>
+</div>
+<div class="code">
 
-Theorem mult_plus_distr_r : forall n m p : nat,
-  (n + m) * p = (n * p) + (m * p).
-Proof.
-   Admitted.
-
-<div class="paragraph"> </div>
+<br/>
+</div>
 
-Theorem mult_assoc : forall n m p : nat,
-  n * (m * p) = (n * m) * p.
-Proof.
-   Admitted.
+<div class="doc">
+<font size=-2>&#9744;</font> 
+</div>
+<div class="code">
 
-<div class="paragraph"> </div>
+<br/>
+</div>
 
+<div class="doc">
+<a name="lab20"></a><h1 class="section">Prova Formal e Prova Informal (Avançado)</h1>
 
 <div class="paragraph"> </div>
 
-Theorem beq_nat_refl : forall n : nat, 
-  true = beq_nat n n.
-Proof.
-   Admitted.
-
+ "Provas informais são algoritmos; provas formais são código." 
 <div class="paragraph"> </div>
 
+ A questão sobre o que, exatamente, constitui uma "prova" de uma 
+    alegação matemática tem desafiado os filósofos há milênios. Uma 
+    definição curta e grossa, no entanto, poderia ser esta: uma prova 
+    de uma proposição matemática <span class="inlinecode"><span class="id" title="var">P</span></span> é um texto escrito (ou falado) 
+    que inspira no leitor ou ouvinte a certeza de que <span class="inlinecode"><span class="id" title="var">P</span></span> é verdade. 
+    Ou seja, uma prova é um ato de comunicação.
 
 <div class="paragraph"> </div>
 
-Theorem plus_swap' : forall n m p : nat, 
-  n + (m + p) = m + (n + p).
-Proof.
-   Admitted.
+    Agora, os atos de comunicação podem envolver diferentes tipos de
+    leitores. De um lado, o "leitor" pode ser um programa como o Coq, em
+    que, no caso, a "crença" transmitida é uma simples verificação
+    mecânica de que <span class="inlinecode"><span class="id" title="var">P</span></span> pode ser derivada a partir de um conjunto de
+    regras lógicas formais, e a prova é uma receita que guia o programa
+    em sua verificação. Estas receitas são as provas <i>formais</i>.
 
 <div class="paragraph"> </div>
-
 
-<div class="paragraph"> </div>
+    Além disso, o leitor pode ser um ser humano e, nesse caso, a prova será
+    escrita em português ou em alguma outra linguagem natural, portanto,
+    necessariamente <i>informal</i>. Aqui, os critérios para o sucesso são
+    especificados com menos clareza. Uma "boa" prova é aquela que faz o leitor
+    acreditar em <span class="inlinecode"><span class="id" title="var">P</span></span>. Mas, a mesma prova pode ser lida por muitos leitores
+    diferentes, alguns deles podem ser convencidos por uma determinada forma
+    de frasear o argumento, enquanto outros podem não ser. Um leitor pode ser
+    particularmente minucioso, inexperiente ou, simplesmente, teimoso; a única
+    maneira de convencê-los será fazer o argumento nos mínimos detalhes. Mas,
+    outros leitores, mais familiarizados com a área, podem achar todos esses
+    detalhes tão sufocantes que perdem o traço principal. Tudo que eles querem
+    é conhecer as ideais principais, porque é mais fácil preenchê-las
+    sozinhos. Enfim, não existe um padrão universal, porque não há uma maneira
+    única de escrever uma prova informal que garanta o convencimento de todos
+    os prováveis leitores. Na prática, no entanto, matemáticos desenvolveram
+    um rico conjunto de convenções e expressões idiomáticas para escrever
+    sobre objetos matemáticos complexos que, dentro de uma determinada
+    comunidade, tornam a comunicação bastante confiável. As convenções dessa
+    forma estilizada de comunicação fornecem um padrão bastante claro para
+    julgar provas boas ou ruins.
 
- 
 <div class="paragraph"> </div>
 
-
+    Como estamos utilizando Coq nesse curso, nós iremos trabalhar
+    exaustivamente com provas formais. Mas isto não significa que podemos ignorar
+    as provas informais! Provas formais são úteis em vários aspectos, mas
+    elas <i>não</i> são um meio muito eficiente para comunicar ideias entre
+    seres humanos. 
 <div class="paragraph"> </div>
 
+ Por exemplo, aqui está uma prova de que a adição é associativa: 
+</div>
+<div class="code">
 
-<div class="paragraph"> </div>
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">plus_assoc&acute;</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span> <span class="id" title="var">p</span> : <span class="id" title="var">nat</span>,<br/>
+&nbsp;&nbsp;<span class="id" title="var">n</span> + (<span class="id" title="var">m</span> + <span class="id" title="var">p</span>) = (<span class="id" title="var">n</span> + <span class="id" title="var">m</span>) + <span class="id" title="var">p</span>.<br/>
+<span class="id" title="keyword">Proof</span>. <span class="id" title="tactic">intros</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span> <span class="id" title="var">p</span>. <span class="id" title="tactic">induction</span> <span class="id" title="var">n</span> <span class="id" title="keyword">as</span> [| <span class="id" title="var">n&acute;</span>]. <span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>. <span class="id" title="tactic">rewrite</span> → <span class="id" title="var">IHn&acute;</span>. <span class="id" title="tactic">reflexivity</span>. <span class="id" title="keyword">Qed</span>.<br/>
 
+<br/>
+</div>
 
+<div class="doc">
+Coq está perfeitamente feliz com isso como prova. Para um humano,
+    contudo, isto é difícil fazer muito sentido. Se você esta acostumado com 
+    Coq, você pode provavelmente passar os passos um após o outro em sua mente
+    e imaginar o estado do contexto e a pilha de metas em cada ponto,
+    mas se a prova estivesse mesmo um pouco mais complicada, isso seria quase
+    impossível.  Em vez, um matemático pode escreve esta prova da seguinte
+    forma: 
 <div class="paragraph"> </div>
 
+<ul class="doclist">
+<li> <i>Theorem</i>: For any <span class="inlinecode"><span class="id" title="var">n</span></span>, <span class="inlinecode"><span class="id" title="var">m</span></span> and <span class="inlinecode"><span class="id" title="var">p</span></span>,
+      n + (m + p) = (n + m) + p.
+    <i>Prova</i>: Por indução em <span class="inlinecode"><span class="id" title="var">n</span></span>.
 
 <div class="paragraph"> </div>
 
+<ul class="doclist">
+<li> Primeiro, suponha <span class="inlinecode"><span class="id" title="var">n</span></span> <span class="inlinecode">=</span> <span class="inlinecode">0</span>.  Nós devemos mostrar 
+        0 + (m + p) = (0 + m) + p.  
+      Isso segue diretamente da definição de <span class="inlinecode">+</span>.
 
 <div class="paragraph"> </div>
 
 
-<div class="paragraph"> </div>
+</li>
+<li> próximo, suponha <span class="inlinecode"><span class="id" title="var">n</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">S</span></span> <span class="inlinecode"><span class="id" title="var">n&acute;</span></span>, onde
+        n' + (m + p) = (n' + m) + p.
+      Nós devemos mostrar
+        (S n') + (m + p) = ((S n') + m) + p.
+      Pela definição de <span class="inlinecode">+</span>, isso segue de
+        S (n' + (m + p)) = S ((n' + m) + p),
+      ao qual é imediato pela hipótese de indução. 
+</li>
+</ul>
 
-
+</li>
+</ul>
+ <i>Qed</i> 
 <div class="paragraph"> </div>
-
-Theorem plus_assoc' : forall n m p : nat,
-  n + (m + p) = (n + m) + p.
-Proof. intros n m p. induction n as <span class="inlinecode">|</span> <span class="inlinecode"><span class="id" title="var">n&acute;</span></span>. reflexivity. 
-  simpl. rewrite -&gt; IHn'. reflexivity.  Qed.
 
+ A forma geral da prova é basicamente similar. Isso não é por acaso: 
+    Coq foi concebido de modo que a sua tática de <span class="inlinecode"><span class="id" title="tactic">induction</span></span> gera as 
+    mesmas submetas, na mesma ordem, como os pontos de linha que um 
+    matemático iria escrever. Mas existem diferenças significativas de 
+    detalhes: a prova formal é muito mais explícita em alguns aspectos 
+    (por exemplo, o uso de <span class="inlinecode"><span class="id" title="tactic">reflexivity</span></span>), mas muito menos explícita 
+    em outros (em particular, o "estado da prova" em qualquer ponto na
+    prova do Coq é completamente implícita, enquanto a prova informal 
+    lembra ao leitor várias vezes onde as coisas estão). 
 <div class="paragraph"> </div>
 
+ Aqui está uma prova formal que mostra a estrutura de forma mais
+ clara: 
+</div>
+<div class="code">
 
-<div class="paragraph"> </div>
+<br/>
+<span class="id" title="keyword">Theorem</span> <span class="id" title="var">plus_assoc&acute;&acute;</span> : <span class="id" title="keyword">∀</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span> <span class="id" title="var">p</span> : <span class="id" title="var">nat</span>,<br/>
+&nbsp;&nbsp;<span class="id" title="var">n</span> + (<span class="id" title="var">m</span> + <span class="id" title="var">p</span>) = (<span class="id" title="var">n</span> + <span class="id" title="var">m</span>) + <span class="id" title="var">p</span>.<br/>
+<span class="id" title="keyword">Proof</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="tactic">intros</span> <span class="id" title="var">n</span> <span class="id" title="var">m</span> <span class="id" title="var">p</span>. <span class="id" title="tactic">induction</span> <span class="id" title="var">n</span> <span class="id" title="keyword">as</span> [| <span class="id" title="var">n&acute;</span>].<br/>
+&nbsp;&nbsp;<span class="id" title="var">Case</span> "n = 0".<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">reflexivity</span>.<br/>
+&nbsp;&nbsp;<span class="id" title="var">Case</span> "n = S n'".<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" title="tactic">simpl</span>. <span class="id" title="tactic">rewrite</span> → <span class="id" title="var">IHn&acute;</span>. <span class="id" title="tactic">reflexivity</span>. <span class="id" title="keyword">Qed</span>.<br/>
 
+<br/>
+</div>
 
+<div class="doc">
+<a name="lab21"></a><h4 class="section">Exercício: **, avançado (plus_comm_informal)</h4>
+ Traduza sua a sua solução de <span class="inlinecode"><span class="id" title="var">plus_comm</span></span> para uma prova informal. 
 <div class="paragraph"> </div>
 
+ Teorema: Adição é comutativa.
 
 <div class="paragraph"> </div>
 
-Theorem plus_assoc'' : forall n m p : nat,
-  n + (m + p) = (n + m) + p.
-Proof.
-  intros n m p. induction n as <span class="inlinecode">|</span> <span class="inlinecode"><span class="id" title="var">n&acute;</span></span>. 
-  Case "n = 0".
-    reflexivity. 
-  Case "n = S n'".
-    simpl. rewrite -&gt; IHn'. reflexivity.   Qed.
-
+    Proof:  <font size=-2>&#9744;</font> 
 <div class="paragraph"> </div>
 
+<a name="lab22"></a><h4 class="section">Exercício: **, opcional (beq_nat_refl_informal)</h4>
+ Escreva uma prova informal para o seguinte teorema, usando a prova
+ informal para <span class="inlinecode"><span class="id" title="var">plus_assoc</span></span> como modelo. Não reescreva simplesmente as
+ táticas do Coq em inglês!
 
 <div class="paragraph"> </div>
 
+    Theorem: <span class="inlinecode"><span class="id" title="var">true</span></span> <span class="inlinecode">=</span> <span class="inlinecode"><span class="id" title="var">beq_nat</span></span> <span class="inlinecode"><span class="id" title="var">n</span></span> <span class="inlinecode"><span class="id" title="var">n</span></span> for any <span class="inlinecode"><span class="id" title="var">n</span></span>.
 
 <div class="paragraph"> </div>
-
 
+    Proof: <font size=-2>&#9744;</font> 
 </div>
 <div class="code">
 </div>
