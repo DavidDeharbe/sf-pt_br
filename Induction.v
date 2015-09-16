@@ -111,21 +111,21 @@ Proof.
 (** [] *)
 
 (** Não existem regras rígidas e rápidas para como as provas devem ser
- formatadas no Coq -- em particular, sobre onde as linhas devem ser
- quebradas e como seções da prova deveriam ser indentadas para indicar
- suas estruturas aninhadas. Porém, se os lugares onde múltiplas metas
- são geradas estão marcadas com táticas [Case] explícitas no início
- das linhas, então a prova será legível independentemente de quais escolhas
- foram feitas sobre outros aspectos do layout.
+    formatadas no Coq -- em particular, sobre onde as linhas devem ser
+    quebradas e como seções da prova deveriam ser indentadas para indicar
+    suas estruturas aninhadas. Porém, se os lugares onde múltiplas metas
+    são geradas estão marcadas com táticas [Case] explícitas no início
+    das linhas, então a prova será legível independentemente de quais escolhas
+    foram feitas sobre outros aspectos do layout. *)
 
-      Este é um bom lugar para mencionar um outro (possivelmente óbvio) conselho
-      sobre comprimentos de linha. Usuários iniciantes em Coq às vezes tendem
-      aos extremos, seja escrevendo cada tática em uma nova linha ou provas
-      inteiras em uma linha. Um bom estilo encontra-se entre os dois extremos.
-      Em particular, uma convenção razoável é limitar-se a linhas de 80
-      caracteres. Linhas com mais do que isso são difíceis de ler e podem ser
-      inconvenientes para exibir e imprimir. Muitos editores têm recursos que
-      ajudam a cumprir isso.*)
+(** Este é um bom lugar para mencionar um outro (possivelmente óbvio) conselho
+    sobre comprimentos de linha. Usuários iniciantes em Coq às vezes tendem
+    aos extremos, seja escrevendo cada tática em uma nova linha ou provas
+    inteiras em uma linha. Um bom estilo encontra-se entre os dois extremos.
+    Em particular, uma convenção razoável é limitar-se a linhas de 80
+    caracteres. Linhas com mais do que isso são difíceis de ler e podem ser
+    inconvenientes para exibir e imprimir. Muitos editores têm recursos que
+    ajudam a cumprir isso.*)
 
 (** * Prova por Indução *)
 
