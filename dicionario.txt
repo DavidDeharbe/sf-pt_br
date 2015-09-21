@@ -7,6 +7,7 @@ cartesian product: produto cartesiano
 case analysis: análise de casos
 (to) check: verificar
 checker: verificador
+Church numerals:
 correctness: corretude
 (to) decrease: decair (no contexto de funções definidas por recursão)
 (to) evaluate: calcular o valor
