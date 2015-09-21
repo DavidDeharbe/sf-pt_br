@@ -22,6 +22,7 @@ linker: linkeditor
 machine-checked: verificado por máquina
 namespace: contexto para identificadores
 notation-symbol: símbolo de notação
+overriding: 
 pattern matching: casamento de padrões
 pedantic: minucioso(a)
 pretty printer: formatador de código
@@ -34,4 +35,5 @@ static type system: sistema de tipagem estática
 string(s): cadeia de caracteres
 tail: cauda
 (to) type: tipar
+unexpand :
 wildcard: coringa
