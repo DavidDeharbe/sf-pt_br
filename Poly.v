@@ -1,10 +1,9 @@
 (** * Poly: Polymorphism and Higher-Order Functions *)
 
-(** [Claudia] In this chapter we continue our development of basic 
-    concepts of functional programming.  The critical new ideas are
-    _polymorphism_ (abstracting functions over the types of the data
-    they manipulate) and _higher-order functions_ (treating functions
-    as data).
+(** Neste capítulo, continuaremos nosso desenvolvimento de conceitos básicos de
+    programação funcional. as novas ideias cruciais são _polimorfismo_ (abstraindo
+    funções sobre os tipos de dados elas manipulam) e funções de ordem superior_
+    (considerando funções como dados).
 *)
 
 Require Export Lists.   
@@ -58,11 +57,10 @@ Inductive list (X:Type) : Type :=
     the type [list X] is an [Inductive]ly defined set of lists whose
     elements are things of type [X]. *)
 
-(** [Claudia] With this definition, when we use the constructors [nil] and
-    [cons] to build lists, we need to tell Coq the type of the
-    elements in the lists we are building -- that is, [nil] and [cons]
-    are now _polymorphic constructors_.  Observe the types of these
-    constructors: *)
+(** Com esta definição, quando usamos os construtores [nil] e [cons] para
+    construir listas, precisamos dizer ao Coq qual é o tipo dos elementos nas listas
+    que estamos construindo -- isto é, [nil] e [cons] agora são _construtores
+    polimórficos_. Observe os tipos destes construtores:
 
 Check nil.
 (* ===> nil : forall X : Type, list X *)
@@ -107,8 +105,8 @@ Example test_length1 :
     length nat (cons nat 1 (cons nat 2 (nil nat))) = 2.
 Proof. reflexivity.  Qed.
 
-(** [Claudia] To use our length with other kinds of lists, we simply
-    instantiate it with an appropriate type parameter: *)
+(** Para usar nossa função [length] com outros tipos de listas, basta
+    instanciá-la com um parâmetro de tipo apropriado: *)
 
 Example test_length2 :
     length bool (cons bool true (nil bool)) = 1.
@@ -192,9 +190,9 @@ End MumbleBaz.
 (* ###################################################### *)
 (** *** Type Annotation Inference *)
 
-(** [Claudia] Let's write the definition of [app] again, but this time we won't
-    specify the types of any of the arguments. Will Coq still accept
-    it? *)
+(** Vamos escrever a definição de [app] novamente, mas, desta vez, não
+    especificaremos os tipos de nenhum dos argumentos. Será que Coq ainda vai
+    aceitar isto? *)
 
 Fixpoint app' X l1 l2 : list X :=
   match l1 with
@@ -247,15 +245,13 @@ Check app.
     application appears -- to determine what concrete type should
     replace the [_].
 
-    [Claudia] This may sound similar to type annotation inference -- and,
-    indeed, the two procedures rely on the same underlying mechanisms.
-    Instead of simply omitting the types of some arguments to a
-    function, like
+    Isto pode parecer semelhante à inferência de anotação de tipo -- e os
+    métodos baseiam-se, de fato, nos mesmos mecanismos subjacentes. Ao invés de
+    simplesmente omitir os tipos de alguns argumentos para um função, como em
       app' X l1 l2 : list X :=
-    we can also replace the types with [_], like
+    podemos também substituir os tipos por [_], como em
       app' (X : _) (l1 l2 : _) : list X :=
-    which tells Coq to attempt to infer the missing information, just
-    as with argument synthesis.
+    que pede ao Coq para tentar inferir a informação em falta apenas analisando os argumentos.
 
     [Dalay] Using implicit arguments, the [length] function can be written
     like this: *)
@@ -312,11 +308,10 @@ Fixpoint length'' {X:Type} (l:list X) : nat :=
   | cons h t => S (length'' t)
   end.
 
-(** [Claudia] (Note that we didn't even have to provide a type argument to
-    the recursive call to [length'']; indeed, it is invalid to provide
-    one.)  We will use this style whenever possible, although we will
-    continue to use use explicit [Argument] declarations for
-    [Inductive] constructors. *)
+(** Note que nem sequer temos que fornecer um argumento de tipo para a chamada
+    recursiva de [length'']; na verdade, é até inválido fornecer um.) Vamos usar
+    este estilo sempre que possível, mas vamos continuar a usar declarações
+    [Argument] explícitas para construtores [Inductive] *)
 
 (** *** *)
 
@@ -365,9 +360,9 @@ Definition list123''' := [1; 2; 3].
 (** *** Exercises: Polymorphic Lists *)
 
 (** **** Exercise: 2 stars, optional (poly_exercises)  *)
-(** [Claudia] Here are a few simple exercises, just like ones in the [Lists]
-    chapter, for practice with polymorphism.  Fill in the definitions
-    and complete the proofs below. *)
+(** Temos aqui alguns exercícios simples, como aqueles do capítulo [Listas],
+    para praticar o uso de polimorfismo. Preencha as definições e complete as
+    provas abaixo.*)
 
 Fixpoint repeat {X : Type} (n : X) (count : nat) : list X :=
   (* FILL IN HERE *) admit.
@@ -434,8 +429,8 @@ Notation "X * Y" := (prod X Y) : type_scope.
     [x] has type [X] and [y] has type [Y], then [(x,y)] has type
     [X*Y]. *)
 
-(** [Claudia] The first and second projection functions now look pretty
-    much as they would in any functional programming language. *)
+(** Agora a primeira e a segunda função de projeção se parecem muito com o que
+    seriam em qualquer linguagem de programação funcional. *)
 
 Definition fst {X Y : Type} (p : X * Y) : X :=
   match p with (x,y) => x end.
@@ -490,9 +485,8 @@ Proof.
 (* ###################################################### *)
 (** ** Polymorphic Options *)
 
-(** [Claudia] One last polymorphic type for now: _polymorphic options_.
-    The type declaration generalizes the one for [natoption] in the
-    previous chapter: *)
+(** Um último tipo polimórfico por enquanto: _opções polimórficas_. A declaração
+    de tipo generaliza aquela de [natoption] do capítulo anterior: *)
 
 Inductive option (X:Type) : Type :=
   | Some : X -> option X
@@ -555,9 +549,8 @@ Example test_hd_opt2 :   hd_opt  [[1];[2]]  = Some [1].
 Definition doit3times {X:Type} (f:X->X) (n:X) : X :=
   f (f (f n)).
 
-(** [Claudia] The argument [f] here is itself a function (from [X] to
-    [X]); the body of [doit3times] applies [f] three times to some
-    value [n]. *)
+(** O argumento [f] aqui é, por si só, uma função (de [X] para [X]); o corpo de
+    [doit3times] aplica [f] três vezes para algum valor [n]. *)
 
 Check @doit3times.
 (* ===> doit3times : forall X : Type, (X -> X) -> X -> X *)
@@ -621,8 +614,8 @@ Proof. reflexivity.  Qed.
 Definition prod_curry {X Y Z : Type}
   (f : X * Y -> Z) (x : X) (y : Y) : Z := f (x, y).
 
-(** [Claudia] As an exercise, define its inverse, [prod_uncurry].  Then prove
-    the theorems below to show that the two are inverses. *)
+(** Como exercício, defina sua inversa, [prod_uncurry]. Em seguida, prove os
+    teoremas abaixo para mostrar que as duas funções são inversas. *)
 
 Definition prod_uncurry {X Y Z : Type}
   (f : X -> Y -> Z) (p : X * Y) : Z :=
@@ -705,11 +698,10 @@ Proof. reflexivity.  Qed.
     "one-off" functions that we will never use again; having to give
     each of these functions a name would be tedious.
 
-    [Claudia]Fortunately, there is a better way. It is also possible to
-    construct a function "on the fly" without declaring it at the top
-    level or giving it a name; this is analogous to the notation we've
-    been using for writing down constant lists, natural numbers, and
-    so on. *)
+    Felizmente, há uma maneira melhor. É também possível construir uma função
+    "diretamente" sem declará-lo no nível topo ou nomeá-la; isto é análogo
+    à notação que temos utilizado para escrever listas constantes, números
+    naturais e etc. *)
 
 Example test_anon_fun':
   doit3times (fun n => n * n) 2 = 256.
@@ -786,10 +778,10 @@ Fixpoint map {X Y:Type} (f:X->Y) (l:list X)
 Example test_map1: map (plus 3) [2;0;2] = [5;3;5].
 Proof. reflexivity.  Qed.
 
-(** [Claudia] The element types of the input and output lists need not be
-    the same ([map] takes _two_ type arguments, [X] and [Y]).  This
-    version of [map] can thus be applied to a list of numbers and a
-    function from numbers to booleans to yield a list of booleans: *)
+(** Os tipos de elementos das listas de entrada e saída não precisam ser os
+mesmos ([map] recebe _dois_ argumentos de tipo, [X] e [Y]). Esta versão de [map]
+pode, portanto, ser aplicada a uma lista de números e uma função de números para
+booleanos a fim de produzir uma lista de booleanos: *)
 
 Example test_map2: map oddb [2;1;2;5] = [false;true;false;true].
 Proof. reflexivity.  Qed.
@@ -860,10 +852,9 @@ Definition option_map {X Y : Type} (f : X -> Y) (xo : option X)
 (* ###################################################### *)
 (** ** Fold *)
 
-(** [Claudia]An even more powerful higher-order function is called
-    [fold].  This function is the inspiration for the "[reduce]"
-    operation that lies at the heart of Google's map/reduce
-    distributed programming framework. *)
+(** Uma função de ordem superior ainda mais poderosa chama-se [fold]. Esta
+função é a inspiração para a operação "[reduce]" que está no "coração" do
+framework de programação distribuída map/reduce do Google. *)
 
 Fixpoint fold {X Y:Type} (f: X->Y->Y) (l:list X) (b:Y) : Y :=
   match l with
@@ -938,9 +929,9 @@ Proof. reflexivity. Qed.
 Definition override {X: Type} (f: nat->X) (k:nat) (x:X) : nat->X:=
   fun (k':nat) => if beq_nat k k' then x else f k'.
 
-(** [Claudia]For example, we can apply [override] twice to obtain a
-    function from numbers to booleans that returns [false] on [1] and
-    [3] and returns [true] on all other arguments. *)
+(** Por exemplo, podemos aplicar [override] duas vezes para obter a função de
+números para booleanos que retorna [false] para [1] e [3] e [true] para todos os
+outros argumentos. *)
 
 Definition fmostlytrue := override (override ftrue 1 false) 3 false.
 
@@ -1014,9 +1005,9 @@ Proof.
   rewrite -> H.
   reflexivity.  Qed.
 
-(** [Claudia]Now we can prove a first property of [override]: If we
-    override a function at some argument [k] and then look up [k], we
-    get back the overridden value. *)
+(** Agora podemos provar uma primeira propriedade de [override]: Se
+sobrescrevermos uma função em algum argumento [k] e, em seguida, consultramos
+[k], receberemos de volta o valor sobrescrito. *)
 
 Theorem override_eq : forall {X:Type} x k (f:nat->X),
   (override f k x) k = x.
@@ -1069,8 +1060,8 @@ Theorem fold_length_correct : forall X (l : list X),
 Definition fold_map {X Y:Type} (f : X -> Y) (l : list X) : list Y :=
 (* FILL IN HERE *) admit.
 
-(** [Claudia]Write down a theorem [fold_map_correct] in Coq stating that
-   [fold_map] is correct, and prove it. *)
+(** Escreva um teorema [fold_map_correct] em Coq afirmando que [fold_map]
+é correto e prove-o. *)
 
 (* FILL IN HERE *)
 (** [] *)
@@ -1117,10 +1108,10 @@ Definition two : nat :=
 Definition zero : nat :=
   fun (X : Type) (f : X -> X) (x : X) => x.
 
-(** [Claudia]More generally, a number [n] will be written as [fun X f x => f (f
-    ... (f x) ...)], with [n] occurrences of [f]. Notice in particular
-    how the [doit3times] function we've defined previously is actually
-    just the representation of [3]. *)
+(** De maneira mais geral, um número [n] será escrito como [fun X f x => f (f
+... (f x) ...)], com [n] ocorrências de [f]. Perceba, em particular, como
+a função [doit3times] que definimos anteriormente é, na verdade, apenas
+a representação de [3].
 
 Definition three : nat := @doit3times.
 

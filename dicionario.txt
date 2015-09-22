@@ -23,7 +23,8 @@ linker: linkeditor
 machine-checked: verificado por máquina
 namespace: contexto para identificadores
 notation-symbol: símbolo de notação
-overriding: 
+(to) override: sobrescrever
+overriding: sobrescrita
 pattern matching: casamento de padrões
 pedantic: minucioso(a)
 pretty printer: formatador de código
