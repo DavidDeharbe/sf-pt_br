@@ -7,6 +7,7 @@ cartesian product: produto cartesiano
 case analysis: análise de casos
 (to) check: verificar
 checker: verificador
+Church numerals: numerais Church (Opção de tradução)
 correctness: corretude
 (to) decrease: decair (no contexto de funções definidas por recursão)
 (to) evaluate: calcular o valor
@@ -22,6 +23,8 @@ linker: linkeditor
 machine-checked: verificado por máquina
 namespace: contexto para identificadores
 notation-symbol: símbolo de notação
+(to) override: sobrescrever
+overriding: sobrescrita
 pattern matching: casamento de padrões
 pedantic: minucioso(a)
 pretty printer: formatador de código
@@ -34,4 +37,5 @@ static type system: sistema de tipagem estática
 string(s): cadeia de caracteres
 tail: cauda
 (to) type: tipar
+unexpand :
 wildcard: coringa

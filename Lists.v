@@ -284,7 +284,7 @@ Example test_countoddmembers3:    countoddmembers nil = 0.
   alternando entre elementos retirados da primeira lista e elementos da segunda
   lista. Veja os testes abaixo para exemplos mais específicos.
 
-    Note: uma maneira natural e elegante de escrever [alternate] falhará em 
+    Nota: uma maneira natural e elegante de escrever [alternate] falhará em 
     satisfazer o requisito do Coq de que toda definição de [Fixpoint]  
     "termina obviamente." Se você se encontra com esse problema, procure
     por uma solução levemente mais prolixa que considere elementos de ambas
@@ -411,7 +411,7 @@ Example test_subset2:              subset [1;2;2] [2;1;4;1] = false.
 
 (** Escrever abaixo um teorema interessante, chamado [bag_theorem], sobre 
     multiconjuntos
-    envolvendo as funções [count] e [add], e provar o teorema.  Note que, uma
+    envolvendo as funções [count] e [add], e provar o teorema. Note que, uma
     vez que este problema é aberto, é possível imaginar um teorema
     que é verdadeiro, mas cuja prova requisite técnicas que você ainda
     não aprendeu.  Sinta-se livre para pedir ajuda se você ficar travado! *)
