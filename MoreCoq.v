@@ -1,4 +1,4 @@
-(** * MoreCoq: More About Coq's Tactics *)
+(** * MoreCoq: Mais Acerca das Táticas de Coq *)
 
 Require Export Poly.
 
@@ -16,7 +16,7 @@ Require Export Poly.
  *)
 
 (* ###################################################### *)
-(** * The [apply] Tactic *)
+(** * A tática [apply] ( aplique_) *)
 
 (** [Diego]We often encounter situations where the goal to be proved is
     exactly the same as some hypothesis in the context or some
@@ -69,7 +69,7 @@ Proof.
   intros n m eq1 eq2.
   apply eq2. apply eq1.  Qed.
 
-(** **** Exercise: 2 stars, optional (silly_ex)  *)
+(** **** Exercício: nível 2, opcional (silly_ex)  *)
 (** [Claudia]Complete the following proof without using [simpl]. *)
 
 Theorem silly_ex : 
@@ -77,7 +77,7 @@ Theorem silly_ex :
      evenb 3 = true ->
      oddb 4 = true.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
 (** [Dalay]To use the [apply] tactic, the (conclusion of the) fact
@@ -107,7 +107,7 @@ Proof.
             [apply] will perform simplification first. *)
   apply H.  Qed.         
 
-(** **** Exercise: 3 stars (apply_exercise1)  *)
+(** **** Exercício: nível 3 (apply_exercise1)  *)
 (** [Francisco]Hint: you can use [apply] with previously defined lemmas, not
     just hypotheses in the context.  Remember that [SearchAbout] is
     your friend. *)
@@ -116,20 +116,20 @@ Theorem rev_exercise1 : forall (l l' : list nat),
      l = rev l' ->
      l' = rev l.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 1 star, optional (apply_rewrite)  *)
+(** **** Exercício: nível 1, opcional (apply_rewrite)  *)
 (** [Renan]Briefly explain the difference between the tactics [apply] and
     [rewrite].  Are there situations where both can usefully be
     applied?
-  (* FILL IN HERE *)
+  (* PREENCHER *)
 *)
 (** [] *)
 
 
 (* ###################################################### *)
-(** * The [apply ... with ...] Tactic *)
+(** * A tática [apply ... with ...] ( aplique ... com ..._) *)
 
 (** [Vitor]The following silly example uses two rewrites in a row to
     get from [[a,b]] to [[e,f]]. *)
@@ -177,18 +177,18 @@ Proof.
     figure out which instantiation we're giving. We could
     instead write: [apply trans_eq with [c,d]]. *)
 
-(** **** Exercise: 3 stars, optional (apply_with_exercise)  *)
+(** **** Exercício: nível 3, opcional (apply_with_exercise)  *)
 Example trans_eq_exercise : forall (n m o p : nat),
      m = (minustwo o) ->
      (n + p) = m ->
      (n + p) = (minustwo o). 
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
 
 (* ###################################################### *)
-(** * The [inversion] tactic *)
+(** * A tática [inversion] (_inversão_) *)
 
 (** [Francisco]Recall the definition of natural numbers:
      Inductive nat : Type :=
@@ -263,13 +263,13 @@ Theorem silly5 : forall (n m o : nat),
 Proof.
   intros n m o eq. inversion eq. reflexivity. Qed.
 
-(** **** Exercise: 1 star (sillyex1)  *) 
+(** **** Exercício: nível 1 (sillyex1)  *) 
 Example sillyex1 : forall (X : Type) (x y z : X) (l j : list X),
      x :: y :: l = z :: j ->
      y :: l = x :: j ->
      x = y.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
 Theorem silly6 : forall (n : nat),
@@ -284,13 +284,13 @@ Theorem silly7 : forall (n m : nat),
 Proof.
   intros n m contra. inversion contra.  Qed.
 
-(** **** Exercise: 1 star (sillyex2)  *)
+(** **** Exercício: nível 1 (sillyex2)  *)
 Example sillyex2 : forall (X : Type) (x y z : X) (l j : list X),
      x :: y :: l = [] ->
      y :: l = z :: j ->
      x = z.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
 (** [Dalay]While the injectivity of constructors allows us to reason
@@ -305,7 +305,7 @@ Proof. intros A B f x y eq. rewrite eq.  reflexivity.  Qed.
 
 
 
-(** **** Exercise: 2 stars, optional (practice)  *)
+(** **** Exercício: nível 2, opcional (practice)  *)
 (** [Diego]A couple more nontrivial but not-too-complicated proofs to work
     together in class, or for you to work as exercises. *)
  
@@ -313,17 +313,17 @@ Proof. intros A B f x y eq. rewrite eq.  reflexivity.  Qed.
 Theorem beq_nat_0_l : forall n,
    beq_nat 0 n = true -> n = 0.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 
 Theorem beq_nat_0_r : forall n,
    beq_nat n 0 = true -> n = 0.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
 
 (* ###################################################### *)
-(** * Using Tactics on Hypotheses *)
+(** * Aplicação de Táticas nas Hipóteses *)
 
 (** [Francisco]By default, most tactics work on the goal formula and leave
     the context unchanged.  However, most tactics also have a variant
@@ -374,7 +374,7 @@ Proof.
     situations the forward style can be easier to use or to think
     about.  *)
 
-(** **** Exercise: 3 stars (plus_n_n_injective)  *)
+(** **** Exercício: nível 3 (plus_n_n_injective)  *)
 (** [Francisco]Practice using "in" variants in this exercise. *)
 
 Theorem plus_n_n_injective : forall n m,
@@ -383,11 +383,11 @@ Theorem plus_n_n_injective : forall n m,
 Proof.
   intros n. induction n as [| n'].
     (* Hint: use the plus_n_Sm lemma *)
-    (* FILL IN HERE *) Admitted.
+    (* PREENCHER *) Admitted.
 (** [] *)
 
 (* ###################################################### *)
-(** * Varying the Induction Hypothesis *)
+(** * Alterando a Hipótese de Indução *)
 
 (** [Renan]Sometimes it is important to control the exact form of the
     induction hypothesis when carrying out inductive proofs in Coq.
@@ -525,18 +525,18 @@ Proof.
 
 (** [Dalay]The proof of this theorem (left as an exercise) has to be treated similarly: *)
 
-(** **** Exercise: 2 stars (beq_nat_true)  *)
+(** **** Exercício: nível 2 (beq_nat_true)  *)
 Theorem beq_nat_true : forall n m,
     beq_nat n m = true -> n = m.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 2 stars, advanced (beq_nat_true_informal)  *)
+(** **** Exercício: nível 2, avançado (beq_nat_true_informal)  *)
 (** [Diego]Give a careful informal proof of [beq_nat_true], being as explicit
     as possible about quantifiers. *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
 
@@ -695,17 +695,17 @@ Proof.
     [Diego]In general, a good rule of thumb is to make the induction hypothesis
     as general as possible. *)
 
-(** **** Exercise: 3 stars (gen_dep_practice)  *)
+(** **** Exercício: nível 3 (gen_dep_practice)  *)
 (** [Francisco]Prove this by induction on [l]. *)
 
 Theorem index_after_last: forall (n : nat) (X : Type) (l : list X),
      length l = n ->
      index n l = None.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 3 stars, advanced, optional (index_after_last_informal)  *)
+(** **** Exercício: nível 3, avançado, opcional (index_after_last_informal)  *)
 (** [Renan]Write an informal proof corresponding to your Coq proof
     of [index_after_last]:
  
@@ -713,11 +713,11 @@ Proof.
       [n], if [length l = n] then [index n l = None].
  
      _Proof_:
-     (* FILL IN HERE *)
+     (* PREENCHER *)
 []
 *)
 
-(** **** Exercise: 3 stars, optional (gen_dep_practice_more)  *)
+(** **** Exercício: nível 3, opcional (gen_dep_practice_more)  *)
 (** [Claudia]Prove this by induction on [l]. *)
 
 Theorem length_snoc''' : forall (n : nat) (X : Type) 
@@ -725,10 +725,10 @@ Theorem length_snoc''' : forall (n : nat) (X : Type)
      length l = n ->
      length (snoc l v) = S n. 
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 3 stars, optional (app_length_cons)  *)
+(** **** Exercício: nível 3, opcional (app_length_cons)  *)
 (** [Dalay]Prove this by induction on [l1], without using [app_length]
     from [Lists]. *)
 
@@ -737,21 +737,21 @@ Theorem app_length_cons : forall (X : Type) (l1 l2 : list X)
      length (l1 ++ (x :: l2)) = n ->
      S (length (l1 ++ l2)) = n.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 4 stars, optional (app_length_twice)  *)
+(** **** Exercício: nível 4, opcional (app_length_twice)  *)
 (** [Diego]Prove this by induction on [l], without using app_length. *)
 
 Theorem app_length_twice : forall (X:Type) (n:nat) (l:list X),
      length l = n ->
      length (l ++ l) = n + n.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
 
-(** **** Exercise: 3 stars, optional (double_induction)  *)
+(** **** Exercício: nível 3, opcional (double_induction)  *)
 (** [Francisco]Prove the following principle of induction over two naturals. *)
 
 Theorem double_induction: forall (P : nat -> nat -> Prop), 
@@ -761,12 +761,12 @@ Theorem double_induction: forall (P : nat -> nat -> Prop),
   (forall m n, P m n -> P (S m) (S n)) ->
   forall m n, P m n.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
 
 (* ###################################################### *)
-(** * Using [destruct] on Compound Expressions *)
+(** * Aplicação de [destruct] a Expressões Compostas *)
 
 (** [Renan]We have seen many examples where the [destruct] tactic is
     used to perform case analysis of the value of some variable.  But
@@ -804,21 +804,21 @@ Proof.
 
 *)
 
-(** **** Exercise: 1 star (override_shadow)  *)
+(** **** Exercício: nível 1 (override_shadow)  *)
 Theorem override_shadow : forall (X:Type) x1 x2 k1 k2 (f : nat->X),
   (override (override f k1 x2) k1 x1) k2 = (override f k1 x1) k2.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 3 stars, optional (combine_split)  *)
+(** **** Exercício: nível 3, opcional (combine_split)  *)
 (** [Dalay]Complete the proof below *)
 
 Theorem combine_split : forall X Y (l : list (X * Y)) l1 l2,
   split l = (l1, l2) ->
   combine l1 l2 = l.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
 (** [Diego]Sometimes, doing a [destruct] on a compound expression (a
@@ -882,24 +882,24 @@ Proof.
         SCase "e5 = false". inversion eq.  Qed.
 
 
-(** **** Exercise: 2 stars (destruct_eqn_practice)  *)
+(** **** Exercício: nível 2 (destruct_eqn_practice)  *)
 Theorem bool_fn_applied_thrice : 
   forall (f : bool -> bool) (b : bool), 
   f (f (f b)) = f b.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 2 stars (override_same)  *)
+(** **** Exercício: nível 2 (override_same)  *)
 Theorem override_same : forall (X:Type) x1 k1 k2 (f : nat->X),
   f k1 = x1 -> 
   (override f k1 x1) k2 = f k2.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
 (* ################################################################## *)
-(** * Review *)
+(** * Revisão *)
 
 (** [Dalay]We've now seen a bunch of Coq's fundamental tactics.  We'll
     introduce a few more as we go along through the coming lectures,
@@ -974,36 +974,36 @@ Proof.
 *)
 
 (* ###################################################### *)
-(** * Additional Exercises *)
+(** * Exercícios Adicionais *)
 
-(** **** Exercise: 3 stars (beq_nat_sym)  *)
+(** **** Exercício: nível 3 (beq_nat_sym)  *)
 Theorem beq_nat_sym : forall (n m : nat),
   beq_nat n m = beq_nat m n.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 3 stars, advanced, optional (beq_nat_sym_informal)  *)
+(** **** Exercício: nível 3, avançado, opcional (beq_nat_sym_informal)  *)
 (** [Francisco]Give an informal proof of this lemma that corresponds to your
     formal proof above:
 
    Theorem: For any [nat]s [n] [m], [beq_nat n m = beq_nat m n].
 
    Proof:
-   (* FILL IN HERE *)
+   (* PREENCHER *)
 []
  *)
 
-(** **** Exercise: 3 stars, optional (beq_nat_trans)  *)
+(** **** Exercício: nível 3, opcional (beq_nat_trans)  *)
 Theorem beq_nat_trans : forall n m p,
   beq_nat n m = true ->
   beq_nat m p = true ->
   beq_nat n p = true.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 3 stars, advanced (split_combine)  *)
+(** **** Exercício: nível 3, avançado (split_combine)  *)
 (** [Renan]We have just proven that for all lists of pairs, [combine] is the
     inverse of [split].  How would you formalize the statement that
     [split] is the inverse of [combine]? When is this property true?
@@ -1016,25 +1016,25 @@ Proof.
     and [l2] for [split] [combine l1 l2 = (l1,l2)] to be true?)  *)
 
 Definition split_combine_statement : Prop :=
-(* FILL IN HERE *) admit.
+(* PREENCHER *) admit.
 
 Theorem split_combine : split_combine_statement.
 Proof.
-(* FILL IN HERE *) Admitted.
+(* PREENCHER *) Admitted.
 
 
 
 (** [] *)
 
-(** **** Exercise: 3 stars (override_permute)  *)
+(** **** Exercício: nível 3 (override_permute)  *)
 Theorem override_permute : forall (X:Type) x1 x2 k1 k2 k3 (f : nat->X),
   beq_nat k2 k1 = false ->
   (override (override f k2 x2) k1 x1) k3 = (override (override f k1 x1) k2 x2) k3.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 3 stars, advanced (filter_exercise)  *)
+(** **** Exercício: nível 3, avançado (filter_exercise)  *)
 (** [Claudia]This one is a bit challenging.  Pay attention to the form of your IH. *)
 
 Theorem filter_exercise : forall (X : Type) (test : X -> bool)
@@ -1042,10 +1042,10 @@ Theorem filter_exercise : forall (X : Type) (test : X -> bool)
      filter test l = x :: lf ->
      test x = true.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 4 stars, advanced (forall_exists_challenge)  *)
+(** **** Exercício: nível 4, avançado (forall_exists_challenge)  *)
 (** [Dalay]Define two recursive [Fixpoints], [forallb] and [existsb].  The
     first checks whether every element in a list satisfies a given
     predicate:
@@ -1072,7 +1072,7 @@ Proof.
     the same behavior.
 *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
 
