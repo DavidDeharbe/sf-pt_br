@@ -97,8 +97,8 @@ Fixpoint length (X:Type) (l:list X) : nat :=
     definição de [list], não dos construtores individuais. Voltaremos 
     a este ponto mais tarde.)
 
-    [Vitor] As with [nil] and [cons], we can use [length] by applying it first
-    to a type and then to its list argument: *)
+	Assim como com [nil] e [cons], nós podemos usar [length] aplicando-o 
+	primeiramente em um tipo e depois no argumento lista: *)
 
 Example test_length1 :
     length nat (cons nat 1 (cons nat 2 (nil nat))) = 2.
@@ -179,8 +179,8 @@ Inductive baz : Type :=
    | x : baz -> baz
    | y : baz -> bool -> baz.
 
-(** [Vitor] How _many_ elements does the type [baz] have? 
-(* FILL IN HERE *)
+(** _Quantos_ elementos possui o tipo [baz]?
+(* PREENCHA AQUI *)
 *)
 (** [] *)
 
@@ -1166,24 +1166,24 @@ Proof. (* FILL IN HERE *) Admitted.
 Example mult_3 : mult two three = plus three three.
 Proof. (* FILL IN HERE *) Admitted.
 
-(** [Vitor]Exponentiation *)
+(** Exponenciação *)
 
-(** Hint: Polymorphism plays a crucial role here. However, choosing
-    the right type to iterate over can be tricky. If you hit a
-    "Universe inconsistency" error, try iterating over a different
-    type: [nat] itself is usually problematic. *)
+(** Dica: Polimorfismo tem um papel crucial aqui. Porém, escolher o tipo certo 
+para a iteração pode ser complicado. Se você chegar a um erro de 
+"inconsistência do Universo", tente iterar sobre um tipo diferente: o próprio 
+[nat] geralmente é problemático. *)
 
 Definition exp (n m : nat) : nat :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHA AQUI *) admit.
 
 Example exp_1 : exp two two = plus two two.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA QUI *) Admitted.
 
 Example exp_2 : exp three two = plus (mult two (mult two two)) one.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
 Example exp_3 : exp three zero = one.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
 End Church.
 
