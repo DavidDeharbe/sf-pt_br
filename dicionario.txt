@@ -28,6 +28,8 @@ overriding: sobrescrita
 pattern matching: casamento de padrões
 pedantic: minucioso(a)
 pretty printer: formatador de código
+qualifier: marcador
+(to) reason: raciocinar
 (to) rewrite: reescrever
 rewriting: reescrita
 script: transcrição
