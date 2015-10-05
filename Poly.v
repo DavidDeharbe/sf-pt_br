@@ -50,12 +50,11 @@ Inductive list (X:Type) : Type :=
     estava dentro de uma definição de [Module] que agora está fora de
     escopo.) *)
 
-(** [Vitor] What sort of thing is [list] itself?  One good way to think
-    about it is that [list] is a _function_ from [Type]s to
-    [Inductive] definitions; or, to put it another way, [list] is a
-    function from [Type]s to [Type]s.  For any particular type [X],
-    the type [list X] is an [Inductive]ly defined set of lists whose
-    elements are things of type [X]. *)
+(** Que tipo de coisa é a própria [list]? Uma boa forma de pensar a respeito é 
+determinar que [list] é uma _função_ de [Type]s para definições [Inductive]; 
+ou, pondo de outra forma, [list] é uma função de [Type]s para [Type]s. Para 
+qualquer tipo específico [X], o tipo [list X] é um conjunto de listas definido 
+indutivamente (com [Inductive]) cujo elementos são coisas do tipo [X]. *) 
 
 (** Com esta definição, quando usamos os construtores [nil] e [cons] para
     construir listas, precisamos dizer ao Coq qual é o tipo dos elementos nas listas
@@ -235,15 +234,14 @@ Check app.
     inteiramente óbvio que o primeiro argumento só pode ser [X] -- por 
     que temos que escrever isso explicitamente?
 
-    [Vitor] Fortunately, Coq permits us to avoid this kind of redundancy.  In
-    place of any type argument we can write the "implicit argument"
-    [_], which can be read as "Please figure out for yourself what
-    type belongs here."  More precisely, when Coq encounters a [_], it
-    will attempt to _unify_ all locally available information -- the
-    type of the function being applied, the types of the other
-    arguments, and the type expected by the context in which the
-    application appears -- to determine what concrete type should
-    replace the [_].
+	Felizmente o Coq nos permite evitar esse tipo de redundância. No lugar de 
+	qualquer argumento de tipo, nós podemos escrever o "argumento implícito" 
+	[_], que pode ser lido como "Por favor descubra por si mesmo qual é o 
+	tipo aqui." Mais precisamente, quando o Coq encontra um [_], ele tentará 
+	_unificar_ todas as informações disponíveis localmente -- o tipo da função 
+	que está sendo aplicada, os tipos dos demais argumentos e o tipo esperado 
+	no contexto em que a aplicação aparece -- para determinar qual tipo 
+	concreto deve ser inserido no lugar de [_].
 
     Isto pode parecer semelhante à inferência de anotação de tipo -- e os
     métodos baseiam-se, de fato, nos mesmos mecanismos subjacentes. Ao invés de
@@ -298,9 +296,8 @@ Check (length list123'').
 
 (** *** *)
 
-(** [Vitor] Alternatively, we can declare an argument to be implicit while
-    defining the function itself, by surrounding the argument in curly
-    braces.  For example: *)
+(** Alternativamente nó podemos declarar um argumento para que seja implícito 
+enquanto a função é definida, cercando o argumento com chaves. Por exemplo: *) 
 
 Fixpoint length'' {X:Type} (l:list X) : nat :=
   match l with
@@ -353,12 +350,12 @@ Notation "[ x ; .. ; y ]" := (cons x .. (cons y []) ..).
 Notation "x ++ y" := (app x y)
                      (at level 60, right associativity).
 
-(** [Vitor] Now lists can be written just the way we'd hope: *)
+(** Agora listas podem ser escritas exatamente como esperávamos: *)
 
 Definition list123''' := [1; 2; 3].
 
 (* ###################################################### *)
-(** *** Exercises: Polymorphic Lists *)
+(** *** Exercícios: Listas Polimórficas *)
 
 (** **** Exercise: 2 stars, optional (poly_exercises)  *)
 (** Temos aqui alguns exercícios simples, como aqueles do capítulo [Listas],
@@ -424,11 +421,11 @@ Notation "X * Y" := (prod X Y) : type_scope.
     multiplicação.) *)
 
 (** *** *)
-(** [Vitor] A note of caution: it is easy at first to get [(x,y)] and
-    [X*Y] confused.  Remember that [(x,y)] is a _value_ built from two
-    other values; [X*Y] is a _type_ built from two other types.  If
-    [x] has type [X] and [y] has type [Y], then [(x,y)] has type
-    [X*Y]. *)
+
+(** Uma nota de cautela: no início é fácil se confundir entre [(x,y)] e [X*Y]. 
+Lembre-se que [(x,y)] é um _valor_ construído a partir de outros dois valores e 
+[X*Y] é um _tipo_ construído a partir de dois outros tipos. Se [x] possui o 
+tipo [X] e [y] possui o tipo [Y], então [(x,y)] possui o tipo [X*Y]. *)
 
 (** Agora a primeira e a segunda função de projeção se parecem muito com o que
     seriam em qualquer linguagem de programação funcional. *)
@@ -469,22 +466,22 @@ Fixpoint combine {X Y : Type} (lx : list X) (ly : list Y)
     lista de pares e retorna um par de listas. Em muitas linguagens de 
     programação funcionais, essa função é chamada de [unzip].
 
-    [Vitor] Uncomment the material below and fill in the definition of
-    [split].  Make sure it passes the given unit tests. *)
+ Retire os comentários do material abaixo e insira a definição de [split]. 
+ Certifique-se de que ele passa nos testes de unidade dados. *)
 
 Fixpoint split
            {X Y : Type} (l : list (X*Y))
            : (list X) * (list Y) :=
-(* FILL IN HERE *) admit.
+(* PREENCHA AQUI *) admit.
 
 Example test_split:
   split [(1,false);(2,false)] = ([1;2],[false;false]).
 Proof.
-(* FILL IN HERE *) Admitted.
+(* PREENCHA AQUI *) Admitted.
 (** [] *)
 
 (* ###################################################### *)
-(** ** Polymorphic Options *)
+(** ** Opções Polimórficas *)
 
 (** Um último tipo polimórfico por enquanto: _opções polimórficas_. A declaração
     de tipo generaliza aquela de [natoption] do capítulo anterior: *)
@@ -545,8 +542,8 @@ Example test_hd_opt2 :   hd_opt  [[1];[2]]  = Some [1].
     retornadas como resultados, armazenadas em estruturas de dados, 
     etc.
 
-    [Vitor] Functions that manipulate other functions are often called
-    _higher-order_ functions.  Here's a simple one: *)
+	Funções que manipulam outras funções são muitas vezes chamadas funções de 
+	_ordem superior_. Abaixo um exemplo simples: *)
 
 Definition doit3times {X:Type} (f:X->X) (n:X) : X :=
   f (f (f n)).
@@ -614,7 +611,7 @@ Proof. reflexivity.  Qed.
     
     *)
 
-(** [Vitor] We can define currying as follows: *)
+(** Nós podemos definir currying da seguinte forma: *)
 
 Definition prod_curry {X Y Z : Type}
   (f : X * Y -> Z) (x : X) (y : Y) : Z := f (x, y).
@@ -693,15 +690,14 @@ Example test_countoddmembers'3:   countoddmembers' nil = 0.
 Proof. reflexivity.  Qed.
 
 (* ###################################################### *)
-(** ** Anonymous Functions *)
+(** ** Funções Anônimas *)
 
-(** [Vitor]It is a little annoying to be forced to define the function
-    [length_is_1] and give it a name just to be able to pass it as an
-    argument to [filter], since we will probably never use it again.
-    Moreover, this is not an isolated example.  When using
-    higher-order functions, we often want to pass as arguments
-    "one-off" functions that we will never use again; having to give
-    each of these functions a name would be tedious.
+(** É um pouco chato ser forçado a definir a função [length_is_1] e dar-lhe um 
+nome apenas para poder passá-lo como argumento para [filter], uma vez que, 
+provavelmente, nunca mais a usaremos novamente. Além disso, este não é um 
+exemplo isolado. Quando utilizamos funções de ordem superior, muitas vezes 
+queremos passar, como argumentos, funções que nunca mais usaremos novamente: 
+ter de denominar cada uma dessas funções pode ser uma ação bem tediosa.
 
     Felizmente, há uma maneira melhor. É também possível construir uma função
     "diretamente" sem declará-lo no nível topo ou nomeá-la; isto é análogo
@@ -776,9 +772,10 @@ Fixpoint map {X Y:Type} (f:X->Y) (l:list X)
   end.
 
 (** *** *)
-(** [Vitor] It takes a function [f] and a list [ l = [n1, n2, n3, ...] ]
-    and returns the list [ [f n1, f n2, f n3,...] ], where [f] has
-    been applied to each element of [l] in turn.  For example: *)
+
+(** Seus argumentos são uma função [f] e uma lista [ l = [n1, n2, n3, ...] ] e 
+retorna a lista [ [f n1, f n2, f n3,...] ], no qual [f] foi aplicada em cada 
+elemento de [l] sucessivamente. Por exemplo: *)
 
 Example test_map1: map (plus 3) [2;0;2] = [5;3;5].
 Proof. reflexivity.  Qed.
@@ -845,14 +842,14 @@ Definition option_map {X Y : Type} (f : X -> Y) (xo : option X)
     | Some x => Some (f x)
   end.
 
-(** **** Exercise: 2 stars, optional (implicit_args)  *)
-(** [Vitor] The definitions and uses of [filter] and [map] use implicit
-    arguments in many places.  Replace the curly braces around the
-    implicit arguments with parentheses, and then fill in explicit
-    type parameters where necessary and use Coq to check that you've
-    done so correctly.  (This exercise is not to be turned in; it is
-    probably easiest to do it on a _copy_ of this file that you can
-    throw away afterwards.)  [] *)
+(** **** Exercício: 2 estrelas, opcional (implicit_args)  *)
+
+(** As definições e usos de [filter] e [map] usam argumentos implícitos em 
+vários lugares. Substitua as chaves ao redor dos argumentos implícitos com 
+parênteses e, em seguida, preencha-os com parâmetros de tipos explícitos onde 
+são necessários, usando o Coq para verificar que você preencheu corretamente. 
+(Este exercício não é pra ser feito aqui; provavelmente é mais fácil fazê-lo 
+numa _cópia_ deste arquivo, eliminando-o posteriormente.) [] *)
 
 (* ###################################################### *)
 (** ** Fold *)
@@ -925,11 +922,12 @@ Example constfun_example2 : (constfun 5) 99 = 5.
 Proof. reflexivity. Qed.
 
 (** *** *)
-(** [Vitor]Similarly, but a bit more interestingly, here is a function
-    that takes a function [f] from numbers to some type [X], a number
-    [k], and a value [x], and constructs a function that behaves
-    exactly like [f] except that, when called with the argument [k],
-    it returns [x]. *)
+
+(** Igualmente, porém de uma forma mais interessante, é mostrada abaixo uma 
+função que possui, como argumentos, uma função [f] de números para algum tipo 
+[X], um número [k] e um valor [x], e constrói uma função que se comporta 
+exatamente como [f] exceto que, quando chamado com o argumento [k], ele retorna 
+[x].*)
 
 Definition override {X: Type} (f: nat->X) (k:nat) (x:X) : nat->X:=
   fun (k':nat) => if beq_nat k k' then x else f k'.
@@ -998,8 +996,8 @@ Proof.
      à sua definição. *)
   Abort.
 
-(** [Vitor]The [unfold] tactic can be used to explicitly replace a
-    defined name by the right-hand side of its definition.  *)
+(** A tática [unfold] pode ser usada para substituir explicitamente um nome 
+definido pelo lado direito de sua definição. *)
 
 Theorem unfold_example : forall m n,
   3 + n = m ->
@@ -1059,11 +1057,12 @@ Theorem fold_length_correct : forall X (l : list X),
 (** [] *)
 
 (** **** Exercise: 3 stars (fold_map)  *)
-(** [Vitor]We can also define [map] in terms of [fold].  Finish [fold_map]
-    below. *)
+(** Nós podemos também definir [map] em termos de [fold]. Finalize [fold_map] 
+mostrada abaixo. *)
+
 
 Definition fold_map {X Y:Type} (f : X -> Y) (l : list X) : list Y :=
-(* FILL IN HERE *) admit.
+(* PREENCHA AQUI *) admit.
 
 (** Escreva um teorema [fold_map_correct] em Coq afirmando que [fold_map]
 é correto e prove-o. *)
@@ -1107,8 +1106,8 @@ Definition one : nat :=
 Definition two : nat :=
   fun (X : Type) (f : X -> X) (x : X) => f (f x).
 
-(** [zero] [Vitor]is somewhat trickier: how can we apply a function zero
-    times? The answer is simple: just leave the argument untouched. *)
+(** [zero] é um pouco mais complicado: como poderemos aplicar a função zero 
+vezes? A resposta é simples: apenas não toque no argumento. *)
 
 Definition zero : nat :=
   fun (X : Type) (f : X -> X) (x : X) => x.
