@@ -54,13 +54,12 @@ Proof.
     and see if there is a way to complete it using just [rewrite]
     instead of [apply]. *)
 
-(** [Vitor]Typically, when we use [apply H], the statement [H] will
-    begin with a [forall] binding some _universal variables_.  When
-    Coq matches the current goal against the conclusion of [H], it
-    will try to find appropriate values for these variables.  For
-    example, when we do [apply eq2] in the following proof, the
-    universal variable [q] in [eq2] gets instantiated with [n] and [r]
-    gets instantiated with [m]. *)
+(** Tipicamente, quando usamos [apply H], a sentença [H] começará com um 
+[forall] ligando algumas _variáveis universais_. Quando o Coq casa a meta atual 
+com a conclusão de [H], ele tenta encontrar os valores apropriados para estas 
+variáveis. Por exemplo, quando aplicamos [apply eq2] na prova abaixo, a 
+variável universal [q] em [eq2] é instanciada com [n] e [r] é instanciada com 
+[m]. *)  
 
 Theorem silly2a : forall (n m : nat),
      (n,n) = (m,m)  ->
@@ -132,8 +131,8 @@ Proof.
 (* ###################################################### *)
 (** * A tática [apply ... with ...] ( aplique ... com ..._) *)
 
-(** [Vitor]The following silly example uses two rewrites in a row to
-    get from [[a,b]] to [[e,f]]. *)
+(** Os exemplo bobo abaixo usa duas reescritas em sequência para ir de [[a,b]] 
+a [[e,f]]. *)
 
 Example trans_eq_example : forall (a b c d e f : nat),
      [a;b] = [c;d] ->
@@ -201,11 +200,11 @@ Proof.
     understanding of how datatype declarations work in other
     programming languages) are two other facts:
 
-    - [Vitor]The constructor [S] is _injective_.  That is, the only way we can
-      have [S n = S m] is if [n = m].
+	- O construtor [S] é _injetiva_. Isto é, podemos obter [S n = S m] apenas 
+	se [n = m].
 
-    - The constructors [O] and [S] are _disjoint_.  That is, [O] is not
-      equal to [S n] for any [n]. *)
+	- Os construtores [O] e [S] são _disjuntas_. Isto é, [0] não é igual a [S 
+	n] para qualquer [n]. *)
 
 (** Princípios semelhantes aplicam-se a todos os tipos definidos indutivamente:
 todos os construtores são injetores, e os valores construídos a partir de
@@ -236,10 +235,10 @@ construtores distintos nunca são iguais. Para as listas, o construtor [cons]
       provable!  In this case, [inversion H] marks the current goal as
       completed and pops it off the goal stack. *)
 
-(** [Vitor]The [inversion] tactic is probably easier to understand by
-    seeing it in action than from general descriptions like the above.
-    Below you will find example theorems that demonstrate the use of
-    [inversion] and exercises to test your understanding. *)
+(** A tática [inversion] é provavelmente mais fácil de entender vendo-a em ação 
+do que através de descrições gerais como a mostrada acima. Você verá abaixo 
+teoremas exemplos que demonstram o uso de [inversion] e exercícios para testar 
+sua compreensão a respeito. *)
 
 Theorem eq_add_S : forall (n m : nat),
      S n = S m ->
@@ -337,12 +336,11 @@ Theorem S_inj : forall (n m : nat) (b : bool),
 Proof.
   intros n m b H. simpl in H. apply H.  Qed.
 
-(** [Vitor]Similarly, the tactic [apply L in H] matches some
-    conditional statement [L] (of the form [L1 -> L2], say) against a
-    hypothesis [H] in the context.  However, unlike ordinary
-    [apply] (which rewrites a goal matching [L2] into a subgoal [L1]),
-    [apply L in H] matches [H] against [L1] and, if successful,
-    replaces it with [L2].
+(** Similarmente a tática [apply L in H] casa uma sentença condicional [L] 
+(digamos, com a forma [L1 -> L2]) com uma hipótese [H] no contexto. Porém, ao 
+contrário de um simples [apply] (que reescreve uma meta casada com [L2] pela 
+submeta [L1]), [apply L in H] casa [H] contra [L1] e, se no caso de sucesso, o 
+substitui por [L2].
  
     Em outras palavras, [apply L in H] nos dá uma forma de "raciocínio para
     a frente" -- a partir de [L1 -> L2] e uma hipótese casando com [L1], temos
@@ -422,11 +420,10 @@ Proof.
 
 (** What went wrong? *)
 
-(** [Vitor]The problem is that, at the point we invoke the induction
-    hypothesis, we have already introduced [m] into the context -- 
-    intuitively, we have told Coq, "Let's consider some particular
-    [n] and [m]..." and we now have to prove that, if [double n =
-    double m] for _this particular_ [n] and [m], then [n = m].
+(** O problema é que, no momento em que invocamos a hipótese indutiva, nós já 
+tínhamos introduzido [m] no contexto -- intuitivamente, dissemos ao Coq "vamos 
+considerar um [n] e um [m] específicos..." e agora devemos provar que, se 
+[double n = double m] para estes [n] e [m] _específicos_, então [n = m].
 
     A tática seguinte, [induction n] diz à Coq que: iremos provar a meta por
     indução sobre [n]. Ou seja, iremos provar que a proposição
@@ -473,9 +470,8 @@ Proof.
     trying to prove a relation involving _every_ [n] but just a
     _single_ [m]. *)
 
-(** [Vitor]The good proof of [double_injective] leaves [m] in the goal
-    statement at the point where the [induction] tactic is invoked on
-    [n]: *)
+(** A prova boa de [double_injective] deixa [m] na meta num ponto tal que a 
+tática [induction] é aplicada em [n]: *) 
 
 Theorem double_injective : forall n m,
      double n = double m ->
@@ -486,6 +482,10 @@ Proof.
     SCase "m = O". reflexivity.
     SCase "m = S m'". inversion eq. 
   Case "n = S n'". 
+	(* Perceba que ambas as metas e a hipótese indutiva 
+	  
+	  
+	  
     (* Notice that both the goal and the induction
        hypothesis have changed: the goal asks us to prove
        something more general (i.e., to prove the
@@ -562,12 +562,11 @@ Abort.
     introducing anything first, Coq will automatically introduce
     [n] for us!)   *)
 
-(** [Vitor]What can we do about this?  One possibility is to rewrite the
-    statement of the lemma so that [m] is quantified before [n].  This
-    will work, but it's not nice: We don't want to have to mangle the
-    statements of lemmas to fit the needs of a particular strategy for
-    proving them -- we want to state them in the most clear and
-    natural way. *)
+	(** O que podemos fazer sobre isso? Uma possibilidade é reescrever a 
+	declaração do lema para que [m] seja quantificada antes de [n]. Isto 
+	funcionará, mas não é legal: não queremos reescrever as declarações dos 
+	lemas apenas para poderem ser provadas com uma certa estratégia -- queremos 
+	estas declarações da forma mais simples e natural possível. *)
 
 (**  Ao invés disso, o que podemos fazer em primeiro lugar é introduzir todas as
 variáveis quantificadas e, em seguida, _re-generalizar_ uma ou mais delas,
@@ -786,10 +785,10 @@ Proof.
       SCase "beq_nat n 5 = true". reflexivity.
       SCase "beq_nat n 5 = false". reflexivity.  Qed.
 
-(** [Vitor]After unfolding [sillyfun] in the above proof, we find that
-    we are stuck on [if (beq_nat n 3) then ... else ...].  Well,
-    either [n] is equal to [3] or it isn't, so we use [destruct
-    (beq_nat n 3)] to let us reason about the two cases. 
+	(** Após aplicar [unfold] em [sillyfun] na prova acima, percebemos que 
+	estamos presos em [if (beq_nat n 3) then ... else ...]. Bem, [n] pode tanto 
+	igual a como diferente de [3], então usamos [destruct (beq_nat n 3)] para 
+	podermos provar nos dois casos.
 
     Em geral, a tática [destruct] pode ser usado para realizar a análise de caso
     dos resultados de cálculos arbitrários. Se [e] é uma expressão cujo tipo
@@ -840,14 +839,13 @@ Proof.
   (* stuck... *)
 Abort.
 
-(** [Vitor]We get stuck at this point because the context does not
-    contain enough information to prove the goal!  The problem is that
-    the substitution peformed by [destruct] is too brutal -- it threw
-    away every occurrence of [beq_nat n 3], but we need to keep some
-    memory of this expression and how it was destructed, because we
-    need to be able to reason that since, in this branch of the case
-    analysis, [beq_nat n 3 = true], it must be that [n = 3], from
-    which it follows that [n] is odd.
+	(** Ficamos presos neste ponto pois o contexto não contém informação 
+	suficiente para provar a meta! O problema é que a substituição realizada 
+	por [destruct] é brutal demais -- ele jogou fora todas as ocorrências de 
+	[beq_nat n 3], mas precisamos manter na memória esta expressão e como ela 
+	foi destruída. O motivo é que precisamos posteriormente raciocinar sobre 
+	esta sentença, uma vez que, neste ramo da análise de casos, [beq_nat n 3 = 
+	true] se [n = 3], concluindo que [n] é ímpar.
 
     O que nós gostaríamos de fazer, de fato, seria substituir todas as
     ocorrências existentes de [beq_nat n 3], mas, ao mesmo tempo, adicionar uma
@@ -931,14 +929,14 @@ Proof.
       - [rewrite]:
         use an equality hypothesis (or lemma) to rewrite the goal 
 
-      - [Vitor][rewrite ... in H]:
-        ... or a hypothesis 
+      - [rewrite ... in H]:
+        ... ou uma hipótese
 
-      - [symmetry]:
-        changes a goal of the form [t=u] into [u=t]
+      - [symmetry]: 
+	      muda uma meta com a forma [t=u] para [u=t]
 
-      - [symmetry in H]:
-        changes a hypothesis of the form [t=u] into [u=t]
+      - [symmetry in H]: 
+	      muda uma hipótese com a forma [t=u] para [u=t]
 
       - [unfold]:
         substitui uma constante definida pelo seu lado direito na meta 
@@ -1003,12 +1001,12 @@ Proof.
     inverse of [split].  How would you formalize the statement that
     [split] is the inverse of [combine]? When is this property true?
 
-    [Vitor]Complete the definition of [split_combine_statement] below with a
-    property that states that [split] is the inverse of
-    [combine]. Then, prove that the property holds. (Be sure to leave
-    your induction hypothesis general by not doing [intros] on more
-    things than necessary.  Hint: what property do you need of [l1]
-    and [l2] for [split] [combine l1 l2 = (l1,l2)] to be true?)  *)
+	Complete a definição de [split_combine_statement] abaixo com uma 
+	propriedade que determina que [split] é o inverso de [combine]. Em seguida, 
+	prove que a propriedade se mantém. (Evite usar [intros] mais do que o 
+	necessário para não perder a hipótese indutiva mais geral. Dica: qual 
+	propriedade você precisa de [l1] e [l2] para que [split] [combine l1 l2 = 
+	(l1,l2)] seja verdadeira?) *)
 
 Definition split_combine_statement : Prop :=
 (* PREENCHER *) admit.
