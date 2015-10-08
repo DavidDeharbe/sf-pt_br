@@ -1,16 +1,18 @@
 arrow: seta
 assumption: hipótese
 bag: multiconjunto
+backward reasoning:
 branch: ramo
 buffer: buffer, área de trabalho
 cartesian product: produto cartesiano
 case analysis: análise de casos
 (to) check: verificar
 checker: verificador
-Church numerals: numerais Church (Opção de tradução)
+Church numerals: numerais de Church
 correctness: corretude
 (to) decrease: decair (no contexto de funções definidas por recursão)
 (to) evaluate: calcular o valor
+forward reasoning:
 function type: tipo funcional
 goal: meta
 hack: truque
