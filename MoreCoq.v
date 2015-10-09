@@ -19,9 +19,9 @@ naturais e listas.
 (* ###################################################### *)
 (** * A tática [apply] ( aplique_) *)
 
-(** [Diego]We often encounter situations where the goal to be proved is
-    exactly the same as some hypothesis in the context or some
-    previously proved lemma. *)
+(** Nós usualmente encontraremos situações onde a meta a ser provada é
+    exatamente igual a hipótese no contexto ou algum
+    lema provado anteriormente. *)
 
 Theorem silly1 : forall (n m o p : nat),
      n = m  ->
@@ -30,11 +30,11 @@ Theorem silly1 : forall (n m o p : nat),
 Proof.
   intros n m o p eq1 eq2.
   rewrite <- eq1.
-  (* At this point, we could finish with 
-     "[rewrite -> eq2. reflexivity.]" as we have 
-     done several times above. But we can achieve the
-     same effect in a single step by using the 
-     [apply] tactic instead: *)
+  (* Nesse ponto, poderiamos acabar a prova com 
+     "[rewrite -> eq2. reflexivity.]" como nós fizemos 
+     várias vezes antes. Mas nós podemos realizar o
+     mesmo efeito com um passo simples, utilizando a tática 
+     [apply]: *)
   apply eq2.  Qed.
 
 (** [Francisco]The [apply] tactic also works with _conditional_ hypotheses
@@ -94,8 +94,8 @@ Proof.
   (* Here we cannot use [apply] directly *)
 Abort.
 
-(** [Diego]In this case we can use the [symmetry] tactic, which switches the
-    left and right sides of an equality in the goal. *)
+(** Neste caso podemos usar a tática [symmetry], que troca os lados
+    direito e o esquerdo de uma igualdade na meta. *)
 
 Theorem silly3 : forall (n : nat),
      true = beq_nat n 5  ->
@@ -103,9 +103,9 @@ Theorem silly3 : forall (n : nat),
 Proof.
   intros n H.
   symmetry.
-  simpl. (* Actually, this [simpl] is unnecessary, since 
-            [apply] will perform simplification first. *)
-  apply H.  Qed.         
+  simpl. (* Na realidade, esse [simpl] é desnecessário, uma vez que 
+            [apply] irá primeiramente realizar simplificação. *)
+  apply H.  Qed.       
 
 (** **** Exercício: nível 3 (apply_exercise1)  *)
 (** [Francisco]Hint: you can use [apply] with previously defined lemmas, not
@@ -171,10 +171,10 @@ Proof.
      [apply]. *)
   apply trans_eq with (m:=[c;d]). apply eq1. apply eq2.   Qed.
 
-(**  [Diego]Actually, we usually don't have to include the name [m]
-    in the [with] clause; Coq is often smart enough to
-    figure out which instantiation we're giving. We could
-    instead write: [apply trans_eq with [c,d]]. *)
+(** Na realidade, nós usualmente não temos que incluir o nome [m]
+    na cláusula [with]; Coq é frequentemente esperto o bastante para
+    descobrir que instanciação nós estamos fornecendo. Nós podemos, em vez 
+    disso, escrever: [apply trans_eq with [c,d]]. *)
 
 (** **** Exercício: nível 3, opcional (apply_with_exercise)  *)
 Example trans_eq_exercise : forall (n m o p : nat),
@@ -216,13 +216,13 @@ construtores distintos nunca são iguais. Para as listas, o construtor [cons]
 (** [Dalay]Coq provides a tactic called [inversion] that allows us to exploit
     these principles in proofs.
  
-    [Diego]The [inversion] tactic is used like this.  Suppose [H] is a
-    hypothesis in the context (or a previously proven lemma) of the
-    form
+    A tática [inversion] é utilizada da seguinte maneira.  Supondo que [H] é 
+    uma hipótese no contexto (or um lema provado anteriormente) da
+    forma
       c a1 a2 ... an = d b1 b2 ... bm
-    for some constructors [c] and [d] and arguments [a1 ... an] and
-    [b1 ... bm].  Then [inversion H] instructs Coq to "invert" this
-    equality to extract the information it contains about these terms:
+    para os contrutores [c] e [d] e argumentos [a1 ... an] e
+    [b1 ... bm].  Então [inversion H] intrui Coq a "inverter" essa igualdade
+    e extrair a informação que ela contém sobre os termos:
 
     - [Francisco]If [c] and [d] are the same constructor, then we know, by the
       injectivity of this constructor, that [a1 = b1], [a2 = b2],
@@ -304,8 +304,8 @@ Proof. intros A B f x y eq. rewrite eq.  reflexivity.  Qed.
 
 
 (** **** Exercício: nível 2, opcional (practice)  *)
-(** [Diego]A couple more nontrivial but not-too-complicated proofs to work
-    together in class, or for you to work as exercises. *)
+(** Algumas provas, não triviais mas também não tão complexas, para
+    serem trabalhadas em classe, ou para você trabalhar como exercícios. *)
  
 
 Theorem beq_nat_0_l : forall n,
@@ -359,16 +359,16 @@ Proof.
   symmetry in H. apply eq in H. symmetry in H. 
   apply H.  Qed.
 
-(** [Diego]Forward reasoning starts from what is _given_ (premises,
-    previously proven theorems) and iteratively draws conclusions from
-    them until the goal is reached.  Backward reasoning starts from
-    the _goal_, and iteratively reasons about what would imply the
-    goal, until premises or previously proven theorems are reached.
-    If you've seen informal proofs before (for example, in a math or
-    computer science class), they probably used forward reasoning.  In
-    general, Coq tends to favor backward reasoning, but in some
-    situations the forward style can be easier to use or to think
-    about.  *)
+(** Raciocínio progressivo começa a partir do que é _dado_ (premissas,
+    teoremas provados anteriormente) e iterativamente retira conclusões a 
+    partir delas até a meta ser alcançada.  Raciocínio regressivo começa a 
+    partir da _meta_, e iterativamente raciocína sobre o que implicaria a meta,
+    até premissas ou teoremas previamente provados serem alcançados.
+    Se você já viu uma prova informal antes (por exemplo, em uma aula de
+    matemática ou ciência da computação), eles provavelmente utilizaram 
+    raciocínio progressivo.  No geral, Coq tende a favorecer o raciocínio
+    regressivo, mas em algumas situações o estilo forward pode ser mais fácil 
+    de usar ou pensar sobre.  *)
 
 (** **** Exercício: nível 3 (plus_n_n_injective)  *)
 (** [Francisco]Practice using "in" variants in this exercise. *)
@@ -449,14 +449,14 @@ considerar um [n] e um [m] específicos..." e agora devemos provar que, se
 
        - "if [double (S n) = double m] then [S n = m]".
 
-    [Diego]To see why this is strange, let's think of a particular [m] --
-    say, [5].  The statement is then saying that, if we know
+    Para ver como isso é estranho, vamos pensar em um [m] em particular --
+    digamos, [5].  A afirmação é então está dizendo que, se nós sabemos que
 
-      - [Q] = "if [double n = 10] then [n = 5]"
+      - [Q] = "se [double n = 10] então [n = 5]"
 
-    then we can prove
+    então nós podemos provar que
 
-      - [R] = "if [double (S n) = 10] then [S n = 5]".
+      - [R] = "se [double (S n) = 10] então [S n = 5]".
 
     [Francisco]But knowing [Q] doesn't give us any help with proving [R]!  (If we
     tried to prove [R] from [Q], we would say something like "Suppose
@@ -529,8 +529,8 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 2, avançado (beq_nat_true_informal)  *)
-(** [Diego]Give a careful informal proof of [beq_nat_true], being as explicit
-    as possible about quantifiers. *)
+(** Dar um minuciosa prova informal de [beq_nat_true], sendo o mais
+    explicito possível sobre quantificadores. *)
 
 (* PREENCHER *)
 (** [] *)
@@ -601,15 +601,15 @@ _Theorem_: For any nats [n] and [m], if [double n = double m], then
 _Proof_: Let [m] be a [nat]. We prove by induction on [m] that, for
   any [n], if [double n = double m] then [n = m].
 
-  - [Diego] First, suppose [m = 0], and suppose [n] is a number such
-    that [double n = double m].  We must show that [n = 0].
+  - Primeiramente, suponha [m = 0], e suponha que [n] é um número tal
+    que [double n = double m].  Nós devemos mostrar que [n = 0].
 
-    Since [m = 0], by the definition of [double] we have [double n =
-    0].  There are two cases to consider for [n].  If [n = 0] we are
-    done, since this is what we wanted to show.  Otherwise, if [n = S
-    n'] for some [n'], we derive a contradiction: by the definition of
-    [double] we would have [double n = S (S (double n'))], but this
-    contradicts the assumption that [double n = 0].
+    Uma vez que [m = 0], pela definição de [double] nós temos [double n =
+    0].  Existem dois casos a considerar para [n].  Se [n = 0] acabamos, 
+    uma vez que é isso que queremos mostrar.  Senão, se [n = S
+    n'] para algum [n'], derivamos uma contradição: pela definição de
+    [double] teriamos [double n = S (S (double n'))], mas isso contradiz
+    a hipótese que [double n = 0].
 
   - [Francisco]Otherwise, suppose [m = S m'] and that [n] is again a number such
     that [double n = double m].  We must show that [n = S m'], with
@@ -686,8 +686,8 @@ Proof.
     Retaining the more general form of the induction hypothesis thus
     gives us more flexibility.
 
-    [Diego]In general, a good rule of thumb is to make the induction hypothesis
-    as general as possible. *)
+    No geral, uma boa regra de ouro é fazer a hipótese de indução
+    ser a mais geral possível. *)
 
 (** **** Exercício: nível 3 (gen_dep_practice)  *)
 (** [Francisco]Prove this by induction on [l]. *)
@@ -735,7 +735,7 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 4, opcional (app_length_twice)  *)
-(** [Diego]Prove this by induction on [l], without using app_length. *)
+(** Provar por indução sobre [l], sem utilizar app_length. *)
 
 Theorem app_length_twice : forall (X:Type) (n:nat) (l:list X),
      length l = n ->
@@ -814,8 +814,8 @@ Proof.
   (* PREENCHER *) Admitted.
 (** [] *)
 
-(** [Diego]Sometimes, doing a [destruct] on a compound expression (a
-    non-variable) will erase information we need to complete a proof. *)
+(** Algumas vezes, fazer um [destruct] em uma expressão composta (uma
+    não variavél) irá apagar informação que precisamos para completar a prova. *)
 (** [Francisco]For example, suppose
     we define a function [sillyfun1] like this: *)
 
@@ -900,13 +900,13 @@ Proof.
     in many cases.  But basically we've got what we need to get work
     done.
 
-    [Diego]Here are the ones we've seen:
+    Aqui está o que nós já vimos:
 
       - [intros]: 
-        move hypotheses/variables from goal to context 
+        move hipóteses/variavéis da meta para o contexto 
 
       - [reflexivity]:
-        finish the proof (when the goal looks like [e = e])
+        finaliza a prova (quando a meta parece como [e = e])
 
       - [Francisco][apply]:
         prove goal using a hypothesis, lemma, or constructor
@@ -956,13 +956,13 @@ Proof.
       - [inversion]:
         reason by injectivity and distinctness of constructors
 
-      - [Diego][assert (e) as H]:
-        introduce a "local lemma" [e] and call it [H] 
+      - [assert (e) as H]:
+        introduz um "lema local" [e] e o chama de [H] 
 
       - [generalize dependent x]:
-        move the variable [x] (and anything else that depends on it)
-        from the context back to an explicit hypothesis in the goal
-        formula 
+        move a variavél [x] (e tudo mais que depender dela)
+        do contexto de volta para uma hipótese explícita na fórmula
+        da meta
 *)
 
 (* ###################################################### *)
@@ -1048,8 +1048,8 @@ Proof.
       forallb evenb [0;2;4;5] = false
   
       forallb (beq_nat 5) [] = true
-    [Diego]The second checks whether there exists an element in the list that
-    satisfies a given predicate:
+    O segundo verifica se existe um elemento na lista que
+    satisfaz um dado predicado:
       existsb (beq_nat 5) [0;2;3;6] = false
  
       existsb (andb true) [true;true;false] = true
