@@ -24,11 +24,11 @@ Inductive boollist : Type :=
   | bool_nil : boollist
   | bool_cons : bool -> boollist -> boollist.
 
-(** ... [Diego] but this would quickly become tedious, partly because we
-    have to make up different constructor names for each datatype, but
-    mostly because we would also need to define new versions of all
-    our list manipulating functions ([length], [rev], etc.)  for each
-    new datatype definition. *)
+(** ...mas isto rapidamente se torna tedioso, em parte porque nós temos 
+    que inventar diferentes nomes para os construtores de cada tipo de dado, 
+    mas principalmente porque também precisamos definir novas versões de toda
+    nossa lista de funções de manipulação ([length], [rev], etc.)  para cada
+    novo tipo de dado definido. *)
 
 (** *** *)
 
@@ -74,9 +74,9 @@ Check cons.
 
 Check (cons nat 2 (cons nat 1 (nil nat))).
 
-(** [Diego] (We've gone back to writing [nil] and [cons] explicitly here
-    because we haven't yet defined the [ [] ] and [::] notations for
-    the new version of lists.  We'll do that in a bit.) *)
+(** (Nós voltamos a escrever [nil] e [cons] explicitamente
+    porque não definimos as notações [ [] ] e [::]
+    para a nova versão das listas. Faremos isso em breve.) *)
 
 (** [Francisco] We can now go back and make polymorphic (or "generic")
     versions of all the list-processing functions that we wrote
@@ -148,7 +148,7 @@ Proof. reflexivity.  Qed.
 
 Module MumbleBaz.
 (** **** Exercise: 2 stars (mumble_grumble)  *)
-(** [Diego] Consider the following two inductively defined types. *)
+(** Considerar os dois tipos indutivamente definidos a seguir. *)
 
 Inductive mumble : Type :=
   | a : mumble
@@ -167,7 +167,7 @@ Inductive grumble (X:Type) : Type :=
       - [e mumble (b c 0)]
       - [e bool (b c 0)]
       - [c] 
-(* FILL IN HERE *)
+(* PREENCHA AQUI *)
 *)
 (** [] *)
 
@@ -206,13 +206,13 @@ Check app'.
 Check app.
 (* ===> forall X : Type, list X -> list X -> list X *)
 
-(** [Diego] It has exactly the same type type as [app].  Coq was able to
-    use a process called _type inference_ to deduce what the types of
-    [X], [l1], and [l2] must be, based on how they are used.  For
-    example, since [X] is used as an argument to [cons], it must be a
-    [Type], since [cons] expects a [Type] as its first argument;
-    matching [l1] with [nil] and [cons] means it must be a [list]; and
-    so on.
+(** Ele tem o mesmo tipo de [app]. Coq foi capaz de utilizar um processo 
+    chamado _inferência de tipo_ para deduzir quais devesm ser os tipos
+    de [X], [l1], e [l2], baseado em como eles são utilizados.  Por exemplo,
+    uma vez que [X] é usado como um argumento para [cons], ele deve ser um
+    [Type], já que [cons] espera um [Type] como seu primeiro argumento;
+    correspondendo [l1] com [nil] e [cons] significa que ele deve ser uma
+    [list]; e assim por diante.
 
     [Francisco] This powerful facility means we don't always have to write
     explicit type annotations everywhere, although explicit type
@@ -260,10 +260,10 @@ Fixpoint length' (X:Type) (l:list X) : nat :=
   | cons h t => S (length' _ t)
   end.
 
-(** [Diego] In this instance, we don't save much by writing [_] instead of
-    [X].  But in many cases the difference can be significant.  For
-    example, suppose we want to write down a list containing the
-    numbers [1], [2], and [3].  Instead of writing this... *)
+(** Neste caso, nós não poupamos muito ao escrever [_] em vez de
+    [X].  Mas, em muitos casos, a diferença pode ser significante.  Por
+    exemplo, suponha que queremos escrever uma lista contendo os
+    números [1], [2], e [3].  Em vez de escrevermos isto... *)
 
 Definition list123 :=
   cons nat 1 (cons nat 2 (cons nat 3 (nil nat))).
@@ -321,11 +321,11 @@ Fixpoint length'' {X:Type} (l:list X) : nat :=
 
 (* Definition mynil := nil.  *)
 
-(** [Diego] If we uncomment this definition, Coq will give us an error,
-    because it doesn't know what type argument to supply to [nil].  We
-    can help it by providing an explicit type declaration (so that Coq
-    has more information available when it gets to the "application"
-    of [nil]): *)
+(** Se não comentarmos essa definição, Coq dará um erro, porque ele não
+    reconhece o tipo de argumento para compor [nil]. Nós podemos ajuda-lo ao
+    prover uma declaração explícita de tipo (então o Coq
+    terá mais informações disponíveis quando ocorrer a "aplicação"
+    de [nil]): *)
 
 Definition mynil : list nat := nil.
 
@@ -363,35 +363,35 @@ Definition list123''' := [1; 2; 3].
     provas abaixo.*)
 
 Fixpoint repeat {X : Type} (n : X) (count : nat) : list X :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHA AQUI *) admit.
 
 Example test_repeat1:
   repeat true 2 = cons true (cons true nil).
- (* FILL IN HERE *) Admitted.
+ (* PREENCHA AQUI *) Admitted.
 
 Theorem nil_app : forall X:Type, forall l:list X,
   app [] l = l.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHA AQUI *) Admitted.
 
 Theorem rev_snoc : forall X : Type,
                      forall v : X,
                      forall s : list X,
   rev (snoc s v) = v :: (rev s).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHA AQUI *) Admitted.
 
 Theorem rev_involutive : forall X : Type, forall l : list X,
   rev (rev l) = l.
 Proof.
-(* FILL IN HERE *) Admitted.
+(* PREENCHA AQUI *) Admitted.
 
 Theorem snoc_with_append : forall X : Type,
                          forall l1 l2 : list X,
                          forall v : X,
   snoc (l1 ++ l2) v = l1 ++ (snoc l2 v).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHA AQUI *) Admitted.
 (** [] *)
 
 (* ###################################################### *)
@@ -406,8 +406,8 @@ Inductive prod (X Y : Type) : Type :=
 
 Arguments pair {X} {Y} _ _.
 
-(** [Diego] As with lists, we make the type arguments implicit and define the
-    familiar concrete notation. *)
+(** Tal como para listas, fizemos argumentos de tipo implícito e definimos
+    a notação concreta familiar. *)
 
 Notation "( x , y )" := (pair x y).
 
@@ -440,8 +440,8 @@ Definition snd {X Y : Type} (p : X * Y) : Y :=
     into a list of pairs.  In many functional programming languages,
     it is called [zip].  We call it [combine] for consistency with
     Coq's standard library. *)
-(** [Diego] Note that the pair notation can be used both in expressions and in
-    patterns... *)
+(** Perceba que a notação em par pode ser utilizada tanto para expressões e
+    padrões... *)
 
 Fixpoint combine {X Y : Type} (lx : list X) (ly : list Y)
            : list (X*Y) :=
@@ -512,12 +512,12 @@ Example test_index3 :    index  2 [true]  = None.
 Proof. reflexivity.  Qed.
 
 (** **** Exercise: 1 star, optional (hd_opt_poly)  *)
-(** [Diego] Complete the definition of a polymorphic version of the
-    [hd_opt] function from the last chapter. Be sure that it
-    passes the unit tests below. *)
+(** Completar a definção de uma versão polimórfica da função
+    [hd_opt] apresentada no último capítulo. Certifique-se que ela
+    passa nos testes de unidade abaixo. *)
 
 Definition hd_opt {X : Type} (l : list X)  : option X :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHA AQUI *) admit.
 
 (** [Francisco] Once again, to force the implicit arguments to be explicit,
     we can use [@] before the name of the function. *)
@@ -525,9 +525,9 @@ Definition hd_opt {X : Type} (l : list X)  : option X :=
 Check @hd_opt.
 
 Example test_hd_opt1 :  hd_opt [1;2] = Some 1.
- (* FILL IN HERE *) Admitted.
+ (* PREENCHA AQUI *) Admitted.
 Example test_hd_opt2 :   hd_opt  [[1];[2]]  = Some [1].
- (* FILL IN HERE *) Admitted.
+ (* PREENCHA AQUI *) Admitted.
 (** [] *)
 
 (* ###################################################### *)
@@ -570,16 +570,16 @@ Proof. reflexivity.  Qed.
 Check plus.
 (* ==> nat -> nat -> nat *)
 
-(** [Diego] Each [->] in this expression is actually a _binary_ operator
-    on types.  (This is the same as saying that Coq primitively
-    supports only one-argument functions -- do you see why?)  This
-    operator is _right-associative_, so the type of [plus] is really a
-    shorthand for [nat -> (nat -> nat)] -- i.e., it can be read as
-    saying that "[plus] is a one-argument function that takes a [nat]
-    and returns a one-argument function that takes another [nat] and
-    returns a [nat]."  In the examples above, we have always applied
-    [plus] to both of its arguments at once, but if we like we can
-    supply just the first.  This is called _partial application_. *)
+(** Cada [->] nesta expressão na verdade é um operador _binário_
+    em tipos.  (Isto é o mesmo que dizer que o Coq primitivamente
+    suporta somente funções de um argumento -- você vê o porquê?)  Esse
+    operador é _associativo à direita_, então o tipo de [plus] é realmente um
+    atalho para [nat -> (nat -> nat)] -- isto é, isto pode ser lido como
+    dizendo que "[plus] é uma função de um argumento que toma um [nat]
+    e returna uma função de um argumento que toma outro [nat] e
+    retorna um [nat]."  No exemplo acima, nós sempre aplicamos
+    [plus] para os dois argumentos de uma vez, mas, se quisermos, podemos
+    fornencer somente o primeiro.  Isto é chamado de _aplicação parcial_. *)
 
 Definition plus3 := plus 3.
 Check plus3.
@@ -621,7 +621,7 @@ Definition prod_curry {X Y Z : Type}
 
 Definition prod_uncurry {X Y Z : Type}
   (f : X -> Y -> Z) (p : X * Y) : Z :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHA AQUI *) admit.
 
 (** [Dalay](Thought exercise: before running these commands, can you
     calculate the types of [prod_curry] and [prod_uncurry]?) *)
@@ -632,22 +632,22 @@ Check @prod_uncurry.
 Theorem uncurry_curry : forall (X Y Z : Type) (f : X -> Y -> Z) x y,
   prod_curry (prod_uncurry f) x y = f x y.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHA AQUI *) Admitted.
 
 Theorem curry_uncurry : forall (X Y Z : Type)
                                (f : (X * Y) -> Z) (p : X * Y),
   prod_uncurry (prod_curry f) p = f p.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHA AQUI *) Admitted.
 (** [] *)
 
 (* ###################################################### *)
 (** ** Filter *)
 
-(** [Diego]Here is a useful higher-order function, which takes a list
-    of [X]s and a _predicate_ on [X] (a function from [X] to [bool])
-    and "filters" the list, returning a new list containing just those
-    elements for which the predicate returns [true]. *)
+(** Aqui está uma útil função de ordem superior, que toma uma lista
+    de [X]s e um _predicado_ em [X] (uma função a partir de [X] para [bool])
+    e "filtra" a lista, retornando uma nova lista contendo somente aqueles
+    elementos que o predicado retorna [true]. *)
 
 Fixpoint filter {X:Type} (test: X->bool) (l:list X)
                 : (list X) :=
@@ -719,21 +719,21 @@ Proof. reflexivity.  Qed.
 
 (** **** Exercise: 2 stars (filter_even_gt7)  *)
 
-(** [Diego]Use [filter] (instead of [Fixpoint]) to write a Coq function
-    [filter_even_gt7] that takes a list of natural numbers as input
-    and returns a list of just those that are even and greater than
+(** Usar [filter] (no lugar de [Fixpoint]) para escrever uma função em Coq
+    [filter_even_gt7] que toma uma lista de números naturais como entrada e
+    retorna uma lista de números somente maiores ou iguais a
     7. *)
 
 Definition filter_even_gt7 (l : list nat) : list nat :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHA AQUI *) admit.
 
 Example test_filter_even_gt7_1 :
   filter_even_gt7 [1;2;6;9;10;3;12;8] = [10;12;8].
- (* FILL IN HERE *) Admitted.
+ (* PREENCHA AQUI *) Admitted.
 
 Example test_filter_even_gt7_2 :
   filter_even_gt7 [5;2;6;19;129] = [].
- (* FILL IN HERE *) Admitted.
+ (* PREENCHA AQUI *) Admitted.
 (** [] *)
 
 (** **** Exercise: 3 stars (partition)  *)
@@ -751,12 +751,12 @@ Example test_filter_even_gt7_2 :
 
 Definition partition {X : Type} (test : X -> bool) (l : list X)
                      : list X * list X :=
-(* FILL IN HERE *) admit.
+(* PREENCHA AQUI *) admit.
 
 Example test_partition1: partition oddb [1;2;3;4;5] = ([1;3;5], [2;4]).
-(* FILL IN HERE *) Admitted.
+(* PREENCHA AQUI *) Admitted.
 Example test_partition2: partition (fun x => false) [5;9;0] = ([], [5;9;0]).
-(* FILL IN HERE *) Admitted.
+(* PREENCHA AQUI *) Admitted.
 (** [] *)
 
 (* ###################################################### *)
@@ -801,14 +801,14 @@ Proof. reflexivity.  Qed.
 
 (** ** Map for options *)
 (** **** Exercise: 3 stars (map_rev)  *)
-(** [Diego] Show that [map] and [rev] commute.  You may need to define an
-    auxiliary lemma. *)
+(** Mostrar que [map] e [rev] comutam.  Você pode precisar definir um
+    lema auxiliar. *)
 
 
 Theorem map_rev : forall (X Y : Type) (f : X -> Y) (l : list X),
   map f (rev l) = rev (map f l).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHA AQUI *) Admitted.
 (** [] *)
 
 (** **** Exercise: 2 stars (flat_map)  *)
@@ -823,12 +823,12 @@ Proof.
 
 Fixpoint flat_map {X Y:Type} (f:X -> list Y) (l:list X)
                    : (list Y) :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHA AQUI *) admit.
 
 Example test_flat_map1:
   flat_map (fun n => [n;n;n]) [1;5;4]
   = [1; 1; 1; 5; 5; 5; 4; 4; 4].
- (* FILL IN HERE *) Admitted.
+ (* PREENCHA AQUI *) Admitted.
 (** [] *)
 
 (** Listas não são o único tipo indutivo para o qual podemos escrever 
@@ -892,11 +892,11 @@ Proof. reflexivity. Qed.
 
 
 (** **** Exercise: 1 star, advanced (fold_types_different)  *)
-(** [Diego]Observe that the type of [fold] is parameterized by _two_ type
-    variables, [X] and [Y], and the parameter [f] is a binary operator
-    that takes an [X] and a [Y] and returns a [Y].  Can you think of a
-    situation where it would be useful for [X] and [Y] to be
-    different? *)
+(** Observe que o tipo de [fold] é parametrizado por _duas_ variavéis
+    de tipos, [X] e [Y], e o parâmetro [f] é um operador binário
+    que toma um [X] e um [Y] e retornar um [Y].  Você consegue pensar em uma
+    situação em que pode ser útil para [X] e [Y] serem
+    diferentes? *)
 
 (* ###################################################### *)
 (** ** Functions For Constructing Functions *)
@@ -962,17 +962,17 @@ Proof. reflexivity. Qed.
 Theorem override_example : forall (b:bool),
   (override (constfun b) 3 true) 2 = b.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHA AQUI *) Admitted.
 (** [] *)
 
-(** [Diego]We'll use function overriding heavily in parts of the rest of the
-    course, and we will end up needing to know quite a bit about its
-    properties.  To prove these properties, though, we need to know
-    about a few more of Coq's tactics; developing these is the main
-    topic of the next chapter.  For now, though, let's introduce just
-    one very useful tactic that will also help us with proving
-    properties of some of the other functions we have introduced in
-    this chapter. *)
+(** Nós vamos utilizar a função _overriding_ várias vezes em partes do resto do
+    curso, e nós vamos acabar precisando saber um pouco sobre suas
+    propriedades.  Para provar essas propriedades, porém, nós precisaremos 
+    conhecer um pouco mais sobre as táticas do Coq; desenvolver elas é o tópico
+    principal do próximo capítulo.  Por enquanto, porém, vamos introduzir
+    somente uma tática muito útil que irá também nos ajudar a provar
+    algumas propriedades das outras funções que introduzimos nesse
+    capítulo. *)
 
 (* ###################################################### *)
 
@@ -1029,12 +1029,12 @@ Theorem override_neq : forall (X:Type) x1 x2 k1 k2 (f : nat->X),
   beq_nat k2 k1 = false ->
   (override f k2 x2) k1 = x1.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHA AQUI *) Admitted.
 (** [] *)
 
-(** [Diego]As the inverse of [unfold], Coq also provides a tactic
-    [fold], which can be used to "unexpand" a definition.  It is used
-    much less often. *)
+(** Tal como o inverso de [unfold], Coq também fornece uma tática
+    [fold], que pode ser utilizada para uma definição "inexpansível".  Ele é usado
+    com muito menos frequência. *)
 
 (* ##################################################### *)
 (** * Additional Exercises *)
@@ -1067,7 +1067,7 @@ Definition fold_map {X Y:Type} (f : X -> Y) (l : list X) : list Y :=
 (** Escreva um teorema [fold_map_correct] em Coq afirmando que [fold_map]
 é correto e prove-o. *)
 
-(* FILL IN HERE *)
+(* PREENCHA AQUI *)
 (** [] *)
 
 (** **** Exercise: 2 stars, advanced (index_informal)  *)
@@ -1079,7 +1079,7 @@ Definition fold_map {X Y:Type} (f : X -> Y) (l : list X) : list Y :=
      end.
    Write an informal proof of the following theorem:
    forall X n l, length l = n -> @index X n l = None.
-(* FILL IN HERE *)
+(* PREENCHA AQUI *)
 *)
 (** [] *)
 
@@ -1087,11 +1087,11 @@ Definition fold_map {X Y:Type} (f : X -> Y) (l : list X) : list Y :=
 
 Module Church.
 
-(** [Diego]In this exercise, we will explore an alternative way of defining
-    natural numbers, using the so-called _Church numerals_, named
-    after mathematician Alonzo Church. We can represent a natural
-    number [n] as a function that takes a function [f] as a parameter
-    and returns [f] iterated [n] times. More formally, *)
+(** Neste exercício, vamos explorar um modo alternativo de definir
+    números naturais, utilizando os chamados _numerais de Church_, em
+    homenagem ao matemático Alonzo Church. Nós podemos representar um número
+    natural [n] como uma função que toma uma função [f] como um parâmetro
+    e retorna [f] iterado [n] vezes. Mais formalmente, *)
 
 Definition nat := forall X : Type, (X -> X) -> X -> X.
 
@@ -1123,48 +1123,48 @@ Definition three : nat := @doit3times.
     that the corresponding unit tests pass by proving them with
     [reflexivity]. *)    
 
-(** [Diego]Successor of a natural number *)
+(** Successor de um número natural *)
 
 Definition succ (n : nat) : nat :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHA AQUI *) admit.
 
 Example succ_1 : succ zero = one.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
 Example succ_2 : succ one = two.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
 Example succ_3 : succ two = three.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
 (** [Francisco]Addition of two natural numbers *)
 
 Definition plus (n m : nat) : nat :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHA AQUI *) admit.
 
 Example plus_1 : plus zero one = one.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
 Example plus_2 : plus two three = plus three two.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
 Example plus_3 :
   plus (plus two two) three = plus one (plus three three).
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
 (** Multiplicação *)
 
 Definition mult (n m : nat) : nat := 
-  (* FILL IN HERE *) admit.
+  (* PREENCHA AQUI *) admit.
 
 Example mult_1 : mult one one = one.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
 Example mult_2 : mult zero (plus three three) = zero.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
 Example mult_3 : mult two three = plus three three.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
 (** Exponenciação *)
 
