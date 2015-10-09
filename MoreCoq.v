@@ -342,10 +342,9 @@ contrário de um simples [apply] (que reescreve uma meta casada com [L2] pela
 submeta [L1]), [apply L in H] casa [H] contra [L1] e, se no caso de sucesso, o 
 substitui por [L2].
  
-    Em outras palavras, [apply L in H] nos dá uma forma de "raciocínio para
-    a frente" -- a partir de [L1 -> L2] e uma hipótese casando com [L1], temos
+    Em outras palavras, [apply L in H] nos dá uma forma de "raciocínio progressivo " -- a partir de [L1 -> L2] e uma hipótese casando com [L1], temos
     uma hipótese casando com [L2]. Por outro lado, [apply L] é um "raciocínio
-    para trás" -- isto indica que se sabemos que [L1 -> L2] e estamos tentando
+    regressivo" -- isto indica que se sabemos que [L1 -> L2] e estamos tentando
     provar [L2], basta que provemos [L1].
 
     [Dalay]Here is a variant of a proof from above, using forward reasoning

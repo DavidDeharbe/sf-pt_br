@@ -1,7 +1,7 @@
 arrow: seta
 assumption: hipótese
 bag: multiconjunto
-backward reasoning:
+backward reasoning: raciocínio regressivo
 branch: ramo
 buffer: buffer, área de trabalho
 cartesian product: produto cartesiano
@@ -12,7 +12,7 @@ Church numerals: numerais de Church
 correctness: corretude
 (to) decrease: decair (no contexto de funções definidas por recursão)
 (to) evaluate: calcular o valor
-forward reasoning:
+forward reasoning: raciocínio progressivo
 function type: tipo funcional
 goal: meta
 hack: truque
