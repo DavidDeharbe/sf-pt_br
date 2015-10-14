@@ -50,9 +50,9 @@ Proof.
   intros n m o p eq1 eq2. 
   apply eq2. apply eq1.  Qed.
 
-(** [Renan]You may find it instructive to experiment with this proof
-    and see if there is a way to complete it using just [rewrite]
-    instead of [apply]. *)
+(** Você pode achar instrutivo observar esta prova e ver se há uma 
+    maneira de completá-la usando apenas [rewrite] em vez de 
+    [apply].*)
 
 (** Tipicamente, quando usamos [apply H], a sentença [H] começará com um 
 [forall] ligando algumas _variáveis universais_. Quando o Coq casa a meta atual 
@@ -120,9 +120,9 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 1, opcional (apply_rewrite)  *)
-(** [Renan]Briefly explain the difference between the tactics [apply] and
-    [rewrite].  Are there situations where both can usefully be
-    applied?
+(** Resumidamente explicar a diferença entre as táticas [apply] e 
+    [rewrite]. Existem situações em que ambas podem ser aplicadas 
+    de maneira útil?
   (* PREENCHER *)
 *)
 (** [] *)
@@ -193,12 +193,11 @@ Proof.
      Inductive nat : Type :=
        | O : nat
        | S : nat -> nat.
-    [Renan]It is clear from this definition that every number has one of two
-    forms: either it is the constructor [O] or it is built by applying
-    the constructor [S] to another number.  But there is more here than
-    meets the eye: implicit in the definition (and in our informal
-    understanding of how datatype declarations work in other
-    programming languages) are two other facts:
+    É claro a partir desta definição que cada número tem uma de duas formas: 
+    ou é o construtor [O] ou é construído através da aplicação do construtor 
+    [S] a outro número. Mas há mais aqui do que parece: implícita na definição 
+    (e no nosso entendimento informal de como declarações de tipo de dados 
+    funcionam em outras linguagens de programação) estão dois outros fatos:
 
 	- O construtor [S] é _injetiva_. Isto é, podemos obter [S n = S m] apenas 
 	se [n = m].
@@ -229,11 +228,11 @@ construtores distintos nunca são iguais. Para as listas, o construtor [cons]
       etc.; [inversion H] adds these facts to the context, and tries
       to use them to rewrite the goal.
 
-    - [Renan]If [c] and [d] are different constructors, then the hypothesis
-      [H] is contradictory.  That is, a false assumption has crept
-      into the context, and this means that any goal whatsoever is
-      provable!  In this case, [inversion H] marks the current goal as
-      completed and pops it off the goal stack. *)
+    - Se [c] e [d] são construtores diferentes, então a hipótese [H] 
+      é contraditória. Ou seja, uma suposição falsa se infiltrou no 
+      contexto, e isso significa que qualquer meta é demonstrável! 
+      Neste caso, [inversion H] marca a meta atual como concluída 
+      e a coloca para fora da pilha de metas. *)
 
 (** A tática [inversion] é provavelmente mais fácil de entender vendo-a em ação 
 do que através de descrições gerais como a mostrada acima. Você verá abaixo 
@@ -327,8 +326,8 @@ Proof.
     the context unchanged.  However, most tactics also have a variant
     that performs a similar operation on a statement in the context.
 
-    [Renan]For example, the tactic [simpl in H] performs simplification in
-    the hypothesis named [H] in the context. *)
+    Por exemplo, a tática [simpl in H] executa simplificação na hipótese 
+    chamada [H] no contexto. *)
 
 Theorem S_inj : forall (n m : nat) (b : bool),
      beq_nat (S n) (S m) = b  ->
@@ -385,21 +384,21 @@ Proof.
 (* ###################################################### *)
 (** * Alterando a Hipótese de Indução *)
 
-(** [Renan]Sometimes it is important to control the exact form of the
-    induction hypothesis when carrying out inductive proofs in Coq.
-    In particular, we need to be careful about which of the
-    assumptions we move (using [intros]) from the goal to the context
-    before invoking the [induction] tactic.  For example, suppose 
-    we want to show that the [double] function is injective -- i.e., 
-    that it always maps different arguments to different results:  
-    Theorem double_injective: forall n m, double n = double m -> n = m. 
-    The way we _start_ this proof is a little bit delicate: if we 
-    begin it with
+(** Às vezes é importante controlar a forma exata da hipótese de 
+    indução quando da realização de provas indutivas em Coq. 
+    Em particular, precisamos ter cuidado sobre quais suposições 
+    devemos mover (usando [intros]) da meta para o contexto 
+    antes de chamar a tática [induction]. Por exemplo, suponha que 
+    queremos mostrar que a função [double] é injetiva - ou seja, 
+    que ela sempre mapeia diferentes parâmetros para diferentes 
+    resultados:
+    Theorem double_injective: forall n m, double n = double m -> n = m.
+    A maneira que nós _começamos_ esta prova é um pouco delicada: se começarmos com
       intros n. induction n.
 ]] 
-    all is well.  But if we begin it with
+    tudo estará bem. Porém, se começarmos com
       intros n m. induction n.
-    we get stuck in the middle of the inductive case... *)
+    nós ficaremos presos no meio do caso indutivo... *)
 
 Theorem double_injective_FAILED : forall n m,
      double n = double m ->
@@ -417,7 +416,7 @@ Proof.
          way -- so the goal is not provable. *)
       Abort.
 
-(** What went wrong? *)
+(** O que deu errado? *)
 
 (** O problema é que, no momento em que invocamos a hipótese indutiva, nós já 
 tínhamos introduzido [m] no contexto -- intuitivamente, dissemos ao Coq "vamos 
@@ -464,10 +463,9 @@ considerar um [n] e um [m] específicos..." e agora devemos provar que, se
     [double (S n)] is [10] tells us nothing about whether [double n]
     is [10], so [Q] is useless at this point.) *)
 
-(** [Renan]To summarize: Trying to carry out this proof by induction on [n]
-    when [m] is already in the context doesn't work because we are
-    trying to prove a relation involving _every_ [n] but just a
-    _single_ [m]. *)
+(** Para resumir: tentar realizar esta prova por indução em [n] quando [m] 
+    já está no contexto não funciona porque estamos tentando provar uma 
+    relação que envolve _todos_ os [n], exceto um _único_ [m]. *)
 
 (** A prova boa de [double_injective] deixa [m] na meta num ponto tal que a 
 tática [induction] é aplicada em [n]: *) 
@@ -556,10 +554,9 @@ Proof.
         (* Stuck again here, just like before. *)
 Abort.
 
-(** [Renan]The problem is that, to do induction on [m], we must first
-    introduce [n].  (If we simply say [induction m] without
-    introducing anything first, Coq will automatically introduce
-    [n] for us!)   *)
+(**  O problema é que, para fazer indução em [m], devemos primeiro 
+    introduzir [n]. (Se nós simplesmente dissermos [induction m] 
+    sem introduzir nada antes, Coq irá introduzir automaticamente [n] para nós!)   *)
 
 	(** O que podemos fazer sobre isso? Uma possibilidade é reescrever a 
 	declaração do lema para que [m] seja quantificada antes de [n]. Isto 
@@ -620,16 +617,16 @@ _Proof_: Let [m] be a [nat]. We prove by induction on [m] that, for
     have [double n = S (S (double m'))].  There are two cases to
     consider for [n].
 
-    [Renan]If [n = 0], then by definition [double n = 0], a contradiction.
-    Thus, we may assume that [n = S n'] for some [n'], and again by
-    the definition of [double] we have [S (S (double n')) = S (S
-    (double m'))], which implies by inversion that [double n' = double
+    Se [n = 0], então por definição [double n = 0], uma contradição.
+    Assim, podemos assumir que [n = S n'] para algum [n'], e novamente 
+    pela definição de [double] nós temos [S (S (double n')) = S (S 
+    (double m'))], o que implica por inversão que [double n' = double 
     m'].
-
-    Instantiating the induction hypothesis with [n'] thus allows us to
-    conclude that [n' = m'], and it follows immediately that [S n' = S
-    m'].  Since [S n' = n] and [S m' = m], this is just what we wanted
-    to show. [] *)
+    
+    Instanciar a hipótese de indução com [n'], portanto, permite-nos 
+    concluir que [n' = m'], e segue-se imediatamente que [S n' = S m']. 
+    Uma vez que [S n' = n] e [S m' = m], isso é justamente o que 
+    queríamos mostrar. [] *)
 
 
 
@@ -700,8 +697,8 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 3, avançado, opcional (index_after_last_informal)  *)
-(** [Renan]Write an informal proof corresponding to your Coq proof
-    of [index_after_last]:
+(** Escrever uma prova informal correspondente à sua prova
+    do Coq sobre [index_after_last]:
  
      _Theorem_: For all sets [X], lists [l : list X], and numbers
       [n], if [length l = n] then [index n l = None].
@@ -762,12 +759,12 @@ Proof.
 (* ###################################################### *)
 (** * Aplicação de [destruct] a Expressões Compostas *)
 
-(** [Renan]We have seen many examples where the [destruct] tactic is
-    used to perform case analysis of the value of some variable.  But
-    sometimes we need to reason by cases on the result of some
-    _expression_.  We can also do this with [destruct].
+(** Temos visto muitos exemplos em que a tática [destruct] é usada 
+    para realizar análise de caso do valor de alguma variável. Mas 
+    às vezes precisamos raciocinar por casos sobre o resultado de 
+    alguma _expressão_. Nós também podemos fazer isso com [destruct].
 
-    Here are some examples: *)
+    Aqui estão alguns exemplos: *)
 
 Definition sillyfun (n : nat) : bool :=
   if beq_nat n 3 then false
@@ -824,10 +821,10 @@ Definition sillyfun1 (n : nat) : bool :=
   else if beq_nat n 5 then true
   else false.
 
-(** [Renan]And suppose that we want to convince Coq of the rather
-    obvious observation that [sillyfun1 n] yields [true] only when [n]
-    is odd.  By analogy with the proofs we did with [sillyfun] above,
-    it is natural to start the proof like this: *)
+(** E suponha que queremos convencer o Coq da observação bastante óbvia 
+    de que [sillyfun1 n] resulta [true] apenas quando [n] é ímpar. 
+    Por analogia com as provas que fizemos com [sillyfun] acima, é 
+    natural começar a prova da seguinte forma: *)
 
 Theorem sillyfun1_odd_FAILED : forall (n : nat),
      sillyfun1 n = true ->
@@ -835,7 +832,7 @@ Theorem sillyfun1_odd_FAILED : forall (n : nat),
 Proof.
   intros n eq. unfold sillyfun1 in eq.
   destruct (beq_nat n 3).
-  (* stuck... *)
+  (* preso... *)
 Abort.
 
 	(** Ficamos presos neste ponto pois o contexto não contém informação 
@@ -919,8 +916,8 @@ Proof.
         explicitly specify values for variables that cannot be
         determined by pattern matching
 
-      - [Renan][simpl]:
-        simplify computations in the goal 
+      - [simpl]:
+        simplifica cálculos na meta 
 
       - [simpl in H]:
         ... or a hypothesis 
@@ -996,9 +993,9 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 3, avançado (split_combine)  *)
-(** [Renan]We have just proven that for all lists of pairs, [combine] is the
-    inverse of [split].  How would you formalize the statement that
-    [split] is the inverse of [combine]? When is this property true?
+(** Acabamos de provar que, para todas as listas de pares, [combine] 
+    é o inverso de [split]. Como você formalizaria a afirmação de que 
+    [split] é o inverso de [combine]? Quando essa propriedade é verdadeira?
 
 	Complete a definição de [split_combine_statement] abaixo com uma 
 	propriedade que determina que [split] é o inverso de [combine]. Em seguida, 
