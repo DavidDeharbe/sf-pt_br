@@ -628,14 +628,10 @@ _Proof_: Let [m] be a [nat]. We prove by induction on [m] that, for
     Uma vez que [S n' = n] e [S m' = m], isso é justamente o que 
     queríamos mostrar. [] *)
 
-
-
-(** [Vítor]Here's another illustration of [inversion] and using an
-    appropriately general induction hypothesis.  This is a slightly
-    roundabout way of stating a fact that we have already proved
-    above.  The extra equalities force us to do a little more
-    equational reasoning and exercise some of the tactics we've seen
-    recently. *)
+(** Abaixo se encontra outro exemplo de [inversion] e do uso de uma hipótese de 
+indução geral apropriada. Esta uma forma ligeiramente indireta de declarar um 
+fato que já provamos acima. As igualdades extras no força a fazer mais cálculos 
+em equações e exercitar algumas das táticas que já vimos recentemente. *)
 
 Theorem length_snoc' : forall (X : Type) (v : X)
                               (l : list X) (n : nat),
