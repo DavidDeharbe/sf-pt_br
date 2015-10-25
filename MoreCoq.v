@@ -37,10 +37,10 @@ Proof.
      [apply]: *)
   apply eq2.  Qed.
 
-(** [Francisco]The [apply] tactic also works with _conditional_ hypotheses
-    and lemmas: if the statement being applied is an implication, then
-    the premises of this implication will be added to the list of
-    subgoals needing to be proved. *)
+(** A tática do [apply] também funciona com hipótese _condicional_
+    e lemas: se a sentença que está sendo aplicada é uma implicação,
+    então as premissas desta implicação será adicionada na lista de
+    submetas que precisam ser provadas. *)
 
 Theorem silly2 : forall (n m o p : nat),
      n = m  ->
@@ -108,9 +108,9 @@ Proof.
   apply H.  Qed.       
 
 (** **** Exercício: nível 3 (apply_exercise1)  *)
-(** [Francisco]Hint: you can use [apply] with previously defined lemmas, not
-    just hypotheses in the context.  Remember that [SearchAbout] is
-    your friend. *)
+(** Dica: Você pode usar [apply] com lemas definidos anteriormente, 
+    não apenas hipóteses no contexto. Lembre que [SearchAbout] é seu
+    amigo. *)
 
 Theorem rev_exercise1 : forall (l l' : list nat),
      l = rev l' ->
@@ -189,7 +189,7 @@ Proof.
 (* ###################################################### *)
 (** * A tática [inversion] (_inversão_) *)
 
-(** [Francisco]Recall the definition of natural numbers:
+(** Rechamar a definição de números naturais:
      Inductive nat : Type :=
        | O : nat
        | S : nat -> nat.
@@ -223,10 +223,10 @@ construtores distintos nunca são iguais. Para as listas, o construtor [cons]
     [b1 ... bm].  Então [inversion H] intrui Coq a "inverter" essa igualdade
     e extrair a informação que ela contém sobre os termos:
 
-    - [Francisco]If [c] and [d] are the same constructor, then we know, by the
-      injectivity of this constructor, that [a1 = b1], [a2 = b2],
-      etc.; [inversion H] adds these facts to the context, and tries
-      to use them to rewrite the goal.
+    - Se [c] e [d] são o mesmo contrutor, então nós sabemos, pela
+      injetividade deste contrutor, que [a1 = b1], [a2 = b2],
+      etc.; [inversion H] adiciona esses fatos no contexto, e tenta
+      usá-los para reescrever a meta.
 
     - Se [c] e [d] são construtores diferentes, então a hipótese [H] 
       é contraditória. Ou seja, uma suposição falsa se infiltrou no 
@@ -322,9 +322,9 @@ Proof.
 (* ###################################################### *)
 (** * Aplicação de Táticas nas Hipóteses *)
 
-(** [Francisco]By default, most tactics work on the goal formula and leave
-    the context unchanged.  However, most tactics also have a variant
-    that performs a similar operation on a statement in the context.
+(** Por padrão, a maioria das táticas funcionam na fórmula da meta e
+    deixa o contexto inalterado. Contudo, a maioria das táticas também tem
+    um variante que realiza operação similiar à sentença no contexto.
 
     Por exemplo, a tática [simpl in H] executa simplificação na hipótese 
     chamada [H] no contexto. *)
@@ -370,7 +370,7 @@ Proof.
     de usar ou pensar sobre.  *)
 
 (** **** Exercício: nível 3 (plus_n_n_injective)  *)
-(** [Francisco]Practice using "in" variants in this exercise. *)
+(** Pratique usando o variante "in" neste exercício. *)
 
 Theorem plus_n_n_injective : forall n m,
      n + n = m + m ->
@@ -457,11 +457,11 @@ considerar um [n] e um [m] específicos..." e agora devemos provar que, se
 
       - [R] = "se [double (S n) = 10] então [S n = 5]".
 
-    [Francisco]But knowing [Q] doesn't give us any help with proving [R]!  (If we
-    tried to prove [R] from [Q], we would say something like "Suppose
-    [double (S n) = 10]..." but then we'd be stuck: knowing that
-    [double (S n)] is [10] tells us nothing about whether [double n]
-    is [10], so [Q] is useless at this point.) *)
+    Mas sabendo [Q] não nos dar qualquer ajuda com a prova [R]! (se nós
+    tentarmos provar [R] a partir de [Q], nós diríamos algo como "suponha"
+    [double (S n) = 10]..." mas então nós estriamos presos: Sabendo que
+    [double (S n)] é [10] diz para a gente nada sobre se [double n]
+    é [10], então [Q] inútil nesse ponto.) *)
 
 (** Para resumir: tentar realizar esta prova por indução em [n] quando [m] 
     já está no contexto não funciona porque estamos tentando provar uma 
@@ -534,11 +534,10 @@ Proof.
 (** [] *)
 
 
-(** [Francisco]The strategy of doing fewer [intros] before an [induction] doesn't
-    always work directly; sometimes a little _rearrangement_ of
-    quantified variables is needed.  Suppose, for example, that we
-    wanted to prove [double_injective] by induction on [m] instead of
-    [n]. *)
+(** A estratégia de fazer alguns [intros] antes de um [induction] nem
+    sempre funciona diretamente; as vezes um pouco de _rearranjo_ de
+    variáveis quantificadas é preciso. Suponha, por exemplo, que nós queremos provar
+    [double_injective] por indução em [m] em vez de [n]. *)
 
 Theorem double_injective_take2_FAILED : forall n m,
      double n = double m ->
@@ -608,14 +607,14 @@ _Proof_: Let [m] be a [nat]. We prove by induction on [m] that, for
     [double] teriamos [double n = S (S (double n'))], mas isso contradiz
     a hipótese que [double n = 0].
 
-  - [Francisco]Otherwise, suppose [m = S m'] and that [n] is again a number such
-    that [double n = double m].  We must show that [n = S m'], with
-    the induction hypothesis that for every number [s], if [double s =
-    double m'] then [s = m'].
+  - Por outro lado, suponha [m = S m'] e que [n] é novamente um número
+    tal que [double n = double m].  Nós devemos mostrar que [n = S m'], com
+    indução da hipótese que para todo número [s], se [double s =
+    double m'] então [s = m'].
  
-    By the fact that [m = S m'] and the definition of [double], we
-    have [double n = S (S (double m'))].  There are two cases to
-    consider for [n].
+    Pelo fato que [m = S m'] e a definição de [double], nós temos
+    [double n = S (S (double m'))].  Existem dois casos para considerar
+    [n].
 
     Se [n = 0], então por definição [double n = 0], uma contradição.
     Assim, podemos assumir que [n = S n'] para algum [n'], e novamente 
@@ -683,7 +682,7 @@ Proof.
     ser a mais geral possível. *)
 
 (** **** Exercício: nível 3 (gen_dep_practice)  *)
-(** [Francisco]Prove this by induction on [l]. *)
+(** Prova isto pela indução em [l]. *)
 
 Theorem index_after_last: forall (n : nat) (X : Type) (l : list X),
      length l = n ->
@@ -739,7 +738,7 @@ Proof.
 
 
 (** **** Exercício: nível 3, opcional (double_induction)  *)
-(** [Francisco]Prove the following principle of induction over two naturals. *)
+(** Prova a seguir pelo princípio da indução sobre dois naturais. *)
 
 Theorem double_induction: forall (P : nat -> nat -> Prop), 
   P 0 0 ->
@@ -809,8 +808,7 @@ Proof.
 
 (** Algumas vezes, fazer um [destruct] em uma expressão composta (uma
     não variavél) irá apagar informação que precisamos para completar a prova. *)
-(** [Francisco]For example, suppose
-    we define a function [sillyfun1] like this: *)
+(** Por exemplo, suponha que nós definimos uma função [sillyfun1] como esta: *)
 
 Definition sillyfun1 (n : nat) : bool :=
   if beq_nat n 3 then true
@@ -901,16 +899,16 @@ Proof.
       - [reflexivity]:
         finaliza a prova (quando a meta parece como [e = e])
 
-      - [Francisco][apply]:
-        prove goal using a hypothesis, lemma, or constructor
+      - [apply]:
+        prove a meta usando uma hipótese, lema ou construtor
 
       - [apply... in H]: 
-        apply a hypothesis, lemma, or constructor to a hypothesis in
-        the context (forward reasoning)
+        Aplique uma hipótese, lemma, ou construtor para uma hipótese no 
+        contexto (raciocínio adiante)
 
       - [apply... with...]:
-        explicitly specify values for variables that cannot be
-        determined by pattern matching
+        Especificar valores explicitamente para variáveis não pode ser
+        determinado pelo casamento de padrão
 
       - [simpl]:
         simplifica cálculos na meta 
@@ -969,10 +967,10 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 3, avançado, opcional (beq_nat_sym_informal)  *)
-(** [Francisco]Give an informal proof of this lemma that corresponds to your
-    formal proof above:
+(** De uma prova informal deste lema que corresponda a sua prova
+    formal acima:
 
-   Theorem: For any [nat]s [n] [m], [beq_nat n m = beq_nat m n].
+   Teorema: para todo [nat]s [n] [m], [beq_nat n m = beq_nat m n].
 
    Proof:
    (* PREENCHER *)
@@ -1050,11 +1048,11 @@ Proof.
       existsb oddb [1;0;0;0;0;3] = true
  
       existsb evenb [] = false
-    [Francisco]Next, define a _nonrecursive_ version of [existsb] -- call it
-    [existsb'] -- using [forallb] and [negb].
+    Depois, defina uma versão _não-recursiva_ de [existsb] -- chame de
+    [existsb'] -- usando [forallb] e [negb].
  
-    Prove theorem [existsb_existsb'] that [existsb'] and [existsb] have
-    the same behavior.
+    Prove o teorema [existsb_existsb'] que [existsb'] e [existsb] tenham
+    o mesmo comportamento.
 *)
 
 (* PREENCHER *)
