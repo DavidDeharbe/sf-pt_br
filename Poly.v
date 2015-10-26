@@ -13,12 +13,12 @@ Require Export Lists.
 (* ###################################################### *)
 (** ** Polymorphic Lists *)
 
-(** [Dalay] For the last couple of chapters, we've been working just
-    with lists of numbers.  Obviously, interesting programs also need
-    to be able to manipulate lists with elements from other types --
-    lists of strings, lists of booleans, lists of lists, etc.  We
-    _could_ just define a new inductive datatype for each of these,
-    for example... *)
+(** Nos últimos capítulos nós temos trabalhado somente com listas de 
+    números. Obviamente, programas interessantes também precisam 
+    poder manipular listas com elementos de outros tipos -- listas 
+    de strings, listas de booleanos, listas de listas, etc. Nós
+    _poderíamos_ apenas definir novos tipos indutivos para cada uma
+    dessas, por exemplo...*)
 
 Inductive boollist : Type :=
   | bool_nil : boollist
@@ -59,18 +59,18 @@ indutivamente (com [Inductive]) cujo elementos são coisas do tipo [X]. *)
 (** Com esta definição, quando usamos os construtores [nil] e [cons] para
     construir listas, precisamos dizer ao Coq qual é o tipo dos elementos nas listas
     que estamos construindo -- isto é, [nil] e [cons] agora são _construtores
-    polimórficos_. Observe os tipos destes construtores:
+    polimórficos_. Observe os tipos destes construtores: *)
 
 Check nil.
 (* ===> nil : forall X : Type, list X *)
 Check cons.
 (* ===> cons : forall X : Type, X -> list X -> list X *)
 
-(** [Dalay] The "[forall X]" in these types can be read as an additional
-    argument to the constructors that determines the expected types of
-    the arguments that follow.  When [nil] and [cons] are used, these
-    arguments are supplied in the same way as the others.  For
-    example, the list containing [2] and [1] is written like this: *)
+(** O "[forall X]" nesses tipos pode ser lido como um argumento adicional
+    aos contrutores que tetermina os tipos esperados dos argumentos 
+    seguintes. quando [nil] e [cons] são usados, esses argumentos são
+    fornecidos da mesma maneira que os outros. Por exemplo, a lista 
+    contendo [2] e [1] é escrita assim:*)
 
 Check (cons nat 2 (cons nat 1 (nil nat))).
 
@@ -113,8 +113,8 @@ Proof. reflexivity.  Qed.
 
 
 (** *** *)
-(** [Dalay] Let's close this subsection by re-implementing a few other
-    standard list functions on our new polymorphic lists: *)
+(** Vaos fechar essa subseção reimplementando algumas outras funções 
+    padrões sobre listas em nossa nova lista polimórfica.*)
 
 Fixpoint app (X : Type) (l1 l2 : list X)
                 : (list X) :=
@@ -199,7 +199,7 @@ Fixpoint app' X l1 l2 : list X :=
   | cons h t => cons X h (app' X t l2)
   end.
 
-(** [Dalay] Indeed it will.  Let's see what type Coq has assigned to [app']: *)
+(** De fato ele vai. Vamos ver que tipo o Coq tem atribuído a [app']: *)
 
 Check app'.
 (* ===> forall X : Type, list X -> list X -> list X *)
@@ -251,8 +251,7 @@ Check app.
       app' (X : _) (l1 l2 : _) : list X :=
     que pede ao Coq para tentar inferir a informação em falta apenas analisando os argumentos.
 
-    [Dalay] Using implicit arguments, the [length] function can be written
-    like this: *)
+    Usando argumentos implícitos, a função [length] pode ser escrita assim:*)
 
 Fixpoint length' (X:Type) (l:list X) : nat :=
   match l with
@@ -312,12 +311,12 @@ Fixpoint length'' {X:Type} (l:list X) : nat :=
 
 (** *** *)
 
-(** [Dalay] One small problem with declaring arguments [Implicit] is
-    that, occasionally, Coq does not have enough local information to
-    determine a type argument; in such cases, we need to tell Coq that
-    we want to give the argument explicitly this time, even though
-    we've globally declared it to be [Implicit].  For example, suppose we
-    write this: *)
+(** Um pequeno problema com declarar argumentos [Impricit] é que, 
+    ocasionalmente, o Coq não tem informações locais suficientes para 
+    determinar um argumento tipo; nesses casos, nós precisamos dizer ao 
+    Coq que nós queremos dar o argumento explicitamente dessa vez, mesmo
+    que nós tenhamos declarado globalmente que ele é [Implicit]. Por 
+    exemplo, suponha que nós escrevemos isso: *)
 
 (* Definition mynil := nil.  *)
 
@@ -397,9 +396,9 @@ Proof.
 (* ###################################################### *)
 (** ** Polymorphic Pairs *)
 
-(** [Dalay] Following the same pattern, the type definition we gave in
-    the last chapter for pairs of numbers can be generalized to
-    _polymorphic pairs_ (or _products_): *)
+(** Seguindo o mesmo padrão, a definição de tipo que demos no último
+    capítulo para pares de números pode ser generalizada para _pares 
+    polimórficos_ (ou _produtos_):  *)
 
 Inductive prod (X Y : Type) : Type :=
   pair : X -> Y -> prod X Y.
@@ -436,10 +435,10 @@ Definition fst {X Y : Type} (p : X * Y) : X :=
 Definition snd {X Y : Type} (p : X * Y) : Y :=
   match p with (x,y) => y end.
 
-(** [Dalay] The following function takes two lists and combines them
-    into a list of pairs.  In many functional programming languages,
-    it is called [zip].  We call it [combine] for consistency with
-    Coq's standard library. *)
+(** A função seguinte usa duas listas e as combina em uma lista de pares.
+    Em muitas linguagens de programação funcional, isso é chamado [zip].
+    Nós chamamos isso de [combine] ("combinar") para ter consistência com
+    a biblioteca padrão do Coq. *)
 (** Perceba que a notação em par pode ser utilizada tanto para expressões e
     padrões... *)
 
@@ -492,8 +491,8 @@ Arguments Some {X} _.
 Arguments None {X}. 
 
 (** *** *)
-(** [Dalay] We can now rewrite the [index] function so that it works
-    with any type of lists. *)
+(** Nós podemos agora reescrever a função [index] para que ela funcione
+    com qualquer tipo de listas. *)
 
 Fixpoint index {X : Type} (n : nat)
                (l : list X) : option X :=
@@ -561,9 +560,9 @@ Proof. reflexivity.  Qed.
 (* ###################################################### *)
 (** ** Partial Application *)
 
-(** [Dalay] In fact, the multiple-argument functions we have already
-    seen are also examples of passing functions as data.  To see why,
-    recall the type of [plus]. *)
+(** De fato, as funções de múltipo argumento que já vimos são também
+    exemplos de passar funções como dados. Para ver o porquê, relembre
+    o tipo de [plus]. *)
 
 Check plus.
 (* ==> nat -> nat -> nat *)
@@ -620,8 +619,8 @@ Definition prod_uncurry {X Y Z : Type}
   (f : X -> Y -> Z) (p : X * Y) : Z :=
   (* PREENCHA AQUI *) admit.
 
-(** [Dalay](Thought exercise: before running these commands, can you
-    calculate the types of [prod_curry] and [prod_uncurry]?) *)
+(** Exercício de pensamento. Antes de rodar esses comandos, você
+    pode calcular os tipos de [prod_curry] e [prod_uncurry]?) *) 
 
 Check @prod_curry.
 Check @prod_uncurry.
@@ -705,8 +704,8 @@ Example test_anon_fun':
   doit3times (fun n => n * n) 2 = 256.
 Proof. reflexivity.  Qed.
 
-(** [Dalay]Here is the motivating example from before, rewritten to use
-    an anonymous function. *)
+(** Aqui está o exemplo motivacional de antes, reescrito para usar
+    uma função anônima. *)
 
 Example test_filter2':
     filter (fun l => beq_nat (length l) 1)
@@ -782,9 +781,9 @@ booleanos a fim de produzir uma lista de booleanos: *)
 Example test_map2: map oddb [2;1;2;5] = [false;true;false;true].
 Proof. reflexivity.  Qed.
 
-(** [Dalay] It can even be applied to a list of numbers and
-    a function from numbers to _lists_ of booleans to
-    yield a list of lists of booleans: *)
+(** Isso pode até ser aplicado a uma lista de numeros e
+    uma função de números para _listas_ de boleanos para 
+    produzir uma lista de listas de boleanos: *)
 
 Example test_map3:
     map (fun n => [evenb n;oddb n]) [2;1;2;5]
@@ -859,16 +858,16 @@ Fixpoint fold {X Y:Type} (f: X->Y->Y) (l:list X) (b:Y) : Y :=
 
 (** *** *)
 
-(** [Dalay]Intuitively, the behavior of the [fold] operation is to
-    insert a given binary operator [f] between every pair of elements
-    in a given list.  For example, [ fold plus [1;2;3;4] ] intuitively
-    means [1+2+3+4].  To make this precise, we also need a "starting
-    element" that serves as the initial second input to [f].  So, for
-    example,
+(** Intuitivamente, o comportamento da operação [fold] é inserir um 
+    operador binário [f] entre todo par de elementos em uma lista dada.
+    Por exemplo, [ fold plus [1;2;3;4] ] intuitivamente significa 
+    [1+2+3+4]. Para fazer isso ser preciso, nós tambpem precisamos de 
+    um "elemento inicial" que serve como uma segunda entrada inicial 
+    para [f]. Então, por exemplo, 
    fold plus [1;2;3;4] 0
     yields
    1 + (2 + (3 + (4 + 0))).
-    Here are some more examples:
+    Aqui estão alguns outros exemplos:
 *)
 
 Check (fold andb).
@@ -946,10 +945,10 @@ Proof. reflexivity. Qed.
 
 (** *** *)
 
-(** **** Exercise: 1 star (override_example)  *)
-(** [Dalay]Before starting to work on the following proof, make sure you
-    understand exactly what the theorem is saying and can paraphrase
-    it in your own words.  The proof itself is straightforward. *)
+(** **** Exercício: 1 estrela (override_example)  *)
+(** Antes de começar a trabalhar na prova seguinte, tenha certeza que
+    você entendeu exatamente o que o teorema está dizendo e pode você
+    parafrasear isso em suas próprias palavras. A prova em si é simples. *)
 
 Theorem override_example : forall (b:bool),
   (override (constfun b) 3 true) 2 = b.
@@ -1012,8 +1011,8 @@ Proof.
   rewrite <- beq_nat_refl.
   reflexivity.  Qed.
 
-(** [Dalay]This proof was straightforward, but note that it requires
-    [unfold] to expand the definition of [override]. *)
+(** Essa prova foi simples, mas note que ela precisou do [unfold] 
+    para expandir a definição de [override]. *)
 
 (** **** Exercise: 2 stars (override_neq)  *)
 Theorem override_neq : forall (X:Type) x1 x2 k1 k2 (f : nat->X),
@@ -1063,13 +1062,13 @@ Definition fold_map {X Y:Type} (f : X -> Y) (l : list X) : list Y :=
 (** [] *)
 
 (** **** Exercise: 2 stars, advanced (index_informal)  *)
-(** [Dalay]Recall the definition of the [index] function:
+(** Relembre a definição da função [index]:
    Fixpoint index {X : Type} (n : nat) (l : list X) : option X :=
      match l with
      | [] => None 
      | a :: l' => if beq_nat n O then Some a else index (pred n) l'
      end.
-   Write an informal proof of the following theorem:
+   Escreva uma prova informal do seguinte teorema:
    forall X n l, length l = n -> @index X n l = None.
 (* PREENCHA AQUI *)
 *)
@@ -1111,9 +1110,10 @@ a representação de [3].
 
 Definition three : nat := @doit3times.
 
-(** [Dalay[Complete the definitions of the following functions. Make sure
-    that the corresponding unit tests pass by proving them with
+(** Complete as definições das seguintes funções. Tenha certeza de que
+    os testes de unidade correspondentes passem, provando eles com 
     [reflexivity]. *)    
+
 
 (** Successor de um número natural *)
 
