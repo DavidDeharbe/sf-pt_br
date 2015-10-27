@@ -21,8 +21,8 @@ Require Export MoreCoq.
 
 (** Nos capítulos anteriores, nós vimos vários exemplos de alegações
     fatuais (_proposições_) e meios de apresentar evidências das suas
-    verdades (_provas_).  Em particular, nós temos trabalhados extensivamente com
-    _proposições de igualdades_ da forma [e1 = e2], com
+    verdades (_provas_).  Em particular, nós temos trabalhados extensivamente 
+    com _proposições de igualdades_ da forma [e1 = e2], com
     implicações ([P -> Q]), e com proposições quantificadas
     ([forall x, P]).  
 *)
@@ -457,10 +457,10 @@ Proof.
   intros contra.
   inversion contra.  Qed. 
 
-(** Como isso funciona? A tática [inversion] quebra [contra] em
-    cada um dos seus possíveis casos, e gera uma submeta para cada caso.
-    Como [contra] é evidência para [False], ela _não_ tem casos possíveis,
-    conseqüentemente, não tem casos possíveis na submeta e a prova está feita. *)
+(** Como isso funciona? A tática [inversion] quebra [contra] em cada um dos
+    seus possíveis casos, e gera uma submeta para cada caso. Como [contra] é
+    evidência para [False], ela _não_ tem casos possíveis, conseqüentemente,
+    não tem casos possíveis na submeta e a prova está feita. *)
 
 (** *** *)
 (** [Francisco]Conversely, the only way to prove [False] is if there is already
@@ -503,11 +503,11 @@ Proof.
 (* PREENCHER *)
 (** [] *)
 
-(** Entretanto, diferentemente de [False], o qual vamos utilizar extensivamente, [True] é
-    utilizado muito raramente. Por si própria, ela é trivial (e portanto
-    desinteressante) para provar como uma meta, e carrega informação inútil
-    como uma hipótese. Mas ela pode ser útil ao definir [Prop]s
-    complexos utilizando condicionais, ou como um parâmetro para 
+(** Entretanto, diferentemente de [False], o qual vamos utilizar 
+    extensivamente, [True] é utilizado muito raramente. Por si própria, ela é
+    trivial (e portanto desinteressante) para provar como uma meta, e carrega
+    informação inútil como uma hipótese. Mas ela pode ser útil ao definir
+    [Prop]s complexos utilizando condicionais, ou como um parâmetro para 
     [Prop]s de ordem superior. *)
 
 (* #################################################### *)
