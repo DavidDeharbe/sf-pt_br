@@ -19,11 +19,11 @@ Require Export MoreCoq.
 (* ########################################################### *)
 (** * Proposições *)
 
-(** [Diego]In previous chapters, we have seen many examples of factual
-    claims (_propositions_) and ways of presenting evidence of their
-    truth (_proofs_).  In particular, we have worked extensively with
-    _equality propositions_ of the form [e1 = e2], with
-    implications ([P -> Q]), and with quantified propositions 
+(** Nos capítulos anteriores, nós vimos vários exemplos de alegações
+    fatuais (_proposições_) e meios de apresentar evidências das suas
+    verdades (_provas_).  Em particular, nós temos trabalhados extensivamente com
+    _proposições de igualdades_ da forma [e1 = e2], com
+    implicações ([P -> Q]), e com proposições quantificadas
     ([forall x, P]).  
 *)
 
@@ -53,7 +53,7 @@ Check (forall (n:nat), n = 2).
     _proofs_.  We will refer to such inhabitants as _proof term_ or
     _proof object_ or _evidence_ for the truth of [P]. 
 
-    [Diego]In Coq, when we state and then prove a lemma such as:
+    Em Coq, quando nós afirmamos e então provamos um lema como:
 
 Lemma silly : 0 * 3 = 0.  
 Proof. reflexivity. Qed.
@@ -99,8 +99,8 @@ output.
 Lemma silly_implication : (1 + 1) = 2  ->  0 * 3 = 0.
 Proof. intros H. reflexivity. Qed.
 
-(** [Diego]We can see that the proof term for the above lemma is indeed a
-function: *)
+(** Nós podemos ver que o termo prova do lema abaixo é de fato
+uma função: *)
 
 Print silly_implication.
 (* ===> silly_implication = fun _ : 1 + 1 = 2 => eq_refl
@@ -127,8 +127,8 @@ Print silly_implication.
     [Dalay]- Sometimes a proposition is declared to be true without
       substantiating evidence.  Such propositions are called _axioms_.
 
-    [Diego]In this, and subsequence chapters, we'll see more about how these
-    proof terms work in more detail.
+    Neste, e nos capítulos subsequentes, nós veremos de maneira mais detalhada
+    mais sobre como esses termos de prova funcionam.
 *)
 
 (* ########################################################### *)
@@ -158,8 +158,8 @@ Inductive and (P Q : Prop) : Prop :=
 
 Notation "P /\ Q" := (and P Q) : type_scope.
 
-(** [Diego](The [type_scope] annotation tells Coq that this notation
-    will be appearing in propositions, not values.) *)
+(** (A anotação [type_scope] diz ao Coq que essa notação
+    irá aparecer em preposições, não em valores.) *)
 
 (** [Francisco]Consider the "type" of the constructor [conj]: *)
 
@@ -229,9 +229,9 @@ Proof.
     Case "right". apply HP.  Qed.
 
 (** **** Exercício: nível 2 (and_assoc)  *)
-(** [Diego]In the following proof, notice how the _nested pattern_ in the
-    [destruct] breaks the hypothesis [H : P /\ (Q /\ R)] down into
-    [HP: P], [HQ : Q], and [HR : R].  Finish the proof from there: *)
+(** Na prova a seguir, notar como o _aninhamento padrão_ no
+    [destruct] quebra a hipótese [H : P /\ (Q /\ R)] em
+    [HP: P], [HQ : Q], and [HR : R].  Terminar a prova a partir desse ponto: *)
 
 Theorem and_assoc : forall P Q R : Prop, 
   P /\ (Q /\ R) -> (P /\ Q) /\ R.
@@ -311,7 +311,7 @@ Inductive or (P Q : Prop) : Prop :=
 
 Notation "P \/ Q" := (or P Q) : type_scope.
 
-(** [Diego]Consider the "type" of the constructor [or_introl]: *)
+(** Considerar o "tipo" do construtor [or_introl]: *)
 
 Check or_introl.
 (* ===>  forall P Q : Prop, P -> P \/ Q *)
@@ -336,8 +336,8 @@ Check or_intror.
       constructor. *)
 
 (** *** *)
-(** [Diego]Since [P \/ Q] has two constructors, doing [destruct] on a
-    hypothesis of type [P \/ Q] yields two subgoals. *)
+(** Desde que [P \/ Q] tenha dois contrutores, realizar um [destruct] em
+    uma hipótese do tipo [P \/ Q] gera duas submetas. *)
 
 Theorem or_commut : forall P Q : Prop,
   P \/ Q  -> Q \/ P.
@@ -457,10 +457,10 @@ Proof.
   intros contra.
   inversion contra.  Qed. 
 
-(** [Diego]How does this work? The [inversion] tactic breaks [contra] into
-    each of its possible cases, and yields a subgoal for each case.
-    As [contra] is evidence for [False], it has _no_ possible cases,
-    hence, there are no possible subgoals and the proof is done. *)
+(** Como isso funciona? A tática [inversion] quebra [contra] em
+    cada um dos seus possíveis casos, e gera uma submeta para cada caso.
+    Como [contra] é evidência para [False], ela _não_ tem casos possíveis,
+    conseqüentemente, não tem casos possíveis na submeta e a prova está feita. *)
 
 (** *** *)
 (** [Francisco]Conversely, the only way to prove [False] is if there is already
@@ -503,12 +503,12 @@ Proof.
 (* PREENCHER *)
 (** [] *)
 
-(** [Diego]However, unlike [False], which we'll use extensively, [True] is
-    used fairly rarely. By itself, it is trivial (and therefore
-    uninteresting) to prove as a goal, and it carries no useful
-    information as a hypothesis. But it can be useful when defining
-    complex [Prop]s using conditionals, or as a parameter to 
-    higher-order [Prop]s. *)
+(** Entretanto, diferentemente de [False], o qual vamos utilizar extensivamente, [True] é
+    utilizado muito raramente. Por si própria, ela é trivial (e portanto
+    desinteressante) para provar como uma meta, e carrega informação inútil
+    como uma hipótese. Mas ela pode ser útil ao definir [Prop]s
+    complexos utilizando condicionais, ou como um parâmetro para 
+    [Prop]s de ordem superior. *)
 
 (* #################################################### *)
 (** * Negação *)
@@ -584,9 +584,9 @@ Proof.
 (** [] *)
 
 (** *** Lógica Construtiva *)
-(** [Diego]Note that some theorems that are true in classical logic are _not_
-    provable in Coq's (constructive) logic.  E.g., let's look at how
-    this proof gets stuck... *)
+(** Note que alguns teoremas que são verdadeiros em lógica clássica _não_ são
+    prováveis na lógica (construtiva) do Coq.  Por exemplo, vamos observar como
+    essa prova fica travada... *)
 
 Theorem classic_double_neg : forall P : Prop,
   ~~P -> P.
