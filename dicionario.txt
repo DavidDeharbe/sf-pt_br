@@ -29,6 +29,7 @@ notation-symbol: símbolo de notação
 overriding: sobrescrita
 pattern matching: casamento de padrões
 pedantic: minucioso(a)
+pigeonhole principle:
 pretty printer: formatador de código
 qualifier: marcador
 (to) reason: raciocinar
@@ -41,5 +42,4 @@ static type system: sistema de tipagem estática
 string(s): cadeia de caracteres
 tail: cauda
 (to) type: tipar
-unexpand :
 wildcard: coringa
