@@ -16,10 +16,10 @@ Definition even (n:nat) : Prop :=
 (** [Dalay] That is, we can define "[n] is even" to mean "the function [evenb]
     returns [true] when applied to [n]."  
 
-    [Diego]Note that here we have given a name
-    to a proposition using a [Definition], just as we have
-    given names to expressions of other sorts. This isn't a fundamentally
-    new kind of proposition;  it is still just an equality. *)
+    Note que aqui temos dado um nome para
+    uma proposição utilizando uma [Definition], assim como temos dado
+    nomes para expressões de outros tipos. Ela não é fundamentalmente um
+    novo tipo de proposição;  Ela ainda é apenas uma igualdade. *)
 
 (** [Francisco] Another alternative is to define the concept of evenness
     directly.  Instead of going via the [evenb] function ("a number is
@@ -69,8 +69,8 @@ Proof.
     define a simple property of natural numbers -- we'll call it
     "[beautiful]." *)
 
-(** [Diego] Informally, a number is [beautiful] if it is [0], [3], [5], or the
-    sum of two [beautiful] numbers.  
+(** Informalmente, um número é [beautiful] se ele é [0], [3], [5], ou a
+    soma de dois números [beautiful].  
 
     [Francisco] More pedantically, we can define [beautiful] numbers by giving four
     rules:
@@ -136,7 +136,7 @@ Proof.
 *)
 
 (** **** Exercício: nível 1 (varieties_of_beauty)  *)
-(** [Diego] How many different ways are there to show that [8] is [beautiful]? *)
+(** Existem quantas maneiras diferentes para mostrar que [8] é [beautiful]? *)
 
 (* PREENCHER *)
 (** [] *)
@@ -216,15 +216,15 @@ Proof.
     four constructors are the _only_ ways to build evidence that
     numbers are beautiful. *)
 
-(** [Diego]In other words, if someone gives us evidence [E] for the assertion
-    [beautiful n], then we know that [E] must have one of four shapes:
+(** Em outras palavras, se alguém nos dá a evidência [E] para a asserção
+    [beautiful n], então sabemos que [E] deve ter um desses quatro formatos:
 
-      - [E] is [b_0] (and [n] is [O]),
-      - [E] is [b_3] (and [n] is [3]), 
-      - [E] is [b_5] (and [n] is [5]), or 
-      - [E] is [b_sum n1 n2 E1 E2] (and [n] is [n1+n2], where [E1] is
-        evidence that [n1] is beautiful and [E2] is evidence that [n2]
-        is beautiful). *)
+      - [E] é [b_0] (e [n] é [O]),
+      - [E] é [b_3] (e [n] é [3]), 
+      - [E] é [b_5] (e [n] é [5]), ou
+      - [E] é [b_sum n1 n2 E1 E2] (e [n] é [n1+n2], em que [E1] é
+        evidência que [n1] é beautiful e [E2] é evidência que [n2]
+        é beautiful). *)
 
 (** *** *)    
 (** [Francisco]This permits us to _analyze_ any hypothesis of the form [beautiful
@@ -282,8 +282,8 @@ Abort.
 
 (** *** *)
 
-(** [Diego]Let's see what happens if we try to prove this by induction on the evidence [H]
-   instead of on [n]. *)
+(** Vamos ver o que acontece se nós tentarmos provar isso por indução sobre a
+    evidência [H] em vez de sobre [n]. *)
 
 Theorem gorgeous__beautiful : forall n, 
   gorgeous n -> beautiful n.
@@ -360,7 +360,7 @@ Qed.
     those numbers for which evidence [ev n] could be generated. *)
 
 (** **** Exercício: nível 1 (l_fails)  *)
-(** [Diego]The following proof attempt will not succeed.
+(** A tentativa de prova a seguir não irá funcionar.
      Theorem l : forall n,
        ev n.
      Proof.
@@ -424,12 +424,12 @@ Proof.
 
 (** ** Revisitando a Tática Inversion *)
 
-(** [Diego]These uses of [inversion] may seem a bit mysterious at first.
-    Until now, we've only used [inversion] on equality
-    propositions, to utilize injectivity of constructors or to
-    discriminate between different constructors.  But we see here
-    that [inversion] can also be applied to analyzing evidence
-    for inductively defined propositions.
+(** O uso do [inversion] pode parecer um pouco misterioso no início.
+    Até agora, temos utilizado o [inversion] somente em proposições de 
+    igualdade, para utilizar injectividade de contrutores ou para discriminar
+    entre diferentes contrutores.  Mas nós podemos ver que
+    [inversion] também pode ser aplicada para análisar evidências
+    de proposições indutivamente definidas.
 
     [Francisco](You might also expect that [destruct] would be a more suitable
     tactic to use here. Indeed, it is possible to use [destruct], but 
@@ -482,9 +482,9 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 3, opcional (ev_plus_plus)  *)
-(** [Diego]Here's an exercise that just requires applying existing lemmas.  No
-    induction or even case analysis is needed, but some of the rewriting
-    may be tedious. *)
+(** Aqui está um exercício que somente requer aplicação de lemas já existentes.
+    Nem indução ou até mesmo análise por caso é necessária, mas algumas das 
+    reescritas podem ser tediosas. *)
 
 Theorem ev_plus_plus : forall n m p,
   ev (n+m) -> ev (n+p) -> ev (m+p).
@@ -539,8 +539,8 @@ Inductive ev_list {X:Type} : list X -> Prop :=
   | el_nil : ev_list []
   | el_cc  : forall x y l, ev_list l -> ev_list (x :: y :: l).
 
-(** [Diego]Of course, this proposition is equivalent to just saying that the
-length of the list is even. *)
+(** É claro, essa proposição é equivalente a dizer que o tamanho
+da lista é par. *)
 
 Lemma ev_list__ev_length: forall X (l : list X), ev_list l -> ev (length l).
 Proof. 
@@ -614,8 +614,8 @@ lack of evidence. *)
 Module LeModule.  
 
 
-(** [Diego]One useful example is the "less than or equal to"
-    relation on numbers. *)
+(** Um exemplo útil é relação "menor que ou igual à"
+    em números. *)
 
 (** [Francisco]The following definition should be fairly intuitive.  It
     says that there are two ways to give evidence that one number is
@@ -686,8 +686,8 @@ Inductive next_even : nat -> nat -> Prop :=
   | ne_2 : forall n, ev (S (S n)) -> next_even n (S (S n)).
 
 (** **** Exercício: nível 2 (total_relation)  *)
-(** [Diego]Define an inductive binary relation [total_relation] that holds
-    between every pair of natural numbers. *)
+(** Definir uma relação binária indutiva [total_relation] que exista
+    entre qualquer par de números naturais. *)
 
 (* PREENCHER *)
 (** [] *)
@@ -790,9 +790,9 @@ Inductive R : nat -> nat -> nat -> Prop :=
       would the set of provable propositions change?  Briefly (1
       sentence) explain your answer.
   
-    [Diego]- If we dropped constructor [c4] from the definition of [R],
-      would the set of provable propositions change?  Briefly (1
-      sentence) explain your answer.
+    - Se nós utilizarmos o construtor [c4] a partir da definição de [R],
+      poderá o conjunto de proposições prováveis mudar?  Brevemente (1
+      sentença) explique sua resposta.
 
 (* PREENCHER *)
 []
@@ -832,9 +832,9 @@ End R.
     [Dalay]- Prove [subseq_refl] that subsequence is reflexive, that is, 
       any list is a subsequence of itself.  
 
-    [Diego]- Prove [subseq_app] that for any lists [l1], [l2], and [l3], 
-      if [l1] is a subsequence of [l2], then [l1] is also a subsequence
-      of [l2 ++ l3].
+    - Provar [subseq_app] que para qualquer lista [l1], [l2], e [l3], 
+      se [l1] é uma subsequência de [l2], então [l1] também é uma subsequência
+      de [l2 ++ l3].
 
     [Francisco]- (Optional, harder) Prove [subseq_trans] that subsequence is 
       transitive -- that is, if [l1] is a subsequence of [l2] and [l2] 
@@ -892,8 +892,8 @@ Check (beautiful 4).
     of type [Prop]. *)
 
 (** *** *)
-(** [Diego]We've mainly seen one place that propositions can appear in Coq: in
-    [Theorem] (and [Lemma] and [Example]) declarations. *)
+(** Nós temos principalmente visto um lugar que proposições podem aparecer em
+    Coq: em declarações de [Theorem] (e [Lemma] e [Example]). *)
 
 Theorem plus_2_2_is_4 : 
   2 + 2 = 4.
@@ -942,14 +942,14 @@ Check even.
     propositions," (2) "[even] is a _family_ of propositions, indexed
     by a number [n]," or (3) "[even] is a _property_ of numbers."  *)
 
-(** [Diego]Propositions -- including parameterized propositions -- are
-    first-class citizens in Coq.  For example, we can define functions
-    from numbers to propositions... *)
+(** Proposições -- incluindo proposições parametrizadas -- são
+    cidadãos de primeira classe em Coq.  Por exemplo, nós podemos definir
+    funções a partir de números para proposições... *)
 
 Definition between (n m o: nat) : Prop :=
   andb (ble_nat n o) (ble_nat o m) = true.
 
-(** ... and then partially apply them: *)
+(** ... e então aplica-las parcialmente: *)
 
 Definition teen : nat->Prop := between 13 19.
 
@@ -993,11 +993,11 @@ Definition natural_number_induction_valid : Prop :=
 
 
 (** **** Exercício: nível 3 (combine_odd_even)  *)
-(** [Diego]Complete the definition of the [combine_odd_even] function
-    below. It takes as arguments two properties of numbers [Podd] and
-    [Peven]. As its result, it should return a new property [P] such
-    that [P n] is equivalent to [Podd n] when [n] is odd, and
-    equivalent to [Peven n] otherwise. *)
+(** Completar a definição da função [combine_odd_even] abaixo. 
+    Ela toma como argumento duas propriedades dos números, [Podd] e
+    [Peven]. Como resultado, ela deve retornar uma nova propriedade [P] tal
+    que [P n] é equivalente a [Podd n] quando [n] é impar, e caso contrário é
+    equivalente a [Peven n]. *)
 
 Definition combine_odd_even (Podd Peven : nat -> Prop) : nat -> Prop :=
   (* PREENCHER *) admit.

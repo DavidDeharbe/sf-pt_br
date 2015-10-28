@@ -19,11 +19,11 @@ Require Export MoreCoq.
 (* ########################################################### *)
 (** * Proposições *)
 
-(** [Diego]In previous chapters, we have seen many examples of factual
-    claims (_propositions_) and ways of presenting evidence of their
-    truth (_proofs_).  In particular, we have worked extensively with
-    _equality propositions_ of the form [e1 = e2], with
-    implications ([P -> Q]), and with quantified propositions 
+(** Nos capítulos anteriores, nós vimos vários exemplos de alegações
+    fatuais (_proposições_) e meios de apresentar evidências das suas
+    verdades (_provas_).  Em particular, nós temos trabalhados extensivamente 
+    com _proposições de igualdades_ da forma [e1 = e2], com
+    implicações ([P -> Q]), e com proposições quantificadas
     ([forall x, P]).  
 *)
 
@@ -31,7 +31,7 @@ Require Export MoreCoq.
 (** [Francisco]In Coq, the type of things that can (potentially) 
     be proven is [Prop]. *)
 
-(** [Renan]Here is an example of a provable proposition: *)
+(** Aqui está um exemplo de uma proposição demonstrável: *)
 
 Check (3 = 3).
 (* ===> Prop *)
@@ -53,7 +53,7 @@ Check (forall (n:nat), n = 2).
     _proofs_.  We will refer to such inhabitants as _proof term_ or
     _proof object_ or _evidence_ for the truth of [P]. 
 
-    [Diego]In Coq, when we state and then prove a lemma such as:
+    Em Coq, quando nós afirmamos e então provamos um lema como:
 
 Lemma silly : 0 * 3 = 0.  
 Proof. reflexivity. Qed.
@@ -73,8 +73,8 @@ Proof. reflexivity. Qed.
 Lemma silly : 0 * 3 = 0.
 Proof. reflexivity. Qed.
 
-(** [Renan]We can see which proof term Coq constructs for a given Lemma by
-using the [Print] directive: *)
+(** Podemos ver que expressão de prova Coq constrói para um dado lema usando
+a diretiva [Print]: *)
 
 Print silly.
 (* ===> silly = eq_refl : 0 * 3 = 0 *)
@@ -99,8 +99,8 @@ output.
 Lemma silly_implication : (1 + 1) = 2  ->  0 * 3 = 0.
 Proof. intros H. reflexivity. Qed.
 
-(** [Diego]We can see that the proof term for the above lemma is indeed a
-function: *)
+(** Nós podemos ver que o termo prova do lema abaixo é de fato
+uma função: *)
 
 Print silly_implication.
 (* ===> silly_implication = fun _ : 1 + 1 = 2 => eq_refl
@@ -112,7 +112,7 @@ Print silly_implication.
     lists, binary representations of natural numbers, etc., that we
     seen before), we can also create _user-defined_ propositions.
 
-    [Renan]Question: How do you define the meaning of a proposition?  
+    Pergunta: Como você define o significado de uma proposição?  
 *)
 
 (** *** *)
@@ -127,8 +127,8 @@ Print silly_implication.
     [Dalay]- Sometimes a proposition is declared to be true without
       substantiating evidence.  Such propositions are called _axioms_.
 
-    [Diego]In this, and subsequence chapters, we'll see more about how these
-    proof terms work in more detail.
+    Neste, e nos capítulos subsequentes, nós veremos de maneira mais detalhada
+    mais sobre como esses termos de prova funcionam.
 *)
 
 (* ########################################################### *)
@@ -141,10 +141,10 @@ Print silly_implication.
 Inductive and (P Q : Prop) : Prop :=
   conj : P -> Q -> (and P Q). 
 
-(** [Renan]The intuition behind this definition is simple: to
-    construct evidence for [and P Q], we must provide evidence
-    for [P] and evidence for [Q].  More precisely:
-
+(** A intuição por trás dessa definição é simples: para construir 
+    evidência para [and P Q], devemos fornecer evidência para [P] 
+    e evidência para [Q]. Mais precisamente:
+    
     [Vitor]- [conj p q] can be taken as evidence for [and P Q] if [p]
       is evidence for [P] and [q] is evidence for [Q]; and
 
@@ -158,17 +158,17 @@ Inductive and (P Q : Prop) : Prop :=
 
 Notation "P /\ Q" := (and P Q) : type_scope.
 
-(** [Diego](The [type_scope] annotation tells Coq that this notation
-    will be appearing in propositions, not values.) *)
+(** (A anotação [type_scope] diz ao Coq que essa notação
+    irá aparecer em preposições, não em valores.) *)
 
 (** [Francisco]Consider the "type" of the constructor [conj]: *)
 
 Check conj.
 (* ===>  forall P Q : Prop, P -> Q -> P /\ Q *)
 
-(** [Renan]Notice that it takes 4 inputs -- namely the propositions [P]
-    and [Q] and evidence for [P] and [Q] -- and returns as output the
-    evidence of [P /\ Q]. *)
+(** Observe que ele recebe 4 entradas -- a saber, as proposições [P] 
+    e [Q] e evidências para [P] e [Q] -- e retorna como saída a 
+    evidência de [P /\ Q]. *)
 
 (** ** "Introdução" de conjunções *)
 
@@ -229,9 +229,9 @@ Proof.
     Case "right". apply HP.  Qed.
 
 (** **** Exercício: nível 2 (and_assoc)  *)
-(** [Diego]In the following proof, notice how the _nested pattern_ in the
-    [destruct] breaks the hypothesis [H : P /\ (Q /\ R)] down into
-    [HP: P], [HQ : Q], and [HR : R].  Finish the proof from there: *)
+(** Na prova a seguir, notar como o _aninhamento padrão_ no
+    [destruct] quebra a hipótese [H : P /\ (Q /\ R)] em
+    [HP: P], [HQ : Q], and [HR : R].  Terminar a prova a partir desse ponto: *)
 
 Theorem and_assoc : forall P Q R : Prop, 
   P /\ (Q /\ R) -> (P /\ Q) /\ R.
@@ -272,8 +272,8 @@ Proof.
     Case "<-". apply HAB.  Qed.
 
 (** **** Exercício: nível 1, opcional (iff_properties)  *)
-(** [Renan]Using the above proof that [<->] is symmetric ([iff_sym]) as
-    a guide, prove that it is also reflexive and transitive. *)
+(** Usando a prova acima de que [<->] é simétrico ([iff_sym]) 
+    como um guia, provar que também é reflexivo e transitivo. *)
 
 Theorem iff_refl : forall P : Prop, 
   P <-> P.
@@ -311,7 +311,7 @@ Inductive or (P Q : Prop) : Prop :=
 
 Notation "P \/ Q" := (or P Q) : type_scope.
 
-(** [Diego]Consider the "type" of the constructor [or_introl]: *)
+(** Considerar o "tipo" do construtor [or_introl]: *)
 
 Check or_introl.
 (* ===>  forall P Q : Prop, P -> P \/ Q *)
@@ -323,8 +323,8 @@ Check or_introl.
 Check or_intror.
 (* ===>  forall P Q : Prop, Q -> P \/ Q *)
 
-(** [Renan]It is like [or_introl] but it requires evidence of [Q]
-    instead of evidence of [P]. *)
+(** É como [or_introl] mas requer evidência para [Q] em vez de evidência 
+    para [P]. *)
 
 (** [Vitor]Intuitively, there are two ways of giving evidence for [P \/ Q]:
 
@@ -336,8 +336,8 @@ Check or_intror.
       constructor. *)
 
 (** *** *)
-(** [Diego]Since [P \/ Q] has two constructors, doing [destruct] on a
-    hypothesis of type [P \/ Q] yields two subgoals. *)
+(** Desde que [P \/ Q] tenha dois contrutores, realizar um [destruct] em
+    uma hipótese do tipo [P \/ Q] gera duas submetas. *)
 
 Theorem or_commut : forall P Q : Prop,
   P \/ Q  -> Q \/ P.
@@ -386,14 +386,14 @@ Proof.
 (* ################################################### *)
 (** ** Relacionando [/\] e [\/] com [andb] e [orb] *)
 
-(** [Renan]We've already seen several places where analogous structures
-    can be found in Coq's computational ([Type]) and logical ([Prop])
-    worlds.  Here is one more: the boolean operators [andb] and [orb]
-    are clearly analogs of the logical connectives [/\] and [\/].
-    This analogy can be made more precise by the following theorems,
-    which show how to translate knowledge about [andb] and [orb]'s
-    behaviors on certain inputs into propositional facts about those
-    inputs. *)
+(** Nós já vimos vários lugares onde estruturas análogas podem ser 
+    encontradas nos mundos computacional ([Type]) e lógico ([Prop])
+    de Coq. Aqui está mais um: os operadores booleanos [andb] e [orb] 
+    são claramente análogos dos conectivos lógicos [/\] e [\/]. Essa 
+    analogia pode ser tornada mais precisa através dos seguintes 
+    teoremas, que mostram como traduzir conhecimento sobre os
+    comportamentos de [andb] e [orb] para certas entradas em fatos 
+    proposicionais sobre essas entradas. *)
 
 Theorem andb_prop : forall b c,
   andb b c = true -> b = true /\ c = true.
@@ -457,10 +457,10 @@ Proof.
   intros contra.
   inversion contra.  Qed. 
 
-(** [Diego]How does this work? The [inversion] tactic breaks [contra] into
-    each of its possible cases, and yields a subgoal for each case.
-    As [contra] is evidence for [False], it has _no_ possible cases,
-    hence, there are no possible subgoals and the proof is done. *)
+(** Como isso funciona? A tática [inversion] quebra [contra] em cada um dos
+    seus possíveis casos, e gera uma submeta para cada caso. Como [contra] é
+    evidência para [False], ela _não_ tem casos possíveis, conseqüentemente,
+    não tem casos possíveis na submeta e a prova está feita. *)
 
 (** *** *)
 (** [Francisco]Conversely, the only way to prove [False] is if there is already
@@ -472,10 +472,10 @@ Proof.
   intros contra.
   inversion contra.  Qed.
 
-(** [Renan]Actually, since the proof of [False_implies_nonsense]
-    doesn't actually have anything to do with the specific nonsensical
-    thing being proved; it can easily be generalized to work for an
-    arbitrary [P]: *)
+(** Na verdade, uma vez que a prova de [False_implies_nonsense] na 
+    verdade não tem nada a ver com a coisa específica sem sentido 
+    que está sendo provada; ela pode ser facilmente generalizada 
+    para funcionar para um [P] arbitrário: *)
 
 Theorem ex_falso_quodlibet : forall (P:Prop),
   False -> P.
@@ -503,12 +503,12 @@ Proof.
 (* PREENCHER *)
 (** [] *)
 
-(** [Diego]However, unlike [False], which we'll use extensively, [True] is
-    used fairly rarely. By itself, it is trivial (and therefore
-    uninteresting) to prove as a goal, and it carries no useful
-    information as a hypothesis. But it can be useful when defining
-    complex [Prop]s using conditionals, or as a parameter to 
-    higher-order [Prop]s. *)
+(** Entretanto, diferentemente de [False], o qual vamos utilizar 
+    extensivamente, [True] é utilizado muito raramente. Por si própria, ela é
+    trivial (e portanto desinteressante) para provar como uma meta, e carrega
+    informação inútil como uma hipótese. Mas ela pode ser útil ao definir
+    [Prop]s complexos utilizando condicionais, ou como um parâmetro para 
+    [Prop]s de ordem superior. *)
 
 (* #################################################### *)
 (** * Negação *)
@@ -518,8 +518,8 @@ Proof.
 
 Definition not (P:Prop) := P -> False.
 
-(** [Renan]The intuition is that, if [P] is not true, then anything at
-    all (even [False]) follows from assuming [P]. *)
+(** A intuição é que, se [P] não é verdade, então qualquer coisa 
+    (até mesmo [False]) segue da suposição de [P]. *)
 
 Notation "~ x" := (not x) : type_scope.
 
@@ -584,9 +584,9 @@ Proof.
 (** [] *)
 
 (** *** Lógica Construtiva *)
-(** [Diego]Note that some theorems that are true in classical logic are _not_
-    provable in Coq's (constructive) logic.  E.g., let's look at how
-    this proof gets stuck... *)
+(** Note que alguns teoremas que são verdadeiros em lógica clássica _não_ são
+    prováveis na lógica (construtiva) do Coq.  Por exemplo, vamos observar como
+    essa prova fica travada... *)
 
 Theorem classic_double_neg : forall P : Prop,
   ~~P -> P.
@@ -622,10 +622,13 @@ Definition implies_to_or := forall P Q:Prop,
 (** [] *)
 
 (** **** Exercício: nível 3 (excluded_middle_irrefutable)  *)
-(** [Renan]This theorem implies that it is always safe to add a decidability
-axiom (i.e. an instance of excluded middle) for any _particular_ Prop [P].
-Why? Because we cannot prove the negation of such an axiom; if we could,
-we would have both [~ (P \/ ~P)] and [~ ~ (P \/ ~P)], a contradiction. *)
+(** Este teorema implica que é sempre seguro adicionar um axioma de 
+decidibilidade (ou seja, uma instância do terceiro excluído) para 
+qualquer Prop [P] _particular_. Por quê? Porque nós não podemos provar 
+a negação de tal axioma; se pudéssemos, teríamos tanto [~ (P \/ ~P)] 
+e [~ ~ (P \/ ~P)], uma contradição.
+
+ *)
 
 Theorem excluded_middle_irrefutable:  forall (P:Prop), ~ ~ (P \/ ~ P).  
 Proof.
