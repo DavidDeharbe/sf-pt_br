@@ -1,10 +1,9 @@
 (** * Poly: Polymorphism and Higher-Order Functions *)
 
-(** [Claudia] In this chapter we continue our development of basic 
-    concepts of functional programming.  The critical new ideas are
-    _polymorphism_ (abstracting functions over the types of the data
-    they manipulate) and _higher-order functions_ (treating functions
-    as data).
+(** Neste capítulo, continuaremos nosso desenvolvimento de conceitos básicos de
+    programação funcional. as novas ideias cruciais são _polimorfismo_ (abstraindo
+    funções sobre os tipos de dados elas manipulam) e funções de ordem superior_
+    (considerando funções como dados).
 *)
 
 Require Export Lists.   
@@ -14,76 +13,74 @@ Require Export Lists.
 (* ###################################################### *)
 (** ** Polymorphic Lists *)
 
-(** [Dalay] For the last couple of chapters, we've been working just
-    with lists of numbers.  Obviously, interesting programs also need
-    to be able to manipulate lists with elements from other types --
-    lists of strings, lists of booleans, lists of lists, etc.  We
-    _could_ just define a new inductive datatype for each of these,
-    for example... *)
+(** Nos últimos capítulos nós temos trabalhado somente com listas de 
+    números. Obviamente, programas interessantes também precisam 
+    poder manipular listas com elementos de outros tipos -- listas 
+    de strings, listas de booleanos, listas de listas, etc. Nós
+    _poderíamos_ apenas definir novos tipos indutivos para cada uma
+    dessas, por exemplo...*)
 
 Inductive boollist : Type :=
   | bool_nil : boollist
   | bool_cons : bool -> boollist -> boollist.
 
-(** ... [Diego] but this would quickly become tedious, partly because we
-    have to make up different constructor names for each datatype, but
-    mostly because we would also need to define new versions of all
-    our list manipulating functions ([length], [rev], etc.)  for each
-    new datatype definition. *)
+(** ...mas isto rapidamente se torna tedioso, em parte porque nós temos 
+    que inventar diferentes nomes para os construtores de cada tipo de dado, 
+    mas principalmente porque também precisamos definir novas versões de toda
+    nossa lista de funções de manipulação ([length], [rev], etc.)  para cada
+    novo tipo de dado definido. *)
 
 (** *** *)
 
-(** [Francisco] To avoid all this repetition, Coq supports _polymorphic_
-    inductive type definitions.  For example, here is a _polymorphic
-    list_ datatype. *)
+(** Para evitar todas essas repetições, Coq suporta definições
+    de tipos indutivos _polymorphic_. Por exemplo, aqui é um tipo de dado
+    _polymorphic list_. *)
 
 Inductive list (X:Type) : Type :=
   | nil : list X
   | cons : X -> list X -> list X.
 
 
-(** [Renan] This is exactly like the definition of [natlist] from the
-    previous chapter, except that the [nat] argument to the [cons]
-    constructor has been replaced by an arbitrary type [X], a binding
-    for [X] has been added to the header, and the occurrences of
-    [natlist] in the types of the constructors have been replaced by
-    [list X].  (We can re-use the constructor names [nil] and [cons]
-    because the earlier definition of [natlist] was inside of a
-    [Module] definition that is now out of scope.) *)
+(** Esta é exatamente como a definição de [natlist] do capítulo anterior, 
+    exceto que o argumento [nat] do construtor [cons] foi substituído 
+    por um tipo X arbitrário, uma ligação para [X] foi adicionada ao 
+    cabeçalho, e as ocorrências de [natlist] nos tipos dos construtores 
+    foram substituídas por [list X]. (Podemos reutilizar os nomes dos 
+    construtores [nil] e [cons] porque a definição anterior de [natlist] 
+    estava dentro de uma definição de [Module] que agora está fora de
+    escopo.) *)
 
-(** [Vitor] What sort of thing is [list] itself?  One good way to think
-    about it is that [list] is a _function_ from [Type]s to
-    [Inductive] definitions; or, to put it another way, [list] is a
-    function from [Type]s to [Type]s.  For any particular type [X],
-    the type [list X] is an [Inductive]ly defined set of lists whose
-    elements are things of type [X]. *)
+(** Que tipo de coisa é a própria [list]? Uma boa forma de pensar a respeito é 
+determinar que [list] é uma _função_ de [Type]s para definições [Inductive]; 
+ou, pondo de outra forma, [list] é uma função de [Type]s para [Type]s. Para 
+qualquer tipo específico [X], o tipo [list X] é um conjunto de listas definido 
+indutivamente (com [Inductive]) cujo elementos são coisas do tipo [X]. *) 
 
-(** [Claudia] With this definition, when we use the constructors [nil] and
-    [cons] to build lists, we need to tell Coq the type of the
-    elements in the lists we are building -- that is, [nil] and [cons]
-    are now _polymorphic constructors_.  Observe the types of these
-    constructors: *)
+(** Com esta definição, quando usamos os construtores [nil] e [cons] para
+    construir listas, precisamos dizer ao Coq qual é o tipo dos elementos nas listas
+    que estamos construindo -- isto é, [nil] e [cons] agora são _construtores
+    polimórficos_. Observe os tipos destes construtores: *)
 
 Check nil.
 (* ===> nil : forall X : Type, list X *)
 Check cons.
 (* ===> cons : forall X : Type, X -> list X -> list X *)
 
-(** [Dalay] The "[forall X]" in these types can be read as an additional
-    argument to the constructors that determines the expected types of
-    the arguments that follow.  When [nil] and [cons] are used, these
-    arguments are supplied in the same way as the others.  For
-    example, the list containing [2] and [1] is written like this: *)
+(** O "[forall X]" nesses tipos pode ser lido como um argumento adicional
+    aos contrutores que tetermina os tipos esperados dos argumentos 
+    seguintes. quando [nil] e [cons] são usados, esses argumentos são
+    fornecidos da mesma maneira que os outros. Por exemplo, a lista 
+    contendo [2] e [1] é escrita assim:*)
 
 Check (cons nat 2 (cons nat 1 (nil nat))).
 
-(** [Diego] (We've gone back to writing [nil] and [cons] explicitly here
-    because we haven't yet defined the [ [] ] and [::] notations for
-    the new version of lists.  We'll do that in a bit.) *)
+(** (Nós voltamos a escrever [nil] e [cons] explicitamente
+    porque não definimos as notações [ [] ] e [::]
+    para a nova versão das listas. Faremos isso em breve.) *)
 
-(** [Francisco] We can now go back and make polymorphic (or "generic")
-    versions of all the list-processing functions that we wrote
-    before.  Here is [length], for example: *)
+(** Nós agora podemos boltar e fazer versões polimorficas
+    (ou "genérica") de todas as funções de processamento de listas que
+    nós escrevemos antes. Aqui está [length], por exemplo: *)
 
 (** *** *)
 
@@ -93,22 +90,22 @@ Fixpoint length (X:Type) (l:list X) : nat :=
   | cons h t => S (length X t)
   end.
 
-(** [Renan] Note that the uses of [nil] and [cons] in [match] patterns
-    do not require any type annotations: Coq already knows that the list
-    [l] contains elements of type [X], so there's no reason to include
-    [X] in the pattern.  (More precisely, the type [X] is a parameter
-    of the whole definition of [list], not of the individual
-    constructors.  We'll come back to this point later.)
+(** Note que os usos de [nil] e [cons] em padrões [match] não requerem 
+    quaisquer anotações de tipo: Coq já sabe que a lista [l] contém 
+    elementos do tipo [X], então não há nenhuma razão para incluir [X] 
+    no padrão. (Mais precisamente, o tipo [X] é um parâmetro de toda a 
+    definição de [list], não dos construtores individuais. Voltaremos 
+    a este ponto mais tarde.)
 
-    [Vitor] As with [nil] and [cons], we can use [length] by applying it first
-    to a type and then to its list argument: *)
+	Assim como com [nil] e [cons], nós podemos usar [length] aplicando-o 
+	primeiramente em um tipo e depois no argumento lista: *)
 
 Example test_length1 :
     length nat (cons nat 1 (cons nat 2 (nil nat))) = 2.
 Proof. reflexivity.  Qed.
 
-(** [Claudia] To use our length with other kinds of lists, we simply
-    instantiate it with an appropriate type parameter: *)
+(** Para usar nossa função [length] com outros tipos de listas, basta
+    instanciá-la com um parâmetro de tipo apropriado: *)
 
 Example test_length2 :
     length bool (cons bool true (nil bool)) = 1.
@@ -116,8 +113,8 @@ Proof. reflexivity.  Qed.
 
 
 (** *** *)
-(** [Dalay] Let's close this subsection by re-implementing a few other
-    standard list functions on our new polymorphic lists: *)
+(** Vaos fechar essa subseção reimplementando algumas outras funções 
+    padrões sobre listas em nossa nova lista polimórfica.*)
 
 Fixpoint app (X : Type) (l1 l2 : list X)
                 : (list X) :=
@@ -151,7 +148,7 @@ Proof. reflexivity.  Qed.
 
 Module MumbleBaz.
 (** **** Exercise: 2 stars (mumble_grumble)  *)
-(** [Diego] Consider the following two inductively defined types. *)
+(** Considerar os dois tipos indutivamente definidos a seguir. *)
 
 Inductive mumble : Type :=
   | a : mumble
@@ -161,8 +158,8 @@ Inductive grumble (X:Type) : Type :=
   | d : mumble -> grumble X
   | e : X -> grumble X.
 
-(** [Francisco] Which of the following are well-typed elements of [grumble X] for
-    some type [X]?
+(** Qual das alternativas são elementos bem-tipados de [grumble X] 
+    para algum tipo [X]?
       - [d (b a 5)]
       - [d mumble (b a 5)]
       - [d bool (b a 5)]
@@ -170,20 +167,20 @@ Inductive grumble (X:Type) : Type :=
       - [e mumble (b c 0)]
       - [e bool (b c 0)]
       - [c] 
-(* FILL IN HERE *)
+(* PREENCHA AQUI *)
 *)
 (** [] *)
 
 
 (** **** Exercise: 2 stars (baz_num_elts)  *)
-(** [Renan] Consider the following inductive definition: *)
+(** Considere a seguinte definição indutiva: *)
 
 Inductive baz : Type :=
    | x : baz -> baz
    | y : baz -> bool -> baz.
 
-(** [Vitor] How _many_ elements does the type [baz] have? 
-(* FILL IN HERE *)
+(** _Quantos_ elementos possui o tipo [baz]?
+(* PREENCHA AQUI *)
 *)
 (** [] *)
 
@@ -192,9 +189,9 @@ End MumbleBaz.
 (* ###################################################### *)
 (** *** Type Annotation Inference *)
 
-(** [Claudia] Let's write the definition of [app] again, but this time we won't
-    specify the types of any of the arguments. Will Coq still accept
-    it? *)
+(** Vamos escrever a definição de [app] novamente, mas, desta vez, não
+    especificaremos os tipos de nenhum dos argumentos. Será que Coq ainda vai
+    aceitar isto? *)
 
 Fixpoint app' X l1 l2 : list X :=
   match l1 with
@@ -202,63 +199,59 @@ Fixpoint app' X l1 l2 : list X :=
   | cons h t => cons X h (app' X t l2)
   end.
 
-(** [Dalay] Indeed it will.  Let's see what type Coq has assigned to [app']: *)
+(** De fato ele vai. Vamos ver que tipo o Coq tem atribuído a [app']: *)
 
 Check app'.
 (* ===> forall X : Type, list X -> list X -> list X *)
 Check app.
 (* ===> forall X : Type, list X -> list X -> list X *)
 
-(** [Diego] It has exactly the same type type as [app].  Coq was able to
-    use a process called _type inference_ to deduce what the types of
-    [X], [l1], and [l2] must be, based on how they are used.  For
-    example, since [X] is used as an argument to [cons], it must be a
-    [Type], since [cons] expects a [Type] as its first argument;
-    matching [l1] with [nil] and [cons] means it must be a [list]; and
-    so on.
+(** Ele tem o mesmo tipo de [app]. Coq foi capaz de utilizar um processo 
+    chamado _inferência de tipo_ para deduzir quais devesm ser os tipos
+    de [X], [l1], e [l2], baseado em como eles são utilizados.  Por exemplo,
+    uma vez que [X] é usado como um argumento para [cons], ele deve ser um
+    [Type], já que [cons] espera um [Type] como seu primeiro argumento;
+    correspondendo [l1] com [nil] e [cons] significa que ele deve ser uma
+    [list]; e assim por diante.
 
-    [Francisco] This powerful facility means we don't always have to write
-    explicit type annotations everywhere, although explicit type
-    annotations are still quite useful as documentation and sanity
-    checks.  You should try to find a balance in your own code between
-    too many type annotations (so many that they clutter and distract)
-    and too few (which forces readers to perform type inference in
-    their heads in order to understand your code). *)
+    Essa grande facilidade significa que nós nem sempre temos
+    que escrever explicitamente em todo lugar anotações, embora digitar
+    explicitamente são ainda bastante util como documentação e checagem de
+    sanidade.  Vocẽ deve tentar achar um equilibrio em seu próprio código
+    entre digitar muitas anotações (bastantes que causam desordem e distração)
+    e muito pouco (que força os leitores a realizar inferência de tipo nas
+    suas cabeças de modo a entender seu código). *)
 
 (* ###################################################### *)
-(** *** Type Argument Synthesis *)
+(** *** Síntese de Tipo de Argumento *)
 
-(** [Renan] Whenever we use a polymorphic function, we need to pass it
-    one or more types in addition to its other arguments.  For
-    example, the recursive call in the body of the [length] function
-    above must pass along the type [X].  But just like providing
-    explicit type annotations everywhere, this is heavy and verbose.
-    Since the second argument to [length] is a list of [X]s, it seems
-    entirely obvious that the first argument can only be [X] -- why
-    should we have to write it explicitly?
+(** Sempre que usarmos uma função polimórfica, precisamos fornecer a ela 
+    um ou mais tipos, além de seus outros argumentos. Por exemplo, a 
+    chamada recursiva no corpo da função [length] acima tem de passar 
+    juntamente o Tipo [X]. Mas, assim como o fornecimento de anotações 
+    de tipo explícitas em todos os lugares, isso é pesado e prolixo. 
+    Já que o segundo argumento de [length] é uma lista de [X]s, parece 
+    inteiramente óbvio que o primeiro argumento só pode ser [X] -- por 
+    que temos que escrever isso explicitamente?
 
-    [Vitor] Fortunately, Coq permits us to avoid this kind of redundancy.  In
-    place of any type argument we can write the "implicit argument"
-    [_], which can be read as "Please figure out for yourself what
-    type belongs here."  More precisely, when Coq encounters a [_], it
-    will attempt to _unify_ all locally available information -- the
-    type of the function being applied, the types of the other
-    arguments, and the type expected by the context in which the
-    application appears -- to determine what concrete type should
-    replace the [_].
+	Felizmente o Coq nos permite evitar esse tipo de redundância. No lugar de 
+	qualquer argumento de tipo, nós podemos escrever o "argumento implícito" 
+	[_], que pode ser lido como "Por favor descubra por si mesmo qual é o 
+	tipo aqui." Mais precisamente, quando o Coq encontra um [_], ele tentará 
+	_unificar_ todas as informações disponíveis localmente -- o tipo da função 
+	que está sendo aplicada, os tipos dos demais argumentos e o tipo esperado 
+	no contexto em que a aplicação aparece -- para determinar qual tipo 
+	concreto deve ser inserido no lugar de [_].
 
-    [Claudia] This may sound similar to type annotation inference -- and,
-    indeed, the two procedures rely on the same underlying mechanisms.
-    Instead of simply omitting the types of some arguments to a
-    function, like
+    Isto pode parecer semelhante à inferência de anotação de tipo -- e os
+    métodos baseiam-se, de fato, nos mesmos mecanismos subjacentes. Ao invés de
+    simplesmente omitir os tipos de alguns argumentos para um função, como em
       app' X l1 l2 : list X :=
-    we can also replace the types with [_], like
+    podemos também substituir os tipos por [_], como em
       app' (X : _) (l1 l2 : _) : list X :=
-    which tells Coq to attempt to infer the missing information, just
-    as with argument synthesis.
+    que pede ao Coq para tentar inferir a informação em falta apenas analisando os argumentos.
 
-    [Dalay] Using implicit arguments, the [length] function can be written
-    like this: *)
+    Usando argumentos implícitos, a função [length] pode ser escrita assim:*)
 
 Fixpoint length' (X:Type) (l:list X) : nat :=
   match l with
@@ -266,27 +259,27 @@ Fixpoint length' (X:Type) (l:list X) : nat :=
   | cons h t => S (length' _ t)
   end.
 
-(** [Diego] In this instance, we don't save much by writing [_] instead of
-    [X].  But in many cases the difference can be significant.  For
-    example, suppose we want to write down a list containing the
-    numbers [1], [2], and [3].  Instead of writing this... *)
+(** Neste caso, nós não poupamos muito ao escrever [_] em vez de
+    [X].  Mas, em muitos casos, a diferença pode ser significante.  Por
+    exemplo, suponha que queremos escrever uma lista contendo os
+    números [1], [2], e [3].  Em vez de escrevermos isto... *)
 
 Definition list123 :=
   cons nat 1 (cons nat 2 (cons nat 3 (nil nat))).
 
-(** [Francisco] ...we can use argument synthesis to write this: *)
+(** ...Nós podemos usar a síntese de argumento para escrever isto: *)
 
 Definition list123' := cons _ 1 (cons _ 2 (cons _ 3 (nil _))).
 
 (* ###################################################### *)
-(** *** Implicit Arguments *)
+(** *** Argumentos Implícitos *)
 
-(** [Renan] In fact, we can go further.  To avoid having to sprinkle [_]'s
-    throughout our programs, we can tell Coq _always_ to infer the
-    type argument(s) of a given function. The [Arguments] directive
-    specifies the name of the function or constructor, and then lists
-    its argument names, with curly braces around any arguments to be
-    treated as implicit. 
+(** Na verdade, podemos ir mais longe. Para evitar ter que espalhar [_]'s 
+    ao longo de nossos programas, podemos dizer ao Coq para _sempre_ 
+    inferir o tipo de argumento(s) de uma dada função. A diretiva 
+    [Arguments] especifica o nome da função ou do construtor, e, em seguida, 
+    lista os nomes de seus argumentos, com chaves em torno de quaisquer 
+    argumentos a serem tratados como implícitos. 
     *)
 
 Arguments nil {X}.
@@ -302,9 +295,8 @@ Check (length list123'').
 
 (** *** *)
 
-(** [Vitor] Alternatively, we can declare an argument to be implicit while
-    defining the function itself, by surrounding the argument in curly
-    braces.  For example: *)
+(** Alternativamente nó podemos declarar um argumento para que seja implícito 
+enquanto a função é definida, cercando o argumento com chaves. Por exemplo: *) 
 
 Fixpoint length'' {X:Type} (l:list X) : nat :=
   match l with
@@ -312,43 +304,43 @@ Fixpoint length'' {X:Type} (l:list X) : nat :=
   | cons h t => S (length'' t)
   end.
 
-(** [Claudia] (Note that we didn't even have to provide a type argument to
-    the recursive call to [length'']; indeed, it is invalid to provide
-    one.)  We will use this style whenever possible, although we will
-    continue to use use explicit [Argument] declarations for
-    [Inductive] constructors. *)
+(** Note que nem sequer temos que fornecer um argumento de tipo para a chamada
+    recursiva de [length'']; na verdade, é até inválido fornecer um.) Vamos usar
+    este estilo sempre que possível, mas vamos continuar a usar declarações
+    [Argument] explícitas para construtores [Inductive] *)
 
 (** *** *)
 
-(** [Dalay] One small problem with declaring arguments [Implicit] is
-    that, occasionally, Coq does not have enough local information to
-    determine a type argument; in such cases, we need to tell Coq that
-    we want to give the argument explicitly this time, even though
-    we've globally declared it to be [Implicit].  For example, suppose we
-    write this: *)
+(** Um pequeno problema com declarar argumentos [Impricit] é que, 
+    ocasionalmente, o Coq não tem informações locais suficientes para 
+    determinar um argumento tipo; nesses casos, nós precisamos dizer ao 
+    Coq que nós queremos dar o argumento explicitamente dessa vez, mesmo
+    que nós tenhamos declarado globalmente que ele é [Implicit]. Por 
+    exemplo, suponha que nós escrevemos isso: *)
 
 (* Definition mynil := nil.  *)
 
-(** [Diego] If we uncomment this definition, Coq will give us an error,
-    because it doesn't know what type argument to supply to [nil].  We
-    can help it by providing an explicit type declaration (so that Coq
-    has more information available when it gets to the "application"
-    of [nil]): *)
+(** Se não comentarmos essa definição, Coq dará um erro, porque ele não
+    reconhece o tipo de argumento para compor [nil]. Nós podemos ajuda-lo ao
+    prover uma declaração explícita de tipo (então o Coq
+    terá mais informações disponíveis quando ocorrer a "aplicação"
+    de [nil]): *)
 
 Definition mynil : list nat := nil.
 
-(** [Francisco] Alternatively, we can force the implicit arguments to be explicit by
-   prefixing the function name with [@]. *)
+(** Alternativamente, nós podemos força o argumento implícito para ser
+   explicito, prefixando o nome da função com [@]. *)
 
 Check @nil.
 
 Definition mynil' := @nil nat.
 
 (** *** *)
-(** [Renan] Using argument synthesis and implicit arguments, we can
-    define convenient notation for lists, as before.  Since we have
-    made the constructor type arguments implicit, Coq will know to
-    automatically infer these when we use the notations. *)
+(** Usando síntese de argumentos e argumentos implícitos, podemos 
+    definir uma notação conveniente para as listas, como antes. 
+    Uma vez que tornamos os tipos de argumentos do construtor 
+    implícitos, Coq saberá inferi-los automaticamente quando 
+    usarmos as notações. *)
 
 Notation "x :: y" := (cons x y)
                      (at level 60, right associativity).
@@ -357,85 +349,85 @@ Notation "[ x ; .. ; y ]" := (cons x .. (cons y []) ..).
 Notation "x ++ y" := (app x y)
                      (at level 60, right associativity).
 
-(** [Vitor] Now lists can be written just the way we'd hope: *)
+(** Agora listas podem ser escritas exatamente como esperávamos: *)
 
 Definition list123''' := [1; 2; 3].
 
 (* ###################################################### *)
-(** *** Exercises: Polymorphic Lists *)
+(** *** Exercícios: Listas Polimórficas *)
 
 (** **** Exercise: 2 stars, optional (poly_exercises)  *)
-(** [Claudia] Here are a few simple exercises, just like ones in the [Lists]
-    chapter, for practice with polymorphism.  Fill in the definitions
-    and complete the proofs below. *)
+(** Temos aqui alguns exercícios simples, como aqueles do capítulo [Listas],
+    para praticar o uso de polimorfismo. Preencha as definições e complete as
+    provas abaixo.*)
 
 Fixpoint repeat {X : Type} (n : X) (count : nat) : list X :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHA AQUI *) admit.
 
 Example test_repeat1:
   repeat true 2 = cons true (cons true nil).
- (* FILL IN HERE *) Admitted.
+ (* PREENCHA AQUI *) Admitted.
 
 Theorem nil_app : forall X:Type, forall l:list X,
   app [] l = l.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHA AQUI *) Admitted.
 
 Theorem rev_snoc : forall X : Type,
                      forall v : X,
                      forall s : list X,
   rev (snoc s v) = v :: (rev s).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHA AQUI *) Admitted.
 
 Theorem rev_involutive : forall X : Type, forall l : list X,
   rev (rev l) = l.
 Proof.
-(* FILL IN HERE *) Admitted.
+(* PREENCHA AQUI *) Admitted.
 
 Theorem snoc_with_append : forall X : Type,
                          forall l1 l2 : list X,
                          forall v : X,
   snoc (l1 ++ l2) v = l1 ++ (snoc l2 v).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHA AQUI *) Admitted.
 (** [] *)
 
 (* ###################################################### *)
 (** ** Polymorphic Pairs *)
 
-(** [Dalay] Following the same pattern, the type definition we gave in
-    the last chapter for pairs of numbers can be generalized to
-    _polymorphic pairs_ (or _products_): *)
+(** Seguindo o mesmo padrão, a definição de tipo que demos no último
+    capítulo para pares de números pode ser generalizada para _pares 
+    polimórficos_ (ou _produtos_):  *)
 
 Inductive prod (X Y : Type) : Type :=
   pair : X -> Y -> prod X Y.
 
 Arguments pair {X} {Y} _ _.
 
-(** [Diego] As with lists, we make the type arguments implicit and define the
-    familiar concrete notation. *)
+(** Tal como para listas, fizemos argumentos de tipo implícito e definimos
+    a notação concreta familiar. *)
 
 Notation "( x , y )" := (pair x y).
 
-(** [Francisco] We can also use the [Notation] mechanism to define the standard
-    notation for pair _types_: *)
+(** Nós podemos também usasr o mecanismo de [Notation] para definir o padrão
+    de notação para _tipos_ pares: *)
 
 Notation "X * Y" := (prod X Y) : type_scope.
 
-(** [Renan] (The annotation [: type_scope] tells Coq that this abbreviation
-    should be used when parsing types.  This avoids a clash with the
-    multiplication symbol.) *)
+(** (A anotação [: type_scope] diz ao Coq que esta abreviação deve ser 
+    usada ao analisar tipos. Isso evita um conflito com o símbolo de 
+    multiplicação.) *)
 
 (** *** *)
-(** [Vitor] A note of caution: it is easy at first to get [(x,y)] and
-    [X*Y] confused.  Remember that [(x,y)] is a _value_ built from two
-    other values; [X*Y] is a _type_ built from two other types.  If
-    [x] has type [X] and [y] has type [Y], then [(x,y)] has type
-    [X*Y]. *)
 
-(** [Claudia] The first and second projection functions now look pretty
-    much as they would in any functional programming language. *)
+(** Uma nota de cautela: no início é fácil se confundir entre [(x,y)] e [X*Y]. 
+Lembre-se que [(x,y)] é um _valor_ construído a partir de outros dois valores e 
+[X*Y] é um _tipo_ construído a partir de dois outros tipos. Se [x] possui o 
+tipo [X] e [y] possui o tipo [Y], então [(x,y)] possui o tipo [X*Y]. *)
+
+(** Agora a primeira e a segunda função de projeção se parecem muito com o que
+    seriam em qualquer linguagem de programação funcional. *)
 
 Definition fst {X Y : Type} (p : X * Y) : X :=
   match p with (x,y) => x end.
@@ -443,12 +435,12 @@ Definition fst {X Y : Type} (p : X * Y) : X :=
 Definition snd {X Y : Type} (p : X * Y) : Y :=
   match p with (x,y) => y end.
 
-(** [Dalay] The following function takes two lists and combines them
-    into a list of pairs.  In many functional programming languages,
-    it is called [zip].  We call it [combine] for consistency with
-    Coq's standard library. *)
-(** [Diego] Note that the pair notation can be used both in expressions and in
-    patterns... *)
+(** A função seguinte usa duas listas e as combina em uma lista de pares.
+    Em muitas linguagens de programação funcional, isso é chamado [zip].
+    Nós chamamos isso de [combine] ("combinar") para ter consistência com
+    a biblioteca padrão do Coq. *)
+(** Perceba que a notação em par pode ser utilizada tanto para expressões e
+    padrões... *)
 
 Fixpoint combine {X Y : Type} (lx : list X) (ly : list Y)
            : list (X*Y) :=
@@ -458,41 +450,38 @@ Fixpoint combine {X Y : Type} (lx : list X) (ly : list Y)
   | (x::tx, y::ty) => (x,y) :: (combine tx ty)
   end.
 
-(** **** Exercise: 1 star, optional (combine_checks)  *)
-(** [Francisco] Try answering the following questions on paper and
-    checking your answers in coq:
-    - What is the type of [combine] (i.e., what does [Check
-      @combine] print?)
-    - What does
-        Eval compute in (combine [1;2] [false;false;true;true]).
-      print?   []
+(** **** Exercício: 1 estrela, opcional (combine_checks)  *)
+(** Tente responder as questões adiante no papel e
+    cheque suas respostas no Coq:
+    - Qual é o tipo de [combine] (ex., O que imprime [Check @combine]?)
+    - O que imprime
+        Eval compute in (combine [1;2] [false;false;true;true]).?   []
 *)
 
-(** **** Exercise: 2 stars (split)  *)
-(** [Renan] The function [split] is the right inverse of combine: it takes a
-    list of pairs and returns a pair of lists.  In many functional
-    programing languages, this function is called [unzip].
+(** **** Exercício: 2 estrelas (split)  *)
+(** A função [split] é justamente o inverso de combine: recebe uma 
+    lista de pares e retorna um par de listas. Em muitas linguagens de 
+    programação funcionais, essa função é chamada de [unzip].
 
-    [Vitor] Uncomment the material below and fill in the definition of
-    [split].  Make sure it passes the given unit tests. *)
+ Retire os comentários do material abaixo e insira a definição de [split]. 
+ Certifique-se de que ele passa nos testes de unidade dados. *)
 
 Fixpoint split
            {X Y : Type} (l : list (X*Y))
            : (list X) * (list Y) :=
-(* FILL IN HERE *) admit.
+(* PREENCHA AQUI *) admit.
 
 Example test_split:
   split [(1,false);(2,false)] = ([1;2],[false;false]).
 Proof.
-(* FILL IN HERE *) Admitted.
+(* PREENCHA AQUI *) Admitted.
 (** [] *)
 
 (* ###################################################### *)
-(** ** Polymorphic Options *)
+(** ** Opções Polimórficas *)
 
-(** [Claudia] One last polymorphic type for now: _polymorphic options_.
-    The type declaration generalizes the one for [natoption] in the
-    previous chapter: *)
+(** Um último tipo polimórfico por enquanto: _opções polimórficas_. A declaração
+    de tipo generaliza aquela de [natoption] do capítulo anterior: *)
 
 Inductive option (X:Type) : Type :=
   | Some : X -> option X
@@ -502,8 +491,8 @@ Arguments Some {X} _.
 Arguments None {X}. 
 
 (** *** *)
-(** [Dalay] We can now rewrite the [index] function so that it works
-    with any type of lists. *)
+(** Nós podemos agora reescrever a função [index] para que ela funcione
+    com qualquer tipo de listas. *)
 
 Fixpoint index {X : Type} (n : nat)
                (l : list X) : option X :=
@@ -520,22 +509,22 @@ Example test_index3 :    index  2 [true]  = None.
 Proof. reflexivity.  Qed.
 
 (** **** Exercise: 1 star, optional (hd_opt_poly)  *)
-(** [Diego] Complete the definition of a polymorphic version of the
-    [hd_opt] function from the last chapter. Be sure that it
-    passes the unit tests below. *)
+(** Completar a definção de uma versão polimórfica da função
+    [hd_opt] apresentada no último capítulo. Certifique-se que ela
+    passa nos testes de unidade abaixo. *)
 
 Definition hd_opt {X : Type} (l : list X)  : option X :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHA AQUI *) admit.
 
-(** [Francisco] Once again, to force the implicit arguments to be explicit,
-    we can use [@] before the name of the function. *)
+(** Outra vez, para forçar o argumento implícito seja explicito,
+    nós podemos usar [@] antes do nome da função *)
 
 Check @hd_opt.
 
 Example test_hd_opt1 :  hd_opt [1;2] = Some 1.
- (* FILL IN HERE *) Admitted.
+ (* PREENCHA AQUI *) Admitted.
 Example test_hd_opt2 :   hd_opt  [[1];[2]]  = Some [1].
- (* FILL IN HERE *) Admitted.
+ (* PREENCHA AQUI *) Admitted.
 (** [] *)
 
 (* ###################################################### *)
@@ -543,21 +532,21 @@ Example test_hd_opt2 :   hd_opt  [[1];[2]]  = Some [1].
 (* ###################################################### *)
 (** ** Higher-Order Functions *)
 
-(** [Renan] Like many other modern programming languages -- including
-    all _functional languages_ (ML, Haskell, Scheme, etc.) -- Coq
-    treats functions as first-class citizens, allowing functions to be
-    passed as arguments to other functions, returned as results,
-    stored in data structures, etc.
+(** Como muitas outras linguagens de programação modernas - incluindo 
+    todas as _linguagens funcionais_ (ML, Haskell, Scheme, etc.) -- 
+    Coq trata funções como cidadãos de primeira classe, permitindo 
+    que funções sejam passadas como argumentos para outras funções, 
+    retornadas como resultados, armazenadas em estruturas de dados, 
+    etc.
 
-    [Vitor] Functions that manipulate other functions are often called
-    _higher-order_ functions.  Here's a simple one: *)
+	Funções que manipulam outras funções são muitas vezes chamadas funções de 
+	_ordem superior_. Abaixo um exemplo simples: *)
 
 Definition doit3times {X:Type} (f:X->X) (n:X) : X :=
   f (f (f n)).
 
-(** [Claudia] The argument [f] here is itself a function (from [X] to
-    [X]); the body of [doit3times] applies [f] three times to some
-    value [n]. *)
+(** O argumento [f] aqui é, por si só, uma função (de [X] para [X]); o corpo de
+    [doit3times] aplica [f] três vezes para algum valor [n]. *)
 
 Check @doit3times.
 (* ===> doit3times : forall X : Type, (X -> X) -> X -> X *)
@@ -571,23 +560,23 @@ Proof. reflexivity.  Qed.
 (* ###################################################### *)
 (** ** Partial Application *)
 
-(** [Dalay] In fact, the multiple-argument functions we have already
-    seen are also examples of passing functions as data.  To see why,
-    recall the type of [plus]. *)
+(** De fato, as funções de múltipo argumento que já vimos são também
+    exemplos de passar funções como dados. Para ver o porquê, relembre
+    o tipo de [plus]. *)
 
 Check plus.
 (* ==> nat -> nat -> nat *)
 
-(** [Diego] Each [->] in this expression is actually a _binary_ operator
-    on types.  (This is the same as saying that Coq primitively
-    supports only one-argument functions -- do you see why?)  This
-    operator is _right-associative_, so the type of [plus] is really a
-    shorthand for [nat -> (nat -> nat)] -- i.e., it can be read as
-    saying that "[plus] is a one-argument function that takes a [nat]
-    and returns a one-argument function that takes another [nat] and
-    returns a [nat]."  In the examples above, we have always applied
-    [plus] to both of its arguments at once, but if we like we can
-    supply just the first.  This is called _partial application_. *)
+(** Cada [->] nesta expressão na verdade é um operador _binário_
+    em tipos.  (Isto é o mesmo que dizer que o Coq primitivamente
+    suporta somente funções de um argumento -- você vê o porquê?)  Esse
+    operador é _associativo à direita_, então o tipo de [plus] é realmente um
+    atalho para [nat -> (nat -> nat)] -- isto é, isto pode ser lido como
+    dizendo que "[plus] é uma função de um argumento que toma um [nat]
+    e returna uma função de um argumento que toma outro [nat] e
+    retorna um [nat]."  No exemplo acima, nós sempre aplicamos
+    [plus] para os dois argumentos de uma vez, mas, se quisermos, podemos
+    fornencer somente o primeiro.  Isto é chamado de _aplicação parcial_. *)
 
 Definition plus3 := plus 3.
 Check plus3.
@@ -602,34 +591,36 @@ Proof. reflexivity.  Qed.
 (* ###################################################### *)
 (** ** Digression: Currying *)
 
-(** **** Exercise: 2 stars, advanced (currying)  *)
-(** [Francisco] In Coq, a function [f : A -> B -> C] really has the type [A
-    -> (B -> C)].  That is, if you give [f] a value of type [A], it
-    will give you function [f' : B -> C].  If you then give [f'] a
-    value of type [B], it will return a value of type [C].  This
-    allows for partial application, as in [plus3].  Processing a list
-    of arguments with functions that return functions is called
-    _currying_, in honor of the logician Haskell Curry.
+(** **** Exercício: 2 estelas, avançado (currying)  *)
+(** Em Coq, uma função [f : A -> B -> C] realmente tem o tipo [A
+    -> (B -> C)]. Isto é, se você dar [f] um valor do tipo [A], ele dará
+    uma função [f' : B -> C]. Se você então dar [f'] um valor do tipo [B], ele
+    retornará um valor do tipo [C]. Isto permite para aplicações parcial, como em 
+    [plus3]. Processando uma lista de argumentos com funções que retornam funções
+    é chamando de _curring_, em honra ao lógico Haskell Curry.
 
-    [Renan] Conversely, we can reinterpret the type [A -> B -> C] as [(A *
-    B) -> C].  This is called _uncurrying_.  With an uncurried binary
-    function, both arguments must be given at once as a pair; there is
-    no partial application. *)
+    Por outro lado, podemos reinterpretar o tipo [A -> B -> C] como 
+    [(A * B) -> C]. Isto é chamado de _uncurrying_. Para uma função 
+    binária que tenha sofrido _uncurry_, ambos os argumentos devem 
+    ser dados de uma vez como um par; não há possibilidade de 
+    aplicação parcial.
+    
+    *)
 
-(** [Vitor] We can define currying as follows: *)
+(** Nós podemos definir currying da seguinte forma: *)
 
 Definition prod_curry {X Y Z : Type}
   (f : X * Y -> Z) (x : X) (y : Y) : Z := f (x, y).
 
-(** [Claudia] As an exercise, define its inverse, [prod_uncurry].  Then prove
-    the theorems below to show that the two are inverses. *)
+(** Como exercício, defina sua inversa, [prod_uncurry]. Em seguida, prove os
+    teoremas abaixo para mostrar que as duas funções são inversas. *)
 
 Definition prod_uncurry {X Y Z : Type}
   (f : X -> Y -> Z) (p : X * Y) : Z :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHA AQUI *) admit.
 
-(** [Dalay](Thought exercise: before running these commands, can you
-    calculate the types of [prod_curry] and [prod_uncurry]?) *)
+(** Exercício de pensamento. Antes de rodar esses comandos, você
+    pode calcular os tipos de [prod_curry] e [prod_uncurry]?) *) 
 
 Check @prod_curry.
 Check @prod_uncurry.
@@ -637,22 +628,22 @@ Check @prod_uncurry.
 Theorem uncurry_curry : forall (X Y Z : Type) (f : X -> Y -> Z) x y,
   prod_curry (prod_uncurry f) x y = f x y.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHA AQUI *) Admitted.
 
 Theorem curry_uncurry : forall (X Y Z : Type)
                                (f : (X * Y) -> Z) (p : X * Y),
   prod_uncurry (prod_curry f) p = f p.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHA AQUI *) Admitted.
 (** [] *)
 
 (* ###################################################### *)
 (** ** Filter *)
 
-(** [Diego]Here is a useful higher-order function, which takes a list
-    of [X]s and a _predicate_ on [X] (a function from [X] to [bool])
-    and "filters" the list, returning a new list containing just those
-    elements for which the predicate returns [true]. *)
+(** Aqui está uma útil função de ordem superior, que toma uma lista
+    de [X]s e um _predicado_ em [X] (uma função a partir de [X] para [bool])
+    e "filtra" a lista, retornando uma nova lista contendo somente aqueles
+    elementos que o predicado retorna [true]. *)
 
 Fixpoint filter {X:Type} (test: X->bool) (l:list X)
                 : (list X) :=
@@ -662,9 +653,9 @@ Fixpoint filter {X:Type} (test: X->bool) (l:list X)
                         else       filter test t
   end.
 
-(** [Francisco]For example, if we apply [filter] to the predicate [evenb]
-    and a list of numbers [l], it returns a list containing just the
-    even members of [l]. *)
+(** Por exemplo, se nós aplicarmos [filter] para o predicado [evenb]
+    e uma lista de números [l], ele retorna uma lista contendo apenas os números
+    pares de [l]. *)
 
 Example test_filter1: filter evenb [1;2;3;4] = [2;4].
 Proof. reflexivity.  Qed.
@@ -681,8 +672,8 @@ Proof. reflexivity.  Qed.
 
 (** *** *)
 
-(** [Renan]We can use [filter] to give a concise version of the
-    [countoddmembers] function from the [Lists] chapter. *)
+(** Nós podemos usar [filter] para fornecer uma versão concisa 
+    da função [countoddmembers] do capítulo [Lists]. *)
 
 Definition countoddmembers' (l:list nat) : nat :=
   length (filter oddb l).
@@ -695,28 +686,26 @@ Example test_countoddmembers'3:   countoddmembers' nil = 0.
 Proof. reflexivity.  Qed.
 
 (* ###################################################### *)
-(** ** Anonymous Functions *)
+(** ** Funções Anônimas *)
 
-(** [Vitor]It is a little annoying to be forced to define the function
-    [length_is_1] and give it a name just to be able to pass it as an
-    argument to [filter], since we will probably never use it again.
-    Moreover, this is not an isolated example.  When using
-    higher-order functions, we often want to pass as arguments
-    "one-off" functions that we will never use again; having to give
-    each of these functions a name would be tedious.
+(** É um pouco chato ser forçado a definir a função [length_is_1] e dar-lhe um 
+nome apenas para poder passá-lo como argumento para [filter], uma vez que, 
+provavelmente, nunca mais a usaremos novamente. Além disso, este não é um 
+exemplo isolado. Quando utilizamos funções de ordem superior, muitas vezes 
+queremos passar, como argumentos, funções que nunca mais usaremos novamente: 
+ter de denominar cada uma dessas funções pode ser uma ação bem tediosa.
 
-    [Claudia]Fortunately, there is a better way. It is also possible to
-    construct a function "on the fly" without declaring it at the top
-    level or giving it a name; this is analogous to the notation we've
-    been using for writing down constant lists, natural numbers, and
-    so on. *)
+    Felizmente, há uma maneira melhor. É também possível construir uma função
+    "diretamente" sem declará-lo no nível topo ou nomeá-la; isto é análogo
+    à notação que temos utilizado para escrever listas constantes, números
+    naturais e etc. *)
 
 Example test_anon_fun':
   doit3times (fun n => n * n) 2 = 256.
 Proof. reflexivity.  Qed.
 
-(** [Dalay]Here is the motivating example from before, rewritten to use
-    an anonymous function. *)
+(** Aqui está o exemplo motivacional de antes, reescrito para usar
+    uma função anônima. *)
 
 Example test_filter2':
     filter (fun l => beq_nat (length l) 1)
@@ -726,50 +715,47 @@ Proof. reflexivity.  Qed.
 
 (** **** Exercise: 2 stars (filter_even_gt7)  *)
 
-(** [Diego]Use [filter] (instead of [Fixpoint]) to write a Coq function
-    [filter_even_gt7] that takes a list of natural numbers as input
-    and returns a list of just those that are even and greater than
+(** Usar [filter] (no lugar de [Fixpoint]) para escrever uma função em Coq
+    [filter_even_gt7] que toma uma lista de números naturais como entrada e
+    retorna uma lista de números somente maiores ou iguais a
     7. *)
 
 Definition filter_even_gt7 (l : list nat) : list nat :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHA AQUI *) admit.
 
 Example test_filter_even_gt7_1 :
   filter_even_gt7 [1;2;6;9;10;3;12;8] = [10;12;8].
- (* FILL IN HERE *) Admitted.
+ (* PREENCHA AQUI *) Admitted.
 
 Example test_filter_even_gt7_2 :
   filter_even_gt7 [5;2;6;19;129] = [].
- (* FILL IN HERE *) Admitted.
+ (* PREENCHA AQUI *) Admitted.
 (** [] *)
 
-(** **** Exercise: 3 stars (partition)  *)
-(** [Francisco]Use [filter] to write a Coq function [partition]:
+(** **** Exercício: 3 estrelas (partição)  *)
+(** Use [filter] para escrever uma função Coq [partition]:
   partition : forall X : Type,
               (X -> bool) -> list X -> list X * list X
-   Given a set [X], a test function of type [X -> bool] and a [list
-   X], [partition] should return a pair of lists.  The first member of
-   the pair is the sublist of the original list containing the
-   elements that satisfy the test, and the second is the sublist
-   containing those that fail the test.  The order of elements in the
-   two sublists should be the same as their order in the original
-   list.
-*)
+   Dado um conjunto [X], uma função teste do tipo [X -> bool] e um [list X],
+   [partition] deve retornar um par de listas. O primeiro membro do par
+   é a sublista da lista origanl contendo os elementos que satisfaz o teste,
+   e o segundo é a sublista contendo aqueles que falharam no teste. A ordem
+   dos elementos nos duas sublistas devem ser a mesma ordem da lista original. *)
 
 Definition partition {X : Type} (test : X -> bool) (l : list X)
                      : list X * list X :=
-(* FILL IN HERE *) admit.
+(* PREENCHA AQUI *) admit.
 
 Example test_partition1: partition oddb [1;2;3;4;5] = ([1;3;5], [2;4]).
-(* FILL IN HERE *) Admitted.
+(* PREENCHA AQUI *) Admitted.
 Example test_partition2: partition (fun x => false) [5;9;0] = ([], [5;9;0]).
-(* FILL IN HERE *) Admitted.
+(* PREENCHA AQUI *) Admitted.
 (** [] *)
 
 (* ###################################################### *)
 (** ** Map *)
 
-(** [Renan] Another handy higher-order function is called [map]. *)
+(** Outra função útil de ordem superior é chamada [map]. *)
 
 Fixpoint map {X Y:Type} (f:X->Y) (l:list X)
              : (list Y) :=
@@ -779,24 +765,25 @@ Fixpoint map {X Y:Type} (f:X->Y) (l:list X)
   end.
 
 (** *** *)
-(** [Vitor] It takes a function [f] and a list [ l = [n1, n2, n3, ...] ]
-    and returns the list [ [f n1, f n2, f n3,...] ], where [f] has
-    been applied to each element of [l] in turn.  For example: *)
+
+(** Seus argumentos são uma função [f] e uma lista [ l = [n1, n2, n3, ...] ] e 
+retorna a lista [ [f n1, f n2, f n3,...] ], no qual [f] foi aplicada em cada 
+elemento de [l] sucessivamente. Por exemplo: *)
 
 Example test_map1: map (plus 3) [2;0;2] = [5;3;5].
 Proof. reflexivity.  Qed.
 
-(** [Claudia] The element types of the input and output lists need not be
-    the same ([map] takes _two_ type arguments, [X] and [Y]).  This
-    version of [map] can thus be applied to a list of numbers and a
-    function from numbers to booleans to yield a list of booleans: *)
+(** Os tipos de elementos das listas de entrada e saída não precisam ser os
+mesmos ([map] recebe _dois_ argumentos de tipo, [X] e [Y]). Esta versão de [map]
+pode, portanto, ser aplicada a uma lista de números e uma função de números para
+booleanos a fim de produzir uma lista de booleanos: *)
 
 Example test_map2: map oddb [2;1;2;5] = [false;true;false;true].
 Proof. reflexivity.  Qed.
 
-(** [Dalay] It can even be applied to a list of numbers and
-    a function from numbers to _lists_ of booleans to
-    yield a list of lists of booleans: *)
+(** Isso pode até ser aplicado a uma lista de numeros e
+    uma função de números para _listas_ de boleanos para 
+    produzir uma lista de listas de boleanos: *)
 
 Example test_map3:
     map (fun n => [evenb n;oddb n]) [2;1;2;5]
@@ -807,39 +794,38 @@ Proof. reflexivity.  Qed.
 
 (** ** Map for options *)
 (** **** Exercise: 3 stars (map_rev)  *)
-(** [Diego] Show that [map] and [rev] commute.  You may need to define an
-    auxiliary lemma. *)
+(** Mostrar que [map] e [rev] comutam.  Você pode precisar definir um
+    lema auxiliar. *)
 
 
 Theorem map_rev : forall (X Y : Type) (f : X -> Y) (l : list X),
   map f (rev l) = rev (map f l).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHA AQUI *) Admitted.
 (** [] *)
 
-(** **** Exercise: 2 stars (flat_map)  *)
-(** [Francisco]The function [map] maps a [list X] to a [list Y] using a function
-    of type [X -> Y].  We can define a similar function, [flat_map],
-    which maps a [list X] to a [list Y] using a function [f] of type
-    [X -> list Y].  Your definition should work by 'flattening' the
-    results of [f], like so:
+(** **** Exercício: 2 estrelas (flat_map)  *)
+(** A função [map] mapeiaum [list X] para uma [list Y] usando uma função
+    do tipo [X -> Y]. Nós podemos definir uma função similar, [flap_map],
+    [X -> list Y]. Sua definição deve funcionar pelo 'achatamento' dos 
+    resultados de [f], como em:
         flat_map (fun n => [n;n+1;n+2]) [1;5;10]
       = [1; 2; 3; 5; 6; 7; 10; 11; 12].
 *)
 
 Fixpoint flat_map {X Y:Type} (f:X -> list Y) (l:list X)
                    : (list Y) :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHA AQUI *) admit.
 
 Example test_flat_map1:
   flat_map (fun n => [n;n;n]) [1;5;4]
   = [1; 1; 1; 5; 5; 5; 4; 4; 4].
- (* FILL IN HERE *) Admitted.
+ (* PREENCHA AQUI *) Admitted.
 (** [] *)
 
-(** [Renan]Lists are not the only inductive type that we can write a
-    [map] function for.  Here is the definition of [map] for the
-    [option] type: *)
+(** Listas não são o único tipo indutivo para o qual podemos escrever 
+    uma função [map]. Aqui está a definição de [map] para o tipo 
+    [option]: *)
 
 Definition option_map {X Y : Type} (f : X -> Y) (xo : option X)
                       : option Y :=
@@ -848,22 +834,21 @@ Definition option_map {X Y : Type} (f : X -> Y) (xo : option X)
     | Some x => Some (f x)
   end.
 
-(** **** Exercise: 2 stars, optional (implicit_args)  *)
-(** [Vitor] The definitions and uses of [filter] and [map] use implicit
-    arguments in many places.  Replace the curly braces around the
-    implicit arguments with parentheses, and then fill in explicit
-    type parameters where necessary and use Coq to check that you've
-    done so correctly.  (This exercise is not to be turned in; it is
-    probably easiest to do it on a _copy_ of this file that you can
-    throw away afterwards.)  [] *)
+(** **** Exercício: 2 estrelas, opcional (implicit_args)  *)
+
+(** As definições e usos de [filter] e [map] usam argumentos implícitos em 
+vários lugares. Substitua as chaves ao redor dos argumentos implícitos com 
+parênteses e, em seguida, preencha-os com parâmetros de tipos explícitos onde 
+são necessários, usando o Coq para verificar que você preencheu corretamente. 
+(Este exercício não é pra ser feito aqui; provavelmente é mais fácil fazê-lo 
+numa _cópia_ deste arquivo, eliminando-o posteriormente.) [] *)
 
 (* ###################################################### *)
 (** ** Fold *)
 
-(** [Claudia]An even more powerful higher-order function is called
-    [fold].  This function is the inspiration for the "[reduce]"
-    operation that lies at the heart of Google's map/reduce
-    distributed programming framework. *)
+(** Uma função de ordem superior ainda mais poderosa chama-se [fold]. Esta
+função é a inspiração para a operação "[reduce]" que está no "coração" do
+framework de programação distribuída map/reduce do Google. *)
 
 Fixpoint fold {X Y:Type} (f: X->Y->Y) (l:list X) (b:Y) : Y :=
   match l with
@@ -873,16 +858,16 @@ Fixpoint fold {X Y:Type} (f: X->Y->Y) (l:list X) (b:Y) : Y :=
 
 (** *** *)
 
-(** [Dalay]Intuitively, the behavior of the [fold] operation is to
-    insert a given binary operator [f] between every pair of elements
-    in a given list.  For example, [ fold plus [1;2;3;4] ] intuitively
-    means [1+2+3+4].  To make this precise, we also need a "starting
-    element" that serves as the initial second input to [f].  So, for
-    example,
+(** Intuitivamente, o comportamento da operação [fold] é inserir um 
+    operador binário [f] entre todo par de elementos em uma lista dada.
+    Por exemplo, [ fold plus [1;2;3;4] ] intuitivamente significa 
+    [1+2+3+4]. Para fazer isso ser preciso, nós tambpem precisamos de 
+    um "elemento inicial" que serve como uma segunda entrada inicial 
+    para [f]. Então, por exemplo, 
    fold plus [1;2;3;4] 0
     yields
    1 + (2 + (3 + (4 + 0))).
-    Here are some more examples:
+    Aqui estão alguns outros exemplos:
 *)
 
 Check (fold andb).
@@ -899,23 +884,22 @@ Proof. reflexivity. Qed.
 
 
 (** **** Exercise: 1 star, advanced (fold_types_different)  *)
-(** [Diego]Observe that the type of [fold] is parameterized by _two_ type
-    variables, [X] and [Y], and the parameter [f] is a binary operator
-    that takes an [X] and a [Y] and returns a [Y].  Can you think of a
-    situation where it would be useful for [X] and [Y] to be
-    different? *)
+(** Observe que o tipo de [fold] é parametrizado por _duas_ variavéis
+    de tipos, [X] e [Y], e o parâmetro [f] é um operador binário
+    que toma um [X] e um [Y] e retornar um [Y].  Você consegue pensar em uma
+    situação em que pode ser útil para [X] e [Y] serem
+    diferentes? *)
 
 (* ###################################################### *)
-(** ** Functions For Constructing Functions *)
+(** ** Funções Para Construir Funções*)
 
-(** [Francisco]Most of the higher-order functions we have talked about so
-    far take functions as _arguments_.  Now let's look at some
-    examples involving _returning_ functions as the results of other
-    functions.
+(** A maioria das funções de ordem superior que nós temos falados até então
+    levam funções como _argumentos_. Agora vamos olhar o mesmo exemplo
+    envolvendo funções de _retorno_ como o resultado de outras funções.
 
-    [Renan]To begin, here is a function that takes a value [x] (drawn from
-    some type [X]) and returns a function from [nat] to [X] that
-    yields [x] whenever it is called, ignoring its [nat] argument. *)
+    Para começar, aqui está uma função que recebe um valor [x] (tirado 
+    de algum tipo [X]) e retorna uma função de [nat] para [X] que 
+    retorna [x] sempre que é chamada, ignorando seu argumento [nat]. *)
 
 Definition constfun {X: Type} (x: X) : nat->X :=
   fun (k:nat) => x.
@@ -929,18 +913,19 @@ Example constfun_example2 : (constfun 5) 99 = 5.
 Proof. reflexivity. Qed.
 
 (** *** *)
-(** [Vitor]Similarly, but a bit more interestingly, here is a function
-    that takes a function [f] from numbers to some type [X], a number
-    [k], and a value [x], and constructs a function that behaves
-    exactly like [f] except that, when called with the argument [k],
-    it returns [x]. *)
+
+(** Igualmente, porém de uma forma mais interessante, é mostrada abaixo uma 
+função que possui, como argumentos, uma função [f] de números para algum tipo 
+[X], um número [k] e um valor [x], e constrói uma função que se comporta 
+exatamente como [f] exceto que, quando chamado com o argumento [k], ele retorna 
+[x].*)
 
 Definition override {X: Type} (f: nat->X) (k:nat) (x:X) : nat->X:=
   fun (k':nat) => if beq_nat k k' then x else f k'.
 
-(** [Claudia]For example, we can apply [override] twice to obtain a
-    function from numbers to booleans that returns [false] on [1] and
-    [3] and returns [true] on all other arguments. *)
+(** Por exemplo, podemos aplicar [override] duas vezes para obter a função de
+números para booleanos que retorna [false] para [1] e [3] e [true] para todos os
+outros argumentos. *)
 
 Definition fmostlytrue := override (override ftrue 1 false) 3 false.
 
@@ -960,50 +945,50 @@ Proof. reflexivity. Qed.
 
 (** *** *)
 
-(** **** Exercise: 1 star (override_example)  *)
-(** [Dalay]Before starting to work on the following proof, make sure you
-    understand exactly what the theorem is saying and can paraphrase
-    it in your own words.  The proof itself is straightforward. *)
+(** **** Exercício: 1 estrela (override_example)  *)
+(** Antes de começar a trabalhar na prova seguinte, tenha certeza que
+    você entendeu exatamente o que o teorema está dizendo e pode você
+    parafrasear isso em suas próprias palavras. A prova em si é simples. *)
 
 Theorem override_example : forall (b:bool),
   (override (constfun b) 3 true) 2 = b.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHA AQUI *) Admitted.
 (** [] *)
 
-(** [Diego]We'll use function overriding heavily in parts of the rest of the
-    course, and we will end up needing to know quite a bit about its
-    properties.  To prove these properties, though, we need to know
-    about a few more of Coq's tactics; developing these is the main
-    topic of the next chapter.  For now, though, let's introduce just
-    one very useful tactic that will also help us with proving
-    properties of some of the other functions we have introduced in
-    this chapter. *)
+(** Nós vamos utilizar a função _overriding_ várias vezes em partes do resto do
+    curso, e nós vamos acabar precisando saber um pouco sobre suas
+    propriedades.  Para provar essas propriedades, porém, nós precisaremos 
+    conhecer um pouco mais sobre as táticas do Coq; desenvolver elas é o tópico
+    principal do próximo capítulo.  Por enquanto, porém, vamos introduzir
+    somente uma tática muito útil que irá também nos ajudar a provar
+    algumas propriedades das outras funções que introduzimos nesse
+    capítulo. *)
 
 (* ###################################################### *)
 
 (* ###################################################### *)
-(** * The [unfold] Tactic *)
+(** * A Tática [unfold] *)
 
-(** [Francisco]Sometimes, a proof will get stuck because Coq doesn't
-    automatically expand a function call into its definition.  (This
-    is a feature, not a bug: if Coq automatically expanded everything
-    possible, our proof goals would quickly become enormous -- hard to
-    read and slow for Coq to manipulate!) *)
+(** As vezes, uma prova ficará presa porque Coq não expande
+    automaticamente a chamada de função para a sua definição.
+    (Isto é uma caracteristica, não um erro: se Coq automaticamente
+    expandir tudo que é possível, nossa prova de objetivos rapidamente
+    ficará enorme -- difícil de ler e demorado para Coq manipular!) *)
 
 Theorem unfold_example_bad : forall m n,
   3 + n = m ->
   plus3 n + 1 = m + 1.
 Proof.
   intros m n H.
-(* [Renan]At this point, we'd like to do [rewrite -> H], since 
-     [plus3 n] is definitionally equal to [3 + n].  However, 
-     Coq doesn't automatically expand [plus3 n] to its 
-     definition. *)
+(* Neste ponto, nós gostaríamos de fazer [rewrite -> H], 
+     uma vez que [Plus3 n] é por definição igual a [3 + n]. 
+     No entanto, Coq não expande automaticamente [Plus3 n] 
+     à sua definição. *)
   Abort.
 
-(** [Vitor]The [unfold] tactic can be used to explicitly replace a
-    defined name by the right-hand side of its definition.  *)
+(** A tática [unfold] pode ser usada para substituir explicitamente um nome 
+definido pelo lado direito de sua definição. *)
 
 Theorem unfold_example : forall m n,
   3 + n = m ->
@@ -1014,9 +999,9 @@ Proof.
   rewrite -> H.
   reflexivity.  Qed.
 
-(** [Claudia]Now we can prove a first property of [override]: If we
-    override a function at some argument [k] and then look up [k], we
-    get back the overridden value. *)
+(** Agora podemos provar uma primeira propriedade de [override]: Se
+sobrescrevermos uma função em algum argumento [k] e, em seguida, consultramos
+[k], receberemos de volta o valor sobrescrito. *)
 
 Theorem override_eq : forall {X:Type} x k (f:nat->X),
   (override f k x) k = x.
@@ -1026,8 +1011,8 @@ Proof.
   rewrite <- beq_nat_refl.
   reflexivity.  Qed.
 
-(** [Dalay]This proof was straightforward, but note that it requires
-    [unfold] to expand the definition of [override]. *)
+(** Essa prova foi simples, mas note que ela precisou do [unfold] 
+    para expandir a definição de [override]. *)
 
 (** **** Exercise: 2 stars (override_neq)  *)
 Theorem override_neq : forall (X:Type) x1 x2 k1 k2 (f : nat->X),
@@ -1035,19 +1020,19 @@ Theorem override_neq : forall (X:Type) x1 x2 k1 k2 (f : nat->X),
   beq_nat k2 k1 = false ->
   (override f k2 x2) k1 = x1.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHA AQUI *) Admitted.
 (** [] *)
 
-(** [Diego]As the inverse of [unfold], Coq also provides a tactic
-    [fold], which can be used to "unexpand" a definition.  It is used
-    much less often. *)
+(** Tal como o inverso de [unfold], Coq também fornece uma tática
+    [fold], que pode ser utilizada para uma definição "inexpansível".  Ele é usado
+    com muito menos frequência. *)
 
 (* ##################################################### *)
 (** * Additional Exercises *)
 
-(** **** Exercise: 2 stars (fold_length)  *)
-(** [Francisco]Many common functions on lists can be implemented in terms of
-   [fold].  For example, here is an alternative definition of [length]: *)
+(** **** Exercício: 2 estrelas (fold_length)  *)
+(** Muitas funções comuns de listas podem ser implementadas em termo de 
+    [fold]. Por exemplo, aqui está uma alternativa da definição de [length]: *)
 
 Definition fold_length {X : Type} (l : list X) : nat :=
   fold (fun _ n => S n) l 0.
@@ -1055,36 +1040,37 @@ Definition fold_length {X : Type} (l : list X) : nat :=
 Example test_fold_length1 : fold_length [4;7;0] = 3.
 Proof. reflexivity. Qed.
 
-(** [Renan]Prove the correctness of [fold_length]. *)
+(** Prove a corretude de [fold_length]. *)
 
 Theorem fold_length_correct : forall X (l : list X),
   fold_length l = length l.
-(* FILL IN HERE *) Admitted.
+(* PREENCHER *) Admitted.
 (** [] *)
 
 (** **** Exercise: 3 stars (fold_map)  *)
-(** [Vitor]We can also define [map] in terms of [fold].  Finish [fold_map]
-    below. *)
+(** Nós podemos também definir [map] em termos de [fold]. Finalize [fold_map] 
+mostrada abaixo. *)
+
 
 Definition fold_map {X Y:Type} (f : X -> Y) (l : list X) : list Y :=
-(* FILL IN HERE *) admit.
+(* PREENCHA AQUI *) admit.
 
-(** [Claudia]Write down a theorem [fold_map_correct] in Coq stating that
-   [fold_map] is correct, and prove it. *)
+(** Escreva um teorema [fold_map_correct] em Coq afirmando que [fold_map]
+é correto e prove-o. *)
 
-(* FILL IN HERE *)
+(* PREENCHA AQUI *)
 (** [] *)
 
 (** **** Exercise: 2 stars, advanced (index_informal)  *)
-(** [Dalay]Recall the definition of the [index] function:
+(** Relembre a definição da função [index]:
    Fixpoint index {X : Type} (n : nat) (l : list X) : option X :=
      match l with
      | [] => None 
      | a :: l' => if beq_nat n O then Some a else index (pred n) l'
      end.
-   Write an informal proof of the following theorem:
+   Escreva uma prova informal do seguinte teorema:
    forall X n l, length l = n -> @index X n l = None.
-(* FILL IN HERE *)
+(* PREENCHA AQUI *)
 *)
 (** [] *)
 
@@ -1092,103 +1078,104 @@ Definition fold_map {X Y:Type} (f : X -> Y) (l : list X) : list Y :=
 
 Module Church.
 
-(** [Diego]In this exercise, we will explore an alternative way of defining
-    natural numbers, using the so-called _Church numerals_, named
-    after mathematician Alonzo Church. We can represent a natural
-    number [n] as a function that takes a function [f] as a parameter
-    and returns [f] iterated [n] times. More formally, *)
+(** Neste exercício, vamos explorar um modo alternativo de definir
+    números naturais, utilizando os chamados _numerais de Church_, em
+    homenagem ao matemático Alonzo Church. Nós podemos representar um número
+    natural [n] como uma função que toma uma função [f] como um parâmetro
+    e retorna [f] iterado [n] vezes. Mais formalmente, *)
 
 Definition nat := forall X : Type, (X -> X) -> X -> X.
 
-(** [Francisco]Let's see how to write some numbers with this notation. Any
-    function [f] iterated once shouldn't change. Thus, *)
+(** Vamos ver como escrever alguns número com esta notação. Qualquer
+    função [f] interado uma vez não deve mudar. Assim,  *)
 
 Definition one : nat := 
   fun (X : Type) (f : X -> X) (x : X) => f x.
 
-(** [two] [Renan]should apply [f] twice to its argument: *)
+(** [two] deve aplicar [f] duas vezes a seu argumento: *)
 
 Definition two : nat :=
   fun (X : Type) (f : X -> X) (x : X) => f (f x).
 
-(** [zero] [Vitor]is somewhat trickier: how can we apply a function zero
-    times? The answer is simple: just leave the argument untouched. *)
+(** [zero] é um pouco mais complicado: como poderemos aplicar a função zero 
+vezes? A resposta é simples: apenas não toque no argumento. *)
 
 Definition zero : nat :=
   fun (X : Type) (f : X -> X) (x : X) => x.
 
-(** [Claudia]More generally, a number [n] will be written as [fun X f x => f (f
-    ... (f x) ...)], with [n] occurrences of [f]. Notice in particular
-    how the [doit3times] function we've defined previously is actually
-    just the representation of [3]. *)
+(** De maneira mais geral, um número [n] será escrito como [fun X f x => f (f
+... (f x) ...)], com [n] ocorrências de [f]. Perceba, em particular, como
+a função [doit3times] que definimos anteriormente é, na verdade, apenas
+a representação de [3].
 
 Definition three : nat := @doit3times.
 
-(** [Dalay[Complete the definitions of the following functions. Make sure
-    that the corresponding unit tests pass by proving them with
+(** Complete as definições das seguintes funções. Tenha certeza de que
+    os testes de unidade correspondentes passem, provando eles com 
     [reflexivity]. *)    
 
-(** [Diego]Successor of a natural number *)
+
+(** Successor de um número natural *)
 
 Definition succ (n : nat) : nat :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHA AQUI *) admit.
 
 Example succ_1 : succ zero = one.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
 Example succ_2 : succ one = two.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
 Example succ_3 : succ two = three.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
-(** [Francisco]Addition of two natural numbers *)
+(** Adição de dois número naturais *)
 
 Definition plus (n m : nat) : nat :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHA AQUI *) admit.
 
 Example plus_1 : plus zero one = one.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
 Example plus_2 : plus two three = plus three two.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
 Example plus_3 :
   plus (plus two two) three = plus one (plus three three).
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
-(** [Renan]Multiplication *)
+(** Multiplicação *)
 
 Definition mult (n m : nat) : nat := 
-  (* FILL IN HERE *) admit.
+  (* PREENCHA AQUI *) admit.
 
 Example mult_1 : mult one one = one.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
 Example mult_2 : mult zero (plus three three) = zero.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
 Example mult_3 : mult two three = plus three three.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
-(** [Vitor]Exponentiation *)
+(** Exponenciação *)
 
-(** Hint: Polymorphism plays a crucial role here. However, choosing
-    the right type to iterate over can be tricky. If you hit a
-    "Universe inconsistency" error, try iterating over a different
-    type: [nat] itself is usually problematic. *)
+(** Dica: Polimorfismo tem um papel crucial aqui. Porém, escolher o tipo certo 
+para a iteração pode ser complicado. Se você chegar a um erro de 
+"inconsistência do Universo", tente iterar sobre um tipo diferente: o próprio 
+[nat] geralmente é problemático. *)
 
 Definition exp (n m : nat) : nat :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHA AQUI *) admit.
 
 Example exp_1 : exp two two = plus two two.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA QUI *) Admitted.
 
 Example exp_2 : exp three two = plus (mult two (mult two two)) one.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
 Example exp_3 : exp three zero = one.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHA AQUI *) Admitted.
 
 End Church.
 

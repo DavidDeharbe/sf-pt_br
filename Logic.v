@@ -1,64 +1,64 @@
-(** * Logic: Logic in Coq *)
+(** * Logic: Lógica em Coq *)
 
 Require Export MoreCoq. 
 
 
 
-(** Coq's built-in logic is very small: the only primitives are
+(** [Claudia]Coq's built-in logic is very small: the only primitives are
     [Inductive] definitions, universal quantification ([forall]), and
     implication ([->]), while all the other familiar logical
     connectives -- conjunction, disjunction, negation, existential
     quantification, even equality -- can be encoded using just these.
 
-    This chapter explains the encodings and shows how the tactics
+    [Dalay]This chapter explains the encodings and shows how the tactics
     we've seen can be used to carry out standard forms of logical
     reasoning involving these connectives.
 
 *)
 
 (* ########################################################### *)
-(** * Propositions *)
+(** * Proposições *)
 
-(** In previous chapters, we have seen many examples of factual
-    claims (_propositions_) and ways of presenting evidence of their
-    truth (_proofs_).  In particular, we have worked extensively with
-    _equality propositions_ of the form [e1 = e2], with
-    implications ([P -> Q]), and with quantified propositions 
+(** Nos capítulos anteriores, nós vimos vários exemplos de alegações
+    fatuais (_proposições_) e meios de apresentar evidências das suas
+    verdades (_provas_).  Em particular, nós temos trabalhados extensivamente 
+    com _proposições de igualdades_ da forma [e1 = e2], com
+    implicações ([P -> Q]), e com proposições quantificadas
     ([forall x, P]).  
 *)
 
 
-(** In Coq, the type of things that can (potentially) 
+(** [Francisco]In Coq, the type of things that can (potentially) 
     be proven is [Prop]. *)
 
-(** Here is an example of a provable proposition: *)
+(** Aqui está um exemplo de uma proposição demonstrável: *)
 
 Check (3 = 3).
 (* ===> Prop *)
 
-(** Here is an example of an unprovable proposition: *)
+(** [Vitor]Here is an example of an unprovable proposition: *)
 
 Check (forall (n:nat), n = 2).
 (* ===> Prop *)
 
-(** Recall that [Check] asks Coq to tell us the type of the indicated 
+(** [Claudia]Recall that [Check] asks Coq to tell us the type of the indicated 
   expression. *)
 
 (* ########################################################### *)
-(** * Proofs and Evidence *)
+(** * Provas e Evidência *)
 
-(** In Coq, propositions have the same status as other types, such as
+(** [Dalay]In Coq, propositions have the same status as other types, such as
     [nat].  Just as the natural numbers [0], [1], [2], etc. inhabit
     the type [nat], a Coq proposition [P] is inhabited by its
     _proofs_.  We will refer to such inhabitants as _proof term_ or
     _proof object_ or _evidence_ for the truth of [P]. 
 
-    In Coq, when we state and then prove a lemma such as:
+    Em Coq, quando nós afirmamos e então provamos um lema como:
 
 Lemma silly : 0 * 3 = 0.  
 Proof. reflexivity. Qed.
 
-    the tactics we use within the [Proof]...[Qed] keywords tell Coq
+    [Francisco]the tactics we use within the [Proof]...[Qed] keywords tell Coq
     how to construct a proof term that inhabits the proposition.  In
     this case, the proposition [0 * 3 = 0] is justified by a
     combination of the _definition_ of [mult], which says that [0 * 3]
@@ -73,25 +73,25 @@ Proof. reflexivity. Qed.
 Lemma silly : 0 * 3 = 0.
 Proof. reflexivity. Qed.
 
-(** We can see which proof term Coq constructs for a given Lemma by
-using the [Print] directive: *)
+(** Podemos ver que expressão de prova Coq constrói para um dado lema usando
+a diretiva [Print]: *)
 
 Print silly.
 (* ===> silly = eq_refl : 0 * 3 = 0 *)
 
-(** Here, the [eq_refl] proof term witnesses the equality. (More on
+(** [Vitor]Here, the [eq_refl] proof term witnesses the equality. (More on
 equality later!)*)
 
-(** ** Implications _are_ functions *)
+(** ** Implicações _são_ Funções *)
 
-(** Just as we can implement natural number multiplication as a
+(** [Claudia]Just as we can implement natural number multiplication as a
 function:
 
 [
 mult : nat -> nat -> nat 
 ]
 
-The _proof term_ for an implication [P -> Q] is a _function_ that
+[Dalay]The _proof term_ for an implication [P -> Q] is a _function_ that
 takes evidence for [P] as input and produces evidence for [Q] as its
 output.
 *)     
@@ -99,79 +99,80 @@ output.
 Lemma silly_implication : (1 + 1) = 2  ->  0 * 3 = 0.
 Proof. intros H. reflexivity. Qed.
 
-(** We can see that the proof term for the above lemma is indeed a
-function: *)
+(** Nós podemos ver que o termo prova do lema abaixo é de fato
+uma função: *)
 
 Print silly_implication.
 (* ===> silly_implication = fun _ : 1 + 1 = 2 => eq_refl
      : 1 + 1 = 2 -> 0 * 3 = 0 *)
 
-(** ** Defining propositions *)
+(** ** Definição de Proposições *)
 
-(** Just as we can create user-defined inductive types (like the
+(** [Francisco]Just as we can create user-defined inductive types (like the
     lists, binary representations of natural numbers, etc., that we
     seen before), we can also create _user-defined_ propositions.
 
-    Question: How do you define the meaning of a proposition?  
+    Pergunta: Como você define o significado de uma proposição?  
 *)
 
 (** *** *)
 
-(** The meaning of a proposition is given by _rules_ and _definitions_
+(** [Vitor]The meaning of a proposition is given by _rules_ and _definitions_
     that say how to construct _evidence_ for the truth of the
     proposition from other evidence.
 
-    - Typically, rules are defined _inductively_, just like any other
+    [Claudia]- Typically, rules are defined _inductively_, just like any other
       datatype.
 
-    - Sometimes a proposition is declared to be true without
+    [Dalay]- Sometimes a proposition is declared to be true without
       substantiating evidence.  Such propositions are called _axioms_.
 
-    In this, and subsequence chapters, we'll see more about how these
-    proof terms work in more detail.
+    Neste, e nos capítulos subsequentes, nós veremos de maneira mais detalhada
+    mais sobre como esses termos de prova funcionam.
 *)
 
 (* ########################################################### *)
-(** * Conjunction (Logical "and") *)
+(** * Conjunção ("e" Lógico) *)
 
-(** The logical conjunction of propositions [P] and [Q] can be
+(** [Francisco]The logical conjunction of propositions [P] and [Q] can be
     represented using an [Inductive] definition with one
     constructor. *)
 
 Inductive and (P Q : Prop) : Prop :=
   conj : P -> Q -> (and P Q). 
 
-(** The intuition behind this definition is simple: to
-    construct evidence for [and P Q], we must provide evidence
-    for [P] and evidence for [Q].  More precisely:
-
-    - [conj p q] can be taken as evidence for [and P Q] if [p]
+(** A intuição por trás dessa definição é simples: para construir 
+    evidência para [and P Q], devemos fornecer evidência para [P] 
+    e evidência para [Q]. Mais precisamente:
+    
+    [Vitor]- [conj p q] can be taken as evidence for [and P Q] if [p]
       is evidence for [P] and [q] is evidence for [Q]; and
 
-    - this is the _only_ way to give evidence for [and P Q] --
+    [Claudia]- this is the _only_ way to give evidence for [and P Q] --
       that is, if someone gives us evidence for [and P Q], we
       know it must have the form [conj p q], where [p] is
       evidence for [P] and [q] is evidence for [Q]. 
 
-   Since we'll be using conjunction a lot, let's introduce a more
+   [Dalay]Since we'll be using conjunction a lot, let's introduce a more
    familiar-looking infix notation for it. *)
 
 Notation "P /\ Q" := (and P Q) : type_scope.
 
-(** (The [type_scope] annotation tells Coq that this notation
-    will be appearing in propositions, not values.) *)
+(** (A anotação [type_scope] diz ao Coq que essa notação
+    irá aparecer em preposições, não em valores.) *)
 
-(** Consider the "type" of the constructor [conj]: *)
+(** [Francisco]Consider the "type" of the constructor [conj]: *)
 
 Check conj.
 (* ===>  forall P Q : Prop, P -> Q -> P /\ Q *)
 
-(** Notice that it takes 4 inputs -- namely the propositions [P]
-    and [Q] and evidence for [P] and [Q] -- and returns as output the
-    evidence of [P /\ Q]. *)
+(** Observe que ele recebe 4 entradas -- a saber, as proposições [P] 
+    e [Q] e evidências para [P] e [Q] -- e retorna como saída a 
+    evidência de [P /\ Q]. *)
 
-(** ** "Introducing" conjunctions *)
-(** Besides the elegance of building everything up from a tiny
+(** ** "Introdução" de conjunções *)
+
+(** [Vitor]Besides the elegance of building everything up from a tiny
     foundation, what's nice about defining conjunction this way is
     that we can prove statements involving conjunction using the
     tactics that we already know.  For example, if the goal statement
@@ -187,7 +188,7 @@ Proof.
   Case "left". reflexivity.
   Case "right". reflexivity.  Qed.
 
-(** Just for convenience, we can use the tactic [split] as a shorthand for
+(** [Claudia]Just for convenience, we can use the tactic [split] as a shorthand for
     [apply conj]. *)
 
 Theorem and_example' : 
@@ -197,8 +198,8 @@ Proof.
     Case "left". reflexivity.
     Case "right". reflexivity.  Qed.
 
-(** ** "Eliminating" conjunctions *)
-(** Conversely, the [destruct] tactic can be used to take a
+(** ** "Eliminação" de conjunções *)
+(** [Dalay]Conversely, the [destruct] tactic can be used to take a
     conjunction hypothesis in the context, calculate what evidence
     must have been used to build it, and add variables representing
     this evidence to the proof context. *)
@@ -210,43 +211,42 @@ Proof.
   destruct H as [HP HQ]. 
   apply HP.  Qed.
 
-(** **** Exercise: 1 star, optional (proj2)  *)
+(** **** Exercício: nível 1, opcional (proj2)  *)
 Theorem proj2 : forall P Q : Prop, 
   P /\ Q -> Q.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
 Theorem and_commut : forall P Q : Prop, 
   P /\ Q -> Q /\ P.
 Proof.
-  (* WORKED IN CLASS *)
+  (* REALIZADO EM SALA *)
   intros P Q H.
   destruct H as [HP HQ]. 
   split.  
     Case "left". apply HQ. 
     Case "right". apply HP.  Qed.
-  
 
-(** **** Exercise: 2 stars (and_assoc)  *)
-(** In the following proof, notice how the _nested pattern_ in the
-    [destruct] breaks the hypothesis [H : P /\ (Q /\ R)] down into
-    [HP: P], [HQ : Q], and [HR : R].  Finish the proof from there: *)
+(** **** Exercício: nível 2 (and_assoc)  *)
+(** Na prova a seguir, notar como o _aninhamento padrão_ no
+    [destruct] quebra a hipótese [H : P /\ (Q /\ R)] em
+    [HP: P], [HQ : Q], and [HR : R].  Terminar a prova a partir desse ponto: *)
 
 Theorem and_assoc : forall P Q R : Prop, 
   P /\ (Q /\ R) -> (P /\ Q) /\ R.
 Proof.
   intros P Q R H.
   destruct H as [HP [HQ HR]].
-(* FILL IN HERE *) Admitted.
+(* PREENCHER *) Admitted.
 (** [] *)
 
 
 
 (* ###################################################### *)
-(** * Iff *)
+(** * Se e Somente Se *)
 
-(** The handy "if and only if" connective is just the conjunction of
+(** [Francisco]The handy "if and only if" connective is just the conjunction of
     two implications. *)
 
 Definition iff (P Q : Prop) := (P -> Q) /\ (Q -> P).
@@ -264,45 +264,45 @@ Proof.
 Theorem iff_sym : forall P Q : Prop, 
   (P <-> Q) -> (Q <-> P).
 Proof.
-  (* WORKED IN CLASS *)
+  (* REALIZADO EM SALA *)
   intros P Q H. 
   destruct H as [HAB HBA].
   split.
     Case "->". apply HBA.
     Case "<-". apply HAB.  Qed.
 
-(** **** Exercise: 1 star, optional (iff_properties)  *)
-(** Using the above proof that [<->] is symmetric ([iff_sym]) as
-    a guide, prove that it is also reflexive and transitive. *)
+(** **** Exercício: nível 1, opcional (iff_properties)  *)
+(** Usando a prova acima de que [<->] é simétrico ([iff_sym]) 
+    como um guia, provar que também é reflexivo e transitivo. *)
 
 Theorem iff_refl : forall P : Prop, 
   P <-> P.
 Proof. 
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 
 Theorem iff_trans : forall P Q R : Prop, 
   (P <-> Q) -> (Q <-> R) -> (P <-> R).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 
-(** Hint: If you have an iff hypothesis in the context, you can use
+(** [Vitor]Hint: If you have an iff hypothesis in the context, you can use
     [inversion] to break it into two separate implications.  (Think
     about why this works.) *)
 (** [] *)
 
 
 
-(** Some of Coq's tactics treat [iff] statements specially, thus
+(** [Claudia]Some of Coq's tactics treat [iff] statements specially, thus
     avoiding the need for some low-level manipulation when reasoning
     with them.  In particular, [rewrite] can be used with [iff]
     statements, not just equalities. *)
 
 (* ############################################################ *)
-(** * Disjunction (Logical "or") *)
+(** * Disjunção ("ou" Lógico) *)
 
-(** ** Implementing disjunction *)
+(** ** Implementação da Disjunção *)
 
-(** Disjunction ("logical or") can also be defined as an
+(** [Dalay]Disjunction ("logical or") can also be defined as an
     inductive proposition. *)
 
 Inductive or (P Q : Prop) : Prop :=
@@ -311,33 +311,33 @@ Inductive or (P Q : Prop) : Prop :=
 
 Notation "P \/ Q" := (or P Q) : type_scope.
 
-(** Consider the "type" of the constructor [or_introl]: *)
+(** Considerar o "tipo" do construtor [or_introl]: *)
 
 Check or_introl.
 (* ===>  forall P Q : Prop, P -> P \/ Q *)
 
-(** It takes 3 inputs, namely the propositions [P], [Q] and
+(** [Francisco]It takes 3 inputs, namely the propositions [P], [Q] and
     evidence of [P], and returns, as output, the evidence of [P \/ Q].
     Next, look at the type of [or_intror]: *)
 
 Check or_intror.
 (* ===>  forall P Q : Prop, Q -> P \/ Q *)
 
-(** It is like [or_introl] but it requires evidence of [Q]
-    instead of evidence of [P]. *)
+(** É como [or_introl] mas requer evidência para [Q] em vez de evidência 
+    para [P]. *)
 
-(** Intuitively, there are two ways of giving evidence for [P \/ Q]:
+(** [Vitor]Intuitively, there are two ways of giving evidence for [P \/ Q]:
 
-    - give evidence for [P] (and say that it is [P] you are giving
+    [Claudia]- give evidence for [P] (and say that it is [P] you are giving
       evidence for -- this is the function of the [or_introl]
       constructor), or
 
-    - give evidence for [Q], tagged with the [or_intror]
+    [Dalay]- give evidence for [Q], tagged with the [or_intror]
       constructor. *)
 
 (** *** *)
-(** Since [P \/ Q] has two constructors, doing [destruct] on a
-    hypothesis of type [P \/ Q] yields two subgoals. *)
+(** Desde que [P \/ Q] tenha dois contrutores, realizar um [destruct] em
+    uma hipótese do tipo [P \/ Q] gera duas submetas. *)
 
 Theorem or_commut : forall P Q : Prop,
   P \/ Q  -> Q \/ P.
@@ -347,7 +347,7 @@ Proof.
     Case "left". apply or_intror. apply HP.
     Case "right". apply or_introl. apply HQ.  Qed.
 
-(** From here on, we'll use the shorthand tactics [left] and [right]
+(** [Francisco]From here on, we'll use the shorthand tactics [left] and [right]
     in place of [apply or_introl] and [apply or_intror]. *)
 
 Theorem or_commut' : forall P Q : Prop,
@@ -357,10 +357,6 @@ Proof.
   destruct H as [HP | HQ].
     Case "left". right. apply HP.
     Case "right". left. apply HQ.  Qed.
-
-
-
-
 
 Theorem or_distributes_over_and_1 : forall P Q R : Prop,
   P \/ (Q /\ R) -> (P \/ Q) /\ (P \/ R).
@@ -373,36 +369,36 @@ Proof.
       SCase "left". right. apply HQ.
       SCase "right". right. apply HR.  Qed.
 
-(** **** Exercise: 2 stars (or_distributes_over_and_2)  *)
+(** **** Exercício: nível 2 (or_distributes_over_and_2)  *)
 Theorem or_distributes_over_and_2 : forall P Q R : Prop,
   (P \/ Q) /\ (P \/ R) -> P \/ (Q /\ R).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 1 star, optional (or_distributes_over_and)  *)
+(** **** Exercício: nível 1, opcional (or_distributes_over_and)  *)
 Theorem or_distributes_over_and : forall P Q R : Prop,
   P \/ (Q /\ R) <-> (P \/ Q) /\ (P \/ R).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
 (* ################################################### *)
-(** ** Relating [/\] and [\/] with [andb] and [orb] *)
+(** ** Relacionando [/\] e [\/] com [andb] e [orb] *)
 
-(** We've already seen several places where analogous structures
-    can be found in Coq's computational ([Type]) and logical ([Prop])
-    worlds.  Here is one more: the boolean operators [andb] and [orb]
-    are clearly analogs of the logical connectives [/\] and [\/].
-    This analogy can be made more precise by the following theorems,
-    which show how to translate knowledge about [andb] and [orb]'s
-    behaviors on certain inputs into propositional facts about those
-    inputs. *)
+(** Nós já vimos vários lugares onde estruturas análogas podem ser 
+    encontradas nos mundos computacional ([Type]) e lógico ([Prop])
+    de Coq. Aqui está mais um: os operadores booleanos [andb] e [orb] 
+    são claramente análogos dos conectivos lógicos [/\] e [\/]. Essa 
+    analogia pode ser tornada mais precisa através dos seguintes 
+    teoremas, que mostram como traduzir conhecimento sobre os
+    comportamentos de [andb] e [orb] para certas entradas em fatos 
+    proposicionais sobre essas entradas. *)
 
 Theorem andb_prop : forall b c,
   andb b c = true -> b = true /\ c = true.
 Proof.
-  (* WORKED IN CLASS *)
+  (* REALIZADO EM SALA *)
   intros b c H.
   destruct b.
     Case "b = true". destruct c.
@@ -413,45 +409,45 @@ Proof.
 Theorem andb_true_intro : forall b c,
   b = true /\ c = true -> andb b c = true.
 Proof.
-  (* WORKED IN CLASS *)
+  (* REALIZADO EM SALA *)
   intros b c H.
   destruct H.
   rewrite H. rewrite H0. reflexivity. Qed.
 
-(** **** Exercise: 2 stars, optional (andb_false)  *)
+(** **** Exercício: nível 2, opcional (andb_false)  *)
 Theorem andb_false : forall b c,
   andb b c = false -> b = false \/ c = false.
 Proof. 
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 
-(** **** Exercise: 2 stars, optional (orb_false)  *)
+(** **** Exercício: nível 2, opcional (orb_false)  *)
 Theorem orb_prop : forall b c,
   orb b c = true -> b = true \/ c = true.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 
-(** **** Exercise: 2 stars, optional (orb_false_elim)  *)
+(** **** Exercício: nível 2, opcional (orb_false_elim)  *)
 Theorem orb_false_elim : forall b c,
   orb b c = false -> b = false /\ c = false.
 Proof. 
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
 
 
 (* ################################################### *)
-(** * Falsehood *)
+(** * Falsidade *)
 
-(** Logical falsehood can be represented in Coq as an inductively
+(** [Vítor]Logical falsehood can be represented in Coq as an inductively
     defined proposition with no constructors. *)
 
 Inductive False : Prop := . 
 
-(** Intuition: [False] is a proposition for which there is no way
+(** [Claudia]Intuition: [False] is a proposition for which there is no way
     to give evidence. *)
 
 
-(** Since [False] has no constructors, inverting an assumption
+(** [Dalay]Since [False] has no constructors, inverting an assumption
     of type [False] always yields zero subgoals, allowing us to
     immediately prove any goal. *)
 
@@ -461,13 +457,13 @@ Proof.
   intros contra.
   inversion contra.  Qed. 
 
-(** How does this work? The [inversion] tactic breaks [contra] into
-    each of its possible cases, and yields a subgoal for each case.
-    As [contra] is evidence for [False], it has _no_ possible cases,
-    hence, there are no possible subgoals and the proof is done. *)
+(** Como isso funciona? A tática [inversion] quebra [contra] em cada um dos
+    seus possíveis casos, e gera uma submeta para cada caso. Como [contra] é
+    evidência para [False], ela _não_ tem casos possíveis, conseqüentemente,
+    não tem casos possíveis na submeta e a prova está feita. *)
 
 (** *** *)
-(** Conversely, the only way to prove [False] is if there is already
+(** [Francisco]Conversely, the only way to prove [False] is if there is already
     something nonsensical or contradictory in the context: *)
 
 Theorem nonsense_implies_False :
@@ -476,61 +472,61 @@ Proof.
   intros contra.
   inversion contra.  Qed.
 
-(** Actually, since the proof of [False_implies_nonsense]
-    doesn't actually have anything to do with the specific nonsensical
-    thing being proved; it can easily be generalized to work for an
-    arbitrary [P]: *)
+(** Na verdade, uma vez que a prova de [False_implies_nonsense] na 
+    verdade não tem nada a ver com a coisa específica sem sentido 
+    que está sendo provada; ela pode ser facilmente generalizada 
+    para funcionar para um [P] arbitrário: *)
 
 Theorem ex_falso_quodlibet : forall (P:Prop),
   False -> P.
 Proof.
-  (* WORKED IN CLASS *)
+  (* REALIZADO EM SALA *)
   intros P contra.
   inversion contra.  Qed.
 
-(** The Latin _ex falso quodlibet_ means, literally, "from
+(** [Vitor]The Latin _ex falso quodlibet_ means, literally, "from
     falsehood follows whatever you please."  This theorem is also
     known as the _principle of explosion_. *)
 
 
 (* #################################################### *)
-(** ** Truth *)
+(** ** Veracidade *)
 
-(** Since we have defined falsehood in Coq, one might wonder whether
+(** [Claudia]Since we have defined falsehood in Coq, one might wonder whether
     it is possible to define truth in the same way.  We can. *)
 
-(** **** Exercise: 2 stars, advanced (True)  *)
-(** Define [True] as another inductively defined proposition.  (The
+(** **** Exercício: nível 2, avançado (True)  *)
+(** [Dalay]Define [True] as another inductively defined proposition.  (The
     intution is that [True] should be a proposition for which it is
     trivial to give evidence.) *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
-(** However, unlike [False], which we'll use extensively, [True] is
-    used fairly rarely. By itself, it is trivial (and therefore
-    uninteresting) to prove as a goal, and it carries no useful
-    information as a hypothesis. But it can be useful when defining
-    complex [Prop]s using conditionals, or as a parameter to 
-    higher-order [Prop]s. *)
+(** Entretanto, diferentemente de [False], o qual vamos utilizar 
+    extensivamente, [True] é utilizado muito raramente. Por si própria, ela é
+    trivial (e portanto desinteressante) para provar como uma meta, e carrega
+    informação inútil como uma hipótese. Mas ela pode ser útil ao definir
+    [Prop]s complexos utilizando condicionais, ou como um parâmetro para 
+    [Prop]s de ordem superior. *)
 
 (* #################################################### *)
-(** * Negation *)
+(** * Negação *)
 
-(** The logical complement of a proposition [P] is written [not
+(** [Francisco]The logical complement of a proposition [P] is written [not
     P] or, for shorthand, [~P]: *)
 
 Definition not (P:Prop) := P -> False.
 
-(** The intuition is that, if [P] is not true, then anything at
-    all (even [False]) follows from assuming [P]. *)
+(** A intuição é que, se [P] não é verdade, então qualquer coisa 
+    (até mesmo [False]) segue da suposição de [P]. *)
 
 Notation "~ x" := (not x) : type_scope.
 
 Check not.
 (* ===> Prop -> Prop *)
 
-(** It takes a little practice to get used to working with
+(** [Vitor]It takes a little practice to get used to working with
     negation in Coq.  Even though you can see perfectly well why
     something is true, it can be a little hard at first to get things
     into the right configuration so that Coq can see it!  Here are
@@ -546,63 +542,63 @@ Proof.
 Theorem contradiction_implies_anything : forall P Q : Prop,
   (P /\ ~P) -> Q.
 Proof. 
-  (* WORKED IN CLASS *)
+  (* REALIZADO EM SALA *)
   intros P Q H. destruct H as [HP HNA]. unfold not in HNA. 
   apply HNA in HP. inversion HP.  Qed.
 
 Theorem double_neg : forall P : Prop,
   P -> ~~P.
 Proof.
-  (* WORKED IN CLASS *)
+  (* REALIZADO EM SALA *)
   intros P H. unfold not. intros G. apply G. apply H.  Qed.
 
-(** **** Exercise: 2 stars, advanced (double_neg_inf)  *)
-(** Write an informal proof of [double_neg]:
+(** **** Exercício: nível 2, avançado (double_neg_inf)  *)
+(** [Claudia]Write an informal proof of [double_neg]:
 
    _Theorem_: [P] implies [~~P], for any proposition [P].
 
    _Proof_:
-(* FILL IN HERE *)
+(* PREENCHER *)
    []
 *)
 
-(** **** Exercise: 2 stars (contrapositive)  *)
+(** **** Exercício: nível 2 (contrapositive)  *)
 Theorem contrapositive : forall P Q : Prop,
   (P -> Q) -> (~Q -> ~P).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 1 star (not_both_true_and_false)  *)
+(** **** Exercício: nível 1 (not_both_true_and_false)  *)
 Theorem not_both_true_and_false : forall P : Prop,
   ~ (P /\ ~P).
 Proof. 
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 1 star, advanced (informal_not_PNP)  *)
-(** Write an informal proof (in English) of the proposition [forall P
+(** **** Exercício: nível 1, avançado (informal_not_PNP)  *)
+(** [Dalay]Write an informal proof (in English) of the proposition [forall P
     : Prop, ~(P /\ ~P)]. *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
-(** *** Constructive logic *)
-(** Note that some theorems that are true in classical logic are _not_
-    provable in Coq's (constructive) logic.  E.g., let's look at how
-    this proof gets stuck... *)
+(** *** Lógica Construtiva *)
+(** Note que alguns teoremas que são verdadeiros em lógica clássica _não_ são
+    prováveis na lógica (construtiva) do Coq.  Por exemplo, vamos observar como
+    essa prova fica travada... *)
 
 Theorem classic_double_neg : forall P : Prop,
   ~~P -> P.
 Proof.
-  (* WORKED IN CLASS *)
+  (* REALIZADO EM SALA *)
   intros P H. unfold not in H. 
-  (* But now what? There is no way to "invent" evidence for [~P] 
-     from evidence for [P]. *) 
+  (* E agora? Não tem como inventar evidência para [~P] 
+     a partir de evidência para [P]. *) 
   Abort.
 
-(** **** Exercise: 5 stars, advanced, optional (classical_axioms)  *)
-(** For those who like a challenge, here is an exercise
+(** **** Exercício: 5 stars, avançado, opcional (classical_axioms)  *)
+(** [Francisco]For those who like a challenge, here is an exercise
     taken from the Coq'Art book (p. 123).  The following five
     statements are often considered as characterizations of
     classical logic (as opposed to constructive logic, which is
@@ -622,28 +618,31 @@ Definition de_morgan_not_and_not := forall P Q:Prop,
 Definition implies_to_or := forall P Q:Prop, 
   (P->Q) -> (~P\/Q). 
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
-(** **** Exercise: 3 stars (excluded_middle_irrefutable)  *)
-(** This theorem implies that it is always safe to add a decidability
-axiom (i.e. an instance of excluded middle) for any _particular_ Prop [P].
-Why? Because we cannot prove the negation of such an axiom; if we could,
-we would have both [~ (P \/ ~P)] and [~ ~ (P \/ ~P)], a contradiction. *)
+(** **** Exercício: nível 3 (excluded_middle_irrefutable)  *)
+(** Este teorema implica que é sempre seguro adicionar um axioma de 
+decidibilidade (ou seja, uma instância do terceiro excluído) para 
+qualquer Prop [P] _particular_. Por quê? Porque nós não podemos provar 
+a negação de tal axioma; se pudéssemos, teríamos tanto [~ (P \/ ~P)] 
+e [~ ~ (P \/ ~P)], uma contradição.
+
+ *)
 
 Theorem excluded_middle_irrefutable:  forall (P:Prop), ~ ~ (P \/ ~ P).  
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 
 
 (* ########################################################## *)
-(** ** Inequality *)
+(** ** Desigualdade *)
 
-(** Saying [x <> y] is just the same as saying [~(x = y)]. *)
+(** [Vitor]Saying [x <> y] is just the same as saying [~(x = y)]. *)
 
 Notation "x <> y" := (~ (x = y)) : type_scope.
 
-(** Since inequality involves a negation, it again requires
+(** [Claudia]Since inequality involves a negation, it again requires
     a little practice to be able to work with it fluently.  Here
     is one very useful trick.  If you are trying to prove a goal
     that is nonsensical (e.g., the goal state is [false = true]),
@@ -673,21 +672,19 @@ Proof.
 
 (** *** *)
 
-(** **** Exercise: 2 stars (false_beq_nat)  *)
+(** **** Exercício: nível 2 (false_beq_nat)  *)
 Theorem false_beq_nat : forall n m : nat,
      n <> m ->
      beq_nat n m = false.
 Proof. 
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 2 stars, optional (beq_nat_false)  *)
+(** **** Exercício: nível 2, opcional (beq_nat_false)  *)
 Theorem beq_nat_false : forall n m,
   beq_nat n m = false -> n <> m.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-
-(** $Date: 2014-12-31 11:17:56 -0500 (Wed, 31 Dec 2014) $ *)
 
