@@ -38,11 +38,10 @@ Inductive ev : nat -> Prop :=
     even" is a proposition.)  Such a family of propositions is
     often called a _property_ of numbers.  
 
-    [Vitor] The last two lines declare the two ways to give evidence that a
-    number [m] is even.  First, [0] is even, and [ev_0] is evidence
-    for this.  Second, if [m = S (S n)] for some [n] and we can give
-    evidence [e] that [n] is even, then [m] is also even, and [ev_SS n
-    e] is the evidence.
+	As duas últimas linhas declaram as duas formas de fornecer provas de que 
+	[m] é par. Em primeiro lugar, [0] é par e [ev_0] é evidência disso. 
+	Segundo, se [m = S (S n)] para algum [n] e podemos prover a evidência [e] 
+	de que [n] é par então [m] também é par e [ev_SS n e] é a evidência. 
 *)
 
 
@@ -72,8 +71,8 @@ Proof.
 (** Informalmente, um número é [beautiful] se ele é [0], [3], [5], ou a
     soma de dois números [beautiful].  
 
-    [Francisco] More pedantically, we can define [beautiful] numbers by giving four
-    rules:
+    [Francisco] More pedantically, we can define [beautiful] numbers by giving 
+    four rules:
 
        - Rule [b_0]: The number [0] is [beautiful].
        - Rule [b_3]: The number [3] is [beautiful]. 
@@ -101,13 +100,17 @@ Proof.
 *)
 
 (** *** *)
-(** [Vitor] Each of the textual rules above is reformatted here as an
-    inference rule; the intended reading is that, if the _premises_
-    above the line all hold, then the _conclusion_ below the line
-    follows.  For example, the rule [b_sum] says that, if [n] and [m]
-    are both [beautiful] numbers, then it follows that [n+m] is
-    [beautiful] too.  If a rule has no premises above the line, then
-    its conclusion holds unconditionally.
+
+	
+
+(**  
+
+Cada uma das regras textuais acima é reformatado aqui como uma regra de 
+inferência; a leitura pretendida é que, se as _premissas_ acima da linha forem 
+verdadeiras, então a _conclusão_ abaixo da linha também é. Por exemplo, a regra 
+[b_sum] informa que se [n] e [m] são ambos números bonitos ([beautiful]), então 
+conclui-se que [n+m] também é [beautiful]. Se uma regra não possui premissas 
+então significa que a conclusão é válida incondicionalmente.
 
     [Claudia]These rules _define_ the property [beautiful].  That is, if we
     want to convince someone that some particular number is [beautiful],
@@ -179,8 +182,8 @@ Proof.
 Qed.
 
 (** *** *)
-(** [Vitor] As you would expect, we can also prove theorems that have
-hypotheses about [beautiful]. *)
+(** Como pensado, nós também podemos provar teoremas que possuem hipóteses 
+sobre [beautiful]. *)
 
 Theorem beautiful_plus_eight: forall n, beautiful n -> beautiful (8+n).
 Proof.
@@ -241,8 +244,8 @@ Inductive gorgeous : nat -> Prop :=
 | g_plus5 : forall n, gorgeous n -> gorgeous (5+n).
 
 (** **** Exercício: nível 1 (gorgeous_tree)  *)
-(** [Vitor]Write out the definition of [gorgeous] numbers using inference rule
-    notation.
+(** Escreva a definição de para números [gorgeous] usando a notação de regras 
+de inferência.
  
 (* PREENCHER *)
 []
@@ -335,8 +338,8 @@ Proof.
 
 
 
-(** [Vitor]Here is a proof that the inductive definition of evenness implies
-the computational one. *)
+(** Abaixo se encontra uma prova de que a definição indutiva de números pares 
+implicam na definição computacional. *)
 
 Theorem ev__even : forall n,
   ev n -> even n.
@@ -389,14 +392,13 @@ Proof.
 (* ####################################################### *)
 (** ** Inversão em Evidência *)
 
+(** Ter evidências para uma proposição é útil durante uma prova pois podemos 
+_olhar_ para as evidências a fim de obter mais informações. Por exemplo, 
+considere a prova de que se [n] é par], então [pred (pred n)] é também. Neste 
+caso, nós não precisamos efetuar uma prova indutiva. A tática [inversion] 
+fornece todas as informações que precisamos.
 
-(** [Vitor]Having evidence for a proposition is useful while proving, because we 
-   can _look_ at that evidence for more information. For example, consider 
-    proving that, if [n] is even, then [pred (pred n)] is
-    too.  In this case, we don't need to do an inductive proof.  Instead 
-    the [inversion] tactic provides all of the information that we need.
-
- *)
+*)
 
 Theorem ev_minus2: forall n,  ev n -> ev (pred (pred n)). 
 Proof.
@@ -447,14 +449,12 @@ Proof.
     that are left represent the cases that must be proved to
     establish the original goal.
 
-    [Vitor]In this particular case, the [inversion] analyzed the construction
-    [ev (S (S n))], determined that this could only have been
-    constructed using [ev_SS], and generated a new subgoal with the
-    arguments of that constructor as new hypotheses.  (It also
-    produced an auxiliary equality, which happens to be useless here.)
-    We'll begin exploring this more general behavior of inversion in
-    what follows. *)
-
+	Neste caso em particular, o [inversion] analisou a construção [ev (S (S 
+	n))]e determinou que isso somente poderia ser construído usando [ev_SS], 
+	gerando uma nova submeta com os argumentos do construtor como novas 
+	hipóteses. (A tática também produziu uma igualdade a mais que é inútil 
+	nesta prova.) Começaremos a explorar nas próximas provas esse comportamento 
+	mais geral da inversão. *)
 
 (** **** Exercício: nível 1 (inversion_practice)  *)
 Theorem SSSSev__even : forall n,
@@ -507,19 +507,20 @@ Proof.
     [Renan]However, for many other properties of interest, the direct
     inductive definition is preferable, since writing a testing
     function may be awkward or even impossible.  
-
-    [Vitor]One such property is [beautiful].  This is a perfectly sensible
-    definition of a set of numbers, but we cannot translate its
-    definition directly into a Coq Fixpoint (or into a recursive
-    function in any other common programming language).  We might be
-    able to find a clever way of testing this property using a
-    [Fixpoint] (indeed, it is not too hard to find one in this case),
-    but in general this could require arbitrarily deep thinking.  In
-    fact, if the property we are interested in is uncomputable, then
-    we cannot define it as a [Fixpoint] no matter how hard we try,
-    because Coq requires that all [Fixpoint]s correspond to
-    terminating computations.
-
+	
+	Uma dessas propriedades é [beautiful]. Esta não é uma definição 
+	perfeitamente sensata para um conjunto de números mas não podemos traduzir 
+	sua definição diretamente para um Fixpoint do Coq (ou para uma função 
+	recursiva em qualquer outra linguagem de programação comum). Podemos ser 
+	capazes de encontrar uma maneira mais inteligente de testar esta 
+	propriedade usando um [Fixpoint](de fato não é tão difícil encontrar uma 
+	forma nesse caso), mas em geral isso pode exigir um pensamento 
+	arbitrariamente profundo. Aliás, se a propriedade no qual estamos 
+	interessados não for computável então não 
+	podemos defini-lo como um [Fixpoint], não importa quantas tentativas 
+	realizemos, pois o Coq exige que todos os [Fixpoint] correspondam a 
+	computações que finalizáveis.
+	
     [Claudia]On the other hand, writing an inductive definition of what it
     means to give evidence for the property [beautiful] is
     straightforward. *)
@@ -587,8 +588,8 @@ Qed.
 (* PREENCHER *)
 (** [] *)
 
-(* [Vitor]Again, the converse direction is much more difficult, due to the
-lack of evidence. *)
+(* Mais uma vez, o sentido inverso é muito mais difícil devido à falta de 
+provas *) 
 
 (** **** Exercício: nível 5, opcional (palindrome_converse)  *)
 (** [Claudia]Using your definition of [pal] from the previous exercise, prove
@@ -638,12 +639,13 @@ Notation "m <= n" := (le m n).
     hypotheses in the context (e.g., to prove that [(2 <= 1) -> 2+2=5].) *)
 
 (** *** *)
-(** [Vitor]Here are some sanity checks on the definition.  (Notice that,
-    although these are the same kind of simple "unit tests" as we gave
-    for the testing functions we wrote in the first few lectures, we
-    must construct their proofs explicitly -- [simpl] and
-    [reflexivity] don't do the job, because the proofs aren't just a
-    matter of simplifying computations.) *)
+
+(** Aqui se encontram alguns testes de sanidade para a definição. (Note que, 
+apesar destes testes serem do mesmo tipo dos "testes unitários" criados para as 
+funções de testes escritas nos primeiros capítulos, nós devemos construir suas 
+provas explicitamente -- [simpl] e [reflexivity] não irão realizar suas funções 
+aqui pois as provas não são apenas uma questão de simplificação de cálculos.
+*)
 
 Theorem test_le1 :
   3 <= 3.
@@ -771,9 +773,9 @@ Proof.
 
 (** **** Exercício: nível 3 (R_provability2)  *)
 Module R.
-(** [Vitor]We can define three-place relations, four-place relations,
-    etc., in just the same way as binary relations.  For example,
-    consider the following three-place relation on numbers: *)
+(** Podemos definir relações ternárias, quaternárias, n-árias da mesma forma 
+que relações binárias. Por exemplo, considere a relação ternária sobre números 
+a seguir: *)
 
 Inductive R : nat -> nat -> nat -> Prop :=
    | c1 : R 0 0 0 
@@ -863,10 +865,9 @@ End R.
 
 (* ##################################################### *)
 (** * Programação através de Proposições *)
-
-(** [Vitor]As we have seen, a _proposition_ is a statement expressing a factual claim,
-    like "two plus two equals four."  In Coq, propositions are written
-    as expressions of type [Prop]. . *)
+(** Como visto anteriormente, uma _proposição_ é uma sentença expressando uma 
+afirmação sobre um fato como, por exemplo "dois mais dois é igual a quatro." No 
+Coq, as proposições são escritas como expressões do tipo [Prop]. *)
 
 Check (2 + 2 = 4).
 (* ===> 2 + 2 = 4 : Prop *)
@@ -915,16 +916,15 @@ Theorem plus_fact_is_true :
 Proof. reflexivity.  Qed.
 
 (** *** *)
-(** [Vitor]We've seen several ways of constructing propositions.  
+(** Temos visto várias maneiras de construir proposições.
 
-       - We can define a new proposition primitively using [Inductive].
+	- Podemos definir uma nova proposição primitivamente usando [Inductive].
+	
+	- Dadas duas expressões [e1] e [e2] do mesmo tipo podemos formar a 
+	proposição [e1 = e2], afirmando que seus valores são iguais.
+	
+	- Podemos combinar proposições usando implicação e quantificação *)
 
-       - Given two expressions [e1] and [e2] of the same type, we can
-         form the proposition [e1 = e2], which states that their
-         values are equal.
-
-       - We can combine propositions using implication and
-         quantification. *)
 (** *** *)
 (** [Claudia]We have also seen _parameterized propositions_, such as [even] and
     [beautiful]. *)
@@ -963,9 +963,9 @@ Definition true_for_zero (P:nat->Prop) : Prop :=
 (** [Renan]Here are two more examples of passing parameterized propositions
     as arguments to a function.  
 
-    [Vitor]The first function, [true_for_all_numbers], takes a proposition
-    [P] as argument and builds the proposition that [P] is true for
-    all natural numbers. *)
+	A primeira função, [true_for_all_numbers], toma uma proposição [P] como 
+	argumento e constrói a proposição de que [P] é verdadeira para todos os 
+	números naturais. *)
 
 Definition true_for_all_numbers (P:nat->Prop) : Prop :=
   forall n, P n.
@@ -1040,9 +1040,8 @@ Proof.
     exercise gives a slightly contrived example. *)
 
 (** **** Exercício: nível 4, opcional (true_upto_n__true_everywhere)  *)
-(** [Vitor]Define a recursive function
-    [true_upto_n__true_everywhere] that makes
-    [true_upto_n_example] work. *)
+(** Defina uma função recursiva [true_upto_n__true_everywhere] que      
+[true_upto_n_example] funcione. *)
 
 (* 
 Fixpoint true_upto_n__true_everywhere

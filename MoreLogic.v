@@ -53,9 +53,8 @@ Proof.
 (** [Renan]Note that we have to explicitly give the witness. *)
 
 (** *** *)
-(** [Vitor]Or, instead of writing [apply ex_intro with (witness:=e)] all the
-    time, we can use the convenient shorthand [exists e], which means
-    the same thing. *)
+(**Ou, no lugar de escrever [apply ex_intro with (witness:=e)] todas as vezes, podemos 
+usar o atalho conveniente [exists e] que significa a mesma coisa. *)
 
 Example exists_example_1' : exists n, n + (n * n) = 6.
 Proof.
@@ -126,8 +125,7 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 2 (dist_exists_or)  *)
-(** [Vitor]Prove that existential quantification distributes over
-    disjunction. *)
+(** Prove que a quantificação existencial é distribuída sobre a disjunção *)
 
 Theorem dist_exists_or : forall (X:Type) (P Q : X -> Prop),
   (exists x, P x \/ Q x) <-> (exists x, P x) \/ (exists x, Q x).
@@ -207,8 +205,7 @@ Defined.
     interpretation.) *) 
 
 (** *** *)
-(** [Vitor]Here's a simple example illustrating the advantages of the
-   [sumbool] form. *)
+(** Abaixo um exemplo simples ilustrando as vantagens da forma [sumbool]. *)
 
 Definition override' {X: Type} (f: nat->X) (k:nat) (x:X) : nat->X:=
   fun (k':nat) => if eq_nat_dec k k' then x else f k'.
@@ -274,10 +271,9 @@ Fixpoint forallb {X : Type} (test : X -> bool) (l : list X) : bool :=
 (** [] *)
 
 (** **** Exercício: nível 4, avançado (filter_challenge)  *)
-(** [Vitor]One of the main purposes of Coq is to prove that programs match
-    their specifications.  To this end, let's prove that our
-    definition of [filter] matches a specification.  Here is the
-    specification, written out informally in English.
+(** Um dos principais propósitos do Coq é provar que os programas correspondem às suas 
+especificações. Para este fim, provemos que nossa definição de [filter] está de acordo 
+com uma especificação. Aqui está a especificação, escrita informalmente em português.
 
     [Claudia]Suppose we have a set [X], a function [test: X->bool], and a list
     [l] of type [list X].  Suppose further that [l] is an "in-order
@@ -320,7 +316,7 @@ Inductive appears_in {X:Type} (a:X) : list X -> Prop :=
 (** [Renan]...gives us a precise way of saying that a value [a] appears at
     least once as a member of a list [l]. 
 
-    [Vitor]Here's a pair of warm-ups about [appears_in].
+	Para aquecer, é mostrado a seguir dois lemas a serem provados sobre [appears_in].
 *)
 
 Lemma appears_in_app : forall (X:Type) (xs ys : list X) (x:X), 
@@ -371,11 +367,12 @@ Inductive nostutter:  list nat -> Prop :=
  (* PREENCHER *)
 .
 
-(** [Vitor]Make sure each of these tests succeeds, but you are free
-    to change the proof if the given one doesn't work for you.
-    Your definition might be different from mine and still correct,
-    in which case the examples might need a different proof.
-   
+(** 
+Tenha certeza de que cada um desses testes sejam bem-sucedidos, mas você é livre para 
+mudar a prova se a que lhe for dada não funcionar para você. A sua definição pode ser 
+diferente da minha e ainda assim ser correta, talvez precisando, sendo este o caso, que 
+os exemplos tenham provas diferentes.
+
     [Dalay]The suggested proofs for the examples (in comments) use a number
     of tactics we haven't talked about, to try to make them robust
     with respect to different possible ways of defining [nostutter].
@@ -441,16 +438,14 @@ Inductive repeats {X:Type} : list X -> Prop :=
   (* PREENCHER *)
 .
 
-(** [Vitor]Now here's a way to formalize the pigeonhole principle. List [l2]
-    represents a list of pigeonhole labels, and list [l1] represents
-    the labels assigned to a list of items: if there are more items
-    than labels, at least two items must have the same label.  This
-    proof is much easier if you use the [excluded_middle] hypothesis
-    to show that [appears_in] is decidable, i.e. [forall x
-    l, (appears_in x l) \/ ~ (appears_in x l)].  However, it is also
-    possible to make the proof go through _without_ assuming that
-    [appears_in] is decidable; if you can manage to do this, you will
-    not need the [excluded_middle] hypothesis. *)
+(** Agora temos aqui uma maneira de formalizar o princípio da casa dos pombos. A lista 
+[l2] representa uma lista de rótulos da casa dos pombos e a lista [l1] representa os 
+rótulos atribuídos a uma lista de itens: se houver mais itens que rótulos, pelo menos 
+dois itens precisam ter o mesmo rótulo. Esta prova é muito mais fácil se você usar a 
+hipótese [excluded_middle] para mostrar que [appears_in] é decidível, isto é, [forall x
+    l, (appears_in x l) \/ ~ (appears_in x l)]. Entretanto também possível realizar a 
+    prova _sem_ precisar assumir que [appears_in] é decidível: se você conseguir avançar 
+    desta forma então não será mais necessária a hipótese [excluded_middle].*)
 
 Theorem pigeonhole_principle: forall (X:Type) (l1  l2:list X), 
    excluded_middle -> 

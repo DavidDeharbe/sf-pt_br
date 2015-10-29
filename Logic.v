@@ -36,7 +36,7 @@ Require Export MoreCoq.
 Check (3 = 3).
 (* ===> Prop *)
 
-(** [Vitor]Here is an example of an unprovable proposition: *)
+(** Abaixo se encontra um exemplo de proposição impossível de ser provada: *)
 
 Check (forall (n:nat), n = 2).
 (* ===> Prop *)
@@ -79,8 +79,8 @@ a diretiva [Print]: *)
 Print silly.
 (* ===> silly = eq_refl : 0 * 3 = 0 *)
 
-(** [Vitor]Here, the [eq_refl] proof term witnesses the equality. (More on
-equality later!)*)
+(** Aqui, o termo de prova [eq_refl] testemunha a igualdade. (Depois haverá 
+mais sobre igualdades!)*) 
 
 (** ** Implicações _são_ Funções *)
 
@@ -117,9 +117,9 @@ Print silly_implication.
 
 (** *** *)
 
-(** [Vitor]The meaning of a proposition is given by _rules_ and _definitions_
-    that say how to construct _evidence_ for the truth of the
-    proposition from other evidence.
+(** O significado de uma proposição é dada pelas _regras_ e _definições_ que 
+afirmam como construir uma _evidência_ para a verdade da proposição a partir de 
+outra evidência.
 
     [Claudia]- Typically, rules are defined _inductively_, just like any other
       datatype.
@@ -145,8 +145,8 @@ Inductive and (P Q : Prop) : Prop :=
     evidência para [and P Q], devemos fornecer evidência para [P] 
     e evidência para [Q]. Mais precisamente:
     
-    [Vitor]- [conj p q] can be taken as evidence for [and P Q] if [p]
-      is evidence for [P] and [q] is evidence for [Q]; and
+    - [conj p q] pode ser tomada como uma evidência para [and P Q] se [p] for 
+    evidência para [P] e [q] for evidência para [Q]; e
 
     [Claudia]- this is the _only_ way to give evidence for [and P Q] --
       that is, if someone gives us evidence for [and P Q], we
@@ -172,14 +172,14 @@ Check conj.
 
 (** ** "Introdução" de conjunções *)
 
-(** [Vitor]Besides the elegance of building everything up from a tiny
-    foundation, what's nice about defining conjunction this way is
-    that we can prove statements involving conjunction using the
-    tactics that we already know.  For example, if the goal statement
-    is a conjuction, we can prove it by applying the single
-    constructor [conj], which (as can be seen from the type of [conj])
-    solves the current goal and leaves the two parts of the
-    conjunction as subgoals to be proved separately. *)
+(** Além da elegância de construir tudo a partir de uma fundação minúscula, o 
+que é legal sobre definir conjuntos desta maneira é que podemos provar 
+sentenças 
+envolvendo conjunções usando as táticas que já conhecemos. Por exemplo, se a 
+sentença da meta for uma conjunção, podemos prová-lo aplicando o construtor 
+simples [conj] (como pode ser visto a partir do tipo de [conj]), solucionando a 
+meta atual e deixando as duas partes das conjunção como submetas a 
+serem provadas separadamente. *)
 
 Theorem and_example : 
   (0 = 0) /\ (4 = mult 2 2).
@@ -285,11 +285,10 @@ Theorem iff_trans : forall P Q R : Prop,
 Proof.
   (* PREENCHER *) Admitted.
 
-(** [Vitor]Hint: If you have an iff hypothesis in the context, you can use
-    [inversion] to break it into two separate implications.  (Think
-    about why this works.) *)
+(** Dica: se você possui uma hipótese com uma bi-implicação no contexto, você 
+pode usar [inversion] para quebrá-la em duas implicações separadas. (Reflita o 
+por que que isto funciona.) *)
 (** [] *)
-
 
 
 (** [Claudia]Some of Coq's tactics treat [iff] statements specially, thus
@@ -326,7 +325,8 @@ Check or_intror.
 (** É como [or_introl] mas requer evidência para [Q] em vez de evidência 
     para [P]. *)
 
-(** [Vitor]Intuitively, there are two ways of giving evidence for [P \/ Q]:
+(** Intuitivamente, aqui estão duas formas de fornecer uma evidência para [P \/ 
+Q]:
 
     [Claudia]- give evidence for [P] (and say that it is [P] you are giving
       evidence for -- this is the function of the [or_introl]
@@ -484,10 +484,9 @@ Proof.
   intros P contra.
   inversion contra.  Qed.
 
-(** [Vitor]The Latin _ex falso quodlibet_ means, literally, "from
-    falsehood follows whatever you please."  This theorem is also
-    known as the _principle of explosion_. *)
-
+(** A expressão latina _ex falso quodlibet_ significa, literalmente, "a partir de uma 
+contradição, qualquer coisa segue." Esse teorema também conhecido como o _princípio da 
+explosão_. *)
 
 (* #################################################### *)
 (** ** Veracidade *)
@@ -526,12 +525,11 @@ Notation "~ x" := (not x) : type_scope.
 Check not.
 (* ===> Prop -> Prop *)
 
-(** [Vitor]It takes a little practice to get used to working with
-    negation in Coq.  Even though you can see perfectly well why
-    something is true, it can be a little hard at first to get things
-    into the right configuration so that Coq can see it!  Here are
-    proofs of a few familiar facts about negation to get you warmed
-    up. *)
+(** É preciso um pouco de prática para se acostumar a trabalhar com negação no Coq. Mesmo 
+que você consiga ver perfeitamente por que um certo fato é verdadeiro pode ser, a 
+princípio, um pouco difícil organizar as coisas para que o Coq possa enxergar uma 
+solução! Abaixo se encontram provas de alguns fatos familiares a respeito de negação para 
+lhe aquecer. *) 
 
 Theorem not_False : 
   ~ False.
@@ -638,7 +636,7 @@ Proof.
 (* ########################################################## *)
 (** ** Desigualdade *)
 
-(** [Vitor]Saying [x <> y] is just the same as saying [~(x = y)]. *)
+(** Afirmar [x <> y] é apenas o mesmo que afirmar [~(x = y)].
 
 Notation "x <> y" := (~ (x = y)) : type_scope.
 

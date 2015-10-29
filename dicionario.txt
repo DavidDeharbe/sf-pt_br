@@ -29,7 +29,7 @@ notation-symbol: símbolo de notação
 overriding: sobrescrita
 pattern matching: casamento de padrões
 pedantic: minucioso(a)
-pigeonhole principle:
+pigeonhole principle: princípio da casa dos pombos
 pretty printer: formatador de código
 qualifier: marcador
 (to) reason: raciocinar
