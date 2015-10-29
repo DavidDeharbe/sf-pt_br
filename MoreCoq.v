@@ -3,9 +3,9 @@
 Require Export Poly.
 
 (** Este capítulo apresenta várias outras estratégias e táticas de prova que,
-juntas, permitem-nos provar teoremas sobre os programas funcionais que temos
-escrito. Em particular, nós vamos raciocinar sobre funções que manipulam números
-naturais e listas.
+    juntas, permitem-nos provar teoremas sobre os programas funcionais que temos
+    escrito. Em particular, nós vamos raciocinar sobre funções que manipulam
+    números naturais e listas.
 
 
     Em particular, nós vamos ver:
@@ -22,7 +22,7 @@ naturais e listas.
 (** * A tática [apply] ( aplique_) *)
 
 (** Nós usualmente encontraremos situações onde a meta a ser provada é
-    exatamente igual a hipótese no contexto ou algum
+    exatamente igual a alguma hipótese no contexto ou algum
     lema provado anteriormente. *)
 
 Theorem silly1 : forall (n m o p : nat),
@@ -32,17 +32,15 @@ Theorem silly1 : forall (n m o p : nat),
 Proof.
   intros n m o p eq1 eq2.
   rewrite <- eq1.
-  (* Nesse ponto, poderiamos acabar a prova com 
-     "[rewrite -> eq2. reflexivity.]" como nós fizemos 
-     várias vezes antes. Mas nós podemos realizar o
-     mesmo efeito com um passo simples, utilizando a tática 
-     [apply]: *)
-  apply eq2.  Qed.
+  (* Nesse ponto, poderiamos acabar a prova com "[rewrite -> eq2. reflexivity.]"
+     como nós fizemos várias vezes antes. Mas nós podemos realizar o mesmo
+     efeito com um passo simples, utilizando a tática [apply]: *) apply eq2.
+     Qed.
 
-(** A tática do [apply] também funciona com hipótese _condicional_
-    e lemas: se a sentença que está sendo aplicada é uma implicação,
-    então as premissas desta implicação será adicionada na lista de
-    submetas que precisam ser provadas. *)
+(** A tática do [apply] também funciona com hipótese _condicional_ e lemas: se a
+    sentença que está sendo aplicada é uma implicação, então as premissas desta
+    implicação serão inseridas na lista de submetas que precisam ser
+    provadas. *)
 
 Theorem silly2 : forall (n m o p : nat),
      n = m  ->
@@ -52,16 +50,15 @@ Proof.
   intros n m o p eq1 eq2. 
   apply eq2. apply eq1.  Qed.
 
-(** Você pode achar instrutivo observar esta prova e ver se há uma 
-    maneira de completá-la usando apenas [rewrite] em vez de 
-    [apply].*)
+(** Você pode achar instrutivo observar esta prova e ver se há uma maneira de
+    completá-la usando apenas [rewrite] em vez de [apply].*)
 
-(** Tipicamente, quando usamos [apply H], a sentença [H] começará com um 
-[forall] ligando algumas _variáveis universais_. Quando o Coq casa a meta atual 
-com a conclusão de [H], ele tenta encontrar os valores apropriados para estas 
-variáveis. Por exemplo, quando aplicamos [apply eq2] na prova abaixo, a 
-variável universal [q] em [eq2] é instanciada com [n] e [r] é instanciada com 
-[m]. *)  
+(** Tipicamente, quando usamos [apply H], a sentença [H] começará com um
+    [forall] ligando algumas _variáveis universais_. Quando o Coq casa a meta
+    atual com a conclusão de [H], ele tenta encontrar os valores apropriados
+    para estas variáveis. Por exemplo, quando aplicamos [apply eq2] na prova
+    abaixo, a variável universal [q] em [eq2] é instanciada com [n] e [r] é
+    instanciada com [m]. *)
 
 Theorem silly2a : forall (n m : nat),
      (n,n) = (m,m)  ->
@@ -82,10 +79,9 @@ Proof.
   (* PREENCHER *) Admitted.
 (** [] *)
 
-(** Para usar a tática [apply], o (a conclusão do) fato a ser aplicado
-    precisa combinar com o objetivo _exatamente_ -- por exemplo, [apply]
-    não vai funcionar se os lados esquerdo e direito da igualdade estão
-    trocados. *)
+(** Para usar a tática [apply], o fato, ou a conclusão do fato, a ser aplicado
+    precisa corresponder _exatamente_ ao objetivo -- por exemplo, [apply] não
+    vai funcionar se os lados esquerdo e direito da igualdade estão trocados. *)
 
 Theorem silly3_firsttry : forall (n : nat),
      true = beq_nat n 5  ->
@@ -93,11 +89,11 @@ Theorem silly3_firsttry : forall (n : nat),
 Proof.
   intros n H.
   simpl.
-  (* Here we cannot use [apply] directly *)
+  (* Aqui não podemos aplicar [apply] diretamente *)
 Abort.
 
-(** Neste caso podemos usar a tática [symmetry], que troca os lados
-    direito e o esquerdo de uma igualdade na meta. *)
+(** Neste caso podemos usar a tática [symmetry] (_simetria_), que troca os lados
+    direito e esquerdo de uma igualdade na meta. *)
 
 Theorem silly3 : forall (n : nat),
      true = beq_nat n 5  ->
@@ -133,8 +129,8 @@ Proof.
 (* ###################################################### *)
 (** * A tática [apply ... with ...] ( aplique ... com ..._) *)
 
-(** Os exemplo bobo abaixo usa duas reescritas em sequência para ir de [[a,b]] 
-a [[e,f]]. *)
+(** O exemplo trivial abaixo usa duas reescritas em sequência para ir de [[a,b]] a
+    [[e,f]]. *)
 
 Example trans_eq_example : forall (a b c d e f : nat),
      [a;b] = [c;d] ->
@@ -145,7 +141,7 @@ Proof.
   rewrite -> eq1. rewrite -> eq2. reflexivity.  Qed.
 
 (** Uma vez que este é um padrão comum, poderíamos abstraí-lo como um lema,
-registrando de uma vez por todas o fato de que a igualdade é transitiva. *)
+    registrando de uma vez por todas o fato de que a igualdade é transitiva. *)
 
 Theorem trans_eq : forall (X:Type) (n m o : X),
   n = m -> m = o -> n = o.
@@ -164,18 +160,18 @@ Example trans_eq_example' : forall (a b c d e f : nat),
 Proof.
   intros a b c d e f eq1 eq2. 
   (* Se nós simplesmente dissermos ao Coq [apply trans_eq] neste 
-     ponto, ele pode dizer (por combinar o objetivo contrário à 
+     ponto, ele pode dizer (por casar o objetivo com a 
      conclusão do lema) que isso deveria instanciar [X] com [[nat]],
      [n] com [[a,b]], e [o] com [[e,f]]. Porém, o processo de 
-     combinação não determina uma instanciação para [m]: nós temos 
-     que fornecer uma explícita adicionando [with (m:=[c,d])] à 
-     invocação de [apply]. *)
+     combinação não determina uma instanciação para [m]: nós é que 
+     devemos fornecer uma instanciação explícita adicionando 
+     [with (m:=[c,d])] à tática [apply]. *)
   apply trans_eq with (m:=[c;d]). apply eq1. apply eq2.   Qed.
 
-(** Na realidade, nós usualmente não temos que incluir o nome [m]
-    na cláusula [with]; Coq é frequentemente esperto o bastante para
-    descobrir que instanciação nós estamos fornecendo. Nós podemos, em vez 
-    disso, escrever: [apply trans_eq with [c,d]]. *)
+(** Na realidade, usualmente não é preciso incluir o nome [m] na cláusula
+    [with]; Coq é frequentemente tem informação o suficiente para determinar que
+    variável estamos instanciando. Nós podemos, em vez disso, escrever: [apply
+    trans_eq with [c,d]]. *)
 
 (** **** Exercício: nível 3, opcional (apply_with_exercise)  *)
 Example trans_eq_exercise : forall (n m o p : nat),
@@ -190,7 +186,7 @@ Proof.
 (* ###################################################### *)
 (** * A tática [inversion] (_inversão_) *)
 
-(** Rechamar a definição de números naturais:
+(** Recapitulamos aqui a definição de números naturais:
      Inductive nat : Type :=
        | O : nat
        | S : nat -> nat.
@@ -200,28 +196,28 @@ Proof.
     (e no nosso entendimento informal de como declarações de tipo de dados 
     funcionam em outras linguagens de programação) estão dois outros fatos:
 
-	- O construtor [S] é _injetiva_. Isto é, podemos obter [S n = S m] apenas 
+	- O construtor [S] é _injetivo_. Isto é, podemos obter [S n = S m] apenas 
 	se [n = m].
 
-	- Os construtores [O] e [S] são _disjuntas_. Isto é, [0] não é igual a [S 
+	- Os construtores [O] e [S] são _disjuntos_. Isto é, [0] não é igual a [S 
 	n] para qualquer [n]. *)
 
 (** Princípios semelhantes aplicam-se a todos os tipos definidos indutivamente:
-todos os construtores são injetores, e os valores construídos a partir de
-construtores distintos nunca são iguais. Para as listas, o construtor [cons]
-é injetor e [nil] é diferente de todas as listas não-vazias. Para booleanos,
-  [true] e [false] são diferentes. (Uma vez que nem [true] nem [false] recebem
-  quaisquer argumentos, a injetividade deles não é um problema.) *)
+    todos os construtores são injetores, e os valores construídos a partir de
+    construtores distintos nunca são iguais. Para as listas, o construtor [cons]
+    é injetor e [nil] é diferente de todas as listas não-vazias. Para booleanos,
+    [true] e [false] são diferentes. (Uma vez que nem [true] nem [false] recebem
+    quaisquer argumentos, a propriedade de injetividade é irrelevante.) *)
 
 (** O Coq fornece uma tática chamada [inversion] que nos permite explorar
     esses princípios em provas.
  
     A tática [inversion] é utilizada da seguinte maneira.  Supondo que [H] é 
-    uma hipótese no contexto (or um lema provado anteriormente) da
+    uma hipótese no contexto (ou um lema provado anteriormente) da
     forma
       c a1 a2 ... an = d b1 b2 ... bm
     para os contrutores [c] e [d] e argumentos [a1 ... an] e
-    [b1 ... bm].  Então [inversion H] intrui Coq a "inverter" essa igualdade
+    [b1 ... bm].  Então [inversion H] instrui Coq a "inverter" essa igualdade
     e extrair a informação que ela contém sobre os termos:
 
     - Se [c] e [d] são o mesmo contrutor, então nós sabemos, pela
@@ -235,10 +231,10 @@ construtores distintos nunca são iguais. Para as listas, o construtor [cons]
       Neste caso, [inversion H] marca a meta atual como concluída 
       e a coloca para fora da pilha de metas. *)
 
-(** A tática [inversion] é provavelmente mais fácil de entender vendo-a em ação 
-do que através de descrições gerais como a mostrada acima. Você verá abaixo 
-teoremas exemplos que demonstram o uso de [inversion] e exercícios para testar 
-sua compreensão a respeito. *)
+(** A tática [inversion] é provavelmente mais fácil de entender vendo-a em ação
+    do que através de descrições gerais. Você verá abaixo teoremas exemplos que
+    demonstram o uso de [inversion] e exercícios para testar sua compreensão a
+    respeito. *)
 
 Theorem eq_add_S : forall (n m : nat),
      S n = S m ->
@@ -253,7 +249,8 @@ Proof.
   intros n o eq. inversion eq. reflexivity.  Qed.
 
 (** Por conveniência, a tática [inversion] também pode destruir igualdades entre
-valores complexos, conectando múltiplas variáveis à medida em que é aplicada. *)
+    valores complexos, conectando múltiplas variáveis à medida em que é
+    aplicada. *)
 
 Theorem silly5 : forall (n m o : nat),
      [n;m] = [o;o] ->
@@ -291,7 +288,7 @@ Proof.
   (* PREENCHER *) Admitted.
 (** [] *)
 
-(** Equanto a injetividade dos construtores nos permite raciocinar
+(** Enquanto a injetividade dos construtores nos permite raciocinar
     [forall (n m : nat), S n = S m -> n = m], a direção reversa da 
     implicação é uma instância de um fato mais geral sobre construtores
     e funções, o que nós frequentemente achamos útil. *)
@@ -300,14 +297,10 @@ Theorem f_equal : forall (A B : Type) (f: A -> B) (x y: A),
     x = y -> f x = f y. 
 Proof. intros A B f x y eq. rewrite eq.  reflexivity.  Qed. 
 
-
-
-
 (** **** Exercício: nível 2, opcional (practice)  *)
-(** Algumas provas, não triviais mas também não tão complexas, para
+(** Seguem algumas provas, não triviais mas também não tão complexas, para
     serem trabalhadas em classe, ou para você trabalhar como exercícios. *)
  
-
 Theorem beq_nat_0_l : forall n,
    beq_nat 0 n = true -> n = 0.
 Proof.
@@ -336,16 +329,15 @@ Theorem S_inj : forall (n m : nat) (b : bool),
 Proof.
   intros n m b H. simpl in H. apply H.  Qed.
 
-(** Similarmente a tática [apply L in H] casa uma sentença condicional [L] 
-(digamos, com a forma [L1 -> L2]) com uma hipótese [H] no contexto. Porém, ao 
-contrário de um simples [apply] (que reescreve uma meta casada com [L2] pela 
-submeta [L1]), [apply L in H] casa [H] contra [L1] e, se no caso de sucesso, o 
-substitui por [L2].
- 
-    Em outras palavras, [apply L in H] nos dá uma forma de "raciocínio progressivo " -- a partir de [L1 -> L2] e uma hipótese casando com [L1], temos
-    uma hipótese casando com [L2]. Por outro lado, [apply L] é um "raciocínio
-    regressivo" -- isto indica que se sabemos que [L1 -> L2] e estamos tentando
-    provar [L2], basta que provemos [L1].
+(** Similarmente a tática [apply L in H] casa uma sentença condicional [L]
+    (digamos, com a forma [L1 -> L2]) com uma hipótese [H] no contexto. Porém,
+    ao contrário de um simples [apply] (que reescreve uma meta casada com [L2]
+    pela submeta [L1]), [apply L in H] casa [H] contra [L1] e, se no caso de
+    sucesso, o substitui por [L2].  Em outras palavras, [apply L in H] nos dá
+    uma forma de "raciocínio progressivo " -- a partir de [L1 -> L2] e uma
+    hipótese casando com [L1], temos uma hipótese casando com [L2]. Por outro
+    lado, [apply L] é um "raciocínio regressivo" -- isto indica que se sabemos
+    que [L1 -> L2] e estamos tentando provar [L2], basta que provemos [L1].
 
     Aqui está uma variante de uma prova de cima, usando inteiramente raciocínio 
     progressivo ao invés do raciocínio regressivo. *)
@@ -359,16 +351,16 @@ Proof.
   symmetry in H. apply eq in H. symmetry in H. 
   apply H.  Qed.
 
-(** Raciocínio progressivo começa a partir do que é _dado_ (premissas,
-    teoremas provados anteriormente) e iterativamente retira conclusões a 
-    partir delas até a meta ser alcançada.  Raciocínio regressivo começa a 
-    partir da _meta_, e iterativamente raciocína sobre o que implicaria a meta,
-    até premissas ou teoremas previamente provados serem alcançados.
-    Se você já viu uma prova informal antes (por exemplo, em uma aula de
-    matemática ou ciência da computação), eles provavelmente utilizaram 
-    raciocínio progressivo.  No geral, Coq tende a favorecer o raciocínio
-    regressivo, mas em algumas situações o estilo forward pode ser mais fácil 
-    de usar ou pensar sobre.  *)
+(** Raciocínio progressivo começa a partir do que é _dado_ (premissas, teoremas
+    provados anteriormente) e iterativamente retira conclusões a partir delas
+    até a meta ser alcançada.  Raciocínio regressivo começa a partir da _meta_,
+    e iterativamente raciocína sobre o que implicaria a meta, até premissas ou
+    teoremas previamente provados serem alcançados.  Se você já viu uma prova
+    informal antes (por exemplo, em uma aula de matemática ou ciência da
+    computação), eles provavelmente utilizaram raciocínio progressivo.  No
+    geral, Coq tende a favorecer o raciocínio regressivo, mas em algumas
+    situações o estilo progressivo pode ser mais fácil de usar ou pensar sobre.
+    *)
 
 (** **** Exercício: nível 3 (plus_n_n_injective)  *)
 (** Pratique usando o variante "in" neste exercício. *)
@@ -385,7 +377,7 @@ Proof.
 (* ###################################################### *)
 (** * Alterando a Hipótese de Indução *)
 
-(** Às vezes é importante controlar a forma exata da hipótese de 
+(** As vezes é importante controlar a forma exata da hipótese de 
     indução quando da realização de provas indutivas em Coq. 
     Em particular, precisamos ter cuidado sobre quais suposições 
     devemos mover (usando [intros]) da meta para o contexto 
@@ -412,17 +404,18 @@ Proof.
   Case "n = S n'". intros eq. destruct m as [| m'].
     SCase "m = O". inversion eq.
     SCase "m = S m'".  apply f_equal. 
-      (* Here we are stuck.  The induction hypothesis, [IHn'], does
-         not give us [n' = m'] -- there is an extra [S] in the
-         way -- so the goal is not provable. *)
+      (* Aqui estamos bloqueados.  A hipótese de indução, [IHn'], não
+         fornece [n' = m'] -- há um [S] extra no meio -- então a meta
+         não é demonstrável. *)
       Abort.
 
 (** O que deu errado? *)
 
-(** O problema é que, no momento em que invocamos a hipótese indutiva, nós já 
-tínhamos introduzido [m] no contexto -- intuitivamente, dissemos ao Coq "vamos 
-considerar um [n] e um [m] específicos..." e agora devemos provar que, se 
-[double n = double m] para estes [n] e [m] _específicos_, então [n = m].
+(** O problema é que, no momento em que aplicamos a hipótese indutiva, nós já
+    tínhamos introduzido [m] no contexto -- intuitivamente, dissemos ao Coq
+    "vamos considerar um [n] e um [m] específicos..." e agora devemos provar
+    que, se [double n = double m] para estes [n] e [m] _específicos_, então [n =
+    m].
 
     A tática seguinte, [induction n] diz à Coq que: iremos provar a meta por
     indução sobre [n]. Ou seja, iremos provar que a proposição
@@ -459,18 +452,18 @@ considerar um [n] e um [m] específicos..." e agora devemos provar que, se
 
       - [R] = "se [double (S n) = 10] então [S n = 5]".
 
-    Mas sabendo [Q] não nos dar qualquer ajuda com a prova [R]! (se nós
+    Mas sabendo [Q] não nos da qualquer ajuda com a prova [R]! (se nós
     tentarmos provar [R] a partir de [Q], nós diríamos algo como "suponha"
-    [double (S n) = 10]..." mas então nós estriamos presos: Sabendo que
+    [double (S n) = 10]..." mas então nós estariamos presos: Sabendo que
     [double (S n)] é [10] diz para a gente nada sobre se [double n]
     é [10], então [Q] inútil nesse ponto.) *)
 
 (** Para resumir: tentar realizar esta prova por indução em [n] quando [m] 
     já está no contexto não funciona porque estamos tentando provar uma 
-    relação que envolve _todos_ os [n], exceto um _único_ [m]. *)
+    relação que envolve _todos_ os [n], mas apenas um _único_ [m]. *)
 
-(** A prova boa de [double_injective] deixa [m] na meta num ponto tal que a 
-tática [induction] é aplicada em [n]: *) 
+(** A demonstração correta de [double_injective] deixa [m] na meta num ponto tal
+    que a tática [induction] é aplicada em [n]: *)
 
 Theorem double_injective : forall n m,
      double n = double m ->
@@ -481,45 +474,42 @@ Proof.
     SCase "m = O". reflexivity.
     SCase "m = S m'". inversion eq. 
   Case "n = S n'". 
-	(* Perceba que ambas as metas e a hipótese indutiva 
-	  
-	  
-	  
-    (* Notice that both the goal and the induction
-       hypothesis have changed: the goal asks us to prove
-       something more general (i.e., to prove the
-       statement for _every_ [m]), but the IH is
-       correspondingly more flexible, allowing us to
-       choose any [m] we like when we apply the IH.  *)
+    (* Perceba que ambas as metas e a hipótese indutiva 
+       mudaram: a meta necessita demonstrar algo mais
+       geral: demonstrar a afirmação para _cada_ [m],
+       mas a hipótese de indução também é mais flexível,
+       e deixa escolher qualquer [m] na hora de aplicar
+       ela. *)
     intros m eq.
-    (* Now we choose a particular [m] and introduce the
-       assumption that [double n = double m].  Since we
-       are doing a case analysis on [n], we need a case
-       analysis on [m] to keep the two "in sync." *)
+    (* Agora escolhemos um [m] específico e introduzimos
+       a hipótese de que [double n = double m]. Como estamos
+       fazendo uma análise de casos sobre [n], precisamos
+       realizar uma análise de casos sobre [m], para manter
+       os dois "sincronizados". *)
     destruct m as [| m'].
     SCase "m = O". 
-      (* The 0 case is trivial *)
+      (* O caso 0 é trivial. *)
       inversion eq.  
     SCase "m = S m'".  
       apply f_equal. 
-      (* At this point, since we are in the second
-         branch of the [destruct m], the [m'] mentioned
-         in the context at this point is actually the
-         predecessor of the one we started out talking
-         about.  Since we are also in the [S] branch of
-         the induction, this is perfect: if we
-         instantiate the generic [m] in the IH with the
-         [m'] that we are talking about right now (this
-         instantiation is performed automatically by
-         [apply]), then [IHn'] gives us exactly what we
-         need to finish the proof. *)
+      (* Neste ponto, como estamos no segundo caso do
+         [destruct m], o [m'] mencionado no contexto é
+         realmente o predecessor daquele pelo qual 
+         começamos. Como estamos também no caso [S]
+         da indução, isto cai como uma luva: se 
+         instanciarmos o [m] genérico na hipótese de
+         indução com o [m'] atual (esta instanciação
+         é realizada automaticamente com [apply]), 
+         então [IHn'] fornece exatamente o que
+         necessitamos para concluir a demonstração. *)
       apply IHn'. inversion eq. reflexivity. Qed.
 
 (** O que isto nos ensina é que precisamos ter cuidado no uso da indução para
-tentar provar algo muito específico: se estamos provando uma propriedade de [n]
-e [m] por indução sobre [n], podemos precisar manter [m] genérico. *)
+    tentar provar algo muito específico: se estamos provando uma propriedade de
+    [n] e [m] por indução sobre [n], podemos precisar manter [m] genérico. *)
 
-(** A prova desse teorema (deixado como um exercício) não tem de ser tratado similarmente:*)
+(** A prova desse teorema (deixado como um exercício) tem de ser tratado
+    similarmente:*)
 
 (** **** Exercício: nível 2 (beq_nat_true)  *)
 Theorem beq_nat_true : forall n m,
@@ -536,9 +526,9 @@ Proof.
 (** [] *)
 
 
-(** A estratégia de fazer alguns [intros] antes de um [induction] nem
-    sempre funciona diretamente; as vezes um pouco de _rearranjo_ de
-    variáveis quantificadas é preciso. Suponha, por exemplo, que nós queremos provar
+(** A estratégia de fazer alguns [intros] antes de um [induction] nem sempre
+    funciona diretamente; as vezes um pouco de _rearranjo_ de variáveis
+    quantificadas é preciso. Suponha, por exemplo, que nós queremos provar
     [double_injective] por indução em [m] em vez de [n]. *)
 
 Theorem double_injective_take2_FAILED : forall n m,
@@ -555,20 +545,20 @@ Proof.
         (* Stuck again here, just like before. *)
 Abort.
 
-(**  O problema é que, para fazer indução em [m], devemos primeiro 
-    introduzir [n]. (Se nós simplesmente dissermos [induction m] 
-    sem introduzir nada antes, Coq irá introduzir automaticamente [n] para nós!)   *)
+(** O problema é que, para fazer indução em [m], devemos primeiro introduzir
+    [n]. (Se nós simplesmente dissermos [induction m] sem introduzir nada antes,
+    Coq irá introduzir automaticamente [n] para nós!)  *)
 
-	(** O que podemos fazer sobre isso? Uma possibilidade é reescrever a 
-	declaração do lema para que [m] seja quantificada antes de [n]. Isto 
-	funcionará, mas não é legal: não queremos reescrever as declarações dos 
-	lemas apenas para poderem ser provadas com uma certa estratégia -- queremos 
-	estas declarações da forma mais simples e natural possível. *)
+(** O que podemos fazer sobre isso? Uma possibilidade é reescrever a declaração
+    do lema para que [m] seja quantificada antes de [n]. Isto funcionará, mas
+    não é legal: não queremos reescrever as declarações dos lemas apenas para
+    poderem ser provados com uma certa estratégia -- queremos estas declarações
+    da forma mais simples e natural possível. *)
 
-(**  Ao invés disso, o que podemos fazer em primeiro lugar é introduzir todas as
-variáveis quantificadas e, em seguida, _re-generalizar_ uma ou mais delas,
-  levando-os para fora do contexto e colocando-as de volta no início da meta.
-  A tática [generalize dependent] faz isto. *)
+(** Ao invés disso, o que podemos fazer em primeiro lugar é introduzir todas as
+    variáveis quantificadas e, em seguida, _re-generalizar_ uma ou mais delas,
+    levando-os para fora do contexto e colocando-as de volta no início da meta.
+    A tática [generalize dependent] faz isto. *)
 
 Theorem double_injective_take2 : forall n m,
      double n = double m ->
@@ -577,8 +567,8 @@ Proof.
   intros n m. 
   (* Tanto [n] quanto [m] estão no contexto *)
   generalize dependent n.
-  (* Agora [n] está volta à meta e podemos aplicar indução sobre [m] e obter uma
-  IH genérica o suficente. *)
+  (* Agora [n] está de volta ànameta e podemos aplicar indução sobre [m] e obter uma
+  hipótese de indução genérica o suficente. *)
   induction m as [| m'].
   Case "m = O". simpl. intros n eq. destruct n as [| n'].
     SCase "n = O". reflexivity.
@@ -593,21 +583,20 @@ Proof.
     correspondendo ao uso de dependente generalizado na nossa prova
     formal.
 
-_Theorem_: For any nats [n] and [m], if [double n = double m], then
+_Teoream_: Para quaisquer naturais [n] e [m], se [double n = double m], então
   [n = m].
 
-_Proof_: Let [m] be a [nat]. We prove by induction on [m] that, for
-  any [n], if [double n = double m] then [n = m].
+_Demonstração_: Seja [m] um [nat]. Demonstramos por indução em [m] que, para
+  qualquer [n], se [double n = double m] então [n = m].
 
   - Primeiramente, suponha [m = 0], e suponha que [n] é um número tal
     que [double n = double m].  Nós devemos mostrar que [n = 0].
 
-    Uma vez que [m = 0], pela definição de [double] nós temos [double n =
-    0].  Existem dois casos a considerar para [n].  Se [n = 0] acabamos, 
-    uma vez que é isso que queremos mostrar.  Senão, se [n = S
-    n'] para algum [n'], derivamos uma contradição: pela definição de
-    [double] teriamos [double n = S (S (double n'))], mas isso contradiz
-    a hipótese que [double n = 0].
+    Uma vez que [m = 0], pela definição de [double] nós temos [double n = 0].
+    Existem dois casos a considerar para [n].  Se [n = 0] acabamos, uma vez que
+    é isso que queremos mostrar.  Senão, se [n = S n'] para algum [n'],
+    derivamos uma contradição: pela definição de [double] teriamos [double n = S
+    (S (double n'))], mas isso contradiz a hipótese que [double n = 0].
 
   - Por outro lado, suponha [m = S m'] e que [n] é novamente um número
     tal que [double n = double m].  Nós devemos mostrar que [n = S m'], com
@@ -629,10 +618,11 @@ _Proof_: Let [m] be a [nat]. We prove by induction on [m] that, for
     Uma vez que [S n' = n] e [S m' = m], isso é justamente o que 
     queríamos mostrar. [] *)
 
-(** Abaixo se encontra outro exemplo de [inversion] e do uso de uma hipótese de 
-indução geral apropriada. Esta uma forma ligeiramente indireta de declarar um 
-fato que já provamos acima. As igualdades extras no força a fazer mais cálculos 
-em equações e exercitar algumas das táticas que já vimos recentemente. *)
+(** Abaixo se encontra outro exemplo de [inversion] e do uso de uma hipótese de
+    indução geral apropriada. Esta é uma forma ligeiramente indireta de declarar
+    um fato que já provamos acima. As igualdades adicionais obrigam a fazer mais
+    cálculos em equações e exercitar algumas das táticas que já vimos
+    recentemente. *)
 
 Theorem length_snoc' : forall (X : Type) (v : X)
                               (l : list X) (n : nat),
@@ -651,9 +641,9 @@ Proof.
       apply f_equal. apply IHl'. inversion eq. reflexivity. Qed.
 
 (** Pode ser tentador começar a provar o teorema acima através da introdução de
-[n] e [eq] no contexto. No entanto, isto nos leva a uma hipótese de indução que
-não é suficientemente forte. Compare a prova acima com a seguinte tentativa
-(abortada): *)
+    [n] e [eq] no contexto. No entanto, isto nos leva a uma hipótese de indução
+    que não é suficientemente forte. Compare a prova acima com a seguinte
+    tentativa (abortada): *)
 
 Theorem length_snoc_bad : forall (X : Type) (v : X)
                               (l : list X) (n : nat),
@@ -669,7 +659,7 @@ Proof.
     simpl. destruct n as [| n'].
     SCase "n = 0". inversion eq.
     SCase "n = S n'".
-      apply f_equal. Abort. (* apply IHl'. *) (* A IH não se aplica! *)
+      apply f_equal. Abort. (* apply IHl'. *) (* A hipótese não se aplica! *)
 
 
 (** Como nos exemplos dobrados, o problema é que por introduzir [n]
@@ -683,7 +673,7 @@ Proof.
     ser a mais geral possível. *)
 
 (** **** Exercício: nível 3 (gen_dep_practice)  *)
-(** Prova isto pela indução em [l]. *)
+(** Provar por indução em [l]. *)
 
 Theorem index_after_last: forall (n : nat) (X : Type) (l : list X),
      length l = n ->
@@ -693,19 +683,19 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 3, avançado, opcional (index_after_last_informal)  *)
-(** Escrever uma prova informal correspondente à sua prova
-    do Coq sobre [index_after_last]:
+(** Escrever uma prova informal de [index_after_last] correspondente à sua prova
+    em Coq:
  
-     _Theorem_: For all sets [X], lists [l : list X], and numbers
-      [n], if [length l = n] then [index n l = None].
+     _Teorema_: Para qualquer conjunto [X], lista [l : list X], e número
+      [n], se [length l = n] então [index n l = None].
  
-     _Proof_:
+     _Demonstração_:
      (* PREENCHER *)
 []
 *)
 
 (** **** Exercício: nível 3, opcional (gen_dep_practice_more)  *)
-(** Prove o seguinte teorema através de indução sobre [l]. *)
+(** Provar o seguinte teorema através de indução sobre [l]. *)
 
 Theorem length_snoc''' : forall (n : nat) (X : Type) 
                               (v : X) (l : list X),
@@ -716,7 +706,7 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 3, opcional (app_length_cons)  *)
-(** Prove isso por indução em [l1], sem usar [app_length] de [Lists]. *)
+(** Provar o teorema seguinte por indução em [l1], sem usar [app_length] de [Lists]. *)
 
 Theorem app_length_cons : forall (X : Type) (l1 l2 : list X) 
                                   (x : X) (n : nat),
@@ -797,7 +787,7 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 3, opcional (combine_split)  *)
-(** Complete a prova abaixo *)
+(** Completar a prova abaixo *)
 
 Theorem combine_split : forall X Y (l : list (X * Y)) l1 l2,
   split l = (l1, l2) ->
@@ -816,7 +806,7 @@ Definition sillyfun1 (n : nat) : bool :=
   else false.
 
 (** E suponha que queremos convencer o Coq da observação bastante óbvia 
-    de que [sillyfun1 n] resulta [true] apenas quando [n] é ímpar. 
+    de que [sillyfun1 n] resulta em [true] apenas quando [n] é ímpar. 
     Por analogia com as provas que fizemos com [sillyfun] acima, é 
     natural começar a prova da seguinte forma: *)
 
@@ -850,14 +840,14 @@ Proof.
   intros n eq. unfold sillyfun1 in eq.
   destruct (beq_nat n 3) eqn:Heqe3.
   (* Agora, temos o mesmo estado no qual ficamos bloqueados na tentativa
-  anterior, exceto pelo fato de que o contexto contém uma premissa adicional de
-  igualdade, que é exatamente do que precisamos para avançar. *)
+     anterior, exceto pelo fato de que o contexto contém uma premissa adicional de
+     igualdade, que é exatamente do que precisamos para avançar. *)
     Case "e3 = true". apply beq_nat_true in Heqe3.
       rewrite -> Heqe3. reflexivity.
     Case "e3 = false".
      (* Quando chegamos ao segundo teste de igualdade no corpo do função sobre
-     a qual estamos reciocinando, podemos usar [eqn:] novamente da mesma forma,
-       permitindo-nos terminar a prova. *)
+        a qual estamos reciocinando, podemos usar [eqn:] novamente da mesma forma,
+        permitindo-nos terminar a prova. *)
       destruct (beq_nat n 5) eqn:Heqe5. 
         SCase "e5 = true".
           apply beq_nat_true in Heqe5.
@@ -888,13 +878,13 @@ Proof.
     introduzir algumas mais conforme nós passamos pelas próximas aulas, 
     e mais tarde no curso nós vamos introduzir algumas táticas de 
     _automação_ mais poderosas que fazem Coq fazer mais do trabalho
-    de baixo nível em muitos casos. Mas basicamente nós temos tido o que
-    precisamos para terminar o trabalho.
+    de baixo nível em muitos casos. Mas basicamente nós temos em mãos o que
+    precisamos para trabalhar.
 
     Aqui está o que nós já vimos:
 
       - [intros]: 
-        move hipóteses/variavéis da meta para o contexto 
+        desloca hipóteses/variavéis da meta para o contexto 
 
       - [reflexivity]:
         finaliza a prova (quando a meta parece como [e = e])
@@ -907,17 +897,17 @@ Proof.
         contexto (raciocínio adiante)
 
       - [apply... with...]:
-        Especificar valores explicitamente para variáveis não pode ser
-        determinado pelo casamento de padrão
+        Especifique valores explicitamente para variáveis que não podem ser
+        determinadas pelo casamento de padrão
 
       - [simpl]:
         simplifica cálculos na meta 
 
       - [simpl in H]:
-        ... or a hypothesis 
+        ... ou em uma hipótese
 
       - [rewrite]:
-        use an equality hypothesis (or lemma) to rewrite the goal 
+        utilise uma igualdade em hipótese (ou lema) para reescrever a meta
 
       - [rewrite ... in H]:
         ... ou uma hipótese
@@ -967,12 +957,12 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 3, avançado, opcional (beq_nat_sym_informal)  *)
-(** De uma prova informal deste lema que corresponda a sua prova
+(** Dar uma prova informal deste lema que corresponda a sua prova
     formal acima:
 
    Teorema: para todo [nat]s [n] [m], [beq_nat n m = beq_nat m n].
 
-   Proof:
+   Demonstração:
    (* PREENCHER *)
 []
  *)
@@ -991,12 +981,12 @@ Proof.
     é o inverso de [split]. Como você formalizaria a afirmação de que 
     [split] é o inverso de [combine]? Quando essa propriedade é verdadeira?
 
-	Complete a definição de [split_combine_statement] abaixo com uma 
-	propriedade que determina que [split] é o inverso de [combine]. Em seguida, 
-	prove que a propriedade se mantém. (Evite usar [intros] mais do que o 
-	necessário para não perder a hipótese indutiva mais geral. Dica: qual 
-	propriedade você precisa de [l1] e [l2] para que [split] [combine l1 l2 = 
-	(l1,l2)] seja verdadeira?) *)
+    Completar a definição de [split_combine_statement] abaixo com uma
+    propriedade que determina que [split] é o inverso de [combine]. Em seguida,
+    demonstrar que a propriedade se mantém. (Evite usar [intros] mais do que o
+    necessário para não perder a hipótese indutiva mais geral. Dica: qual
+    propriedade você precisa de [l1] e [l2] para que [split] [combine l1 l2 =
+    (l1,l2)] seja verdadeira?) *)
 
 Definition split_combine_statement : Prop :=
 (* PREENCHER *) admit.
@@ -1018,7 +1008,7 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 3, avançado (filter_exercise)  *)
-(** Este exercício é um pouco desafiador. Preste atenção à forma da sua IH. *)
+(** Este exercício é um pouco desafiador. Preste atenção à forma da sua hipótese de indução. *)
 
 Theorem filter_exercise : forall (X : Type) (test : X -> bool)
                              (x : X) (l lf : list X),
@@ -1029,8 +1019,8 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 4, avançado (forall_exists_challenge)  *)
-(** Defina dois [Fixpoints] recursivos, [forallb] e [existsb]. o primeito
-    checa se cada eleento em uma lista satisfaz um dado predicado:
+(** Defina dois [Fixpoints] recursivos, [forallb] e [existsb]. O primeiro
+    testa se cada elemento em uma lista satisfaz um dado predicado:
       forallb oddb [1;3;5;7;9] = true
 
       forallb negb [false;false] = true
@@ -1050,7 +1040,7 @@ Proof.
     Depois, defina uma versão _não-recursiva_ de [existsb] -- chame de
     [existsb'] -- usando [forallb] e [negb].
  
-    Prove o teorema [existsb_existsb'] que [existsb'] e [existsb] tenham
+    Prove o teorema [existsb_existsb'] que [existsb'] e [existsb] tem
     o mesmo comportamento.
 *)
 
