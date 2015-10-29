@@ -438,8 +438,8 @@ Proof.
 (* ################################################### *)
 (** * Falsidade *)
 
-(** [Vítor]Logical falsehood can be represented in Coq as an inductively
-    defined proposition with no constructors. *)
+(** Falsidade lógica pode ser representada no Coq como uma proposição definida 
+indutivamente sem nenhum construtor.*)
 
 Inductive False : Prop := . 
 
