@@ -23,14 +23,14 @@ Inductive ex (X:Type) (P : X->Prop) : Prop :=
 
 
 (** *** *)
-(** [Diego]Coq's [Notation] facility can be used to introduce more
-    familiar notation for writing existentially quantified
-    propositions, exactly parallel to the built-in syntax for
-    universally quantified propositions.  Instead of writing [ex nat
-    ev] to express the proposition that there exists some number that
-    is even, for example, we can write [exists x:nat, ev x].  (It is
-    not necessary to understand exactly how the [Notation] definition
-    works.) *)
+(** As facilidades das _Notações_ [Notation] do Coq podem ser utilizadas
+    para introduzir notações mais familiares a fim de escrever proposições
+    existencialmente quantificadas, em paralelo com a sintaxe construída para
+    proposições universalmente quantificadas.  Em vez de escrever [ex nat
+    ev] para expressar a proposição que existe algum número que é
+    par, por exemplo, podemos escrever [exists x:nat, ev x].  (Não é
+    necessário entender exatamente como a definição [Notation]
+    funciona.) *)
 
 Notation "'exists' x , p" := (ex _ (fun x => p))
   (at level 200, x ident, right associativity) : type_scope.
@@ -93,10 +93,10 @@ Proof.
 Qed.
 
 (** **** Exercício: nível 1, opcional (english_exists)  *)
-(** [Diego]In English, what does the proposition 
+(** Em inglês, o que a proposição 
       ex nat (fun n => beautiful (S n))
 ]] 
-    mean? *)
+    significa? *)
 
 (* PREENCHER *)
 
@@ -155,15 +155,14 @@ Inductive sumbool (A B : Prop) : Set :=
 
 Notation "{ A } + { B }" :=  (sumbool A B) : type_scope.
 
-(** [Diego]Think of [sumbool] as being like the [boolean] type, but instead
-    of its values being just [true] and [false], they carry _evidence_
-    of truth or falsity. This means that when we [destruct] them, we
-    are left with the relevant evidence as a hypothesis -- just as
-    with [or].  (In fact, the definition of [sumbool] is almost the
-    same as for [or].  The only difference is that values of [sumbool]
-    are declared to be in [Set] rather than in [Prop]; this is a
-    technical distinction that allows us to compute with them.) *)
-
+(** Pense em [sumbool] como sendo do tipo [boolean], mas no lugar de
+    seus valores serem somente [true] e [false], eles carregam a _evidência_
+    da verdade ou da falsidade. Isso significa que quando a [destruímos],
+    ficamos com a evidência relevante como uma hipótese -- assim como
+    com [or].  (Na realidade, a definição de [sumbool] é quase a mesma
+    que [or].  A única diferença é que os valores de [sumbool]
+    são declarados em [Set] em vez de [Prop]; isso é uma distinção
+    técnica a qual nos permite calcular com eles.) *)
 (** *** *)
 
 (** [Francisco]Here's how we can define a [sumbool] for equality on [nat]s *)
@@ -251,8 +250,8 @@ Inductive all (X : Type) (P : X -> Prop) : list X -> Prop :=
   (* PREENCHER *)
 .
 
-(** [Diego]Recall the function [forallb], from the exercise
-    [forall_exists_challenge] in chapter [Poly]: *)
+(** Recorde a função [forallb], do exercício
+    [forall_exists_challenge] no capítulo [Poly]: *)
 
 Fixpoint forallb {X : Type} (test : X -> bool) (l : list X) : bool :=
   match l with
@@ -298,10 +297,10 @@ com uma especificação. Aqui está a especificação, escrita informalmente em 
 (** [] *)
 
 (** **** Exercício: nível 5, avançado, opcional (filter_challenge_2)  *)
-(** [Diego]A different way to formally characterize the behavior of [filter]
-    goes like this: Among all subsequences of [l] with the property
-    that [test] evaluates to [true] on all their members, [filter test
-    l] is the longest.  Express this claim formally and prove it. *)
+(** Uma maneira diferente de formalmente caracterizar o comportamento de
+    [filter] é a seguinte: Entre todas subsequências de [l] com a propriedade
+    que [test] avalia para [true] em todos os membros, [filter test
+    l] é o mais longo.  Expresar essa afirmação de maneira formal e prova-la. *)
 
 (* PREENCHER *)
 (** [] *)
@@ -345,8 +344,8 @@ Proof.
 
 (* PREENCHER *)
 
-(** [Diego]Finally, state and prove one or more interesting theorems relating
-    [disjoint], [no_repeats] and [++] (list append).  *)
+(** Finalmente, enuncie e prove um ou mais teoremas interessantes relacionando
+    [disjoint], [no_repeats] e [++] (list append). *)
 
 (* PREENCHER *)
 (** [] *)
@@ -410,11 +409,11 @@ Example test_nostutter_4:      not (nostutter [3;1;1;4]).
 (** [] *)
 
 (** **** Exercício: nível 4, avançado (pigeonhole principle)  *)
-(** [Diego]The "pigeonhole principle" states a basic fact about counting:
-   if you distribute more than [n] items into [n] pigeonholes, some 
-   pigeonhole must contain at least two items.  As is often the case,
-   this apparently trivial fact about numbers requires non-trivial
-   machinery to prove, but we now have enough... *)
+(** O "princípio da casa de pombos" enuncia um fato básico sobre a contagem:
+   se distribuirmos mais que [n] itens em [n] escaninhos, alguns 
+   escaninhos devem conter no mínimo dois itens.  Como é um caso frequente,
+   esse fato, aparentemente trivial, sobre números requer maquinária não
+   trivial para provar, mas agora sabemos o suficiente... *)
 
 (** [Francisco]First a pair of useful lemmas (we already proved these for lists
     of naturals, but not for arbitrary lists). *)
