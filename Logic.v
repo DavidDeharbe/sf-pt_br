@@ -10,9 +10,9 @@ Require Export MoreCoq.
     connectives -- conjunction, disjunction, negation, existential
     quantification, even equality -- can be encoded using just these.
 
-    [Dalay]This chapter explains the encodings and shows how the tactics
-    we've seen can be used to carry out standard forms of logical
-    reasoning involving these connectives.
+    Esse capítulo explica as codificações e mostra como as táticas 
+    que temos aprendido podem ser usadas para implementar formas padronizadas
+    de raciocínio lógico envolvendo esses conectivos.
 
 *)
 
@@ -47,11 +47,11 @@ Check (forall (n:nat), n = 2).
 (* ########################################################### *)
 (** * Provas e Evidência *)
 
-(** [Dalay]In Coq, propositions have the same status as other types, such as
-    [nat].  Just as the natural numbers [0], [1], [2], etc. inhabit
-    the type [nat], a Coq proposition [P] is inhabited by its
-    _proofs_.  We will refer to such inhabitants as _proof term_ or
-    _proof object_ or _evidence_ for the truth of [P]. 
+(** Em Coq, proposições tem o mesmo status que outros tipos, como [nat].
+    Assim como os números naturais [0], [1], [2], etc. habitam o tipo [nat],
+    uma proposição Coq [P] é habitada por suas provas (_proofs_).Nós vamos
+    referenciar esses habitantes como termo de prova (_proof term_) ou objeto 
+    de prova (_proof object_) ou evidência (_evidence_) para a verdade de [P].
 
     Em Coq, quando nós afirmamos e então provamos um lema como:
 
@@ -91,9 +91,8 @@ function:
 mult : nat -> nat -> nat 
 ]
 
-[Dalay]The _proof term_ for an implication [P -> Q] is a _function_ that
-takes evidence for [P] as input and produces evidence for [Q] as its
-output.
+O termo de prova para uma implicação [p -> Q] é uma função que tem pega a 
+evidência de [P] como entrada e produz evidência para [Q] como saída.
 *)     
 
 Lemma silly_implication : (1 + 1) = 2  ->  0 * 3 = 0.
@@ -124,8 +123,8 @@ outra evidência.
     [Claudia]- Typically, rules are defined _inductively_, just like any other
       datatype.
 
-    [Dalay]- Sometimes a proposition is declared to be true without
-      substantiating evidence.  Such propositions are called _axioms_.
+    - Algumas vezes uma proposição é declarada verdade sem evidências
+    substanciais. Essas proposições são chamadas de axiomas (_axioms_).
 
     Neste, e nos capítulos subsequentes, nós veremos de maneira mais detalhada
     mais sobre como esses termos de prova funcionam.
@@ -153,8 +152,8 @@ Inductive and (P Q : Prop) : Prop :=
       know it must have the form [conj p q], where [p] is
       evidence for [P] and [q] is evidence for [Q]. 
 
-   [Dalay]Since we'll be using conjunction a lot, let's introduce a more
-   familiar-looking infix notation for it. *)
+    Como nós usaremos bastante conjunção, vamos introduzir uma notação
+    mais familiar para isso. *)
 
 Notation "P /\ Q" := (and P Q) : type_scope.
 
@@ -199,10 +198,10 @@ Proof.
     Case "right". reflexivity.  Qed.
 
 (** ** "Eliminação" de conjunções *)
-(** [Dalay]Conversely, the [destruct] tactic can be used to take a
-    conjunction hypothesis in the context, calculate what evidence
-    must have been used to build it, and add variables representing
-    this evidence to the proof context. *)
+(** Reciprocamente, a tática [destruct] pode ser usada para pegar uma
+    hipótese de conjunção no contexto, calcular que evidência deve ser
+    usada para construir isso, e adicionar variáveis representando essa
+    evidência para o contexto de prova. *)
 
 Theorem proj1 : forall P Q : Prop, 
   P /\ Q -> P.
@@ -301,8 +300,8 @@ por que que isto funciona.) *)
 
 (** ** Implementação da Disjunção *)
 
-(** [Dalay]Disjunction ("logical or") can also be defined as an
-    inductive proposition. *)
+(** Disjunção ("ou lógico") pode ser também definido como proposição
+    indutiva. *)
 
 Inductive or (P Q : Prop) : Prop :=
   | or_introl : P -> or P Q
@@ -332,8 +331,7 @@ Q]:
       evidence for -- this is the function of the [or_introl]
       constructor), or
 
-    [Dalay]- give evidence for [Q], tagged with the [or_intror]
-      constructor. *)
+    - Dê evidência para [Q], marcada com o constutor [or_intror]. *)
 
 (** *** *)
 (** Desde que [P \/ Q] tenha dois contrutores, realizar um [destruct] em
@@ -447,9 +445,9 @@ Inductive False : Prop := .
     to give evidence. *)
 
 
-(** [Dalay]Since [False] has no constructors, inverting an assumption
-    of type [False] always yields zero subgoals, allowing us to
-    immediately prove any goal. *)
+(** Como [False] não tem construtores, inverter uma suposição do tipo [False]
+    sempre resulta em zero sumbetas, permitindo-nos provar imediatamente toda 
+    meta. *)
 
 Theorem False_implies_nonsense :
   False -> 2 + 2 = 5.
@@ -495,9 +493,8 @@ explosão_. *)
     it is possible to define truth in the same way.  We can. *)
 
 (** **** Exercício: nível 2, avançado (True)  *)
-(** [Dalay]Define [True] as another inductively defined proposition.  (The
-    intution is that [True] should be a proposition for which it is
-    trivial to give evidence.) *)
+(** Definir [True] como outra proposição definida indutivamente. (A intuição
+    é que [True] deve ser uma proposição para a qual é trivial dar evidência). *)
 
 (* PREENCHER *)
 (** [] *)
@@ -575,7 +572,7 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 1, avançado (informal_not_PNP)  *)
-(** [Dalay]Write an informal proof (in English) of the proposition [forall P
+(** Escreva uma prova informal (em inglês) da proposição [forall P
     : Prop, ~(P /\ ~P)]. *)
 
 (* PREENCHER *)
