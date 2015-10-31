@@ -32,11 +32,11 @@ Inductive ev : nat -> Prop :=
   | ev_SS : forall n:nat, ev n -> ev (S (S n)).
 
 
-(** [Renan] The first line declares that [ev] is a proposition -- or,
-    more formally, a family of propositions "indexed by" natural
-    numbers.  (That is, for each number [n], the claim that "[n] is
-    even" is a proposition.)  Such a family of propositions is
-    often called a _property_ of numbers.  
+(** A primeira linha declara que [ev] é uma proposição -- ou, mais 
+    formalmente, uma família de proposições "indexadas por" números 
+    naturais. (Ou seja, para cada número [n], a afirmação de que "[n] 
+    é par" é uma proposição.) Tal família de proposições é muitas 
+    vezes chamada de _propriedade_ de números.
 
 	As duas últimas linhas declaram as duas formas de fornecer provas de que 
 	[m] é par. Em primeiro lugar, [0] é par e [ev_0] é evidência disso. 
@@ -80,10 +80,10 @@ Proof.
        - Rule [b_sum]: If [n] and [m] are both [beautiful], then so is
          their sum. *)
 
-(** [Renan] We will see many definitions like this one during the rest
-    of the course, and for purposes of informal discussions, it is
-    helpful to have a lightweight notation that makes them easy to
-    read and write.  _Inference rules_ are one such notation: *)
+(** Veremos muitas definições como esta durante o resto do curso, e 
+    para fins de discussões informais, é útil ter uma notação leve 
+    que as torne fácil de ler e escrever.  _Regras de inferência_ são 
+    um exemplo de tal notação: *)
 (**
                               -----------                               (b_0)
                               beautiful 0
@@ -158,10 +158,10 @@ Inductive beautiful : nat -> Prop :=
 
 (** *** *)
 (** 
-    [Renan] The rules introduced this way have the same status as proven 
-    theorems; that is, they are true axiomatically. 
-    So we can use Coq's [apply] tactic with the rule names to prove 
-    that particular numbers are [beautiful].  *)
+    As regras introduzidas desta forma têm o mesmo status que os teoremas
+    provados; ou seja, elas são verdadeiras axiomaticamente. 
+    Assim, podemos usar a tática [apply] de Coq com nomes de regras 
+    para provar que números particulares são [beautiful]. *)
 
 Theorem three_is_beautiful: beautiful 3.
 Proof.
@@ -236,7 +236,7 @@ Proof.
     have already seen for reasoning about inductively defined _data_
     to reason about inductively defined _evidence_.
 
-    [Renan]To illustrate this, let's define another property of numbers: *)
+    Para ilustrar isso, vamos definir uma outra propriedade de números: *)
 
 Inductive gorgeous : nat -> Prop :=
   g_0 : gorgeous 0
@@ -322,12 +322,12 @@ Proof.
 
 
 (** **** Exercício: nível 3 stars, opcional (g_times2)  *)
-(** [Renan] Prove the [g_times2] theorem below without using [gorgeous__beautiful].
-    You might find the following helper lemma useful. *)
+(** Prove o teorema [g_times2] abaixo sem usar [gorgeous__beautiful]. 
+    Você pode achar o seguinte lema auxiliar útil. *)
 
 Lemma helper_g_times2 : forall x y z, x + (z + y) = z + x + y.
 Proof.
-   (* FILL IN HERE *) Admitted.
+   (* PREENCHER *) Admitted.
 
 Theorem g_times2: forall n, gorgeous n -> gorgeous (2*n).
 Proof.
@@ -378,7 +378,7 @@ Qed.
 *)
 (** [] *)
 
-(** [Renan]Here's another exercise requiring induction on evidence. *)
+(** Aqui está outro exercício que requer indução em evidências. *)
 (** **** Exercício: nível 2 (ev_sum)  *)
 
 Theorem ev_sum : forall n m,
@@ -438,16 +438,15 @@ Proof.
     it often throws away useful information, and the [eqn:] qualifier
     doesn't help much in this case.)    
 
-    [Renan]Here's how [inversion] works in general.  Suppose the name
-    [I] refers to an assumption [P] in the current context, where
-    [P] has been defined by an [Inductive] declaration.  Then,
-    for each of the constructors of [P], [inversion I] generates
-    a subgoal in which [I] has been replaced by the exact,
-    specific conditions under which this constructor could have
-    been used to prove [P].  Some of these subgoals will be
-    self-contradictory; [inversion] throws these away.  The ones
-    that are left represent the cases that must be proved to
-    establish the original goal.
+    Aqui está como [inversion] funciona no geral.  Suponha que o nome 
+    [I] refere-se a uma suposição [P] no contexto atual, onde [P] 
+    foi definida por uma declaração [Inductive]. Então, para cada 
+    um dos construtores de [P], [inversion I] gera uma submeta em 
+    que [I] foi substituída pelas condições exatas e específicas 
+    nas quais esse construtor poderia ter sido usado para provar [P].
+    Algumas dessas submetas serão autocontraditórias; [inversion] 
+    as elimina. As que permanecem representam os casos que devem 
+    ser provados para estabelecer a meta original.
 
 	Neste caso em particular, o [inversion] analisou a construção [ev (S (S 
 	n))]e determinou que isso somente poderia ser construído usando [ev_SS], 
@@ -504,9 +503,9 @@ Proof.
     evenness are about equally easy to state and work with.  Which we
     choose is basically a question of taste.
 
-    [Renan]However, for many other properties of interest, the direct
-    inductive definition is preferable, since writing a testing
-    function may be awkward or even impossible.  
+    No entanto, para muitas outras propriedades de interesse, a 
+    definição indutiva direta é preferível, uma vez que escrever 
+    uma função de teste pode ser difícil ou mesmo impossível.
 	
 	Uma dessas propriedades é [beautiful]. Esta não é uma definição 
 	perfeitamente sensata para um conjunto de números mas não podemos traduzir 
@@ -568,20 +567,20 @@ Proof.
 Qed.
     
 
-(** **** Exercício: nível 4 (palindromes)  *)
-(** [Renan]A palindrome is a sequence that reads the same backwards as
-    forwards.
+(** **** Exercício: nível 4 (palíndromos)  *)
+(** Um palíndromo é uma sequência que se lê da mesma forma de trás para
+    frente e de frente para trás.
 
-    - Define an inductive proposition [pal] on [list X] that
-      captures what it means to be a palindrome. (Hint: You'll need
-      three cases.  Your definition should be based on the structure
-      of the list; just having a single constructor
-        c : forall l, l = rev l -> pal l
-      may seem obvious, but will not work very well.)
+    - Definir uma proposição indutiva [pal] em [list X] que 
+      capture o que significa ser um palíndromo. (Dica: Você vai 
+      precisar de três casos. Sua definição deve basear-se na 
+      estrutura da lista; ter um único construtor 
+        c: forall l, l = rev l -> pal l 
+      pode parecer óbvio, mas não vai funcionar muito bem.)
  
-    - Prove [pal_app_rev] that 
+    - Provar [pal_app_rev] que 
        forall l, pal (l ++ rev l).
-    - Prove [pal_rev] that 
+    - Provar [pal_rev] que 
        forall l, pal l -> l = rev l.
 *)
 
@@ -631,12 +630,13 @@ Inductive le : nat -> nat -> Prop :=
 Notation "m <= n" := (le m n).
 
 
-(** [Renan]Proofs of facts about [<=] using the constructors [le_n] and
-    [le_S] follow the same patterns as proofs about properties, like
-    [ev] in chapter [Prop].  We can [apply] the constructors to prove [<=]
-    goals (e.g., to show that [3<=3] or [3<=6]), and we can use
-    tactics like [inversion] to extract information from [<=]
-    hypotheses in the context (e.g., to prove that [(2 <= 1) -> 2+2=5].) *)
+(** Provas de fatos sobre [<=] usando os construtores [le_n] e [le_S] 
+    seguem os mesmos padrões de provas sobre propriedades, como [ev] 
+    no capítulo [Prop].  Podemos usar [apply] nos construtores para 
+    provar metas com [<=] (por exemplo, para mostrar que [3<=3] ou 
+    [3<=6]), e podemos usar táticas como [inversion] para extrair 
+    informações das hipóteses com [<=] no contexto (por exemplo, 
+    para provar que [(2 <= 1) -> 2+2=5]). *)
 
 (** *** *)
 
@@ -702,9 +702,8 @@ Inductive next_even : nat -> nat -> Prop :=
 (** [] *)
 
 (** **** Exercício: nível 2, opcional (le_exercises)  *)
-(** [Renan]Here are a number of facts about the [<=] and [<] relations that
-    we are going to need later in the course.  The proofs make good
-    practice exercises. *)
+(** Aqui estão uma série de fatos, sobre as relações [<=] e [<], que iremos 
+    precisar mais tarde no curso. As provas são bons exercícios práticos. *)
 
 Lemma le_trans : forall m n o, m <= n -> n <= o -> m <= o.
 Proof.
@@ -813,16 +812,16 @@ Inductive R : nat -> nat -> nat -> Prop :=
 End R.
 
 (** **** Exercício: nível 4, avançado (subsequence)  *)
-(** [Renan]A list is a _subsequence_ of another list if all of the elements
-    in the first list occur in the same order in the second list,
-    possibly with some extra elements in between. For example,
+(** Uma lista é uma _subsequência_ de outra lista se todos os elementos da 
+    primeira lista ocorrem na mesma ordem na segunda lista, possivelmente 
+    com alguns elementos extras entre eles. Por exemplo, 
     [1,2,3]
-    is a subsequence of each of the lists
+    é uma subsequência de cada uma das listas
     [1,2,3]
     [1,1,1,2,2,3]
     [1,2,7,3]
     [5,6,1,9,9,2,7,3,8]
-    but it is _not_ a subsequence of any of the lists
+    mas _não_ é uma subsequência de nenhuma das listas
     [1,2]
     [1,3]
     [5,6,2,1,7,3,8]
@@ -848,12 +847,12 @@ End R.
 (** [] *)
 
 (** **** Exercício: nível 2, opcional (R_provability)  *)
-(** [Renan]Suppose we give Coq the following definition:
+(** Suponha que fornecemos a Coq as seguintes definições:
     Inductive R : nat -> list nat -> Prop :=
       | c1 : R 0 []
       | c2 : forall n l, R n l -> R (S n) (n :: l)
       | c3 : forall n l, R (S n) l -> R n l.
-    Which of the following propositions are provable?
+    Quais das proposições seguintes são demonstráveis?
 
     - [R 2 [1,0]]
     - [R 1 [1,2,1,0]]
@@ -908,8 +907,8 @@ Definition plus_fact : Prop  :=  2 + 2 = 4.
 Check plus_fact.
 (* ===> plus_fact : Prop *)
 
-(** [Renan]We can later use this name in any situation where a proposition is
-    expected -- for example, as the claim in a [Theorem] declaration. *)
+(** Podemos usar esse nome em qualquer situação onde é esperada uma 
+    proposição -- por exemplo, como uma alegação em uma declaração [Theorem]. *)
 
 Theorem plus_fact_is_true : 
   plus_fact.
@@ -960,8 +959,8 @@ Definition true_for_zero (P:nat->Prop) : Prop :=
   P 0.
 
 (** *** *)
-(** [Renan]Here are two more examples of passing parameterized propositions
-    as arguments to a function.  
+(** Aqui estão mais dois exemplos de passagem de proposições parametrizadas 
+    como argumentos para uma função.
 
 	A primeira função, [true_for_all_numbers], toma uma proposição [P] como 
 	argumento e constrói a proposição de que [P] é verdadeira para todos os 
@@ -1032,12 +1031,12 @@ Proof.
 (** [] *)
 
 (* ##################################################### *)
-(** [Renan]One more quick digression, for adventurous souls: if we can define
-    parameterized propositions using [Definition], then can we also
-    define them using [Fixpoint]?  Of course we can!  However, this
-    kind of "recursive parameterization" doesn't correspond to
-    anything very familiar from everyday mathematics.  The following
-    exercise gives a slightly contrived example. *)
+(** Mais uma digressão rápida, para as almas aventureiras: se podemos 
+    definir proposições parametrizadas utilizando [Definition], então 
+    podemos também defini-las usando [Fixpoint]? Claro que sim!  No 
+    entanto, este tipo de "parametrização recursiva" não corresponde 
+    a nada coisa muito familiar da matemática cotidiana. O exercício 
+    seguinte dá um pequeno exemplo. *)
 
 (** **** Exercício: nível 4, opcional (true_upto_n__true_everywhere)  *)
 (** Defina uma função recursiva [true_upto_n__true_everywhere] que      
