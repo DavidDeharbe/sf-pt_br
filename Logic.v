@@ -28,8 +28,8 @@ Require Export MoreCoq.
 *)
 
 
-(** [Francisco]In Coq, the type of things that can (potentially) 
-    be proven is [Prop]. *)
+(** Em Coq, o tipo das coisas que podem (potencialmente)
+    ser provados é [Prop]. *)
 
 (** Aqui está um exemplo de uma proposição demonstrável: *)
 
@@ -58,12 +58,11 @@ Check (forall (n:nat), n = 2).
 Lemma silly : 0 * 3 = 0.  
 Proof. reflexivity. Qed.
 
-    [Francisco]the tactics we use within the [Proof]...[Qed] keywords tell Coq
-    how to construct a proof term that inhabits the proposition.  In
-    this case, the proposition [0 * 3 = 0] is justified by a
-    combination of the _definition_ of [mult], which says that [0 * 3]
-    _simplifies_ to just [0], and the _reflexive_ principle of
-    equality, which says that [0 = 0].
+    As táticas que nós usamos dentro das palavras chaves [Proof]...[Qed]
+    diz para Coq como construir um termo de prova que habita a proposição. Neste caso,
+    a proposição [0 * 3 = 0] é justificado por uma combinação da _definição_ de [mult],
+    ao quais diz que [0 * 3] é _simplificado_ apenas para [0], e o princípio da igualdade, 
+    _reflexividade_, que diz que [0 = 0].
 
 
 *)
@@ -107,9 +106,10 @@ Print silly_implication.
 
 (** ** Definição de Proposições *)
 
-(** [Francisco]Just as we can create user-defined inductive types (like the
-    lists, binary representations of natural numbers, etc., that we
-    seen before), we can also create _user-defined_ propositions.
+(** Assim como podemos criar tipo indutivos definidos 
+    pelo usuário (como as listas, representação binária de números naturais, 
+    etcs., que nós vimos antes), nós também podemos criar proposições _definidos
+    pelo usuário_.
 
     Pergunta: Como você define o significado de uma proposição?  
 *)
@@ -133,9 +133,8 @@ outra evidência.
 (* ########################################################### *)
 (** * Conjunção ("e" Lógico) *)
 
-(** [Francisco]The logical conjunction of propositions [P] and [Q] can be
-    represented using an [Inductive] definition with one
-    constructor. *)
+(** A conjunção lógica de proposições [P] e [Q] pode
+    ser representado usando uma definição [Inductive] com um construtor. *)
 
 Inductive and (P Q : Prop) : Prop :=
   conj : P -> Q -> (and P Q). 
@@ -160,7 +159,7 @@ Notation "P /\ Q" := (and P Q) : type_scope.
 (** (A anotação [type_scope] diz ao Coq que essa notação
     irá aparecer em preposições, não em valores.) *)
 
-(** [Francisco]Consider the "type" of the constructor [conj]: *)
+(** Considere o "tipo" do construtor [conj]: *)
 
 Check conj.
 (* ===>  forall P Q : Prop, P -> Q -> P /\ Q *)
@@ -245,8 +244,7 @@ Proof.
 (* ###################################################### *)
 (** * Se e Somente Se *)
 
-(** [Francisco]The handy "if and only if" connective is just the conjunction of
-    two implications. *)
+(** O conveniente conectivo "se e somento se" é apenas a conjunção de duas implicações. *)
 
 Definition iff (P Q : Prop) := (P -> Q) /\ (Q -> P).
 
@@ -314,9 +312,9 @@ Notation "P \/ Q" := (or P Q) : type_scope.
 Check or_introl.
 (* ===>  forall P Q : Prop, P -> P \/ Q *)
 
-(** [Francisco]It takes 3 inputs, namely the propositions [P], [Q] and
-    evidence of [P], and returns, as output, the evidence of [P \/ Q].
-    Next, look at the type of [or_intror]: *)
+(** Isto leva 3 entradas, nomeadamento as proposições [P], [Q] e
+    evidência de [P], e retorna, como saída, a evidência de [P \/ Q].
+    Depois, olhe o tipo de [or_intror]: *)
 
 Check or_intror.
 (* ===>  forall P Q : Prop, Q -> P \/ Q *)
@@ -345,8 +343,8 @@ Proof.
     Case "left". apply or_intror. apply HP.
     Case "right". apply or_introl. apply HQ.  Qed.
 
-(** [Francisco]From here on, we'll use the shorthand tactics [left] and [right]
-    in place of [apply or_introl] and [apply or_intror]. *)
+(** Daqui em diante, nós usaremos as táticas [left] e [right]
+    nós lugar de [apply or_introl] e [apply or_intror]. *)
 
 Theorem or_commut' : forall P Q : Prop,
   P \/ Q  -> Q \/ P.
@@ -461,8 +459,8 @@ Proof.
     não tem casos possíveis na submeta e a prova está feita. *)
 
 (** *** *)
-(** [Francisco]Conversely, the only way to prove [False] is if there is already
-    something nonsensical or contradictory in the context: *)
+(** Reciprocamente, o único jeito de provar [False] é se já existe 
+    algo sem sentido ou contraditório no contexto: *)
 
 Theorem nonsense_implies_False :
   2 + 2 = 5 -> False.
@@ -509,8 +507,8 @@ explosão_. *)
 (* #################################################### *)
 (** * Negação *)
 
-(** [Francisco]The logical complement of a proposition [P] is written [not
-    P] or, for shorthand, [~P]: *)
+(** O complemento lógico da proposição [P] é escrito [not
+    P] ou, pelo atalho, [~P]: *)
 
 Definition not (P:Prop) := P -> False.
 
@@ -593,14 +591,13 @@ Proof.
   Abort.
 
 (** **** Exercício: 5 stars, avançado, opcional (classical_axioms)  *)
-(** [Francisco]For those who like a challenge, here is an exercise
-    taken from the Coq'Art book (p. 123).  The following five
-    statements are often considered as characterizations of
-    classical logic (as opposed to constructive logic, which is
-    what is "built in" to Coq).  We can't prove them in Coq, but
-    we can consistently add any one of them as an unproven axiom
-    if we wish to work in classical logic.  Prove that these five
-    propositions are equivalent. *)
+(** Para aqueles que gostam de um desafio, aqui está um exercício
+    tirado do livro Coq'Art (p. 123). As cincos sentenças seguintes são 
+    frequentemente considerados como caracterização de lógica clássica (como 
+    oposto a lógica construtiva, ao qual é o que é "construído" em Coq). Nós podemos
+    consistencialmente adicionar qualquer um deles como um axioma não-provado se nós
+    desejamos trabalhar com lógica classica. Prova que essas cincos proposições são
+    equivalentes. *)
 
 Definition peirce := forall P Q: Prop, 
   ((P->Q)->P)->P.
