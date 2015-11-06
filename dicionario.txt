@@ -43,3 +43,4 @@ string(s): cadeia de caracteres
 tail: cauda
 (to) type: tipar
 wildcard: coringa
+tactical: tática
