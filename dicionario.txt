@@ -31,6 +31,9 @@ pattern matching: casamento de padrões
 pedantic: minucioso(a)
 pigeonhole principle: princípio da casa dos pombos
 pretty printer: formatador de código
+proof: demonstra�ão
+proof object: objeto demonstrador
+proof term: expressão demonstradora
 qualifier: marcador
 (to) reason: raciocinar
 (to) rewrite: reescrever

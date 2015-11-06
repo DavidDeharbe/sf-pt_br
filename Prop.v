@@ -21,11 +21,11 @@ Definition even (n:nat) : Prop :=
     nomes para expressões de outros tipos. Ela não é fundamentalmente um
     novo tipo de proposição;  Ela ainda é apenas uma igualdade. *)
 
-(** [Francisco] Another alternative is to define the concept of evenness
-    directly.  Instead of going via the [evenb] function ("a number is
-    even if a certain computation yields [true]"), we can say what the
-    concept of evenness means by giving two different ways of
-    presenting _evidence_ that a number is even. *)
+(** Uma outra alternativa é definir o conceito de uniformidade
+    diretamente. Em vez de ser via a função [evenb] ("um número é par se
+    um determinado rendimento de computação é [verdadeiro]"), nós podemos
+    dizer que o conceito de uniformidade significa quedando duas maneiras
+    diferentes de apresentar _evidência_ de que um número é par. *)
 
 Inductive ev : nat -> Prop :=
   | ev_0 : ev O
@@ -71,14 +71,14 @@ Proof.
 (** Informalmente, um número é [beautiful] se ele é [0], [3], [5], ou a
     soma de dois números [beautiful].  
 
-    [Francisco] More pedantically, we can define [beautiful] numbers by giving 
-    four rules:
+    Mais pedantemente, nós podemos definir o número [beautiful]
+    dando quarto regras:
 
-       - Rule [b_0]: The number [0] is [beautiful].
-       - Rule [b_3]: The number [3] is [beautiful]. 
-       - Rule [b_5]: The number [5] is [beautiful]. 
-       - Rule [b_sum]: If [n] and [m] are both [beautiful], then so is
-         their sum. *)
+       - Regra [b_0]: O número [0] é [beautiful].
+       - Regra [b_3]: O número [3] é [beautiful]. 
+       - Regra [b_5]: O número [5] é [beautiful]. 
+       - Regra [b_sum]: Se [n] e [m] são ambos [beautiful], logo a soma
+         deles também é. *)
 
 (** Veremos muitas definições como esta durante o resto do curso, e 
     para fins de discussões informais, é útil ter uma notação leve 
@@ -147,8 +147,8 @@ então significa que a conclusão é válida incondicionalmente.
 (* ####################################################### *)
 (** ** Construindo Evidência *)
 
-(** [Francisco] In Coq, we can express the definition of [beautiful] as
-    follows: *)
+(** Em Coq, nós podemos expressar a definição de [beautiful]
+    como se segue: *)
 
 Inductive beautiful : nat -> Prop :=
   b_0   : beautiful 0
@@ -230,11 +230,11 @@ Proof.
         é beautiful). *)
 
 (** *** *)    
-(** [Francisco]This permits us to _analyze_ any hypothesis of the form [beautiful
-    n] to see how it was constructed, using the tactics we already
-    know.  In particular, we can use the [induction] tactic that we
-    have already seen for reasoning about inductively defined _data_
-    to reason about inductively defined _evidence_.
+(** Isto nós permite _analisar_ qualquer hipótese da forma
+    [beautiful n] para ver como ele foi construído, usando a tática que
+    nós já conhecemos. Em particular, nós podemos usar a tática de
+    [induction] que nós já vimos para raciocinar sobre o _dado_ definido
+    indutivamente para racionar sobre a _evidência_ definida indutivamente.
 
     Para ilustrar isso, vamos definir uma outra propriedade de números: *)
 
@@ -303,7 +303,7 @@ Proof.
 Qed.
 
 
-(* [Francisco]These exercises also require the use of induction on the evidence. *)
+(* Estes exercícios também requisitão o uso de indução na evidência. *)
 
 (** **** Exercício: nível 2 (gorgeous_sum)  *)
 Theorem gorgeous_sum : forall n m,
@@ -371,8 +371,8 @@ Qed.
          Case "O". simpl. apply ev_0.
          Case "S".
            ...
-   [Francisco]Intuitively, we expect the proof to fail because not every
-   number is even. However, what exactly causes the proof to fail?
+   Intuitivamente, nós esperamos que a prova falhe porque 
+   nem todo número é par. Contudo, o que exatamente causa a falha da prova?
 
 (* PREENCHER *)
 *)
@@ -433,10 +433,10 @@ Proof.
     [inversion] também pode ser aplicada para análisar evidências
     de proposições indutivamente definidas.
 
-    [Francisco](You might also expect that [destruct] would be a more suitable
-    tactic to use here. Indeed, it is possible to use [destruct], but 
-    it often throws away useful information, and the [eqn:] qualifier
-    doesn't help much in this case.)    
+    (Você também deve esperar que [destruct] seria uma tática
+    mais adequada de usar aqui. De fato, é possível fazer o uso do [destruct], 
+    mas ele frequentemente descarta informações úteis. e o qualtificador
+    [eqn:] não ajuda muito nesse caso.)    
 
     Aqui está como [inversion] funciona no geral.  Suponha que o nome 
     [I] refere-se a uma suposição [P] no contexto atual, onde [P] 
@@ -496,12 +496,12 @@ Proof.
 (** * Discussões e Variantes *)
 (** ** Definição Computacional ou Definição Indutiva *)
 
-(** [Francisco]We have seen that the proposition "[n] is even" can be
-    phrased in two different ways -- indirectly, via a boolean testing
-    function [evenb], or directly, by inductively describing what
-    constitutes evidence for evenness.  These two ways of defining
-    evenness are about equally easy to state and work with.  Which we
-    choose is basically a question of taste.
+(** Nós temos visto que a proposição "[n] é par" pode ser
+    fraseado de duas maneiras diferentes -- indiretamente, via um teste
+    da função booleana [evenb], ou diretamente, descrevendo indutivamente
+    que constitui a evidência para uniformidade. Essas maneiras de definir
+    uniformidade são igualmente fáceis de declarar e trabalhar com eles.
+    Ao qual a escolhe se dá basicamente em questão de gosto.
 
     No entanto, para muitas outras propriedades de interesse, a 
     definição indutiva direta é preferível, uma vez que escrever 
@@ -549,9 +549,9 @@ Proof.
     Case "el_cc".  simpl.  apply ev_SS. apply IHev_list.
 Qed.
 
-(** [Francisco]However, because evidence for [ev] contains less information than
-evidence for [ev_list], the converse direction must be stated very
-carefully. *)
+(** Contudo, por causa da evidência [ev] contém menos informações que
+    a evidência de [ev_list], a conversão direta deve ser declarada muito
+    cuidadosamente. *)
 
 Lemma ev_length__ev_list: forall X n, ev n -> forall (l : list X), n = length l -> ev_list l.
 Proof.
@@ -617,11 +617,10 @@ Module LeModule.
 (** Um exemplo útil é relação "menor que ou igual à"
     em números. *)
 
-(** [Francisco]The following definition should be fairly intuitive.  It
-    says that there are two ways to give evidence that one number is
-    less than or equal to another: either observe that they are the
-    same number, or give evidence that the first is less than or equal
-    to the predecessor of the second. *)
+(** A definição seguinte deve ser razoavelmente intuitivo. Isto
+    diz que existe duas maneiras de dar evidência que um número é menor ou 
+    igual a outro: Ou observe que eles são os mesmos número, ou dado evidência
+    que o primeiro é menor ou igual ao predecessor do segundo. *)
 
 Inductive le : nat -> nat -> Prop :=
   | le_n : forall n, le n n
@@ -695,8 +694,8 @@ Inductive next_even : nat -> nat -> Prop :=
 (** [] *)
 
 (** **** Exercício: nível 2 (empty_relation)  *)
-(** [Francisco]Define an inductive binary relation [empty_relation] (on numbers)
-    that never holds. *)
+(** Defina uma releção binária indutiva [empty_relation] (em números)
+    que não mantém. *)
 
 (* PREENCHER *)
 (** [] *)
@@ -800,10 +799,10 @@ Inductive R : nat -> nat -> nat -> Prop :=
 *)
 
 (** **** Exercício: nível 3, opcional (R_fact)  *)  
-(** [Francisco]Relation [R] actually encodes a familiar function.  State and prove two
-    theorems that formally connects the relation and the function. 
-    That is, if [R m n o] is true, what can we say about [m],
-    [n], and [o], and vice versa?
+(** Relação [R] realmente codifica uma função familiar. Declare e
+    prove dois teoremas que formalmente conecte a relação e a função.
+    Isto é, se [R m n o] é verdadeiro, o que nós podemos dizer sobre [m],
+    [n], e [o], e vice versa?
 *)
 
 (* PREENCHER *)
@@ -837,10 +836,10 @@ End R.
       se [l1] é uma subsequência de [l2], então [l1] também é uma subsequência
       de [l2 ++ l3].
 
-    [Francisco]- (Optional, harder) Prove [subseq_trans] that subsequence is 
-      transitive -- that is, if [l1] is a subsequence of [l2] and [l2] 
-      is a subsequence of [l3], then [l1] is a subsequence of [l3].  
-      Hint: choose your induction carefully!
+    - (Opcional, difícil) Prove [subseq_trans] que subsequência é
+      transitivo -- isto é, se [l1] é subsequência de [l2] e [l2] é uma 
+      subsequência de [l3], então [l1] é uma subsequência de [l3].
+      Dica: escolha sua indução cuidadosamente.
 *)
 
 (* PREENCHER *)
@@ -899,9 +898,10 @@ Theorem plus_2_2_is_4 :
   2 + 2 = 4.
 Proof. reflexivity.  Qed.
 
-(** [Francisco]But they can be used in many other ways.  For example, we have also seen that
-    we can give a name to a proposition using a [Definition], just as we have
-    given names to expressions of other sorts. *)
+(** Mas eles podem ser usados em muitas outras maneiras. Por exemplo,
+    nós também temos visto que nós pode dar um nome para uma proposição usando
+    um [Definition], assim como nós temos dado nomes para expressões de outros
+    tipos. *)
 
 Definition plus_fact : Prop  :=  2 + 2 = 4.
 Check plus_fact.
@@ -952,8 +952,8 @@ Definition between (n m o: nat) : Prop :=
 
 Definition teen : nat->Prop := between 13 19.
 
-(** [Francisco]We can even pass propositions -- including parameterized
-    propositions -- as arguments to functions: *)
+(** Nós podemos passar proposição par -- incluindo proposições
+    parametizados -- como argumentos para funções: *)
 
 Definition true_for_zero (P:nat->Prop) : Prop :=
   P 0.
@@ -1001,8 +1001,8 @@ Definition natural_number_induction_valid : Prop :=
 Definition combine_odd_even (Podd Peven : nat -> Prop) : nat -> Prop :=
   (* PREENCHER *) admit.
 
-(** [Francisco]To test your definition, see whether you can prove the following
-    facts: *)
+(** Para testar a sua definição, veja se você pode provar
+    os fatos a seguir: *)
 
 Theorem combine_odd_even_intro : 
   forall (Podd Peven : nat -> Prop) (n : nat),
