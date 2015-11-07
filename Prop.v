@@ -13,8 +13,8 @@ Require Export Logic.
 Definition even (n:nat) : Prop := 
   evenb n = true.
 
-(** [Dalay] That is, we can define "[n] is even" to mean "the function [evenb]
-    returns [true] when applied to [n]."  
+(** Isso é, nós podemos definir "[n] é par" significando que "a função [evenb]
+    retorna [true] quando aplicada sobre [n]."
 
     Note que aqui temos dado um nome para
     uma proposição utilizando uma [Definition], assim como temos dado
@@ -64,9 +64,9 @@ Proof.
    definition.
 *)
 
-(** [Dalay] As another example of an inductively defined proposition, let's
-    define a simple property of natural numbers -- we'll call it
-    "[beautiful]." *)
+(** Como um outro exemplo de uma proposição definida indutivamente, vamos
+    definir uma simples propriedade de números naturais -- nós chamaremos
+    ela de "[beautiful]" ("bonito"). *)
 
 (** Informalmente, um número é [beautiful] se ele é [0], [3], [5], ou a
     soma de dois números [beautiful].  
@@ -130,8 +130,8 @@ então significa que a conclusão é válida incondicionalmente.
 *)
 (** *** *)
 (** 
-    [Dalay] Of course, there are other ways of using these rules to argue that
-    [8] is [beautiful], for instance:
+    Logicamente, há outras maneiras de usar essas regras para argumentar que
+    [8] é [beautiful], por exemplo:
          ----------- (b_5)   ----------- (b_3)
          beautiful 5         beautiful 3
          ------------------------------- (b_sum)
@@ -213,11 +213,11 @@ Proof.
 (** [Claudia]Besides _constructing_ evidence that numbers are beautiful, we can
     also _reason about_ such evidence. *)
 
-(** [Dalay]The fact that we introduced [beautiful] with an [Inductive]
-    declaration tells Coq not only that the constructors [b_0], [b_3],
-    [b_5] and [b_sum] are ways to build evidence, but also that these
-    four constructors are the _only_ ways to build evidence that
-    numbers are beautiful. *)
+(** O fato de que nós introduzimos [beatiful] com uma declaração
+    indutiva diz ao Coq não somente que os construtores [b_0], [b_3],
+    [b_5] e [b_sum] são modos de construir evidência, mas também que 
+    esses quatro construtores são os únicos meios de construir evidência 
+    de que esses números são bonitos. *)
 
 (** Em outras palavras, se alguém nos dá a evidência [E] para a asserção
     [beautiful n], então sabemos que [E] deve ter um desses quatro formatos:
@@ -274,13 +274,13 @@ Proof.
    Case "n = S n'". (* Estamos travados! *)
 Abort.
 
-(** [Dalay]The problem here is that doing induction on [n] doesn't yield a
-    useful induction hypothesis. Knowing how the property we are
-    interested in behaves on the predecessor of [n] doesn't help us
-    prove that it holds for [n]. Instead, we would like to be able to
-    have induction hypotheses that mention other numbers, such as [n -
-    3] and [n - 5]. This is given precisely by the shape of the
-    constructors for [gorgeous]. *)
+(** O problema aqui é que fazer indução em [n] não produz uma hipótese
+    de indução útil. Sabendo como a propriedade que nós estamos 
+    interessados se comporta no predecessor de [n] não nos ajuda
+    a provar que ela funciona em [n] ao invés disso, nós gostaríamos 
+    de poder ter hipóteses de indução que mencionem outros números,
+    como em [n - 3] and [n - 5]. Isso é dado precisamente pelo formato
+    dos construtores para [gorgeous]. *)
 
 
 (** *** *)
@@ -358,9 +358,9 @@ Qed.
 (* PREENCHER *)
 (** [] *)
 
-(** [Dalay]Intuitively, the induction principle [ev n] evidence [ev n] is
-    similar to induction on [n], but restricts our attention to only
-    those numbers for which evidence [ev n] could be generated. *)
+(** intuitivamente, o princípio da indução [ev n] evidência [ev n] é
+    similar à indução em [n], mas restringe a nossa atenção a somente
+    esses npumeros para os quais a evidência [ev n] pode ser gerada. *)
 
 (** **** Exercício: nível 1 (l_fails)  *)
 (** A tentativa de prova a seguir não irá funcionar.
@@ -414,8 +414,8 @@ Proof.
 (** [] *)
 
 (** *** *)
-(** [Dalay]Here is another example, in which [inversion] helps narrow down to
-the relevant cases. *)
+(** Aqui está outro exemplo, no qual [inversion] ajuda a limitar os
+    casos relevantes. *)
 
 Theorem SSev__even : forall n,
   ev (S (S n)) -> ev n.
@@ -471,8 +471,8 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 3, avançado (ev_ev__ev)  *)
-(** [Dalay]Finding the appropriate thing to do induction on is a
-    bit tricky here: *)
+(** Encontrar a coisa apropriada para fazer indução é um pouco
+    complicado aqui: *)
 
 Theorem ev_ev__ev : forall n m,
   ev (n+m) -> ev n -> ev m.
@@ -530,10 +530,10 @@ Proof.
 (* ####################################################### *)
 (** ** Estruturas de Dados com Parâmetros *)
 
-(** [Dalay]So far, we have only looked at propositions about natural numbers. However, 
-   we can define inductive predicates about any type of data. For example, 
-   suppose we would like to characterize lists of _even_ length. We can 
-   do that with the following definition.  *)
+(** Até agora, nós temos somente olhado para proposições a respeito de números
+    naturais. Porém, nós podemos definir predicados indutivos a respeito de qualquer
+    tipo de dado. por exemplo, suponha que nós queremos caracterizar listas de 
+    tamanhos uniformes. Nós podemos fazer isso com a seguinte definição.  *)
 
 Inductive ev_list {X:Type} : list X -> Prop :=
   | el_nil : ev_list []
@@ -604,12 +604,12 @@ provas *)
 (* ####################################################### *)
 (** ** Relações *)
 
-(** [Dalay]A proposition parameterized by a number (such as [ev] or
-    [beautiful]) can be thought of as a _property_ -- i.e., it defines
-    a subset of [nat], namely those numbers for which the proposition
-    is provable.  In the same way, a two-argument proposition can be
-    thought of as a _relation_ -- i.e., it defines a set of pairs for
-    which the proposition is provable. *)
+(** A proposição parametrizada por um número (como [ev] ou [beautiful])
+    pode ser pensada como uma _propriedade_ -- isto é, ela define
+    um subconjunto de [nat], nomeadamente os números para os quais a
+    proposição é provada. Do mesmo modo, uma proposição de dois argumentos 
+    pode ser pensada como uma _relação_ -- isto é, ela define um conjunto 
+    de pares para os quais a proposição é provada. *)
 
 Module LeModule.  
 
@@ -674,7 +674,7 @@ Definition lt (n m:nat) := le (S n) m.
 
 Notation "m < n" := (lt m n).
 
-(** [Dalay]Here are a few more simple relations on numbers: *)
+(** Aqui está algumas outras relações simples sobre números: *)
 
 Inductive square_of : nat -> nat -> Prop :=
   sq : forall n:nat, square_of n (n * n).
@@ -786,9 +786,9 @@ Inductive R : nat -> nat -> nat -> Prop :=
       - [R 1 1 2]
       - [R 2 2 6]
 
-    [Dalay]- If we dropped constructor [c5] from the definition of [R],
-      would the set of provable propositions change?  Briefly (1
-      sentence) explain your answer.
+    - Se nós desistirmos do construtor [c5] da definição de [R],
+      O conjunto de proposições prováveis iria mudar? sucintamente
+      (uma setença) explique a sua resposta.
   
     - Se nós utilizarmos o construtor [c4] a partir da definição de [R],
       poderá o conjunto de proposições prováveis mudar?  Brevemente (1
@@ -829,8 +829,8 @@ End R.
       captures what it means to be a subsequence. (Hint: You'll need
       three cases.)
 
-    [Dalay]- Prove [subseq_refl] that subsequence is reflexive, that is, 
-      any list is a subsequence of itself.  
+    - Prove que subsequência é reflexiva, isso é, qualquer lista é
+      uma subsequência de si mesma.  
 
     - Provar [subseq_app] que para qualquer lista [l1], [l2], e [l3], 
       se [l1] é uma subsequência de [l2], então [l1] também é uma subsequência
@@ -887,8 +887,7 @@ Check (2 + 2 = 5).
 Check (beautiful 4).
 (* ===> beautiful 4 : Prop *)
 
-(** [Dalay]Both [2 + 2 = 4] and [2 + 2 = 5] are legal expressions
-    of type [Prop]. *)
+(** Ambas [2 + 2 = 4] e [2 + 2 = 5] São expressões legais do tipo [Prop]. *)
 
 (** *** *)
 (** Nós temos principalmente visto um lugar que proposições podem aparecer em
@@ -936,10 +935,11 @@ Check even.
 (* ===> even : nat -> Prop *)
 
 (** *** *)
-(** [Dalay]The type of [even], i.e., [nat->Prop], can be pronounced in
-    three equivalent ways: (1) "[even] is a _function_ from numbers to
-    propositions," (2) "[even] is a _family_ of propositions, indexed
-    by a number [n]," or (3) "[even] is a _property_ of numbers."  *)
+(** O tipo de [even], isto é, [nat->prop], pode ser pronunciado de
+    três modos equivalentes: (1) "[even] é uma _função_ de números 
+    para proposições," (2) "[even] é uma _família_ de proposições, 
+    indexada por um número [n]," ou (3) "[even] é uma _propriedade_
+    de números."  *)
 
 (** Proposições -- incluindo proposições parametrizadas -- são
     cidadãos de primeira classe em Coq.  Por exemplo, nós podemos definir
@@ -978,8 +978,8 @@ Definition preserved_by_S (P:nat->Prop) : Prop :=
   forall n', P n' -> P (S n').
 
 (** *** *)
-(** [Dalay]Finally, we can put these ingredients together to define
-a proposition stating that induction is valid for natural numbers: *)
+(** Finalmente, nós podemos pôr esses ingredientes juntos para definir
+    uma proposição declarando que indução é válida para números naturais: *)
 
 Definition natural_number_induction_valid : Prop :=
   forall (P:nat->Prop),
