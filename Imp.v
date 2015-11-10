@@ -53,8 +53,8 @@ Require Export SfLib.
 
 Module AExp.
 
-(** [Vítor]These two definitions specify the _abstract syntax_ of
-    arithmetic and boolean expressions. *)
+(** Estas duas definições especificam a _sintaxe abstrata_ para expressões aritméticas e 
+booleanas. *)
 
 Inductive aexp : Type :=
   | ANum : nat -> aexp
