@@ -12,12 +12,11 @@ Require Export "Prop".
 Inductive ex (X:Type) (P : X->Prop) : Prop :=
   ex_intro : forall (witness:X), P witness -> ex X P.
 
-(** [Dalay]That is, [ex] is a family of propositions indexed by a type [X]
-    and a property [P] over [X].  In order to give evidence for the
-    assertion "there exists an [x] for which the property [P] holds"
-    we must actually name a _witness_ -- a specific value [x] -- and
-    then give evidence for [P x], i.e., evidence that [x] has the
-    property [P]. 
+(** Isso é, [ex] é uma família de poposições indexadas por um tipo [X]
+    e uma propriedade [P] sobre [X]. A fim de dar evidência para a asserção
+    "Existe um [X] para o qual a propriedade [P] é obedecida" nós devemos 
+    nomear uma _testemunha_ -- um valor específico [x] -- e então dar
+    evidência para [P x], isto é, evidência que [x] tem a propriedade [P].
 
 *)
 
@@ -80,7 +79,7 @@ Proof.
   apply Hm.  Qed. 
 
 
-(** [Dalay]Here is another example of how to work with existentials. *)
+(** Aqui está outro exemplo de como trabalhar com existenciais. *)
 Lemma exists_example_3 : 
   exists (n:nat), even n /\ beautiful n.
 Proof.
@@ -146,8 +145,8 @@ Proof.
     quickly gets tedious. *)
 
 (** *** *)
-(** [Dalay]It turns out that we can get the benefits of both forms at once by
-    using a construct called [sumbool]. *)
+(** Acontece que nós podemos obter os benefícios de ambas as formas de uma 
+    só vez usando um construtor chamado [sumbool]. *)
 
 Inductive sumbool (A B : Prop) : Set :=
  | left : A -> sumbool A B 
@@ -243,9 +242,9 @@ Proof.
 (** * Exercícios Adicionais *)
 
 (** **** Exercício: nível 3 (all_forallb)  *)
-(** [Dalay]Inductively define a property [all] of lists, parameterized by a
-    type [X] and a property [P : X -> Prop], such that [all X P l]
-    asserts that [P] is true for every element of the list [l]. *)
+(** Indutivamente defina uma propriedade [all] de listas, parametrizadas
+    por um tipo [X] e uma propriedade [P : X -> Prop], de modo que [all X P l]
+    afirma que [P] é verdade para cada elemento da lista [l]. *)
 
 Inductive all (X : Type) (P : X -> Prop) : list X -> Prop :=
   (* PREENCHER *)
@@ -281,18 +280,18 @@ com uma especificação. Aqui está a especificação, escrita informalmente em 
     satisfies [test] and no item in [l2] satisfies test.  Then [filter
     test l = l1].
 
-    [Dalay]A list [l] is an "in-order merge" of [l1] and [l2] if it contains
-    all the same elements as [l1] and [l2], in the same order as [l1]
-    and [l2], but possibly interleaved.  For example, 
+    Uma lista [l] é uma "mistura em ordem" de [l1] e [l2] se ela contém
+    todos os elementos de [l1] e [l2], na mesma ordem que [l1] e [l2], mas 
+    possivelmente intercalados. Por exemplo,
     [1,4,6,2,3]
-    is an in-order merge of
+    é uma mistura em ordem de
     [1,6,2]
-    and
+    e
     [4,3].
-    Your job is to translate this specification into a Coq theorem and
-    prove it.  (Hint: You'll need to begin by defining what it means
-    for one list to be a merge of two others.  Do this with an
-    inductive relation, not a [Fixpoint].)  *)
+    Seu trabalho é traduzir essa especificação em um teorema Coq e provar
+    isso. (Dica: Você vai precisar começar definindo o que significa para
+    uma lista ser uma misturada de duas outras. Faça isso com uma relação 
+    indutiva, não um [Fixpoint].)  *)
 
 (* PREENCHER *)
 (** [] *)
@@ -336,12 +335,12 @@ Proof.
 
 (* PREENCHER *)
 
-(** [Dalay]Next, use [appears_in] to define an inductive proposition
-    [no_repeats X l], which should be provable exactly when [l] is a
-    list (with elements of type [X]) where every member is different
-    from every other.  For example, [no_repeats nat [1,2,3,4]] and
-    [no_repeats bool []] should be provable, while [no_repeats nat
-    [1,2,1]] and [no_repeats bool [true,true]] should not be.  *)
+(** Em seguida, use [appears_in] para definir uma proposição indutiva
+    [no_repeats X l], que deve ser provável exatamente quando [l] é uma 
+    lista (com elementos do tipo [X]) onde cada membro é diferente dos 
+    outros. Por exemplo, [no_repeats nat [1,2,3,4]] e [no_repeats bool []] 
+    devem ser prováveis, enquanto [no_repeats nat [1,2,1]] e 
+    [no_repeats bool [true, true]] não devem ser.  *)
 
 (* PREENCHER *)
 
@@ -372,12 +371,11 @@ mudar a prova se a que lhe for dada não funcionar para você. A sua definição
 diferente da minha e ainda assim ser correta, talvez precisando, sendo este o caso, que 
 os exemplos tenham provas diferentes.
 
-    [Dalay]The suggested proofs for the examples (in comments) use a number
-    of tactics we haven't talked about, to try to make them robust
-    with respect to different possible ways of defining [nostutter].
-    You should be able to just uncomment and use them as-is, but if
-    you prefer you can also prove each example with more basic
-    tactics.  *)
+    As provas sugeridas para os exemplos (nos comentários) usam um número de 
+    táticas que nós ainda não falamos, para tentar torná-los robustos em relação 
+    a diferentes formas possíveis de definir [nostutter]. Você deve poder apenas 
+    descomentar e usá-las como são. mas se você preferir, você pode também
+    provar cada exemplo com táticas mais básicas. *)
 
 Example test_nostutter_1:      nostutter [3;1;4;1;5;6].
 (* PREENCHER *) Admitted.
