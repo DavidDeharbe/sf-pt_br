@@ -50,7 +50,7 @@ Proof.
   apply ex_intro with (witness:=2). 
   reflexivity.  Qed.
 
-(** [Renan]Note that we have to explicitly give the witness. *)
+(** Note que nós temos que fornecer explicitamente a variável witness. *)
 
 (** *** *)
 (**Ou, no lugar de escrever [apply ex_intro with (witness:=e)] todas as vezes, podemos 
@@ -113,8 +113,8 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 3, opcional (not_exists_dist)  *)
-(** [Renan](The other direction of this theorem requires the classical "law
-    of the excluded middle".) *)
+(** (A outra direção deste teorema requer a clássica "lei do terceiro 
+    excluído".) *)
 
 Theorem not_exists_dist :
   excluded_middle ->
@@ -190,18 +190,19 @@ Proof.
       right. intros Heq. inversion Heq as [Heq']. apply neq. apply Heq'.
 Defined. 
   
-(** [Renan]Read as a theorem, this says that equality on [nat]s is decidable:
-    that is, given two [nat] values, we can always produce either
-    evidence that they are equal or evidence that they are not.  Read
-    computationally, [eq_nat_dec] takes two [nat] values and returns a
-    [sumbool] constructed with [left] if they are equal and [right] if
-    they are not; this result can be tested with a [match] or, better,
-    with an [if-then-else], just like a regular [boolean].  (Notice
-    that we ended this proof with [Defined] rather than [Qed].  The
-    only difference this makes is that the proof becomes
-    _transparent_, meaning that its definition is available when Coq
-    tries to do reductions, which is important for the computational
-    interpretation.) *) 
+(** Lido como um teorema, isso diz que a igualdade em [nat]s é decidível, 
+    ou seja, dados dois valores [nat], sempre podemos produzir ou uma 
+    prova de que eles são iguais ou uma prova de que eles não são. Lido 
+    computacionalmente, [eq_nat_dec] recebe dois valores [nat] e retorna 
+    um [sumbool] construído com [left] caso eles sejam iguais ou com 
+    [right] caso eles não sejam; esse resultado pode ser testado com um 
+    [match] ou, melhor, com um [if-then-else], exatamente como um [boolean] 
+    simples. (Observe que terminamos essa prova com [Defined] em vez de 
+    [Qed]. A única diferença que isso faz é que a prova se torna 
+    _transparente_, significando que a sua definição estará disponível 
+    quando Coq tentar fazer reduções, o que é importante para a 
+    interpretação computacional.)
+     *) 
 
 (** *** *)
 (** Abaixo um exemplo simples ilustrando as vantagens da forma [sumbool]. *)
@@ -263,8 +264,8 @@ Fixpoint forallb {X : Type} (test : X -> bool) (l : list X) : bool :=
     and prove that it satisfies the specification. Try to make your 
     specification as precise as possible.
 
-    [Renan]Are there any important properties of the function [forallb] which
-    are not captured by your specification? *)
+    Existem quaisquer propriedades importantes da função [forallb] que não são 
+    capturadas por sua especificação? *)
 
 (* PREENCHER *)
 (** [] *)
@@ -312,8 +313,8 @@ Inductive appears_in {X:Type} (a:X) : list X -> Prop :=
   | ai_here : forall l, appears_in a (a::l)
   | ai_later : forall b l, appears_in a l -> appears_in a (b::l).
 
-(** [Renan]...gives us a precise way of saying that a value [a] appears at
-    least once as a member of a list [l]. 
+(** ... nos fornece uma maneira precisa de dizer que um valor [a] aparece 
+    pelo menos uma vez como um membro de uma lista [l].
 
 	Para aquecer, é mostrado a seguir dois lemas a serem provados sobre [appears_in].
 *)
@@ -354,13 +355,12 @@ Proof.
 (** [Francisco]Formulating inductive definitions of predicates is an important
     skill you'll need in this course.  Try to solve this exercise
     without any help at all.
-
-    [Renan]We say that a list of numbers "stutters" if it repeats the same
-    number consecutively.  The predicate "[nostutter mylist]" means
-    that [mylist] does not stutter.  Formulate an inductive definition
-    for [nostutter].  (This is different from the [no_repeats]
-    predicate in the exercise above; the sequence [1;4;1] repeats but
-    does not stutter.) *)
+    
+    Dizemos que uma lista de números "gagueja" se ela repete o mesmo 
+    número consecutivamente. O predicado "[nostutter mylist]" significa 
+    que [mylist] não gagueja. Formular uma definição indutiva para 
+    [nostutter]. (Isso é diferente do predicado [no_repeats] no exercício 
+    acima; a sequência de [1;4;1] repete mas não gagueja.) *)
 
 Inductive nostutter:  list nat -> Prop :=
  (* PREENCHER *)
@@ -429,9 +429,9 @@ Lemma appears_in_app_split : forall (X:Type) (x:X) (l:list X),
 Proof.
   (* PREENCHER *) Admitted.
 
-(** [Renan]Now define a predicate [repeats] (analogous to [no_repeats] in the
-   exercise above), such that [repeats X l] asserts that [l] contains
-   at least one repeated element (of type [X]).  *)
+(** Agora defina um predicado [repeats] (análogo a [no_repeats] no exercício 
+    acima), de tal modo que [repeats X l] afirme que [l] contém pelo menos um 
+    elemento repetido (do tipo [X]).  *)
 
 Inductive repeats {X:Type} : list X -> Prop :=
   (* PREENCHER *)
