@@ -37,12 +37,12 @@ Notation "'exists' x : X , p" := (ex _ (fun x:X => p))
   (at level 200, x ident, right associativity) : type_scope.
 
 (** *** *)
-(** [Francisco]We can use the usual set of tactics for
-    manipulating existentials.  For example, to prove an
-    existential, we can [apply] the constructor [ex_intro].  Since the
-    premise of [ex_intro] involves a variable ([witness]) that does
-    not appear in its conclusion, we need to explicitly give its value
-    when we use [apply]. *)
+(** Nós podemos usar o conjunto de táticas habituais
+    para manipulação existencial. Por exemplo, para provar um existencial
+    nós podemos [aplicar] o construtor [ex_intro]. Desde que a premissa
+    de [ex_intro] envolve uma variável ([witness]) que não aparece na
+    conclusão, nós precisamos explícitamente informa-lo o valor quen nós
+    usamos o [apply]. *)
 
 Example exists_example_1 : exists n, n + (n * n) = 6.
 Proof.
@@ -102,8 +102,8 @@ Qed.
 (*
 *)
 (** **** Exercício: nível 1 (dist_not_exists)  *)
-(** [Francisco]Prove that "[P] holds for all [x]" implies "there is no [x] for
-    which [P] does not hold." *)
+(** Prove que "[P] é verdade para todo [x]" implica que " não existe [x] para
+    qual [P] não é verdade." *)
 
 Theorem dist_not_exists : forall (X:Type) (P : X -> Prop),
   (forall x, P x) -> ~ (exists x, ~ P x).
@@ -164,7 +164,7 @@ Notation "{ A } + { B }" :=  (sumbool A B) : type_scope.
     técnica a qual nos permite calcular com eles.) *)
 (** *** *)
 
-(** [Francisco]Here's how we can define a [sumbool] for equality on [nat]s *)
+(** Aqui está como nós definimos um [sumbool] para igualdade em [nat]s *)
 
 Theorem eq_nat_dec : forall n m : nat, {n = m} + {n <> m}.
 Proof.
@@ -259,9 +259,9 @@ Fixpoint forallb {X : Type} (test : X -> bool) (l : list X) : bool :=
     | x :: l' => andb (test x) (forallb test l')
   end.
 
-(** [Francisco]Using the property [all], write down a specification for [forallb],
-    and prove that it satisfies the specification. Try to make your 
-    specification as precise as possible.
+(** Usando a propriedade [all], escreva abaixo uma especificação para [forallb],
+    e prova que ele satisfaz a especificação. Tente fazer a sua especificação a mais precisa
+    possível.
 
     Existem quaisquer propriedades importantes da função [forallb] que não são 
     capturadas por sua especificação? *)
@@ -306,7 +306,7 @@ com uma especificação. Aqui está a especificação, escrita informalmente em 
 (** [] *)
 
 (** **** Exercício: nível 4, avançado (no_repeats)  *)
-(** [Francisco]The following inductively defined proposition... *)
+(** A seguinte proposição definida indutivamente... *)
 
 Inductive appears_in {X:Type} (a:X) : list X -> Prop :=
   | ai_here : forall l, appears_in a (a::l)
@@ -351,9 +351,8 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 3 (nostutter)  *)
-(** [Francisco]Formulating inductive definitions of predicates is an important
-    skill you'll need in this course.  Try to solve this exercise
-    without any help at all.
+(** Formular definições indutivas de predicados é uma habilidade importante 
+    que você vai precisar neste curso. Tente resolver este exercício sem nenhuma ajuda.
     
     Dizemos que uma lista de números "gagueja" se ela repete o mesmo 
     número consecutivamente. O predicado "[nostutter mylist]" significa 
@@ -413,8 +412,8 @@ Example test_nostutter_4:      not (nostutter [3;1;1;4]).
    esse fato, aparentemente trivial, sobre números requer maquinária não
    trivial para provar, mas agora sabemos o suficiente... *)
 
-(** [Francisco]First a pair of useful lemmas (we already proved these for lists
-    of naturals, but not for arbitrary lists). *)
+(** Primeiro, um par de lemas útil(nós ja provamos eles para
+    listas de naturais, mas não para listas arbitrárias). *)
 
 Lemma app_length : forall (X:Type) (l1 l2 : list X),
   length (l1 ++ l2) = length l1 + length l2. 
