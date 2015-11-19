@@ -43,10 +43,11 @@ Require Export SfLib.
 (* ####################################################### *)
 (** * Expressões Aritméticas e Booleanas *)
 
-(** [Renan]We'll present Imp in three parts: first a core language of
-    _arithmetic and boolean expressions_, then an extension of these
-    expressions with _variables_, and finally a language of _commands_
-    including assignment, conditions, sequencing, and loops. *)
+(** Vamos apresentar Imp em três partes: primeiro, um núcleo de 
+    linguagem de _expressões aritméticas e booleanas_, em seguida, 
+    uma extensão dessas expressões com _variáveis_ e, finalmente, 
+    uma linguagem de _comandos_ que inclui atribuição, condições, 
+    sequenciamento e loops. *)
 
 (* ####################################################### *)
 (** ** Sintaxe *)
@@ -118,11 +119,11 @@ Inductive bexp : Type :=
          blackboard, where conveying general ideas is more important
          than getting every detail nailed down precisely.
 
-         [Renan]Indeed, there are dozens of BNF-like notations and people
-         switch freely among them, usually without bothering to say which
-         form of BNF they're using because there is no need to: a
-         rough-and-ready informal understanding is all that's
-         needed. *)
+         De fato, existem dezenas de notações do tipo BNF, e as pessoas 
+         alternam livremente entre elas, geralmente sem se importar em 
+         dizer qual forma de BNF elas estão usando, simplesmente porque 
+         não há necessidade: um entendimento informal improvisado é 
+         tudo que é necessário. *)
 
 (** É bom estar confortável com ambos os tipos de notações: os informais para a 
 comunicação 
@@ -191,9 +192,10 @@ Example test_optimize_0plus:
   = APlus (ANum 2) (ANum 1).
 Proof. reflexivity. Qed.
 
-(** [Renan]But if we want to be sure the optimization is correct --
-    i.e., that evaluating an optimized expression gives the same
-    result as the original -- we should prove it. *)
+(** Mas se nós quisermos ter certeza de que a otimização é 
+    correta -- ou seja, que avaliar uma expressão otimizada 
+    retorna o mesmo resultado que a original -- nós devemos provar 
+    isso. *)
 
 Theorem optimize_0plus_sound: forall a,
   aeval (optimize_0plus a) = aeval a.
@@ -266,11 +268,12 @@ Proof.
   repeat (apply ev_SS). apply ev_0. (* podemos continuar a demonstração *)
 Qed.
 
-(** [Renan]The [repeat T] tactic does not have any bound on the number of
-    times it applies [T]. If [T] is a tactic that always succeeds then
-    repeat [T] will loop forever (e.g. [repeat simpl] loops forever
-    since [simpl] always succeeds). While Coq's term language is
-    guaranteed to terminate, Coq's tactic language is not! *)
+(** A tática [repeat T] não tem qualquer limite com relação ao número 
+    de vezes que ela aplica [T]. Se [T] é uma tática que sempre é bem 
+    sucedida, então repeat [T] será um loop infinito (por exemplo, 
+    [repeat simpl] é um loop infinito já que [simpl] sempre funciona). 
+    Enquanto a linguagem de expressão de Coq garante término, a 
+    linguagem de tática de Coq não! *)
 
 (* ####################################################### *)
 (** *** O Tatical [try] *)
@@ -321,8 +324,8 @@ Proof.
   reflexivity. (* e aplique [reflexivity] a cada sub-meta resultante *)
 Qed.
 
-(** [Renan]Using [try] and [;] together, we can get rid of the repetition in
-    the proof that was bothering us a little while ago. *)
+(** Usando [try] e [;] juntos, podemos nos livrar da repetição na prova, 
+    o que estava nos incomodando até pouco tempo atrás. *)
 
 Theorem optimize_0plus_sound': forall a,
   aeval (optimize_0plus a) = aeval a.
@@ -379,25 +382,25 @@ prática possui um análogo em provas informais.
         simply calls itself recursively, and the result follows from
         the IH.  [] *)
 
-(** [Renan]This proof can still be improved: the first case (for [a = ANum
-    n]) is very trivial -- even more trivial than the cases that we
-    said simply followed from the IH -- yet we have chosen to write it
-    out in full.  It would be better and clearer to drop it and just
-    say, at the top, "Most cases are either immediate or direct from
-    the IH.  The only interesting case is the one for [APlus]..."  We
-    can make the same improvement in our formal proof too.  Here's how
-    it looks: *)
+(** Essa prova ainda pode ser melhorada: o primeiro caso (para 
+    [a = ANum n]) é muito trivial -- ainda mais trivial do que os casos 
+    que nós dissemos serem simplesmente seguidos da HI - ainda que 
+    tenhamos escolhido escrevê-lo na íntegra. Seria melhor e mais 
+    claro para eliminá-lo dizer, na parte superior, "A maioria dos 
+    casos são ou imediatos ou diretos da HI. O único caso interessante 
+    é o do [APlus]...". Nós podemos fazer a mesma melhoria em nossa 
+    prova formal também. Aqui está como ficaria: *)
 
 Theorem optimize_0plus_sound'': forall a,
   aeval (optimize_0plus a) = aeval a.
 Proof.
   intros a.
   induction a;
-    (* Most cases follow directly by the IH *)
+    (* A maioria dos casos seguem diretamente da HI *)
     try (simpl; rewrite IHa1; rewrite IHa2; reflexivity);
-    (* ... or are immediate by definition *)
+    (* ... ou são imediatos pela definição *)
     try reflexivity.
-  (* The interesting case is when a = APlus a1 a2. *)
+  (* O caso interessante é quando a = APlus a1 a2. *)
   Case "APlus".
     destruct a1; try (simpl; simpl in IHa1; rewrite IHa1;
                       rewrite IHa2; reflexivity).
