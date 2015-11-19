@@ -1570,17 +1570,17 @@ Proof.
 (** * Exercícios Extras *)
 
 (** **** Exercício: nível 3 (stack_compiler)  *)
-(** [Renan]HP Calculators, programming languages like Forth and Postscript,
-    and abstract machines like the Java Virtual Machine all evaluate
-    arithmetic expressions using a stack. For instance, the expression
+(** Calculadoras HP, linguagens de programação como Forth e Postscript, 
+    e máquinas virtuais como o Java Virtual Machine, todas avaliam 
+    expressões aritméticas usando uma pilha. Por exemplo, a expressão
 <<
    (2*3)+(3*(4-2))
 >>
-   would be entered as
+   seria inserida como 
 <<
    2 3 * 3 4 2 - * +
 >>
-   and evaluated like this:
+   e avaliada assim:
 <<
   []            |    2 3 * 3 4 2 - * +
   [2]           |    3 * 3 4 2 - * +
@@ -1660,13 +1660,12 @@ Example s_compile1 :
 (** [] *)
 
 (** **** Exercício: nível 3, avançado (stack_compiler_correct)  *)
-(** [Renan]The task of this exercise is to prove the correctness of the
-    compiler implemented in the previous exercise.  Remember that
-    the specification left unspecified what to do when encountering an
-    [SPlus], [SMinus], or [SMult] instruction if the stack contains
-    less than two elements.  (In order to make your correctness proof
-    easier you may find it useful to go back and change your
-    implementation!)
+(** A tarefa deste exercício é demonstrar a correção do compilador 
+    implementado no exercício anterior.  Lembre-se de que a especificação 
+    deixou indeterminado o que fazer quando encontrar uma instrução [SPLUS], 
+    [SMinus] ou [SMult] se a pilha contiver menos de dois elementos. 
+    (A fim de fazer a sua demonstração de correção mais fácil, você pode achar 
+    útil voltar e mudar a sua implementação!)
 
 	Prove o seguinte teorema, cuja afirmação é de que a função [compile] se comporta 
 	corretamente. Você terá que começar definindo um lema mais geral para obter uma 
@@ -1738,9 +1737,12 @@ Notation "'IFB' c1 'THEN' c2 'ELSE' c3 'FI'" :=
    END
     ... the value of [X] should be [1], and not [0].
 
-    [Renan]One way of expressing this behavior is to add another parameter to
-    the evaluation relation that specifies whether evaluation of a
-    command executes a [BREAK] statement: *)
+    Uma maneira de expressar esse comportamento é adicionar outro parâmetro 
+    para a relação de avaliação que especifica se a avaliação de um comando 
+    executa uma declaração [BREAK]:
+    
+    Uma maneira de expressar esse comportamento é adicionar outro parâmetro 
+    para a relação de avaliação que especifica se a avaliação de um comando executa um [BREAK] declaração: *)
 
 Inductive status : Type :=
   | SContinue : status
@@ -1769,10 +1771,10 @@ o programa) finalizem imediatamente ([s = SBreak]) ou a execução continue norm
       that variable in the state accordingly and signal that execution
       can continue normally.
 
-    [Renan]- If the command is of the form [IF b THEN c1 ELSE c2 FI], then
-      the state is updated as in the original semantics of Imp, except
-      that we also propagate the signal from the execution of
-      whichever branch was taken.
+    - Se o comando é da forma [IF b THEN c1 ELSE c2 FI], então o estado 
+    é atualizado como na semântica original de Imp, exceto que nós 
+    também propagamos o sinal da execução de qualquer ramo que 
+    foi tomado.
 
 	- Se o comando é uma sequência [c1 ; c2], executamos primeiramente [c1]. Se isso gera 
 	um [SBreak] nós pulamos a execução de [c2] e propagamos o sinal [SBreak] para o 
@@ -1864,10 +1866,10 @@ End BreakImp.
 
 (** **** Exercício: nível 4, opcional (add_for_loop)  *)
 
-(** [Renan]Add C-style [for] loops to the language of commands, update the
-    [ceval] definition to define the semantics of [for] loops, and add
-    cases for [for] loops as needed so that all the proofs in this file
-    are accepted by Coq.
+(** Adicionar loops [for], no estilo de C, para a linguagem de comandos, 
+    atualizar a definição de [ceval] para definir a semântica de loops 
+    [for], e adicionar casos para loops [for], conforme necessário, 
+    para que todas as provas neste arquivo sejam aceitas por Coq.
     
 	Um laço [for] deve ser parametrizado por (a) uma sentença executada inicialmente, (b) 
 	um teste que é executado em cada iteração do laço a fim de determinar se o mesmo deve 
