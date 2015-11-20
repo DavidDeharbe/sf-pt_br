@@ -28,15 +28,13 @@
 (* ####################################################### *)
 (** *** Sflib *)
 
-(** [Francisco]A minor technical point: Instead of asking Coq to import our
-    earlier definitions from chapter [Logic], we import a small library
-    called [Sflib.v], containing just a few definitions and theorems
-    from earlier chapters that we'll actually use in the rest of the
-    course.  This change should be nearly invisible, since most of what's
-    missing from Sflib has identical definitions in the Coq standard
-    library.  The main reason for doing it is to tidy the global Coq
-    environment so that, for example, it is easier to search for
-    relevant theorems. *)
+(** Um ponto tático menos: em vez de pedir para Coq importar nossas
+    definições anteriores do capítulo [Logic], nós importamos uma pequena biblioteca
+    chamado [Sflib.v], contendo apenas algumas definições e teoremas dos capítulos
+    anteriores que nós realmente iremos utilizar no resto do curso. Essa mudança deve
+    ser quase invisível, desde que a maioria do que está faltando de Sflib tem definições
+    identicas na biblioteca padrão de Coq. A principal razão de fazer isto é organizar o
+    ambiente global de Coq, por exemplo, isto é torna fácil buscar por teoremas relevantes. *)
 
 Require Export SfLib.
 
@@ -113,11 +111,10 @@ Inductive bexp : Type :=
          A versão Coq omite sistematicamente todas estas informações e
          concentra apenas na sintaxe abstrata.
 
-       - [Francisco]On the other hand, the BNF version is lighter and
-         easier to read.  Its informality makes it flexible, which is
-         a huge advantage in situations like discussions at the
-         blackboard, where conveying general ideas is more important
-         than getting every detail nailed down precisely.
+       - Por outro lado, a versão BNF é mais legível e fácil de ler.
+         Isto informalmente o torna mais flexível, o que é uma grande vantagem
+         em situações como discurcões no quadro negro, onde a maioria das ideias 
+         mais importantes são transmitidos indo a fundo nos detalhes mais precisamente.
 
          De fato, existem dezenas de notações do tipo BNF, e as pessoas 
          alternam livremente entre elas, geralmente sem se importar em 
@@ -182,8 +179,9 @@ Fixpoint optimize_0plus (a:aexp) : aexp :=
       AMult (optimize_0plus e1) (optimize_0plus e2)
   end.
 
-(** [Francisco]To make sure our optimization is doing the right thing we
-    can test it on some examples and see if the output looks OK. *)
+(** Para garantir que nossa otimização está fazendo a coisa
+    certa, nós podemos testar ele em alguns exemplos e ver se a saída está
+    OK. *)
 
 Example test_optimize_0plus:
   optimize_0plus (APlus (ANum 2)
@@ -258,9 +256,9 @@ Proof.
 Qed.
 (* Print ev100. *)
 
-(** [Francisco]The [repeat T] tactic never fails; if the tactic [T] doesn't apply
-    to the original goal, then repeat still succeeds without changing
-    the original goal (it repeats zero times). *)
+(** A tática [repeat T] nunca falha; se a tática [T] não
+    aplica para a meta original, então repetir continua com sucesso
+    sem mudanã na meta original (ele repete zero vezes). *)
 
 Theorem ev100' : ev 100.
 Proof.
@@ -314,7 +312,7 @@ Proof.
     Case "n=Sn'". simpl. reflexivity.
 Qed.
 
-(** [Francisco]We can simplify this proof using the [;] tactical: *)
+(** Nós podemos simplicar esta prova usando a tática [;]: *)
 
 Lemma foo' : forall n, ble_nat 0 n = true.
 Proof.
@@ -374,13 +372,11 @@ prática possui um análogo em provas informais.
         [a1]; nesses casos, o resultado segue diretamente para
         IH.
 
-        [Francisco]The interesting case is when [a1 = ANum n] for some [n].
-        If [n = ANum 0], then
-          optimize_0plus (APlus a1 a2) = optimize_0plus a2
-        and the IH for [a2] is exactly what we need.  On the other
-        hand, if [n = S n'] for some [n'], then again [optimize_0plus]
-        simply calls itself recursively, and the result follows from
-        the IH.  [] *)
+        O caso interessante é quando [a1 = ANum n] para algum [n].
+        Se [n = ANum 0], então optimize_0plus (Aplus a1 s2) = optimize_0plus a2
+        e o IH para [a2] é exatamente o que nós precisamos. Por outro lado, se 
+        [n = S n'] para algum [n'], então novamente [optimize_0plus] simplifica
+        chamadas por si só recursivamente, e o resultado segue de IH. [] *)
 
 (** Essa prova ainda pode ser melhorada: o primeiro caso (para 
     [a = ANum n]) é muito trivial -- ainda mais trivial do que os casos 
@@ -430,14 +426,13 @@ em alguns casos. Se [T], [T1], ..., [Tn] são táticas então
         acessível para definir as "táticas de taquigrafia" que agrupam várias
         táticas em um único comando.
 
-      [Francisco]- For more sophisticated programming, Coq offers a small
-        built-in programming language called [Ltac] with primitives
-        that can examine and modify the proof state.  The details are
-        a bit too complicated to get into here (and it is generally
-        agreed that [Ltac] is not the most beautiful part of Coq's
-        design!), but they can be found in the reference manual, and
-        there are many examples of [Ltac] definitions in the Coq
-        standard library that you can use as examples.
+      - Para programação mais sofisticada, Coq oferece um
+      pequeno construtor de linguagem de programação chadado [Ltac] com
+      primitivos que podem examinar e modificar o estado da prova. Os detalhes
+      são um pouco complicados para introduzir aqui (e isto geralmente de acordo que
+      [Ltac] não é a parte mais bonita do design de Coq!), mas eles podem ser achados
+      no manual de referência, e existem muitos exemplos de definições [Ltac] na
+      biblioteca padrão de Coq que você pode usar como exemplo.
 
       - Há também uma API OCaml, que pode ser usada para construir táticas 
       que acessam estruturas internas de Coq a um nível mais baixo, mas isso 
@@ -483,8 +478,8 @@ Tactic Notation "aexp_cases" tactic(first) ident(c) :=
   [ Case_aux c "ANum" | Case_aux c "APlus"
   | Case_aux c "AMinus" | Case_aux c "AMult" ].
 
-(** [Francisco]([Case_aux] implements the common functionality of [Case],
-    [SCase], [SSCase], etc.  For example, [Case "foo"] is defined as
+(** ([Case_aux] implementa a funcionalidade comum de [Case],
+    [SCase], [SSCase], etc.  Por exemplo, [Case "foo"] é definido como
     [Case_aux Case "foo".) *)
 
 (** Por exemplo, se [a] é uma variável do tipo [aexp], então, ao 
@@ -552,7 +547,7 @@ Proof.
     de lógica de primeira ordem chamada de _aritmética de Presburger_.  Essa 
     aritmética é baseada no algoritmo Omega, inventado em 1992 por William Pugh.
 
-    [Francisco]If the goal is a universally quantified formula made out of
+    Se a meta é uma fórmula universalmente quantificada feito de
 
       - constantes numéricas, adição ([+] e [S]), subtração ([-] 
         e [pred]), e multiplicação por constantes (isto é o que 
@@ -580,8 +575,8 @@ Qed.
 (* ####################################################### *)
 (** ** Mais Algumas Táticas Convenientes *)
 
-(** [Francisco]Finally, here are some miscellaneous tactics that you may find
-    convenient.
+(** Finalmente, aqui está algumas taticas misturadas que você deve achar
+    conveniente.
 
      - [clear H]: Apaga a hipótese [H] do contexto.
 
@@ -592,10 +587,9 @@ Qed.
      - [subst]: Substitui _todas_ as premissas do formato [x = e]
        ou [e = x].
 
-     [Francisco]- [rename... into...]: Change the name of a hypothesis in the
-       proof context.  For example, if the context includes a variable
-       named [x], then [rename x into y] will change all occurrences
-       of [x] to [y].
+     - [rename... into...]: Muda o nome da hipótese no contexto da prova.
+     Por exemplo, se o contexto inclui uma variável nomeada [x], então [rename x into y]
+     irá mudar todas as ocorrências de [x] para [y].
 
      - [assumption]: Tenta encontrar uma hipótese [H] no contexto que 
      corresponda exatamente à meta; se uma for encontrada, comporta-se 
@@ -652,10 +646,10 @@ Notation "e '||' n" := (aevalR e n) : type_scope.
 
 End aevalR_first_try.
 
-(** [Francisco]In fact, Coq provides a way to use this notation in the definition
-    of [aevalR] itself.  This avoids situations where we're working on
-    a proof involving statements in the form [e || n] but we have to
-    refer back to a definition written using the form [aevalR e n].
+(** Na verdade, Coq fornece uma maneira de usar esta notação na definição
+    de [aevalR]. Isto evita situações onde nós estamos trabalhando em provas envolvendo
+    sentenças na forma de [e || n] mas nós temos que referencia de volta para uma definição
+    escrita usando a forma [aevalR e n].
 
     Fazemos isso primeiro "reservando" a notação, em seguida, dando 
     a definição em conjunto com uma declaração do que a notação 
@@ -741,9 +735,8 @@ capítulo Prop). *)
 (* ####################################################### *)
 (** ** Equivalência das Definições *)
 
-(** [Francisco]It is straightforward to prove that the relational and functional
-    definitions of evaluation agree on all possible arithmetic
-    expressions... *)
+(** Isto fortalece a prova que as definições de avaliação do relacional e funcional
+    concorda com todas as expressões possíveis aritimétricas... *)
 
 Theorem aeval_iff_aevalR : forall a n,
   (a || n) <-> aeval a = n.
@@ -833,8 +826,8 @@ End AExp.
 
 Module aevalR_division.
 
-(** [Francisco]For example, suppose that we wanted to extend the arithmetic
-    operations by considering also a division operation:*)
+(** Por exemplo, suponha que nós queremos extender as operações aritimétricas
+    considerando também operação de divisão:*)
 
 Inductive aexp : Type :=
   | ANum : nat -> aexp
@@ -911,9 +904,8 @@ End aevalR_extended.
     tabela de símbolos.  Mas, por simplicidade, somente vamos utilizar números 
     naturais como identificadores. *)
 
-(** [Francisco](We hide this section in a module because these definitions are
-    actually in [SfLib], but we want to repeat them here so that we
-    can explain them.) *)
+(** (Nós escondemos esta seção em um módulo por causa que essas definição 
+    são de [Sflib], mas nós queremos repeti-las aqui então nós podemos exeplica-las.) *)
 
 Module Id. 
 
@@ -1001,8 +993,8 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 1 (update_example)  *)
-(** [Francisco]Before starting to play with tactics, make sure you understand
-    exactly what the theorem is saying! *)
+(** Antes de começar a brincar com as táticas, tenha certeza que entende
+    exatamente o que o teorema está dizendo! *)
 
 Theorem update_example : forall (n:nat),
   (update empty_state (Id 2) n) (Id 3) = 0.
@@ -1119,8 +1111,8 @@ Proof. reflexivity. Qed.
 (* ####################################################### *)
 (** * Comandos *)
 
-(** [Francisco]Now we are ready define the syntax and behavior of Imp
-    _commands_ (often called _statements_). *)
+(** Agora nós estamos prontos para definir a sintaxe e o comportamento de Imp _comandos_
+    (frequentemente chamados de _sentenças_). *)
 
 (* ################################################### *)
 (** ** Sintaxe *)
@@ -1228,9 +1220,9 @@ Definition loop : com :=
 (* ################################################################ *)
 (** * Avaliação *)
 
-(** [Francisco]Next we need to define what it means to evaluate an Imp command.
-    The fact that [WHILE] loops don't necessarily terminate makes defining
-    an evaluation function tricky... *)
+(** Depois nós precisamos definir o que isto significa para avaliar um comando Imp.
+    O fato que o laço [WHILE] não necessáriamente termina faz o truque da definição de avaliação
+    da função... *)
 
 (* #################################### *)
 (** ** Avaliação como uma Função (Tentativa Falha) *)
@@ -1291,9 +1283,9 @@ caso [WHILE} da seguinte forma:
 (* #################################### *)
 (** ** Avaliação como uma Relação *)
 
-(** [Francisco]Here's a better way: we define [ceval] as a _relation_ rather
-    than a _function_ -- i.e., we define it in [Prop] instead of [Type], as we
-    did for [aevalR] above. *)
+(** Aqui está uma maneira melhor: Nós definimos [ceval] como uma _relação_ em vez de
+    uma _função_ -- ex., nós definimos isto em [Prop] em vez de [Type], como nós fizemos para 
+    [aevalR] acima. *)
 
 (** Esta é uma mudança importante.  Além de nos libertar das soluções 
     alternativas embaraçosas que seriam necessárias para definir a 
@@ -1435,15 +1427,13 @@ Proof.
 (* ####################################################### *)
 (** ** Determinismo em Avaliação *)
 
-(** [Francisco]Changing from a computational to a relational definition of
-    evaluation is a good move because it allows us to escape from the
-    artificial requirement (imposed by Coq's restrictions on
-    [Fixpoint] definitions) that evaluation should be a total
-    function.  But it also raises a question: Is the second definition
-    of evaluation actually a partial function?  That is, is it
-    possible that, beginning from the same state [st], we could
-    evaluate some command [c] in different ways to reach two different
-    output states [st'] and [st'']?
+(** Mudando de um computacional para uma definição relacional de avaliação é 
+    um bom movimento porque isto permite a gente escapar de um requisito aritificial (imposto
+    por restrições de Coq nas definições de [Fixpoint]) que avaliação deveria ser uma função
+    total. Mas isto também levanta uma questão: A segunda definição de avaliação realmente
+    é uma função parcial? Isto é, é possível que, começando pelo mesmo estado [st], nós poderiamos
+    avaliar algum comando [c] em diferentes maneiras para alcançar duas saídas de estados diferentes
+    [st'] e [st'']?
 
     De fato, isso não pode acontecer: [ceval] é uma função parcial. 
     Aqui está a prova: *)
@@ -1559,9 +1549,9 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 4 (no_whiles_terminating)  *)
-(** [Francisco]Imp programs that don't involve while loops always terminate.
-    State and prove a theorem [no_whiles_terminating] that says this. *)
-(** (Use either [no_whiles] or [no_whilesR], as you prefer.) *)
+(** Programas Imp que não envolvem laços while sempre terminam.
+    Declare e prove um teorema [no_whiles_terminating] que diz isto. *)
+(** (Use ou [no_whiles] ou [no_whilesR], como você preferir.) *)
 
 (* PREENCHER *)
 (** [] *)
@@ -1650,8 +1640,7 @@ Example s_execute2 :
 Fixpoint s_compile (e : aexp) : list sinstr :=
 (* PREENCHER *) admit.
 
-(** [Francisco]After you've defined [s_compile], prove the following to test
-    that it works. *)
+(** Depois que você definiu [s_compile], prove a seguir para testar se ele funciona. *)
 
 Example s_compile1 :
     s_compile (AMinus (AId X) (AMult (ANum 2) (AId Y)))
@@ -1722,10 +1711,9 @@ Notation "'IFB' c1 'THEN' c2 'ELSE' c3 'FI'" :=
     estado final deve ser o mesmo que o estado em que o [BREAK]
     foi executado.
 
-    [Francisco]One important point is what to do when there are multiple loops
-    enclosing a given [BREAK]. In those cases, [BREAK] should only
-    terminate the _innermost_ loop where it occurs. Thus, after
-    executing the following piece of code...
+    Um ponto importante é que para fazer quando existe muitos laços dentro do outro um dado [BREAK].
+    Em nesses casos, [BREAK], deve apenas terminar o mais _profundo_ laço onde ele ocorre. Assim,
+    depois executando o seguinte pedaço de código...
    X ::= 0;;
    Y ::= 1;;
    WHILE 0 <> Y DO
@@ -1767,9 +1755,8 @@ o programa) finalizem imediatamente ([s = SBreak]) ou a execução continue norm
     - Se o comando é [BREAK], o estado se mantêm inalterado, mas
       sinalizamos um [SBreak].
 
-    [Francisco]- If the command is an assignment, then we update the binding for
-      that variable in the state accordingly and signal that execution
-      can continue normally.
+    - Se o comando é uma atribuição, em seguida, nós atualizamos a ligação para essa variável no 
+      estado em conformidade e sinalizar que a execução pode continuar normalmente.
 
     - Se o comando é da forma [IF b THEN c1 ELSE c2 FI], então o estado 
     é atualizado como na semântica original de Imp, exceto que nós 
@@ -1857,9 +1844,8 @@ End BreakImp.
     Entretanto, [b2] é avaliado para determinar o resultado da
     expressão [BAnd].
 
-    [Francisco]Write an alternate version of [beval] that performs short-circuit
-    evaluation of [BAnd] in this manner, and prove that it is
-    equivalent to [beval]. *)
+    Escreva uma versão alternativa de [beval] que realiza um curto-circuito
+    de avaliação de [BAnd] nesta maneira, e prova que ele é equivalente a [beval].*)
 
 (* PREENCHER *)
 (** [] *)
