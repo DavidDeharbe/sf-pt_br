@@ -1,39 +1,39 @@
-(** * Hoare: Hoare Logic, Part I *)
+(** * Hoare: Lógica de Hoare, Parte I *)
 
 Require Export Imp.
 
-(** In the past couple of chapters, we've begun applying the
+(** [Dalay]In the past couple of chapters, we've begun applying the
     mathematical tools developed in the first part of the course to
     studying the theory of a small programming language, Imp.
 
-    - We defined a type of _abstract syntax trees_ for Imp, together
+    - [Diego]We defined a type of _abstract syntax trees_ for Imp, together
       with an _evaluation relation_ (a partial function on states)
       that specifies the _operational semantics_ of programs.
 
-      The language we defined, though small, captures some of the key
+      [Francisco]The language we defined, though small, captures some of the key
       features of full-blown languages like C, C++, and Java,
       including the fundamental notion of mutable state and some
       common control structures.
 
-    - We proved a number of _metatheoretic properties_ -- "meta" in
+    - [Renan]We proved a number of _metatheoretic properties_ -- "meta" in
       the sense that they are properties of the language as a whole,
       rather than properties of particular programs in the language.
       These included:
 
-        - determinism of evaluation
+        - [Vitor]determinism of evaluation
 
-        - equivalence of some different ways of writing down the
+        - [Vitor]equivalence of some different ways of writing down the
           definitions (e.g. functional and relational definitions of
           arithmetic expression evaluation)
 
-        - guaranteed termination of certain classes of programs
+        - [Vitor]guaranteed termination of certain classes of programs
 
-        - correctness (in the sense of preserving meaning) of a number
+        - [Vitor]correctness (in the sense of preserving meaning) of a number
           of useful program transformations
 
-        - behavioral equivalence of programs (in the [Equiv] chapter). 
+        - [Vitor]behavioral equivalence of programs (in the [Equiv] chapter). 
 
-    If we stopped here, we would already have something useful: a set
+    [Dalay]If we stopped here, we would already have something useful: a set
     of tools for defining and discussing programming languages and
     language features that are mathematically precise, flexible, and
     easy to work with, applied to a set of key properties.  All of
@@ -44,12 +44,12 @@ Require Export Imp.
     them as "theorems."  But properties that seem intuitively obvious
     can sometimes be quite subtle (in some cases, even subtly wrong!).
 
-    We'll return to the theme of metatheoretic properties of whole
+    [Diego]We'll return to the theme of metatheoretic properties of whole
     languages later in the course when we discuss _types_ and _type
     soundness_.  In this chapter, though, we'll turn to a different
     set of issues.
 
-    Our goal is to see how to carry out some simple examples of
+    [Francisco]Our goal is to see how to carry out some simple examples of
     _program verification_ -- i.e., using the precise definition of
     Imp to prove formally that particular programs satisfy particular
     specifications of their behavior. We'll develop a reasoning system
@@ -59,7 +59,7 @@ Require Export Imp.
     reason compositionally about the correctness of programs involving
     this construct.
 
-    Hoare Logic originates in the 1960s, and it continues to be the
+    [Renan]Hoare Logic originates in the 1960s, and it continues to be the
     subject of intensive research right up to the present day.  It
     lies at the core of a multitude of tools that are being used in
     academia and industry to specify and verify real software
@@ -68,9 +68,9 @@ Require Export Imp.
 
   
 (* ####################################################### *)
-(** * Hoare Logic *)
+(** * Lógica de Hoare *)
 
-(** Hoare Logic combines two beautiful ideas: a natural way of
+(** [Vitor]Hoare Logic combines two beautiful ideas: a natural way of
     writing down _specifications_ of programs, and a _compositional
     proof technique_ for proving that programs are correct with
     respect to such specifications -- where by "compositional" we mean
@@ -78,9 +78,9 @@ Require Export Imp.
     programs that they are about. *)
 
 (* ####################################################### *)
-(** ** Assertions *)
+(** ** Asserções *)
 
-(** To talk about specifications of programs, the first thing we
+(** [Dalay]To talk about specifications of programs, the first thing we
     need is a way of making _assertions_ about properties that hold at
     particular points during a program's execution -- i.e., claims
     about the current state of the memory when program execution
@@ -110,9 +110,9 @@ End ExAssertions.
 (** [] *)
 
 (* ####################################################### *)
-(** ** Notation for Assertions *)
+(** ** Notação para Asserções *)
 
-(** This way of writing assertions can be a little bit heavy,
+(** [Diego]This way of writing assertions can be a little bit heavy,
     for two reasons: (1) every single assertion that we ever write is
     going to begin with [fun st => ]; and (2) this state [st] is the
     only one that we ever use to look up variables (we will never need
@@ -127,7 +127,7 @@ End ExAssertions.
          Z * Z <= m /\ ~((S Z) * (S Z) <= m).
 *)
 
-(** Given two assertions [P] and [Q], we say that [P] _implies_ [Q],
+(** [Francisco]Given two assertions [P] and [Q], we say that [P] _implies_ [Q],
     written [P ->> Q] (in ASCII, [P -][>][> Q]), if, whenever [P]
     holds in some state [st], [Q] also holds. *)
 
@@ -138,27 +138,27 @@ Notation "P ->> Q" :=
   (assert_implies P Q) (at level 80) : hoare_spec_scope.
 Open Scope hoare_spec_scope.
 
-(** We'll also have occasion to use the "iff" variant of implication
+(** [Renan]We'll also have occasion to use the "iff" variant of implication
     between assertions: *)
 
 Notation "P <<->> Q" :=
   (P ->> Q /\ Q ->> P) (at level 80) : hoare_spec_scope.
 
 (* ####################################################### *)
-(** ** Hoare Triples *)
+(** ** Triplas de Hoare *)
 
-(** Next, we need a way of making formal claims about the
+(** [Vitor]Next, we need a way of making formal claims about the
     behavior of commands. *)
 
-(** Since the behavior of a command is to transform one state to
+(** [Dalay]Since the behavior of a command is to transform one state to
     another, it is natural to express claims about commands in terms
     of assertions that are true before and after the command executes:
 
-      - "If command [c] is started in a state satisfying assertion
+      - [Diego]"If command [c] is started in a state satisfying assertion
         [P], and if [c] eventually terminates in some final state,
         then this final state will satisfy the assertion [Q]."
 
-    Such a claim is called a _Hoare Triple_.  The property [P] is
+    [Francisco]Such a claim is called a _Hoare Triple_.  The property [P] is
     called the _precondition_ of [c], while [Q] is the
     _postcondition_.  Formally: *)
 
@@ -169,18 +169,18 @@ Definition hoare_triple
        P st  ->
        Q st'.
 
-(** Since we'll be working a lot with Hoare triples, it's useful to
+(** [Renan]Since we'll be working a lot with Hoare triples, it's useful to
     have a compact notation:
        {{P}} c {{Q}}.
 *)
-(** (The traditional notation is [{P} c {Q}], but single braces
+(** [Vitor](The traditional notation is [{P} c {Q}], but single braces
     are already used for other things in Coq.)  *)
 
 Notation "{{ P }}  c  {{ Q }}" :=
   (hoare_triple P c Q) (at level 90, c at next level)
   : hoare_spec_scope.
 
-(** (The [hoare_spec_scope] annotation here tells Coq that this
+(** [Dalay](The [hoare_spec_scope] annotation here tells Coq that this
     notation is not global but is intended to be used in particular
     contexts.  The [Open Scope] tells Coq that this file is one such
     context.) *)
@@ -208,16 +208,8 @@ Notation "{{ P }}  c  {{ Q }}" :=
 
 (** [] *)
 
-
-
-
-
-
-
-
-
 (** **** Exercise: 1 star, optional (valid_triples)  *)
-(** Which of the following Hoare triples are _valid_ -- i.e., the
+(** [Diego]Which of the following Hoare triples are _valid_ -- i.e., the
     claimed relation between [P], [c], and [Q] is true?
    1) {{True}} X ::= 5 {{X = 5}}
 
@@ -245,12 +237,12 @@ Notation "{{ P }}  c  {{ Q }}" :=
 (* FILL IN HERE *)
 (** [] *)
 
-(** (Note that we're using informal mathematical notations for
+(** [Francisco](Note that we're using informal mathematical notations for
    expressions inside of commands, for readability, rather than their
    formal [aexp] and [bexp] encodings.  We'll continue doing so
    throughout the chapter.) *)
 
-(** To get us warmed up for what's coming, here are two simple
+(** [Renan]To get us warmed up for what's coming, here are two simple
     facts about Hoare triples. *)
 
 Theorem hoare_post_true : forall (P Q : Assertion) c,
@@ -271,9 +263,9 @@ Proof.
   inversion HP.  Qed.
 
 (* ####################################################### *) 
-(** ** Proof Rules *)
+(** ** Regras de Demonstração *)
 
-(** The goal of Hoare logic is to provide a _compositional_
+(** [Vitor]The goal of Hoare logic is to provide a _compositional_
     method for proving the validity of Hoare triples.  That is, the
     structure of a program's correctness proof should mirror the
     structure of the program itself.  To this end, in the sections
@@ -285,9 +277,9 @@ Proof.
     without ever unfolding the definition of [hoare_triple]. *)
 
 (* ####################################################### *) 
-(** *** Assignment *)
+(** *** Atribuição *)
 
-(** The rule for assignment is the most fundamental of the Hoare logic
+(** [Dalay]The rule for assignment is the most fundamental of the Hoare logic
     proof rules.  Here's how it works.
 
     Consider this (valid) Hoare triple:
@@ -297,17 +289,17 @@ Proof.
     state where [X] is [1].  That is, the property of being equal
     to [1] gets transferred from [Y] to [X].
 
-    Similarly, in
+    [Diego]Similarly, in
        {{ Y + Z = 1 }}  X ::= Y + Z  {{ X = 1 }}
     the same property (being equal to one) gets transferred to
     [X] from the expression [Y + Z] on the right-hand side of
     the assignment.
 
-    More generally, if [a] is _any_ arithmetic expression, then
+    [Francisco]More generally, if [a] is _any_ arithmetic expression, then
        {{ a = 1 }}  X ::= a {{ X = 1 }}
     is a valid Hoare triple. 
 
-    This can be made even more general. To conclude that an
+    [Renan]This can be made even more general. To conclude that an
     _arbitrary_ property [Q] holds after [X ::= a], we need to assume
     that [Q] holds before [X ::= a], but _with all occurrences of_ [X]
     replaced by [a] in [Q]. This leads to the Hoare rule for
@@ -316,7 +308,7 @@ Proof.
     where "[Q [X |-> a]]" is pronounced "[Q] where [a] is substituted
     for [X]".
 
-    For example, these are valid applications of the assignment
+    [Vitor]For example, these are valid applications of the assignment
     rule:
       {{ (X <= 5) [X |-> X + 1]
          i.e., X + 1 <= 5 }}  
@@ -334,14 +326,14 @@ Proof.
       {{ 0 <= X /\ X <= 5 }}
 *)
 
-(** To formalize the rule, we must first formalize the idea of
+(** [Dalay]To formalize the rule, we must first formalize the idea of
     "substituting an expression for an Imp variable in an assertion."
     That is, given a proposition [P], a variable [X], and an
     arithmetic expression [a], we want to derive another proposition
     [P'] that is just the same as [P] except that, wherever [P]
     mentions [X], [P'] should instead mention [a].  
    
-    Since [P] is an arbitrary Coq proposition, we can't directly
+    [Diego]Since [P] is an arbitrary Coq proposition, we can't directly
     "edit" its text.  Instead, we can achieve the effect we want by
     evaluating [P] in an updated state: *)
 
@@ -351,11 +343,11 @@ Definition assn_sub X a P : Assertion :=
 
 Notation "P [ X |-> a ]" := (assn_sub X a P) (at level 10).
 
-(** That is, [P [X |-> a]] is an assertion [P'] that is just like [P]
+(** [Francisco]That is, [P [X |-> a]] is an assertion [P'] that is just like [P]
     except that, wherever [P] looks up the variable [X] in the current
     state, [P'] instead uses the value of the expression [a].
 
-    To see how this works, let's calculate what happens with a couple
+    [Renan]To see how this works, let's calculate what happens with a couple
     of examples.  First, suppose [P'] is [(X <= 5) [X |-> 3]] -- that
     is, more formally, [P'] is the Coq expression
     fun st => 
@@ -374,7 +366,7 @@ Notation "P [ X |-> a ]" := (assn_sub X a P) (at level 10).
     That is, [P'] is the assertion that [3] is less than or equal to
     [5] (as expected).
 
-    For a more interesting example, suppose [P'] is [(X <= 5) [X |->
+    [Vitor]For a more interesting example, suppose [P'] is [(X <= 5) [X |->
     X+1]].  Formally, [P'] is the Coq expression
     fun st => 
       (fun st' => st' X <= 5) 
@@ -389,12 +381,12 @@ Notation "P [ X |-> a ]" := (assn_sub X a P) (at level 10).
 
 *)
 
-(** Now we can give the precise proof rule for assignment: 
+(** [Dalay]Now we can give the precise proof rule for assignment: 
       ------------------------------ (hoare_asgn)
       {{Q [X |-> a]}} X ::= a {{Q}}
 *)
 
-(** We can prove formally that this rule is indeed valid. *)
+(** [Diego]We can prove formally that this rule is indeed valid. *)
 
 Theorem hoare_asgn : forall Q X a,
   {{Q [X |-> a]}} (X ::= a) {{Q}}.
@@ -404,7 +396,7 @@ Proof.
   inversion HE. subst.
   unfold assn_sub in HQ. assumption.  Qed.
 
-(** Here's a first formal proof using this rule. *)
+(** [Francisco]Here's a first formal proof using this rule. *)
 
 Example assn_sub_example :
   {{(fun st => st X = 3) [X |-> ANum 3]}}
@@ -429,7 +421,7 @@ Proof.
 (** [] *)
 
 (** **** Exercise: 2 stars (hoare_asgn_wrong)  *)
-(** The assignment rule looks backward to almost everyone the first
+(** [Renan]The assignment rule looks backward to almost everyone the first
     time they see it.  If it still seems backward to you, it may help
     to think a little about alternative "forward" rules.  Here is a
     seemingly natural one:
@@ -444,7 +436,7 @@ Proof.
 (** [] *)
 
 (** **** Exercise: 3 stars, advanced (hoare_asgn_fwd)  *)
-(** However, using an auxiliary variable [m] to remember the original
+(** [Vitor]However, using an auxiliary variable [m] to remember the original
     value of [X] we can define a Hoare rule for assignment that does,
     intuitively, "work forwards" rather than backwards.
   ------------------------------------------ (hoare_asgn_fwd)
@@ -452,7 +444,7 @@ Proof.
     X ::= a
   {{fun st => P st' /\ st X = aeval st' a }}
   (where st' = update st X m)
-    Note that we use the original value of [X] to reconstruct the
+    [Dalay]Note that we use the original value of [X] to reconstruct the
     state [st'] before the assignment took place. Prove that this rule
     is correct (the first hypothesis is the functional extensionality
     axiom, which you will need at some point). Also note that this
@@ -472,7 +464,7 @@ Proof.
 (** [] *)
 
 (** **** Exercise: 2 stars, advanced (hoare_asgn_fwd_exists)  *)
-(** Another way to define a forward rule for assignment is to
+(** [Diego]Another way to define a forward rule for assignment is to
     existentially quantify over the previous value of the assigned
     variable.
   ------------------------------------------ (hoare_asgn_fwd_exists)
@@ -481,7 +473,7 @@ Proof.
   {{fun st => exists m, P (update st X m) /\
                  st X = aeval (update st X m) a }}
 *)
-(* This rule was proposed by Nick Giannarakis and Zoe Paraskevopoulou. *)
+(* [Francisco]This rule was proposed by Nick Giannarakis and Zoe Paraskevopoulou. *)
 
 Theorem hoare_asgn_fwd_exists :
   (forall {X Y: Type} {f g : X -> Y},
@@ -497,16 +489,16 @@ Proof.
 (** [] *)
 
 (* ####################################################### *) 
-(** *** Consequence *)
+(** *** Consequência *)
 
-(** Sometimes the preconditions and postconditions we get from the
+(** [Renan]Sometimes the preconditions and postconditions we get from the
     Hoare rules won't quite be the ones we want in the particular
     situation at hand -- they may be logically equivalent but have a
     different syntactic form that fails to unify with the goal we are
     trying to prove, or they actually may be logically weaker (for
     preconditions) or stronger (for postconditions) than what we need.
 
-    For instance, while
+    [Vitor]For instance, while
       {{(X = 3) [X |-> 3]}} X ::= 3 {{X = 3}},
     follows directly from the assignment rule, 
       {{True}} X ::= 3 {{X = 3}}.
