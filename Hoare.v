@@ -10,10 +10,9 @@ Require Export Imp.
       with an _evaluation relation_ (a partial function on states)
       that specifies the _operational semantics_ of programs.
 
-      [Francisco]The language we defined, though small, captures some of the key
-      features of full-blown languages like C, C++, and Java,
-      including the fundamental notion of mutable state and some
-      common control structures.
+      A linguagem que defnimos, embora pequena, capitura algumas das
+      características chaves desenvolvidas em linguagens como C, C++ e Java, incluindo
+      a noção fundamental de estado mutável e alguns controles de estruturas comuns.
 
     - [Renan]We proved a number of _metatheoretic properties_ -- "meta" in
       the sense that they are properties of the language as a whole,
@@ -49,15 +48,14 @@ Require Export Imp.
     soundness_.  In this chapter, though, we'll turn to a different
     set of issues.
 
-    [Francisco]Our goal is to see how to carry out some simple examples of
-    _program verification_ -- i.e., using the precise definition of
-    Imp to prove formally that particular programs satisfy particular
-    specifications of their behavior. We'll develop a reasoning system
-    called _Floyd-Hoare Logic_ -- often shortened to just _Hoare
-    Logic_ -- in which each of the syntactic constructs of Imp is
-    equipped with a single, generic "proof rule" that can be used to
-    reason compositionally about the correctness of programs involving
-    this construct.
+    Nosso objetivo é para ver como executar alguns exemplos simples de
+    _verificação de programa_ -- ex., usando a definição precisa de Imp para provar
+    formalmente que programas particulares satisfazem especificações particulares do
+    comportamento deles. Nós iremos desenvolver um sistema de raciocínio chamado
+    _Lógica Floyd-Hoare_ -- frequentemente encurtado para apenas _Lógica de Hoare_
+    -- em que cada construção sintática de Imp é equipado com um único, "regra de prova"
+    genérica que pode ser usado para razão composicionalmente sobre a corretude de programas
+    envolvendo esta construção.
 
     [Renan]Hoare Logic originates in the 1960s, and it continues to be the
     subject of intensive research right up to the present day.  It
@@ -127,9 +125,9 @@ End ExAssertions.
          Z * Z <= m /\ ~((S Z) * (S Z) <= m).
 *)
 
-(** [Francisco]Given two assertions [P] and [Q], we say that [P] _implies_ [Q],
-    written [P ->> Q] (in ASCII, [P -][>][> Q]), if, whenever [P]
-    holds in some state [st], [Q] also holds. *)
+(** Dado duas asserções [P] e [Q], nós dizemos que [P] _implica_ [Q],
+    escrito [P ->> Q] (em ASCII, [P -][>][> Q]), se, sempre que [P] satisfaz algum
+    estado [st], [Q] também satisfaz. *)
 
 Definition assert_implies (P Q : Assertion) : Prop :=
   forall st, P st -> Q st.
@@ -158,9 +156,8 @@ Notation "P <<->> Q" :=
         [P], and if [c] eventually terminates in some final state,
         then this final state will satisfy the assertion [Q]."
 
-    [Francisco]Such a claim is called a _Hoare Triple_.  The property [P] is
-    called the _precondition_ of [c], while [Q] is the
-    _postcondition_.  Formally: *)
+    Tal afirmação é chamado um _Tripla de Hoare_. A propriedade [P] é
+    chamado de _pré-condição_ de [c], enquanto [Q] é _pós-condição_. Formalmente: *)
 
 Definition hoare_triple
            (P:Assertion) (c:com) (Q:Assertion) : Prop :=
@@ -237,10 +234,9 @@ Notation "{{ P }}  c  {{ Q }}" :=
 (* FILL IN HERE *)
 (** [] *)
 
-(** [Francisco](Note that we're using informal mathematical notations for
-   expressions inside of commands, for readability, rather than their
-   formal [aexp] and [bexp] encodings.  We'll continue doing so
-   throughout the chapter.) *)
+(** (Note que nós estamos usando notações matemáticas informal para 
+    expressões dentro de comandos, para legibilidade, em vez de códigos formal deles
+    [aexp] e [bexp]. Nós iremos continuar fazendo ao longo do capítulo.) *)
 
 (** [Renan]To get us warmed up for what's coming, here are two simple
     facts about Hoare triples. *)
@@ -295,9 +291,9 @@ Proof.
     [X] from the expression [Y + Z] on the right-hand side of
     the assignment.
 
-    [Francisco]More generally, if [a] is _any_ arithmetic expression, then
+    Mais geralmente, se [a] é _qualquer_ expressão aritmética, então
        {{ a = 1 }}  X ::= a {{ X = 1 }}
-    is a valid Hoare triple. 
+    é uma tripla de Hoare válida.
 
     [Renan]This can be made even more general. To conclude that an
     _arbitrary_ property [Q] holds after [X ::= a], we need to assume
@@ -343,9 +339,9 @@ Definition assn_sub X a P : Assertion :=
 
 Notation "P [ X |-> a ]" := (assn_sub X a P) (at level 10).
 
-(** [Francisco]That is, [P [X |-> a]] is an assertion [P'] that is just like [P]
-    except that, wherever [P] looks up the variable [X] in the current
-    state, [P'] instead uses the value of the expression [a].
+(** Isto é, [P [X |-> a]] é uma asserção [P'] que é apenas como [P]
+    exceto que, sempre que [P] procura a variável [X] no estado atual, [P']
+    ao invés disso usa o valor da expressão [a].
 
     [Renan]To see how this works, let's calculate what happens with a couple
     of examples.  First, suppose [P'] is [(X <= 5) [X |-> 3]] -- that
@@ -396,7 +392,7 @@ Proof.
   inversion HE. subst.
   unfold assn_sub in HQ. assumption.  Qed.
 
-(** [Francisco]Here's a first formal proof using this rule. *)
+(** Aqui está uma primeira prova formal usando esta regra. *)
 
 Example assn_sub_example :
   {{(fun st => st X = 3) [X |-> ANum 3]}}
@@ -473,7 +469,7 @@ Proof.
   {{fun st => exists m, P (update st X m) /\
                  st X = aeval (update st X m) a }}
 *)
-(* [Francisco]This rule was proposed by Nick Giannarakis and Zoe Paraskevopoulou. *)
+(* Esta regra foi proposta por Nick Giannarakis e Zoe Paraskevopoulou. *)
 
 Theorem hoare_asgn_fwd_exists :
   (forall {X Y: Type} {f g : X -> Y},
