@@ -6,11 +6,11 @@ Require Export Imp.
     mathematical tools developed in the first part of the course to
     studying the theory of a small programming language, Imp.
 
-    - [Diego]We defined a type of _abstract syntax trees_ for Imp, together
-      with an _evaluation relation_ (a partial function on states)
-      that specifies the _operational semantics_ of programs.
+    - Nós definimos um tipo de _árvores de sintaxe abstrata_ para o Imp,
+      juntamente com uma _relação de avaliação_ (uma função parcial sobre os
+      estados) que especifíca a _semântica operacional_ de programas.
 
-      A linguagem que defnimos, embora pequena, capitura algumas das
+      A linguagem que definimos, embora pequena, capitura algumas das
       características chaves desenvolvidas em linguagens como C, C++ e Java, incluindo
       a noção fundamental de estado mutável e alguns controles de estruturas comuns.
 
@@ -43,10 +43,10 @@ Require Export Imp.
     them as "theorems."  But properties that seem intuitively obvious
     can sometimes be quite subtle (in some cases, even subtly wrong!).
 
-    [Diego]We'll return to the theme of metatheoretic properties of whole
-    languages later in the course when we discuss _types_ and _type
-    soundness_.  In this chapter, though, we'll turn to a different
-    set of issues.
+    Nós vamos retornar para o tema de propriedades metateóricas de linguagens
+    inteiras mais tarde no curso, quando discutimos _tipos_ e _solidez
+    de escrita_.  Nesse capítulo, entretanto, nós vamos tornar para um 
+    diferente conjunto de problemas.
 
     Nosso objetivo é para ver como executar alguns exemplos simples de
     _verificação de programa_ -- ex., usando a definição precisa de Imp para provar
@@ -110,14 +110,14 @@ End ExAssertions.
 (* ####################################################### *)
 (** ** Notação para Asserções *)
 
-(** [Diego]This way of writing assertions can be a little bit heavy,
-    for two reasons: (1) every single assertion that we ever write is
-    going to begin with [fun st => ]; and (2) this state [st] is the
-    only one that we ever use to look up variables (we will never need
-    to talk about two different memory states at the same time).  For
-    discussing examples informally, we'll adopt some simplifying
-    conventions: we'll drop the initial [fun st =>], and we'll write
-    just [X] to mean [st X].  Thus, instead of writing *)
+(** Esse meio de escrever asserções pode ser um pouco pesado,
+    por duas razões: (1) cada asserção que nós alguma vez escrevermos vai
+    ser com [fun st => ]; e (2) o estado [st] é o único que nunca usamos para 
+    procurar variáveis (nunca precisaremos falar sobre dois estados de memória
+    diferentes ao mesmo tempo).  Para discurssão informal de exemplos, vamos 
+    adotar algumas convenções simplificadoras: deixaremos de lado o [fun st =>]
+    inicial, e iremos escrever somente [X] para significar [st X].  Então, ao 
+    em vez de escrever *)
 (** 
       fun st => (st Z) * (st Z) <= m /\
                 ~ ((S (st Z)) * (S (st Z)) <= m)
@@ -152,9 +152,9 @@ Notation "P <<->> Q" :=
     another, it is natural to express claims about commands in terms
     of assertions that are true before and after the command executes:
 
-      - [Diego]"If command [c] is started in a state satisfying assertion
-        [P], and if [c] eventually terminates in some final state,
-        then this final state will satisfy the assertion [Q]."
+      - "Se o comando [c] é iniciado em um estado satisfazendo a asserção
+        [P], e se [c] eventualmente termina em algum estado final,
+        então esse estado final satisfará a asserção [Q]."
 
     Tal afirmação é chamado um _Tripla de Hoare_. A propriedade [P] é
     chamado de _pré-condição_ de [c], enquanto [Q] é _pós-condição_. Formalmente: *)
@@ -206,8 +206,8 @@ Notation "{{ P }}  c  {{ Q }}" :=
 (** [] *)
 
 (** **** Exercise: 1 star, optional (valid_triples)  *)
-(** [Diego]Which of the following Hoare triples are _valid_ -- i.e., the
-    claimed relation between [P], [c], and [Q] is true?
+(** Qual das triplas de Hoare a seguir são _válidas_ -- isto é, a
+    relação alegada entre [P], [c], e [Q] é verdadeira?
    1) {{True}} X ::= 5 {{X = 5}}
 
    2) {{X = 2}} X ::= X + 1 {{X = 3}}
@@ -285,11 +285,11 @@ Proof.
     state where [X] is [1].  That is, the property of being equal
     to [1] gets transferred from [Y] to [X].
 
-    [Diego]Similarly, in
+    Similarmente, em
        {{ Y + Z = 1 }}  X ::= Y + Z  {{ X = 1 }}
-    the same property (being equal to one) gets transferred to
-    [X] from the expression [Y + Z] on the right-hand side of
-    the assignment.
+    a mesma propriedade (sendo igual a um) é transferida para
+    [X] a partir da expressão [Y + Z] no lado direito da
+    atribuição.
 
     Mais geralmente, se [a] é _qualquer_ expressão aritmética, então
        {{ a = 1 }}  X ::= a {{ X = 1 }}
@@ -329,9 +329,9 @@ Proof.
     [P'] that is just the same as [P] except that, wherever [P]
     mentions [X], [P'] should instead mention [a].  
    
-    [Diego]Since [P] is an arbitrary Coq proposition, we can't directly
-    "edit" its text.  Instead, we can achieve the effect we want by
-    evaluating [P] in an updated state: *)
+    Desde que [P] é uma proposição arbitrária do Coq, nós não podemos 
+    diretamente "editar" seu texto.  Em vez disso, nós podemos alcançar o 
+    efeito que queremos calculando [P] em um estado atualizado: *)
 
 Definition assn_sub X a P : Assertion :=
   fun (st : state) =>
@@ -382,7 +382,7 @@ Notation "P [ X |-> a ]" := (assn_sub X a P) (at level 10).
       {{Q [X |-> a]}} X ::= a {{Q}}
 *)
 
-(** [Diego]We can prove formally that this rule is indeed valid. *)
+(** Nós podemos provar formalmente que essa regra é de fato válida. *)
 
 Theorem hoare_asgn : forall Q X a,
   {{Q [X |-> a]}} (X ::= a) {{Q}}.
@@ -460,9 +460,9 @@ Proof.
 (** [] *)
 
 (** **** Exercise: 2 stars, advanced (hoare_asgn_fwd_exists)  *)
-(** [Diego]Another way to define a forward rule for assignment is to
-    existentially quantify over the previous value of the assigned
-    variable.
+(** Outra maneira de definir uma regra avançada para atribuições é
+    quantificar existencialmente sobre o valor anterior da variável
+    atribuida.
   ------------------------------------------ (hoare_asgn_fwd_exists)
   {{fun st => P st}}
     X ::= a
