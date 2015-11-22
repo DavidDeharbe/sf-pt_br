@@ -89,7 +89,7 @@ Require Export Imp.
 
 Definition Assertion := state -> Prop.
 
-(** **** Exercise: 1 star, optional (assertions)  *)
+(** **** Exercício: nível 1, opcional (assertions)  *)
 Module ExAssertions.
 
 (** Paraphrase the following assertions in English. *)
@@ -104,7 +104,7 @@ Definition as4 : Assertion :=
 Definition as5 : Assertion := fun st => True.
 Definition as6 : Assertion := fun st => False.
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 
 End ExAssertions.
 (** [] *)
@@ -185,7 +185,7 @@ Notation "{{ P }}  c  {{ Q }}" :=
     contexts.  The [Open Scope] tells Coq that this file is one such
     context.) *)
 
-(** **** Exercise: 1 star, optional (triples)  *)
+(** **** Exercício: nível 1, opcional (triples)  *)
 (** Paraphrase the following Hoare triples in English.
    1) {{True}} c {{X = 5}}
 
@@ -208,7 +208,7 @@ Notation "{{ P }}  c  {{ Q }}" :=
 
 (** [] *)
 
-(** **** Exercise: 1 star, optional (valid_triples)  *)
+(** **** Exercício: nível 1, opcional (valid_triples)  *)
 (** [Diego]Which of the following Hoare triples are _valid_ -- i.e., the
     claimed relation between [P], [c], and [Q] is true?
    1) {{True}} X ::= 5 {{X = 5}}
@@ -234,7 +234,7 @@ Notation "{{ P }}  c  {{ Q }}" :=
       {{X = 100}}
 
 *)
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
 (** [Francisco](Note that we're using informal mathematical notations for
@@ -405,7 +405,7 @@ Example assn_sub_example :
 Proof.
   apply hoare_asgn.  Qed.
 
-(** **** Exercise: 2 stars (hoare_asgn_examples)  *)
+(** **** Exercício: nível 2 (hoare_asgn_examples)  *)
 (** Translate these informal Hoare triples...
     1) {{ (X <= 5) [X |-> X + 1] }}
        X ::= X + 1
@@ -417,10 +417,10 @@ Proof.
    ...into formal statements [assn_sub_ex1, assn_sub_ex2] 
    and use [hoare_asgn] to prove them. *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
-(** **** Exercise: 2 stars (hoare_asgn_wrong)  *)
+(** **** Exercício: nível 2 (hoare_asgn_wrong)  *)
 (** [Renan]The assignment rule looks backward to almost everyone the first
     time they see it.  If it still seems backward to you, it may help
     to think a little about alternative "forward" rules.  Here is a
@@ -432,10 +432,10 @@ Proof.
     arithmetic expression [a], and your counterexample needs to
     exhibit an [a] for which the rule doesn't work. *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
-(** **** Exercise: 3 stars, advanced (hoare_asgn_fwd)  *)
+(** **** Exercício: nível 3, avançado (hoare_asgn_fwd)  *)
 (** [Vitor]However, using an auxiliary variable [m] to remember the original
     value of [X] we can define a Hoare rule for assignment that does,
     intuitively, "work forwards" rather than backwards.
@@ -460,10 +460,10 @@ Theorem hoare_asgn_fwd :
   {{fun st => P (update st X m) /\ st X = aeval (update st X m) a }}.
 Proof.
   intros functional_extensionality m a P.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 2 stars, advanced (hoare_asgn_fwd_exists)  *)
+(** **** Exercício: nível 2, avançado (hoare_asgn_fwd_exists)  *)
 (** [Diego]Another way to define a forward rule for assignment is to
     existentially quantify over the previous value of the assigned
     variable.
@@ -485,7 +485,7 @@ Theorem hoare_asgn_fwd_exists :
                 st X = aeval (update st X m) a }}.
 Proof.
   intros functional_extensionality a P.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
 (* ####################################################### *) 
@@ -512,7 +512,7 @@ Proof.
                   P <<->> P'
          -----------------------------   (hoare_consequence_pre_equiv)
                 {{P}} c {{Q}}
-    Taking this line of thought a bit further, we can see that
+    [Dalay]Taking this line of thought a bit further, we can see that
     strengthening the precondition or weakening the postcondition of a
     valid triple always produces another valid triple. This
     observation is captured by two _Rules of Consequence_.
@@ -527,7 +527,7 @@ Proof.
                 {{P}} c {{Q}}
 *)
 
-(** Here are the formal versions: *)
+(** Seguem as versões formais: *)
 
 Theorem hoare_consequence_pre : forall (P P' Q : Assertion) c,
   {{P'}} c {{Q}} ->
@@ -549,7 +549,7 @@ Proof.
   apply (Hhoare st st'). 
   assumption. assumption. Qed.
 
-(** For example, we might use the first consequence rule like this:
+(** [Diego]For example, we might use the first consequence rule like this:
                 {{ True }} ->>
                 {{ 1 = 1 }} 
     X ::= 1
@@ -566,7 +566,7 @@ Proof.
   intros st H. unfold assn_sub, update. simpl. reflexivity.
 Qed.
 
-(** Finally, for convenience in some proofs, we can state a "combined"
+(** [Francisco]Finally, for convenience in some proofs, we can state a "combined"
     rule of consequence that allows us to vary both the precondition
     and the postcondition. 
                 {{P'}} c {{Q'}}
@@ -588,9 +588,9 @@ Proof.
   assumption. assumption. assumption.  Qed.
 
 (* ####################################################### *)
-(** *** Digression: The [eapply] Tactic *)
+(** *** Digressão: a tática [eapply] *)
 
-(** This is a good moment to introduce another convenient feature of
+(** [Renan]This is a good moment to introduce another convenient feature of
     Coq.  We had to write "[with (P' := ...)]" explicitly in the proof
     of [hoare_asgn_example1] and [hoare_consequence] above, to make
     sure that all of the metavariables in the premises to the
@@ -600,7 +600,7 @@ Proof.
     with the current goal doesn't constrain [P'] to a specific
     assertion.)
 
-    This is a little annoying, both because the assertion is a bit
+    [Vitor]This is a little annoying, both because the assertion is a bit
     long and also because for [hoare_asgn_example1] the very next
     thing we are going to do -- applying the [hoare_asgn] rule -- will
     tell us exactly what it should be!  We can use [eapply] instead of
@@ -616,7 +616,7 @@ Proof.
   apply hoare_asgn.
   intros st H.  reflexivity.  Qed.
 
-(** In general, [eapply H] tactic works just like [apply H] except
+(** [Dalay]In general, [eapply H] tactic works just like [apply H] except
     that, instead of failing if unifying the goal with the conclusion
     of [H] does not determine how to instantiate all of the variables
     appearing in the premises of [H], [eapply H] will replace these
@@ -624,7 +624,7 @@ Proof.
     as placeholders for expressions that will be determined (by
     further unification) later in the proof. *)
 
-(** In order for [Qed] to succeed, all existential variables need to
+(** [Diego]In order for [Qed] to succeed, all existential variables need to
     be determined by the end of the proof. Otherwise Coq
     will (rightly) refuse to accept the proof. Remember that the Coq
     tactics build proof objects, and proof objects containing
@@ -637,7 +637,7 @@ Lemma silly1 : forall (P : nat -> nat -> Prop) (Q : nat -> Prop),
 Proof.
   intros P Q HP HQ. eapply HQ. apply HP.
 
-(** Coq gives a warning after [apply HP]:
+(** [Francisco]Coq gives a warning after [apply HP]:
      No more subgoals but non-instantiated existential variables:
      Existential 1 =
      ?171 : [P : nat -> nat -> Prop
@@ -656,7 +656,7 @@ Proof.
 
 Abort.
 
-(** An additional constraint is that existential variables cannot be
+(** [Renan]An additional constraint is that existential variables cannot be
     instantiated with terms containing (ordinary) variables that did
     not exist at the time the existential variable was created. *)
 
@@ -667,7 +667,7 @@ Lemma silly2 :
   Q 42.
 Proof.
   intros P Q HP HQ. eapply HQ. destruct HP as [y HP'].
-(** Doing [apply HP'] above fails with the following error:
+(** [Vitor]Doing [apply HP'] above fails with the following error:
      Error: Impossible to unify "?175" with "y".
     In this case there is an easy fix:
     doing [destruct HP] _before_ doing [eapply HQ].
@@ -685,7 +685,7 @@ Proof.
   eapply HQ. apply HP'.
 Qed.
 
-(** In the last step we did [apply HP'] which unifies the existential
+(** [Dalay]In the last step we did [apply HP'] which unifies the existential
     variable in the goal with the variable [y]. The [assumption]
     tactic doesn't work in this case, since it cannot handle
     existential variables. However, Coq also provides an [eassumption]
@@ -703,20 +703,20 @@ Qed.
 
     
 
-(** **** Exercise: 2 stars (hoare_asgn_examples_2)  *)
-(** Translate these informal Hoare triples...
+(** **** Exercício: nível 2 (hoare_asgn_examples_2)  *)
+(** [Diego]Translate these informal Hoare triples...
        {{ X + 1 <= 5 }}  X ::= X + 1  {{ X <= 5 }}
        {{ 0 <= 3 /\ 3 <= 5 }}  X ::= 3  {{ 0 <= X /\ X <= 5 }}
    ...into formal statements [assn_sub_ex1', assn_sub_ex2'] and 
    use [hoare_asgn] and [hoare_consequence_pre] to prove them. *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
 (* ####################################################### *)
 (** *** Skip *)
 
-(** Since [SKIP] doesn't change the state, it preserves any
+(** [Francisco]Since [SKIP] doesn't change the state, it preserves any
     property P:
       --------------------  (hoare_skip)
       {{ P }} SKIP {{ P }}
@@ -729,9 +729,9 @@ Proof.
   assumption.  Qed.
 
 (* ####################################################### *) 
-(** *** Sequencing *)
+(** *** Sequenciamento *)
 
-(** More interestingly, if the command [c1] takes any state where
+(** [Renan]More interestingly, if the command [c1] takes any state where
     [P] holds to a state where [Q] holds, and if [c2] takes any
     state where [Q] holds to one where [R] holds, then doing [c1]
     followed by [c2] will take any state where [P] holds to one
@@ -752,7 +752,7 @@ Proof.
   apply (H1 st'0 st'); try assumption.
   apply (H2 st st'0); assumption. Qed.
 
-(** Note that, in the formal rule [hoare_seq], the premises are
+(** [Vitor]Note that, in the formal rule [hoare_seq], the premises are
     given in "backwards" order ([c2] before [c1]).  This matches the
     natural flow of information in many of the situations where we'll
     use the rule: the natural way to construct a Hoare-logic proof is
@@ -760,7 +760,7 @@ Proof.
     and push postconditions backwards through commands until we reach
     the beginning. *)
 
-(** Informally, a nice way of recording a proof using the sequencing
+(** [Dalay]Informally, a nice way of recording a proof using the sequencing
     rule is as a "decorated program" where the intermediate assertion
     [Q] is written between [c1] and [c2]:
       {{ a = n }}
@@ -782,12 +782,12 @@ Proof.
     eapply hoare_consequence_pre. apply hoare_asgn. 
     intros st H. subst. reflexivity. Qed.
 
-(** You will most often use [hoare_seq] and
+(** [Diego]You will most often use [hoare_seq] and
     [hoare_consequence_pre] in conjunction with the [eapply] tactic,
     as done above. *)
 
-(** **** Exercise: 2 stars (hoare_asgn_example4)  *)
-(** Translate this "decorated program" into a formal proof:
+(** **** Exercício: nível 2 (hoare_asgn_example4)  *)
+(** [Francisco]Translate this "decorated program" into a formal proof:
                    {{ True }} ->>
                    {{ 1 = 1 }}
     X ::= 1;;
@@ -801,42 +801,42 @@ Example hoare_asgn_example4 :
   {{fun st => True}} (X ::= (ANum 1);; Y ::= (ANum 2)) 
   {{fun st => st X = 1 /\ st Y = 2}}.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 3 stars (swap_exercise)  *)
-(** Write an Imp program [c] that swaps the values of [X] and [Y]
+(** **** Exercício: nível 3 (swap_exercise)  *)
+(** [Renan]Write an Imp program [c] that swaps the values of [X] and [Y]
     and show (in Coq) that it satisfies the following
     specification:
       {{X <= Y}} c {{Y <= X}}
 *)
 
 Definition swap_program : com :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHER *) admit.
 
 Theorem swap_exercise :
   {{fun st => st X <= st Y}} 
   swap_program
   {{fun st => st Y <= st X}}.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 3 stars (hoarestate1)  *)
-(** Explain why the following proposition can't be proven:
+(** **** Exercício: nível 3 (hoarestate1)  *)
+(** [Vitor]Explain why the following proposition can't be proven:
       forall (a : aexp) (n : nat),
          {{fun st => aeval st a = n}}
          (X ::= (ANum 3);; Y ::= a)
          {{fun st => st Y = n}}.
 *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
 (* ####################################################### *) 
-(** *** Conditionals *)
+(** *** Condicionais *)
 
-(** What sort of rule do we want for reasoning about conditional
+(** [Dalay]What sort of rule do we want for reasoning about conditional
     commands?  Certainly, if the same assertion [Q] holds after
     executing either branch, then it holds after the whole
     conditional.  So we might be tempted to write:
@@ -844,7 +844,7 @@ Proof.
               {{P}} c2 {{Q}}
       --------------------------------
       {{P}} IFB b THEN c1 ELSE c2 {{Q}}
-   However, this is rather weak. For example, using this rule,
+   [Diego]However, this is rather weak. For example, using this rule,
    we cannot show that:
      {{ True }} 
      IFB X == 0
@@ -855,7 +855,7 @@ Proof.
    since the rule tells us nothing about the state in which the
    assignments take place in the "then" and "else" branches. *)
    
-(** But we can actually say something more precise.  In the
+(** [Francisco]But we can actually say something more precise.  In the
    "then" branch, we know that the boolean expression [b] evaluates to
    [true], and in the "else" branch, we know it evaluates to [false].
    Making this information available in the premises of the rule gives
@@ -869,7 +869,7 @@ Proof.
       {{P}} IFB b THEN c1 ELSE c2 FI {{Q}} 
 *)
 
-(** To interpret this rule formally, we need to do a little work.
+(** [Renan]To interpret this rule formally, we need to do a little work.
     Strictly speaking, the assertion we've written, [P /\ b], is the
     conjunction of an assertion and a boolean expression -- i.e., it
     doesn't typecheck.  To fix this, we need a way of formally
@@ -880,7 +880,7 @@ Proof.
 Definition bassn b : Assertion :=
   fun st => (beval st b = true).
 
-(** A couple of useful facts about [bassn]: *)
+(** Alguns fatos úteis acerca de [bassn] são: *)
 
 Lemma bexp_eval_true : forall b st,
   beval st b = true -> (bassn b) st.
@@ -895,7 +895,7 @@ Proof.
   unfold bassn in contra.
   rewrite -> contra in Hbe. inversion Hbe.  Qed.
 
-(** Now we can formalize the Hoare proof rule for conditionals
+(** [Vitor]Now we can formalize the Hoare proof rule for conditionals
     and prove it correct. *)
 
 Theorem hoare_if : forall P Q b c1 c2,
@@ -919,16 +919,16 @@ Proof.
 
 (* ####################################################### *) 
 
-(** * Hoare Logic: So Far *)
+(** * Lógica de Hoare: até agora *)
 
 (** 
-Idea: create a _domain specific logic_ for reasoning about properties of Imp programs.
+[Dalay]Idea: create a _domain specific logic_ for reasoning about properties of Imp programs.
 
 - This hides the low-level details of the semantics of the program
 - Leads to a compositional reasoning process
 
 
-The basic structure is given by _Hoare triples_ of the form:
+[Diego]The basic structure is given by _Hoare triples_ of the form:
   {{P}} c {{Q}}
 ]] 
 
@@ -940,7 +940,7 @@ The basic structure is given by _Hoare triples_ of the form:
 *)
 
 
-(** ** Hoare Logic Rules (so far) *)
+(** ** Regras da lógica de Hoare (parcial) *)
 
 (**
              ------------------------------ (hoare_asgn)
@@ -968,8 +968,8 @@ The basic structure is given by _Hoare triples_ of the form:
 *)
 
 
-(** *** Example *)
-(** Here is a formal proof that the program we used to motivate the
+(** *** Exemplo *)
+(** [Francisco]Here is a formal proof that the program we used to motivate the
     rule satisfies the specification we gave. *)
 
 Example if_example : 
@@ -994,8 +994,8 @@ Proof.
     simpl; intros st _. omega.
 Qed.
 
-(** **** Exercise: 2 stars (if_minus_plus)  *)
-(** Prove the following hoare triple using [hoare_if]: *)
+(** **** Exercício: nível 2 (if_minus_plus)  *)
+(** [Renan]Prove the following hoare triple using [hoare_if]: *)
 
 Theorem if_minus_plus :
   {{fun st => True}}
@@ -1005,25 +1005,25 @@ Theorem if_minus_plus :
   FI
   {{fun st => st Y = st X + st Z}}. 
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 
 (* ####################################################### *)
-(** *** Exercise: One-sided conditionals *)
+(** *** Exercício: Condicionais de ramificação única *)
 
-(** **** Exercise: 4 stars (if1_hoare)  *)
+(** **** Exercício: nível 4 (if1_hoare)  *)
 
-(** In this exercise we consider extending Imp with "one-sided
+(** [Vitor]In this exercise we consider extending Imp with "one-sided
     conditionals" of the form [IF1 b THEN c FI]. Here [b] is a
     boolean expression, and [c] is a command. If [b] evaluates to
     [true], then command [c] is evaluated. If [b] evaluates to
     [false], then [IF1 b THEN c FI] does nothing.
 
-    We recommend that you do this exercise before the ones that
+    [Dalay]We recommend that you do this exercise before the ones that
     follow, as it should help solidify your understanding of the
     material. *)
 
 
-(** The first step is to extend the syntax of commands and introduce
+(** [Diego]The first step is to extend the syntax of commands and introduce
     the usual notations.  (We've done this for you.  We use a separate
     module to prevent polluting the global name space.) *)
 
@@ -1055,7 +1055,7 @@ Notation "'IFB' e1 'THEN' e2 'ELSE' e3 'FI'" :=
 Notation "'IF1' b 'THEN' c 'FI'" := 
   (CIf1 b c) (at level 80, right associativity).
 
-(** Next we need to extend the evaluation relation to accommodate
+(** [Renan]Next we need to extend the evaluation relation to accommodate
     [IF1] branches.  This is for you to do... What rule(s) need to be
     added to [ceval] to evaluate one-sided conditionals? *)
 
@@ -1080,7 +1080,7 @@ Inductive ceval : com -> state -> state -> Prop :=
                   c1 / st || st' ->
                   (WHILE b1 DO c1 END) / st' || st'' ->
                   (WHILE b1 DO c1 END) / st || st''
-(* FILL IN HERE *)
+(* PREENCHER *)
 
   where "c1 '/' st '||' st'" := (ceval c1 st st').
 
@@ -1089,10 +1089,10 @@ Tactic Notation "ceval_cases" tactic(first) ident(c) :=
   [ Case_aux c "E_Skip" | Case_aux c "E_Ass" | Case_aux c "E_Seq"
   | Case_aux c "E_IfTrue" | Case_aux c "E_IfFalse"
   | Case_aux c "E_WhileEnd" | Case_aux c "E_WhileLoop"
-  (* FILL IN HERE *)
+  (* PREENCHER *)
   ].
 
-(** Now we repeat (verbatim) the definition and notation of Hoare triples. *)
+(** [Vitor]Now we repeat (verbatim) the definition and notation of Hoare triples. *)
 
 Definition hoare_triple (P:Assertion) (c:com) (Q:Assertion) : Prop :=
   forall st st', 
@@ -1104,14 +1104,14 @@ Notation "{{ P }}  c  {{ Q }}" := (hoare_triple P c Q)
                                   (at level 90, c at next level) 
                                   : hoare_spec_scope.
 
-(** Finally, we (i.e., you) need to state and prove a theorem,
+(** [Dalay]Finally, we (i.e., you) need to state and prove a theorem,
     [hoare_if1], that expresses an appropriate Hoare logic proof rule
     for one-sided conditionals. Try to come up with a rule that is
     both sound and as precise as possible. *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 
-(** For full credit, prove formally [hoare_if1_good] that your rule is 
+(** [Diego]For full credit, prove formally [hoare_if1_good] that your rule is 
     precise enough to show the following valid Hoare triple:
   {{ X + Y = Z }}
   IF1 Y <> 0 THEN
@@ -1120,7 +1120,7 @@ Notation "{{ P }}  c  {{ Q }}" := (hoare_triple P c Q)
   {{ X = Z }}
 *)
 
-(** Hint: Your proof of this triple may need to use the other proof
+(** [Francisco]Hint: Your proof of this triple may need to use the other proof
     rules also. Because we're working in a separate module, you'll
     need to copy here the rules you find necessary. *)
 
@@ -1131,15 +1131,15 @@ Lemma hoare_if1_good :
     X ::= APlus (AId X) (AId Y)
   FI
   {{ fun st => st X = st Z }}.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHER *) Admitted.
 
 End If1.
 (** [] *)
 
 (* ####################################################### *)
-(** *** Loops *)
+(** *** Laços *)
 
-(** Finally, we need a rule for reasoning about while loops. *)
+(** [Renan]Finally, we need a rule for reasoning about while loops. *)
 
 (** Suppose we have a loop
       WHILE b DO c END
@@ -1150,7 +1150,7 @@ End If1.
 
 (** *** *)
 
-(** First of all, let's think about the case where [b] is false at the
+(** [Dalay]First of all, let's think about the case where [b] is false at the
     beginning -- i.e., let's assume that the loop body never executes
     at all.  In this case, the loop behaves like [SKIP], so we might
     be tempted to write: *)
@@ -1160,7 +1160,7 @@ End If1.
 *)
 
 (** 
-    But, as we remarked above for the conditional, we know a
+    [Diego]But, as we remarked above for the conditional, we know a
     little more at the end -- not just [P], but also the fact
     that [b] is false in the current state.  So we can enrich the
     postcondition a little:
@@ -1170,7 +1170,7 @@ End If1.
 *)
 
 (** 
-    What about the case where the loop body _does_ get executed?
+    [Francisco]What about the case where the loop body _does_ get executed?
     In order to ensure that [P] holds when the loop finally
     exits, we certainly need to make sure that the command [c]
     guarantees that [P] holds whenever [c] is finished.
@@ -1186,7 +1186,7 @@ End If1.
         {{P}} WHILE b DO c END {{P /\ ~b}}
 *)
 (** 
-    This is almost the rule we want, but again it can be improved a
+    [Renan]This is almost the rule we want, but again it can be improved a
     little: at the beginning of the loop body, we know not only that
     [P] holds, but also that the guard [b] is true in the current
     state.  This gives us a little more information to use in
@@ -1197,7 +1197,7 @@ End If1.
                {{P /\ b}} c {{P}}
         -----------------------------------  (hoare_while)
         {{P}} WHILE b DO c END {{P /\ ~b}}
-    The proposition [P] is called an _invariant_ of the loop.
+    A proposição [P] é chamada o _invariante_ do laço.
 *)
 
 Lemma hoare_while : forall P b c,
@@ -1205,9 +1205,9 @@ Lemma hoare_while : forall P b c,
   {{P}} WHILE b DO c END {{fun st => P st /\ ~ (bassn b st)}}.
 Proof.
   intros P b c Hhoare st st' He HP.
-  (* Like we've seen before, we need to reason by induction 
-     on [He], because, in the "keep looping" case, its hypotheses 
-     talk about the whole loop instead of just [c]. *)
+  (* Como nós vimos anteriormente, nós precisamos raciocinar por
+     indução com [He] pois, no caso de repetir o laço, as hipóteses 
+     associadas tratam do laço completo ao invés de somente [c]. *)
   remember (WHILE b DO c END) as wcom eqn:Heqwcom.
   ceval_cases (induction He) Case;
     try (inversion Heqwcom); subst; clear Heqwcom.
@@ -1220,14 +1220,14 @@ Proof.
 Qed.
 
 (**
-    One subtlety in the terminology is that calling some assertion [P]
+    [Vitor]One subtlety in the terminology is that calling some assertion [P]
     a "loop invariant" doesn't just mean that it is preserved by the
     body of the loop in question (i.e., [{{P}} c {{P}}], where [c] is
     the loop body), but rather that [P] _together with the fact that
     the loop's guard is true_ is a sufficient precondition for [c] to
     ensure [P] as a postcondition.
 
-    This is a slightly (but significantly) weaker requirement.  For
+    [Dalay]This is a slightly (but significantly) weaker requirement.  For
     example, if [P] is the assertion [X = 0], then [P] _is_ an
     invariant of the loop
     WHILE X = 2 DO X := 1 END
@@ -1263,7 +1263,7 @@ Qed.
 
 
 (** *** *)
-(** We can use the while rule to prove the following Hoare triple,
+(** [Diego]We can use the while rule to prove the following Hoare triple,
     which may seem surprising at first... *)
 
 Theorem always_loop_hoare : forall P Q,
@@ -1282,25 +1282,25 @@ Proof.
   Case "Precondition implies invariant".
     intros st H. constructor.  Qed.
 
-(** Of course, this result is not surprising if we remember that
+(** [Francisco]Of course, this result is not surprising if we remember that
     the definition of [hoare_triple] asserts that the postcondition
     must hold _only_ when the command terminates.  If the command
     doesn't terminate, we can prove anything we like about the
     post-condition. *)
 
-(** Hoare rules that only talk about terminating commands are
+(** [Renan]Hoare rules that only talk about terminating commands are
     often said to describe a logic of "partial" correctness.  It is
     also possible to give Hoare rules for "total" correctness, which
     build in the fact that the commands terminate. However, in this
     course we will only talk about partial correctness. *)
 
 (* ####################################################### *)
-(** *** Exercise: [REPEAT] *)
+(** *** Exercício: [REPEAT] *)
 
 Module RepeatExercise.
 
-(** **** Exercise: 4 stars, advanced (hoare_repeat)  *)
-(** In this exercise, we'll add a new command to our language of
+(** **** Exercício: nível 4, avançado (hoare_repeat)  *)
+(** [Vitor]In this exercise, we'll add a new command to our language of
     commands: [REPEAT] c [UNTIL] a [END]. You will write the
     evaluation rule for [repeat] and add a new Hoare rule to
     the language for programs involving it. *)
@@ -1313,7 +1313,7 @@ Inductive com : Type :=
   | CWhile : bexp -> com -> com
   | CRepeat : com -> bexp -> com.
 
-(** [REPEAT] behaves like [WHILE], except that the loop guard is
+(** [Dalay][REPEAT] behaves like [WHILE], except that the loop guard is
     checked _after_ each execution of the body, with the loop
     repeating as long as the guard stays _false_.  Because of this,
     the body will always execute at least once. *)
@@ -1337,7 +1337,7 @@ Notation "'IFB' e1 'THEN' e2 'ELSE' e3 'FI'" :=
 Notation "'REPEAT' e1 'UNTIL' b2 'END'" := 
   (CRepeat e1 b2) (at level 80, right associativity).
 
-(** Add new rules for [REPEAT] to [ceval] below.  You can use the rules
+(** [Diego]Add new rules for [REPEAT] to [ceval] below.  You can use the rules
     for [WHILE] as a guide, but remember that the body of a [REPEAT]
     should always execute at least once, and that the loop ends when
     the guard becomes true.  Then update the [ceval_cases] tactic to
@@ -1369,7 +1369,7 @@ Inductive ceval : state -> com -> state -> Prop :=
       ceval st c1 st' ->
       ceval st' (WHILE b1 DO c1 END) st'' ->
       ceval st (WHILE b1 DO c1 END) st''
-(* FILL IN HERE *)
+(* PREENCHER *)
 .
 
 Tactic Notation "ceval_cases" tactic(first) ident(c) :=
@@ -1378,10 +1378,10 @@ Tactic Notation "ceval_cases" tactic(first) ident(c) :=
   | Case_aux c "E_Seq"
   | Case_aux c "E_IfTrue" | Case_aux c "E_IfFalse"
   | Case_aux c "E_WhileEnd" | Case_aux c "E_WhileLoop" 
-(* FILL IN HERE *)
+(* PREENCHER *)
 ].
 
-(** A couple of definitions from above, copied here so they use the
+(** [Francisco]A couple of definitions from above, copied here so they use the
     new [ceval]. *)
 
 Notation "c1 '/' st '||' st'" := (ceval st c1 st') 
@@ -1394,7 +1394,7 @@ Definition hoare_triple (P:Assertion) (c:com) (Q:Assertion)
 Notation "{{ P }}  c  {{ Q }}" :=
   (hoare_triple P c Q) (at level 90, c at next level).
 
-(** To make sure you've got the evaluation rules for [REPEAT] right,
+(** [Renan]To make sure you've got the evaluation rules for [REPEAT] right,
     prove that [ex1_repeat evaluates correctly. *)
 
 Definition ex1_repeat :=
@@ -1407,15 +1407,15 @@ Theorem ex1_repeat_works :
   ex1_repeat / empty_state ||
                update (update empty_state X 1) Y 1.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 
-(** Now state and prove a theorem, [hoare_repeat], that expresses an
+(** [Vitor]Now state and prove a theorem, [hoare_repeat], that expresses an
     appropriate proof rule for [repeat] commands.  Use [hoare_while]
     as a model, and try to make your rule as precise as possible. *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 
-(** For full credit, make sure (informally) that your rule can be used
+(** [Dalay]For full credit, make sure (informally) that your rule can be used
     to prove the following valid Hoare triple:
   {{ X > 0 }}
   REPEAT
@@ -1430,11 +1430,11 @@ End RepeatExercise.
 (** [] *)
 
 (* ####################################################### *)
-(** ** Exercise: [HAVOC] *)
+(** ** Exercício: [HAVOC] *)
 
-(** **** Exercise: 3 stars (himp_hoare)  *)
+(** **** Exercício: nível 3 (himp_hoare)  *)
 
-(** In this exercise, we will derive proof rules for the [HAVOC] command
+(** [Diego]In this exercise, we will derive proof rules for the [HAVOC] command
     which we studied in the last chapter. First, we enclose this work
     in a separate module, and recall the syntax and big-step semantics
     of Himp commands. *)
@@ -1499,7 +1499,7 @@ Tactic Notation "ceval_cases" tactic(first) ident(c) :=
   | Case_aux c "E_WhileEnd" | Case_aux c "E_WhileLoop"
   | Case_aux c "E_Havoc" ].
 
-(** The definition of Hoare triples is exactly as before. Unlike our
+(** [Francisco]The definition of Hoare triples is exactly as before. Unlike our
     notion of program equivalence, which had subtle consequences with
     occassionally nonterminating commands (exercise [havoc_diverge]),
     this definition is still fully satisfactory. Convince yourself of
@@ -1516,21 +1516,21 @@ Notation "{{ P }}  c  {{ Q }}" := (hoare_triple P c Q)
     [havoc_pre] and prove that the resulting rule is correct. *)
 
 Definition havoc_pre (X : id) (Q : Assertion) : Assertion :=
-(* FILL IN HERE *) admit.
+(* PREENCHER *) admit.
 
 Theorem hoare_havoc : forall (Q : Assertion) (X : id),
   {{ havoc_pre X Q }} HAVOC X {{ Q }}.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 
 End Himp.
 (** [] *)
 
 
 (* ####################################################### *)
-(** ** Complete List of Hoare Logic Rules *)
+(** ** Lista completa de regras para a lógica de Hoare *)
 
-(** Above, we've introduced Hoare Logic as a tool to reasoning
+(** [Renan]Above, we've introduced Hoare Logic as a tool to reasoning
     about Imp programs. In the reminder of this chapter we will
     explore a systematic way to use Hoare Logic to prove properties
     about programs. The rules of Hoare Logic are the following: *)
@@ -1561,9 +1561,7 @@ End Himp.
                    Q' ->> Q
          -----------------------------   (hoare_consequence)
                 {{P}} c {{Q}}
-    In the next chapter, we'll see how these rules are used to prove
+    [Vitor]In the next chapter, we'll see how these rules are used to prove
     that programs satisfy specifications of their behavior.
 *)
-
-(** $Date: 2014-12-31 11:17:56 -0500 (Wed, 31 Dec 2014) $ *)
 

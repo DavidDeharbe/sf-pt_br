@@ -5,10 +5,10 @@ Require Export Logic.
 (* ####################################################### *)
 (** * Proposições Definidas Indutivamente *)
 
-(** [Claudia] In chapter [Basics] we defined a _function_ [evenb] that tests a
-    number for evenness, yielding [true] if so.  We can use this
-    function to define the _proposition_ that some number [n] is
-    even: *)
+(** No capítulo [Embasamento], definimos uma função _evenb_ que testa
+    a paridade de um número, retornando [true] em caso positivo. Podemos
+    utilizar esta função para definir a _proposição_ que algum número [n]
+    é par: *)
 
 Definition even (n:nat) : Prop := 
   evenb n = true.
@@ -19,30 +19,28 @@ Definition even (n:nat) : Prop :=
     Note que aqui temos dado um nome para
     uma proposição utilizando uma [Definition], assim como temos dado
     nomes para expressões de outros tipos. Ela não é fundamentalmente um
-    novo tipo de proposição;  Ela ainda é apenas uma igualdade. *)
+    novo tipo de proposição;  ainda é somente uma igualdade. *)
 
-(** Uma outra alternativa é definir o conceito de uniformidade
-    diretamente. Em vez de ser via a função [evenb] ("um número é par se
-    um determinado rendimento de computação é [verdadeiro]"), nós podemos
-    dizer que o conceito de uniformidade significa quedando duas maneiras
-    diferentes de apresentar _evidência_ de que um número é par. *)
+(** Uma outra alternativa é definir o conceito de paridade diretamente. Em vez
+    de ser via a função [evenb] ("um número é par se um determinado rendimento
+    de computação é [verdadeiro]"), nós podemos dizer que o conceito de paridade
+    significa dando duas maneiras diferentes de apresentar _evidência_ de que um
+    número é par. *)
 
 Inductive ev : nat -> Prop :=
   | ev_0 : ev O
   | ev_SS : forall n:nat, ev n -> ev (S (S n)).
 
 
-(** A primeira linha declara que [ev] é uma proposição -- ou, mais 
-    formalmente, uma família de proposições "indexadas por" números 
-    naturais. (Ou seja, para cada número [n], a afirmação de que "[n] 
-    é par" é uma proposição.) Tal família de proposições é muitas 
-    vezes chamada de _propriedade_ de números.
+(** A primeira linha declara que [ev] é uma proposição -- ou, mais formalmente,
+    uma família de proposições "indexadas por" números naturais (ou seja, para
+    cada número [n], a afirmação de que "[n] é par" é uma proposição.) Tal
+    família de proposições é muitas vezes chamada de _propriedade_ de números.
 
-	As duas últimas linhas declaram as duas formas de fornecer provas de que 
-	[m] é par. Em primeiro lugar, [0] é par e [ev_0] é evidência disso. 
-	Segundo, se [m = S (S n)] para algum [n] e podemos prover a evidência [e] 
-	de que [n] é par então [m] também é par e [ev_SS n e] é a evidência. 
-*)
+    As duas últimas linhas declaram as duas formas de fornecer provas de que [m]
+    é par. Em primeiro lugar, [0] é par e [ev_0] é evidência disso.  Segundo, se
+    [m = S (S n)] para algum [n] e podemos prover a evidência [e] de que [n] é
+    par então [m] também é par e [ev_SS n e] é a evidência.  *)
 
 
 (** **** Exercício: nível 1 (double_even)  *)
@@ -57,11 +55,11 @@ Proof.
 
 (* ##################################################### *)
 
-(** [Claudia] For [ev], we had already defined [even] as a function (returning a
-   boolean), and then defined an inductive relation that agreed with
-   it. However, we don't necessarily need to think about propositions
-   first as boolean functions, we can start off with the inductive
-   definition.
+(** Para [ev], nós já tinhamos definido [even] como uma função (retornando um
+   booleano), e então definimos uma relação indutiva que concordava com esta
+   função. Porém, nós não necessariamente precisamos pensar primeiro sobre
+   proposições como funções booleanas, ao invés disto, podemos começar já com
+   a definição indutiva.
 *)
 
 (** Como um outro exemplo de uma proposição definida indutivamente, vamos
@@ -103,25 +101,25 @@ Proof.
 
 	
 
-(**  
+(** Cada uma das regras textuais acima é reformatado aqui como uma regra de
+    inferência; a leitura pretendida é que, se as _premissas_ acima da linha
+    forem verdadeiras, então a _conclusão_ abaixo da linha também é. Por
+    exemplo, a regra [b_sum] informa que se [n] e [m] são ambos números bonitos
+    ([beautiful]), então conclui-se que [n+m] também é [beautiful]. Se uma regra
+    não possui premissas então significa que a conclusão é válida
+    incondicionalmente.
 
-Cada uma das regras textuais acima é reformatado aqui como uma regra de 
-inferência; a leitura pretendida é que, se as _premissas_ acima da linha forem 
-verdadeiras, então a _conclusão_ abaixo da linha também é. Por exemplo, a regra 
-[b_sum] informa que se [n] e [m] são ambos números bonitos ([beautiful]), então 
-conclui-se que [n+m] também é [beautiful]. Se uma regra não possui premissas 
-então significa que a conclusão é válida incondicionalmente.
+    Estas regras _definem_ a propriedade [beautiful]. Isto é, se nós queremos
+    convencer alguém do que algum determinado número é [beautiful], nossa
+    argumentação deve estar baseada nestas regras. Para um exemplo simples,
+    supõe que afirmamos que o número [5] é [beautiful]. Para sustentar esta
+    afirmação, basta apontarmos que a regra [b_5] afirma exatamente isto. Se
+    quisermos afirmar que [8] é [beautiful], podemos suportar esta afirmação
+    observando primeiramente que [3] e [5] são [beautiful] (através das regras
+    [b_3] e [b_5]) e então apontar que a soma deles, [8], é necessariamente
+    [beautiful], pela regra [b_sum]. A _árvore de demonstração  seguinte é
+    a expressão gráfica desta argumentação: *)
 
-    [Claudia]These rules _define_ the property [beautiful].  That is, if we
-    want to convince someone that some particular number is [beautiful],
-    our argument must be based on these rules.  For a simple example,
-    suppose we claim that the number [5] is [beautiful].  To support
-    this claim, we just need to point out that rule [b_5] says so.
-    Or, if we want to claim that [8] is [beautiful], we can support our
-    claim by first observing that [3] and [5] are both [beautiful] (by
-    rules [b_3] and [b_5]) and then pointing out that their sum, [8],
-    is therefore [beautiful] by rule [b_sum].  This argument can be
-    expressed graphically with the following _proof tree_: *)
 (**
          ----------- (b_3)   ----------- (b_5)
          beautiful 3         beautiful 5
@@ -182,8 +180,8 @@ Proof.
 Qed.
 
 (** *** *)
-(** Como pensado, nós também podemos provar teoremas que possuem hipóteses 
-sobre [beautiful]. *)
+(** Nós também podemos provar teoremas que possuem hipóteses sobre
+    [beautiful]. *)
 
 Theorem beautiful_plus_eight: forall n, beautiful n -> beautiful (8+n).
 Proof.
@@ -207,11 +205,12 @@ Proof.
 
 
 (* ####################################################### *)
-(** * Uso de Evidência em Provas *)
+(** * Uso de Evidência em Demonstrações *)
+
 (** ** Indução sobre Evidência *)
 
-(** [Claudia]Besides _constructing_ evidence that numbers are beautiful, we can
-    also _reason about_ such evidence. *)
+(** Além de _construir  evidência de que números são [beautiful], nós podemos
+    também _raciocinar sobre  tal evidência. *)
 
 (** O fato de que nós introduzimos [beatiful] com uma declaração
     indutiva diz ao Coq não somente que os construtores [b_0], [b_3],
@@ -230,11 +229,11 @@ Proof.
         é beautiful). *)
 
 (** *** *)    
-(** Isto nós permite _analisar_ qualquer hipótese da forma
-    [beautiful n] para ver como ele foi construído, usando a tática que
-    nós já conhecemos. Em particular, nós podemos usar a tática de
-    [induction] que nós já vimos para raciocinar sobre o _dado_ definido
-    indutivamente para racionar sobre a _evidência_ definida indutivamente.
+(** Isto nós permite _analisar_ qualquer hipótese da forma [beautiful n] para
+    ver como ele foi construído, usando a tática que nós já conhecemos. Em
+    particular, nós podemos usar a tática [induction], que nós já utilizamos
+    para raciocinar sobre _dados_ definidos indutivamente, a fim de racionar 
+    também sobre _evidência_ definida indutivamente.
 
     Para ilustrar isso, vamos definir uma outra propriedade de números: *)
 
@@ -244,7 +243,7 @@ Inductive gorgeous : nat -> Prop :=
 | g_plus5 : forall n, gorgeous n -> gorgeous (5+n).
 
 (** **** Exercício: nível 1 (gorgeous_tree)  *)
-(** Escreva a definição de para números [gorgeous] usando a notação de regras 
+(** Escreva a definição para números [gorgeous] usando a notação de regras 
 de inferência.
  
 (* PREENCHER *)
@@ -260,11 +259,10 @@ Proof.
 (** [] *)
 
 (** *** *)
-(** [Claudia]It seems intuitively obvious that, although [gorgeous] and
-    [beautiful] are presented using slightly different rules, they are
-    actually the same property in the sense that they are true of the
-    same numbers.  Indeed, we can prove this. *)
-
+(** Intuitivamente, parece óbvio que, embora [gorgeous] e [beautiful] 
+    foram apresentados com regras ligeiramente diferentes, são na verdade
+    a mesma propriedade, no sentido que caracterizam exatamente os mesmos
+    números. De fato, nós podemos provar isto. *)
 
 Theorem gorgeous__beautiful_FAILED : forall n, 
   gorgeous n -> beautiful n.
@@ -274,19 +272,17 @@ Proof.
    Case "n = S n'". (* Estamos travados! *)
 Abort.
 
-(** O problema aqui é que fazer indução em [n] não produz uma hipótese
-    de indução útil. Sabendo como a propriedade que nós estamos 
-    interessados se comporta no predecessor de [n] não nos ajuda
-    a provar que ela funciona em [n] ao invés disso, nós gostaríamos 
-    de poder ter hipóteses de indução que mencionem outros números,
-    como em [n - 3] and [n - 5]. Isso é dado precisamente pelo formato
-    dos construtores para [gorgeous]. *)
-
+(** O problema aqui é que fazer indução em [n] não produz uma hipótese de
+    indução útil. Sabendo como a propriedade que nós estamos interessados se
+    comporta no predecessor de [n] não nos ajuda a provar que ela funciona em
+    [n]. Ao invés disso, nós gostaríamos de poder ter hipóteses de indução que
+    mencionem outros números, como [n - 3] and [n - 5]. Isso é dado precisamente
+    pelo formato dos construtores para [gorgeous]. *)
 
 (** *** *)
 
-(** Vamos ver o que acontece se nós tentarmos provar isso por indução sobre a
-    evidência [H] em vez de sobre [n]. *)
+(** Vamos ver o que acontece se nós tentarmos provar isso por indução com a
+    evidência [H] em vez de [n]. *)
 
 Theorem gorgeous__beautiful : forall n, 
   gorgeous n -> beautiful n.
@@ -303,7 +299,7 @@ Proof.
 Qed.
 
 
-(* Estes exercícios também requisitão o uso de indução na evidência. *)
+(* Os exercícios seguintes também necessitam utilizar indução na evidência. *)
 
 (** **** Exercício: nível 2 (gorgeous_sum)  *)
 Theorem gorgeous_sum : forall n m,
@@ -338,8 +334,8 @@ Proof.
 
 
 
-(** Abaixo se encontra uma prova de que a definição indutiva de números pares 
-implicam na definição computacional. *)
+(** Abaixo se encontra uma prova de que a definição indutiva de números pares
+    implica a definição computacional. *)
 
 Theorem ev__even : forall n,
   ev n -> even n.
@@ -352,15 +348,15 @@ Proof.
 Qed.
 
 (** **** Exercício: nível 1 (ev__even)  *) 
-(** [Claudia]Could this proof also be carried out by induction on [n] instead
-    of [E]?  If not, why not? *)
+(** Esta prova pode ser realizada por indução em [n] ao invés de [E]? 
+    Caso não, por que? *)
 
 (* PREENCHER *)
 (** [] *)
 
-(** intuitivamente, o princípio da indução [ev n] evidência [ev n] é
-    similar à indução em [n], mas restringe a nossa atenção a somente
-    esses npumeros para os quais a evidência [ev n] pode ser gerada. *)
+(** Intuitivamente, o princípio da indução na evidência [ev n] é similar à
+    indução em [n], mas restringe a nossa atenção a somente esses números para
+    os quais a evidência [ev n] pode ser gerada. *)
 
 (** **** Exercício: nível 1 (l_fails)  *)
 (** A tentativa de prova a seguir não irá funcionar.
@@ -371,8 +367,8 @@ Qed.
          Case "O". simpl. apply ev_0.
          Case "S".
            ...
-   Intuitivamente, nós esperamos que a prova falhe porque 
-   nem todo número é par. Contudo, o que exatamente causa a falha da prova?
+   Intuitivamente, nós esperamos que a prova falhe porque nem todo número é 
+   par. Contudo, o que exatamente causa a falha da prova?
 
 (* PREENCHER *)
 *)
@@ -392,11 +388,11 @@ Proof.
 (* ####################################################### *)
 (** ** Inversão em Evidência *)
 
-(** Ter evidências para uma proposição é útil durante uma prova pois podemos 
-_olhar_ para as evidências a fim de obter mais informações. Por exemplo, 
-considere a prova de que se [n] é par], então [pred (pred n)] é também. Neste 
-caso, nós não precisamos efetuar uma prova indutiva. A tática [inversion] 
-fornece todas as informações que precisamos.
+(** Ter evidências para uma proposição é útil durante uma prova pois podemos
+    _olhar_ para as evidências a fim de obter mais informações. Por exemplo,
+    considere a prova de que se [n] é par], então [pred (pred n)] também o
+    é. Neste caso, nós não precisamos efetuar uma prova indutiva. A tática
+    [inversion] fornece todas as informações que precisamos.
 
 *)
 
@@ -408,7 +404,8 @@ Proof.
   Case "E = ev_SS n' E'". simpl. apply E'.  Qed.
 
 (** **** Exercício: nível 1, opcional (ev_minus2_n)  *)
-(** [Claudia]What happens if we try to use [destruct] on [n] instead of [inversion] on [E]? *)
+(** O que acontece se tentamos aplicar [destruct] a [n] ao invés de
+   [inversion] on [E]? *)
 
 (* PREENCHER *)
 (** [] *)
@@ -424,36 +421,34 @@ Proof.
   inversion E as [| n' E']. 
   apply E'. Qed.
 
-(** ** Revisitando a Tática Inversion *)
+(** ** Revisitando a Tática [inversion] *)
 
-(** O uso do [inversion] pode parecer um pouco misterioso no início.
-    Até agora, temos utilizado o [inversion] somente em proposições de 
-    igualdade, para utilizar injectividade de contrutores ou para discriminar
-    entre diferentes contrutores.  Mas nós podemos ver que
-    [inversion] também pode ser aplicada para análisar evidências
-    de proposições indutivamente definidas.
+(** O uso do [inversion] pode parecer um pouco misterioso no início.  Até agora,
+    temos utilizado o [inversion] somente em proposições de igualdade, para
+    utilizar injectividade de contrutores ou para discriminar entre diferentes
+    contrutores.  Mas nós podemos ver que [inversion] também pode ser aplicada
+    para análisar evidências de proposições definidas indutivamente.
 
-    (Você também deve esperar que [destruct] seria uma tática
-    mais adequada de usar aqui. De fato, é possível fazer o uso do [destruct], 
-    mas ele frequentemente descarta informações úteis. e o qualtificador
-    [eqn:] não ajuda muito nesse caso.)    
+    (Você também deve esperar que [destruct] seria uma tática mais adequada de
+    usar aqui. De fato, é possível fazer o uso do [destruct], mas ele
+    frequentemente descarta informações úteis, e o qualificador [eqn:] não ajuda
+    muito nesse caso).
 
-    Aqui está como [inversion] funciona no geral.  Suponha que o nome 
-    [I] refere-se a uma suposição [P] no contexto atual, onde [P] 
-    foi definida por uma declaração [Inductive]. Então, para cada 
-    um dos construtores de [P], [inversion I] gera uma submeta em 
-    que [I] foi substituída pelas condições exatas e específicas 
-    nas quais esse construtor poderia ter sido usado para provar [P].
-    Algumas dessas submetas serão autocontraditórias; [inversion] 
-    as elimina. As que permanecem representam os casos que devem 
-    ser provados para estabelecer a meta original.
+    Aqui está como [inversion] funciona em geral.  Suponha que o nome [I]
+    refere-se a uma hipótese [P] no contexto atual, onde [P] foi definida por
+    uma declaração [Inductive]. Então, para cada um dos construtores de [P],
+    [inversion I] gera uma submeta em que [I] foi substituída pelas condições
+    exatas e específicas nas quais esse construtor poderia ter sido usado para
+    provar [P].  Algumas dessas submetas serão autocontraditórias; [inversion]
+    as elimina. As que permanecem representam os casos que devem ser
+    demonstrados para estabelecer a meta original.
 
-	Neste caso em particular, o [inversion] analisou a construção [ev (S (S 
-	n))]e determinou que isso somente poderia ser construído usando [ev_SS], 
-	gerando uma nova submeta com os argumentos do construtor como novas 
-	hipóteses. (A tática também produziu uma igualdade a mais que é inútil 
-	nesta prova.) Começaremos a explorar nas próximas provas esse comportamento 
-	mais geral da inversão. *)
+    Neste caso em particular, o [inversion] analisou a construção [ev (S (S n))]
+    e determinou que isso somente poderia ser construído usando [ev_SS], gerando
+    uma nova submeta com os argumentos do construtor como novas hipóteses (a
+    tática também produziu uma igualdade a mais que é inútil nesta prova).
+    Começaremos a explorar nas próximas provas esse comportamento mais geral da
+    inversão. *)
 
 (** **** Exercício: nível 1 (inversion_practice)  *)
 Theorem SSSSev__even : forall n,
@@ -461,8 +456,8 @@ Theorem SSSSev__even : forall n,
 Proof.
   (* PREENCHER *) Admitted.
 
-(** [Claudia]The [inversion] tactic can also be used to derive goals by showing
-    the absurdity of a hypothesis. *)
+(** A tática [inversion] pode também ser utilizada para demonstrar metas 
+    evidenciando a absurdidade de uma hipótese. *)
 
 Theorem even5_nonsense : 
   ev 5 -> 2 + 2 = 9.
@@ -496,51 +491,47 @@ Proof.
 (** * Discussões e Variantes *)
 (** ** Definição Computacional ou Definição Indutiva *)
 
-(** Nós temos visto que a proposição "[n] é par" pode ser
-    fraseado de duas maneiras diferentes -- indiretamente, via um teste
-    da função booleana [evenb], ou diretamente, descrevendo indutivamente
-    que constitui a evidência para uniformidade. Essas maneiras de definir
-    uniformidade são igualmente fáceis de declarar e trabalhar com eles.
-    Ao qual a escolhe se dá basicamente em questão de gosto.
+(** Nós temos visto que a proposição "[n] é par" pode ser fraseada de duas
+    maneiras diferentes -- indiretamente, via um teste da função booleana
+    [evenb], ou diretamente, descrevendo indutivamente que constitui a evidência
+    para paridade. Essas maneiras de definir paridade são igualmente fáceis de
+    declarar e trabalhar com eles.  A escolha se dá basicamente em questão de
+    gosto.
 
     No entanto, para muitas outras propriedades de interesse, a 
     definição indutiva direta é preferível, uma vez que escrever 
     uma função de teste pode ser difícil ou mesmo impossível.
-	
-	Uma dessas propriedades é [beautiful]. Esta não é uma definição 
-	perfeitamente sensata para um conjunto de números mas não podemos traduzir 
-	sua definição diretamente para um Fixpoint do Coq (ou para uma função 
-	recursiva em qualquer outra linguagem de programação comum). Podemos ser 
-	capazes de encontrar uma maneira mais inteligente de testar esta 
-	propriedade usando um [Fixpoint](de fato não é tão difícil encontrar uma 
-	forma nesse caso), mas em geral isso pode exigir um pensamento 
-	arbitrariamente profundo. Aliás, se a propriedade no qual estamos 
-	interessados não for computável então não 
-	podemos defini-lo como um [Fixpoint], não importa quantas tentativas 
-	realizemos, pois o Coq exige que todos os [Fixpoint] correspondam a 
-	computações que finalizáveis.
-	
-    [Claudia]On the other hand, writing an inductive definition of what it
-    means to give evidence for the property [beautiful] is
-    straightforward. *)
 
+    Uma dessas propriedades é [beautiful]. Esta é uma definição perfeitamente
+    sensata de um conjunto de números, porém não podemos traduzir sua definição
+    diretamente para um [Fixpoint] Coq (ou para uma função recursiva em qualquer
+    outra linguagem de programação comum). Poderiamos talvez ser astutos o
+    suficiente para achar uma maneira esperta testar esta propriedade usando um
+    [Fixpoint] (de fato não é tão difícil encontrar uma forma nesse caso), mas
+    em geral isso pode exigir muita reflexão. Aliás, se a propriedade na qual
+    estamos interessados não for computável então não podemos defini-la como um
+    [Fixpoint], não importa quantas tentativas realizemos, pois o Coq exige que
+    todos os [Fixpoint] correspondam a computações que terminam.
 
+    Em compensação, é imediato escrever uma definição indutiva do que significa
+    dar evidência para a propriedade [beautiful]. *)
 
 
 (* ####################################################### *)
 (** ** Estruturas de Dados com Parâmetros *)
 
 (** Até agora, nós temos somente olhado para proposições a respeito de números
-    naturais. Porém, nós podemos definir predicados indutivos a respeito de qualquer
-    tipo de dado. por exemplo, suponha que nós queremos caracterizar listas de 
-    tamanhos uniformes. Nós podemos fazer isso com a seguinte definição.  *)
+    naturais. Porém, nós podemos definir predicados indutivos a respeito de
+    qualquer tipo de dado. por exemplo, suponha que nós queremos caracterizar
+    listas de tamanhos pares. Nós podemos fazer isso com a seguinte definição.
+    *)
 
 Inductive ev_list {X:Type} : list X -> Prop :=
   | el_nil : ev_list []
   | el_cc  : forall x y l, ev_list l -> ev_list (x :: y :: l).
 
-(** É claro, essa proposição é equivalente a dizer que o tamanho
-da lista é par. *)
+(** Obviamente, essa proposição é equivalente a dizer que o tamanho da lista é
+    par. *)
 
 Lemma ev_list__ev_length: forall X (l : list X), ev_list l -> ev (length l).
 Proof. 
@@ -549,9 +540,8 @@ Proof.
     Case "el_cc".  simpl.  apply ev_SS. apply IHev_list.
 Qed.
 
-(** Contudo, por causa da evidência [ev] contém menos informações que
-    a evidência de [ev_list], a conversão direta deve ser declarada muito
-    cuidadosamente. *)
+(** Contudo, como a evidência [ev] contém menos informações que a evidência de
+    [ev_list], deve-se tomar cuidados para enunciar a direção inversa. *)
 
 Lemma ev_length__ev_list: forall X n, ev n -> forall (l : list X), n = length l -> ev_list l.
 Proof.
@@ -587,12 +577,12 @@ Qed.
 (* PREENCHER *)
 (** [] *)
 
-(* Mais uma vez, o sentido inverso é muito mais difícil devido à falta de 
-provas *) 
+(* Mais uma vez, o sentido inverso é muito mais difícil devido à carência de
+   evidência. *)
 
 (** **** Exercício: nível 5, opcional (palindrome_converse)  *)
-(** [Claudia]Using your definition of [pal] from the previous exercise, prove
-    that
+
+(** Utilizando a sua definição de [pal] do exercício anterior, prove que
      forall l, l = rev l -> pal l.
 *)
 
@@ -604,22 +594,21 @@ provas *)
 (* ####################################################### *)
 (** ** Relações *)
 
-(** A proposição parametrizada por um número (como [ev] ou [beautiful])
-    pode ser pensada como uma _propriedade_ -- isto é, ela define
-    um subconjunto de [nat], nomeadamente os números para os quais a
-    proposição é provada. Do mesmo modo, uma proposição de dois argumentos 
-    pode ser pensada como uma _relação_ -- isto é, ela define um conjunto 
-    de pares para os quais a proposição é provada. *)
+(** A proposição parametrizada por um número (como [ev] ou [beautiful]) pode ser
+    pensada como uma _propriedade_ -- isto é, ela define um subconjunto de
+    [nat], precisamente composto por aqueles números para os quais a proposição
+    pode ser provada. Do mesmo modo, uma proposição de dois argumentos pode ser
+    pensada como uma _relação_ -- isto é, ela define um conjunto de pares para
+    os quais a proposição é provada. *)
 
 Module LeModule.  
 
 
-(** Um exemplo útil é relação "menor que ou igual à"
-    em números. *)
+(** Um exemplo útil é relação "menor que ou igual à" em números. *)
 
-(** A definição seguinte deve ser razoavelmente intuitivo. Isto
+(** A definição seguinte deve ser razoavelmente intuitiva. Isto
     diz que existe duas maneiras de dar evidência que um número é menor ou 
-    igual a outro: Ou observe que eles são os mesmos número, ou dado evidência
+    igual a outro: ou eles são o mesmo número, ou existe evidência
     que o primeiro é menor ou igual ao predecessor do segundo. *)
 
 Inductive le : nat -> nat -> Prop :=
@@ -639,12 +628,12 @@ Notation "m <= n" := (le m n).
 
 (** *** *)
 
-(** Aqui se encontram alguns testes de sanidade para a definição. (Note que, 
-apesar destes testes serem do mesmo tipo dos "testes unitários" criados para as 
-funções de testes escritas nos primeiros capítulos, nós devemos construir suas 
-provas explicitamente -- [simpl] e [reflexivity] não irão realizar suas funções 
-aqui pois as provas não são apenas uma questão de simplificação de cálculos.
-*)
+(** Aqui se encontram alguns testes de sanidade para a definição. (Note que,
+    apesar destes testes serem do mesmo tipo dos "testes unitários" criados para
+    as funções de testes escritas nos primeiros capítulos, nós devemos construir
+    suas provas explicitamente -- [simpl] e [reflexivity] não irão realizar suas
+    funções aqui pois as provas não são apenas uma questão de cálculos de
+    simplificação.  *)
 
 Theorem test_le1 :
   3 <= 3.
@@ -665,8 +654,8 @@ Proof.
   intros H. inversion H. inversion H2.  Qed.
 
 (** *** *)
-(** [Claudia]The "strictly less than" relation [n < m] can now be defined
-    in terms of [le]. *)
+(** A relação "estritamente menor que" [n < m] pode agora ser definida 
+    com base [le]. *)
 
 End LeModule.
 
@@ -674,7 +663,7 @@ Definition lt (n m:nat) := le (S n) m.
 
 Notation "m < n" := (lt m n).
 
-(** Aqui está algumas outras relações simples sobre números: *)
+(** Seguem algumas outras relações simples sobre números: *)
 
 Inductive square_of : nat -> nat -> Prop :=
   sq : forall n:nat, square_of n (n * n).
@@ -695,14 +684,14 @@ Inductive next_even : nat -> nat -> Prop :=
 
 (** **** Exercício: nível 2 (empty_relation)  *)
 (** Defina uma releção binária indutiva [empty_relation] (em números)
-    que não mantém. *)
+    que nunca é satisfeita. *)
 
 (* PREENCHER *)
 (** [] *)
 
 (** **** Exercício: nível 2, opcional (le_exercises)  *)
-(** Aqui estão uma série de fatos, sobre as relações [<=] e [<], que iremos 
-    precisar mais tarde no curso. As provas são bons exercícios práticos. *)
+(** Segue uma série de fatos sobre as relações [<=] e [<], que serão necessários
+    na sequência do curso. As provas são bons exercícios práticos. *)
 
 Lemma le_trans : forall m n o, m <= n -> n <= o -> m <= o.
 Proof.
@@ -771,9 +760,9 @@ Proof.
 
 (** **** Exercício: nível 3 (R_provability2)  *)
 Module R.
-(** Podemos definir relações ternárias, quaternárias, n-árias da mesma forma 
-que relações binárias. Por exemplo, considere a relação ternária sobre números 
-a seguir: *)
+(** Podemos definir relações ternárias, quaternárias, n-árias da mesma forma que
+    relações binárias. Por exemplo, considere a seguinte relação ternária sobre
+    números: *)
 
 Inductive R : nat -> nat -> nat -> Prop :=
    | c1 : R 0 0 0 
@@ -782,27 +771,27 @@ Inductive R : nat -> nat -> nat -> Prop :=
    | c4 : forall m n o, R (S m) (S n) (S (S o)) -> R m n o
    | c5 : forall m n o, R m n o -> R n m o.
 
-(** [Claudia]- Which of the following propositions are provable?
+(** - Quais das seguintes proposições são demonstráveis?
       - [R 1 1 2]
       - [R 2 2 6]
 
     - Se nós desistirmos do construtor [c5] da definição de [R],
-      O conjunto de proposições prováveis iria mudar? sucintamente
-      (uma setença) explique a sua resposta.
+      O conjunto de proposições prováveis iria mudar? Explique sucintamente
+      (uma sentença) a sua resposta.
   
     - Se nós utilizarmos o construtor [c4] a partir da definição de [R],
-      poderá o conjunto de proposições prováveis mudar?  Brevemente (1
-      sentença) explique sua resposta.
+      poderá mudar o conjunto de proposições demonstráveis? Explique
+      brevemente (uma sentença) sua resposta.
 
 (* PREENCHER *)
 []
 *)
 
 (** **** Exercício: nível 3, opcional (R_fact)  *)  
-(** Relação [R] realmente codifica uma função familiar. Declare e
+(** Relação [R] codifica uma função familiar. Declare e
     prove dois teoremas que formalmente conecte a relação e a função.
     Isto é, se [R m n o] é verdadeiro, o que nós podemos dizer sobre [m],
-    [n], e [o], e vice versa?
+    [n] e [o], e vice versa?
 *)
 
 (* PREENCHER *)
@@ -825,9 +814,9 @@ End R.
     [1,3]
     [5,6,2,1,7,3,8]
 
-    [Claudia]- Define an inductive proposition [subseq] on [list nat] that
-      captures what it means to be a subsequence. (Hint: You'll need
-      three cases.)
+    - Define uma proposição indutiva [subseq] sobre [list nat] que
+      identifica o significado de ser uma subsequência (dica: você
+      precisará de três casos).
 
     - Prove que subsequência é reflexiva, isso é, qualquer lista é
       uma subsequência de si mesma.  
@@ -863,9 +852,10 @@ End R.
 
 (* ##################################################### *)
 (** * Programação através de Proposições *)
-(** Como visto anteriormente, uma _proposição_ é uma sentença expressando uma 
-afirmação sobre um fato como, por exemplo "dois mais dois é igual a quatro." No 
-Coq, as proposições são escritas como expressões do tipo [Prop]. *)
+
+(** Como visto anteriormente, uma _proposição_ é uma sentença expressando uma
+    afirmação sobre um fato como, por exemplo "dois mais dois é igual a quatro."
+    No Coq, as proposições são escritas como expressões do tipo [Prop]. *)
 
 Check (2 + 2 = 4).
 (* ===> 2 + 2 = 4 : Prop *)
@@ -877,9 +867,9 @@ Check (beautiful 8).
 (* ===> beautiful 8 : Prop *)
 
 (** *** *)
-(** [Claudia]Both provable and unprovable claims are perfectly good
-    propositions.  Simply _being_ a proposition is one thing; being
-    _provable_ is something else! *)
+(** Tanto afirmações demonstráveis quanto as não demonstráveis são proposiçòes
+    perfeitamente aceitáveis. Simplesmente _ser uma proposição é uma coisa, e
+    ser _demonstrável  é outra! *)
 
 Check (2 + 2 = 5).
 (* ===> 2 + 2 = 5 : Prop *)
@@ -897,9 +887,9 @@ Theorem plus_2_2_is_4 :
   2 + 2 = 4.
 Proof. reflexivity.  Qed.
 
-(** Mas eles podem ser usados em muitas outras maneiras. Por exemplo,
-    nós também temos visto que nós pode dar um nome para uma proposição usando
-    um [Definition], assim como nós temos dado nomes para expressões de outros
+(** Mas eles podem ser usados em muitas outras maneiras. Por exemplo, nós também
+    temos visto que nós podemos dar um nome para uma proposição usando um
+    [Definition], assim como nós temos dado nomes para expressões de outros
     tipos. *)
 
 Definition plus_fact : Prop  :=  2 + 2 = 4.
@@ -916,15 +906,15 @@ Proof. reflexivity.  Qed.
 (** *** *)
 (** Temos visto várias maneiras de construir proposições.
 
-	- Podemos definir uma nova proposição primitivamente usando [Inductive].
+    - Podemos definir uma nova proposição primitivamente usando [Inductive].
 	
-	- Dadas duas expressões [e1] e [e2] do mesmo tipo podemos formar a 
-	proposição [e1 = e2], afirmando que seus valores são iguais.
+    - Dadas duas expressões [e1] e [e2] do mesmo tipo podemos formar a 
+    proposição [e1 = e2], afirmando que seus valores são iguais.
 	
-	- Podemos combinar proposições usando implicação e quantificação *)
+    - Podemos combinar proposições usando implicação e quantificação *)
 
 (** *** *)
-(** [Claudia]We have also seen _parameterized propositions_, such as [even] and
+(** Nós também investigamos as _proposições com parâmetros_, como [even] e
     [beautiful]. *)
 
 Check (even 4).
@@ -939,7 +929,7 @@ Check even.
     três modos equivalentes: (1) "[even] é uma _função_ de números 
     para proposições," (2) "[even] é uma _família_ de proposições, 
     indexada por um número [n]," ou (3) "[even] é uma _propriedade_
-    de números."  *)
+    dos números."  *)
 
 (** Proposições -- incluindo proposições parametrizadas -- são
     cidadãos de primeira classe em Coq.  Por exemplo, nós podemos definir
@@ -948,7 +938,7 @@ Check even.
 Definition between (n m o: nat) : Prop :=
   andb (ble_nat n o) (ble_nat o m) = true.
 
-(** ... e então aplica-las parcialmente: *)
+(** ... e então aplicá-las parcialmente: *)
 
 Definition teen : nat->Prop := between 13 19.
 
@@ -962,34 +952,30 @@ Definition true_for_zero (P:nat->Prop) : Prop :=
 (** Aqui estão mais dois exemplos de passagem de proposições parametrizadas 
     como argumentos para uma função.
 
-	A primeira função, [true_for_all_numbers], toma uma proposição [P] como 
-	argumento e constrói a proposição de que [P] é verdadeira para todos os 
-	números naturais. *)
+    A primeira função, [true_for_all_numbers], toma uma proposição [P] como
+    argumento e constrói a proposição de que [P] é verdadeira para todos os
+    números naturais. *)
 
 Definition true_for_all_numbers (P:nat->Prop) : Prop :=
   forall n, P n.
 
-(** [Claudia]The second, [preserved_by_S], takes [P] and builds the proposition
-    that, if [P] is true for some natural number [n'], then it is also
-    true by the successor of [n'] -- i.e. that [P] is _preserved by
-    successor_: *)
+(** A segunda função, [preservada_por_S], tem [P] como parâmetro, e constroi
+    uma proposição tal que, quando [P] é verdade para algum número natural
+    [n'], então também é verdade para o sucessor de [n'] -- ou seja, que [P]
+    é _preservada pela relação sucessor :
 
 Definition preserved_by_S (P:nat->Prop) : Prop :=
   forall n', P n' -> P (S n').
 
 (** *** *)
-(** Finalmente, nós podemos pôr esses ingredientes juntos para definir
-    uma proposição declarando que indução é válida para números naturais: *)
+(** Finalmente, nós podemos pôr esses ingredientes juntos para definir uma
+    proposição declarando que indução é válida para números naturais: *)
 
 Definition natural_number_induction_valid : Prop :=
   forall (P:nat->Prop),
     true_for_zero P ->
     preserved_by_S P -> 
     true_for_all_numbers P. 
-
-
-
-
 
 (** **** Exercício: nível 3 (combine_odd_even)  *)
 (** Completar a definição da função [combine_odd_even] abaixo. 
@@ -1001,8 +987,7 @@ Definition natural_number_induction_valid : Prop :=
 Definition combine_odd_even (Podd Peven : nat -> Prop) : nat -> Prop :=
   (* PREENCHER *) admit.
 
-(** Para testar a sua definição, veja se você pode provar
-    os fatos a seguir: *)
+(** Para testar a sua definição, veja se você pode provar os fatos a seguir: *)
 
 Theorem combine_odd_even_intro : 
   forall (Podd Peven : nat -> Prop) (n : nat),
@@ -1033,9 +1018,9 @@ Proof.
 (* ##################################################### *)
 (** Mais uma digressão rápida, para as almas aventureiras: se podemos 
     definir proposições parametrizadas utilizando [Definition], então 
-    podemos também defini-las usando [Fixpoint]? Claro que sim!  No 
+    podemos também definí-las usando [Fixpoint]? Claro que sim!  No 
     entanto, este tipo de "parametrização recursiva" não corresponde 
-    a nada coisa muito familiar da matemática cotidiana. O exercício 
+    a nada muito familiar da matemática cotidiana. O exercício 
     seguinte dá um pequeno exemplo. *)
 
 (** **** Exercício: nível 4, opcional (true_upto_n__true_everywhere)  *)
