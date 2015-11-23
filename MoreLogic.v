@@ -5,9 +5,8 @@ Require Export "Prop".
 (* ############################################################ *)
 (** * Quantificação Existencial *)
 
-(** [Claudia]Another critical logical connective is _existential
-    quantification_.  We can express it with the following
-    definition: *)
+(** A _quantificação existencial  é outro conector lógico crítico
+    Podemos expressá-lo através da seguinte definição: *)
 
 Inductive ex (X:Type) (P : X->Prop) : Prop :=
   ex_intro : forall (witness:X), P witness -> ex X P.
@@ -20,16 +19,14 @@ Inductive ex (X:Type) (P : X->Prop) : Prop :=
 
 *)
 
-
 (** *** *)
-(** As facilidades das _Notações_ [Notation] do Coq podem ser utilizadas
-    para introduzir notações mais familiares a fim de escrever proposições
+(** As facilidades das _Notações_ [Notation] do Coq podem ser utilizadas para
+    introduzir notações mais familiares a fim de escrever proposições
     existencialmente quantificadas, em paralelo com a sintaxe construída para
-    proposições universalmente quantificadas.  Em vez de escrever [ex nat
-    ev] para expressar a proposição que existe algum número que é
-    par, por exemplo, podemos escrever [exists x:nat, ev x].  (Não é
-    necessário entender exatamente como a definição [Notation]
-    funciona.) *)
+    proposições universalmente quantificadas.  Em vez de escrever [ex nat ev]
+    para expressar a proposição que existe algum número que é par, por exemplo,
+    podemos escrever [exists x:nat, ev x] (não é necessário entender exatamente
+    como a definição [Notation] funciona.) *)
 
 Notation "'exists' x , p" := (ex _ (fun x => p))
   (at level 200, x ident, right associativity) : type_scope.
@@ -37,23 +34,22 @@ Notation "'exists' x : X , p" := (ex _ (fun x:X => p))
   (at level 200, x ident, right associativity) : type_scope.
 
 (** *** *)
-(** Nós podemos usar o conjunto de táticas habituais
-    para manipulação existencial. Por exemplo, para provar um existencial
-    nós podemos [aplicar] o construtor [ex_intro]. Desde que a premissa
-    de [ex_intro] envolve uma variável ([witness]) que não aparece na
-    conclusão, nós precisamos explícitamente informa-lo o valor quen nós
-    usamos o [apply]. *)
+(** Nós podemos usar o conjunto de táticas habituais para manipulação
+    existencial. Por exemplo, para provar um existencial nós podemos _aplicar  o
+    construtor [ex_intro]. Como a premissa de [ex_intro] envolve uma variável
+    ([witness]) que não aparece na conclusão, nós precisamos explicitamente
+    informar o seu valor quando nós usamos o [apply]. *)
 
 Example exists_example_1 : exists n, n + (n * n) = 6.
 Proof.
   apply ex_intro with (witness:=2). 
   reflexivity.  Qed.
 
-(** Note que nós temos que fornecer explicitamente a variável witness. *)
+(** Note que nós temos que fornecer explicitamente a variável [witness]. *)
 
 (** *** *)
-(**Ou, no lugar de escrever [apply ex_intro with (witness:=e)] todas as vezes, podemos 
-usar o atalho conveniente [exists e] que significa a mesma coisa. *)
+(** Ou, no lugar de escrever [apply ex_intro with (witness:=e)] todas as vezes, 
+    podemos usar o atalho conveniente [exists e] que significa a mesma coisa. *)
 
 Example exists_example_1' : exists n, n + (n * n) = 6.
 Proof.
@@ -61,13 +57,12 @@ Proof.
   reflexivity.  Qed.
 
 (** *** *)
-(** [Claudia]Conversely, if we have an existential hypothesis in the
-    context, we can eliminate it with [inversion].  Note the use
-    of the [as...] pattern to name the variable that Coq
-    introduces to name the witness value and get evidence that
-    the hypothesis holds for the witness.  (If we don't
-    explicitly choose one, Coq will just call it [witness], which
-    makes proofs confusing.) *)
+(** Complementarmente, se temos uma hipótese existencial no context, podemos
+    eliminá-la com a tática [inversion]. Note o uso da formulação [as...] para
+    nomear a variável que o Coq introduz para nomar o valor testemunho e obter
+    evidência que a hipótese é satisfeita para o testemunho (se não escolhermos
+    explicitamente um nome, Coq utilizará [witness], o que pode tornar as
+    demonstrações menos legíveis. *)
   
 Theorem exists_example_2 : forall n,
   (exists m, n = 4 + m) ->
@@ -78,8 +73,7 @@ Proof.
   exists (2 + m).  
   apply Hm.  Qed. 
 
-
-(** Aqui está outro exemplo de como trabalhar com existenciais. *)
+(** Este é um outro exemplo de como trabalhar com existenciais. *)
 Lemma exists_example_3 : 
   exists (n:nat), even n /\ beautiful n.
 Proof.
@@ -94,7 +88,6 @@ Qed.
 (** **** Exercício: nível 1, opcional (english_exists)  *)
 (** Em inglês, o que a proposição 
       ex nat (fun n => beautiful (S n))
-]] 
     significa? *)
 
 (* PREENCHER *)
@@ -112,8 +105,8 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 3, opcional (not_exists_dist)  *)
-(** (A outra direção deste teorema requer a clássica "lei do terceiro 
-    excluído".) *)
+(** A demonstração do teorema para a outra direção requer a clássica "lei do
+    terceiro excluído". *)
 
 Theorem not_exists_dist :
   excluded_middle ->
@@ -135,14 +128,13 @@ Proof.
 (* ###################################################### *)
 (** * Booleanos Portadores de Evidência *)
 
-(** [Claudia]So far we've seen two different forms of equality predicates:
-    [eq], which produces a [Prop], and the type-specific forms, like
-    [beq_nat], that produce [boolean] values.  The former are more
-    convenient to reason about, but we've relied on the latter to let
-    us use equality tests in _computations_.  While it is
-    straightforward to write lemmas (e.g. [beq_nat_true] and
-    [beq_nat_false]) that connect the two forms, using these lemmas
-    quickly gets tedious. *)
+(** Até agora, nós vimos duas formas diferentes de predicados de igualdade:
+    [eq], que resulte em um [Prop], e as formas específicas para cada tipo, como
+    [beq_nat], que resultem em valores booleanos. Os primeiros são mais fáceis
+    de se raciocinar sobre, mas nós apoiamos nos segundos para realizar testes
+    de igualdade em _computações_. Embora seja simples escrever lemas como
+    [beq_nat_true] e [beq_nat_false] para relacionar as duas formas, torna-se
+    rapidamente tedioso ter que utilizar esses lemas. *)
 
 (** *** *)
 (** Acontece que nós podemos obter os benefícios de ambas as formas de uma 
@@ -154,14 +146,15 @@ Inductive sumbool (A B : Prop) : Set :=
 
 Notation "{ A } + { B }" :=  (sumbool A B) : type_scope.
 
-(** Pense em [sumbool] como sendo do tipo [boolean], mas no lugar de
-    seus valores serem somente [true] e [false], eles carregam a _evidência_
-    da verdade ou da falsidade. Isso significa que quando a [destruímos],
-    ficamos com a evidência relevante como uma hipótese -- assim como
-    com [or].  (Na realidade, a definição de [sumbool] é quase a mesma
-    que [or].  A única diferença é que os valores de [sumbool]
-    são declarados em [Set] em vez de [Prop]; isso é uma distinção
-    técnica a qual nos permite calcular com eles.) *)
+(** Pense em [sumbool] como sendo do tipo [boolean], mas no lugar de seus
+    valores serem somente [true] e [false], eles carregam a _evidência_ da
+    verdade ou da falsidade. Isso significa que quando aplicamos [destruct],
+    ficamos com a evidência relevante como uma hipótese -- assim como com [or].
+
+    Na realidade, a definição de [sumbool] é quase a mesma que [or].  A única
+    diferença é que os valores de [sumbool] são declarados em [Set] em vez de
+    [Prop]; isso é uma distinção técnica a qual nos permite calcular com
+    eles. *)
 (** *** *)
 
 (** Aqui está como nós definimos um [sumbool] para igualdade em [nat]s *)
@@ -196,15 +189,16 @@ Defined.
     um [sumbool] construído com [left] caso eles sejam iguais ou com 
     [right] caso eles não sejam; esse resultado pode ser testado com um 
     [match] ou, melhor, com um [if-then-else], exatamente como um [boolean] 
-    simples. (Observe que terminamos essa prova com [Defined] em vez de 
-    [Qed]. A única diferença que isso faz é que a prova se torna 
-    _transparente_, significando que a sua definição estará disponível 
-    quando Coq tentar fazer reduções, o que é importante para a 
-    interpretação computacional.)
-     *) 
+    simples. 
+
+    Observe que terminamos essa prova com [Defined] em vez de [Qed]. A única
+    diferença que isso faz é que a prova se torna _transparente_, significando
+    que a sua definição estará disponível quando Coq tentar fazer reduções, o
+    que é importante para a interpretação computacional. *)
 
 (** *** *)
-(** Abaixo um exemplo simples ilustrando as vantagens da forma [sumbool]. *)
+(** Abaixo encontra-se um exemplo simples ilustrando as vantagens da forma
+    [sumbool]. *)
 
 Definition override' {X: Type} (f: nat->X) (k:nat) (x:X) : nat->X:=
   fun (k':nat) => if eq_nat_dec k k' then x else f k'.
@@ -222,12 +216,13 @@ Proof.
   Case "k1 <> k2". 
     reflexivity.  Qed.
 
-(** [Claudia]Compare this to the more laborious proof (in MoreCoq.v) for the
-    version of [override] defined using [beq_nat], where we had to use
-    the auxiliary lemma [beq_nat_true] to convert a fact about
-    booleans to a Prop. *)
+(** Compare isto com a prova mais trabalhosa (em MoreCoq.v) para a versão
+    de [override] definida com [beq_nat], onde tinhamos que utilizar o lema
+    auxiliar [beq_nat_true] para converter um fato sobre booleanos em uma
+    proposição. *)
 
 (** **** Exercício: nível 1 (override_shadow')  *)
+
 Theorem override_shadow' : forall (X:Type) x1 x2 k1 k2 (f : nat->X),
   (override' (override' f k1 x2) k1 x1) k2 = (override' f k1 x1) k2.
 Proof.
@@ -242,7 +237,7 @@ Proof.
 (** * Exercícios Adicionais *)
 
 (** **** Exercício: nível 3 (all_forallb)  *)
-(** Indutivamente defina uma propriedade [all] de listas, parametrizadas
+(** Defina indutivamente uma propriedade [all] de listas, parametrizadas
     por um tipo [X] e uma propriedade [P : X -> Prop], de modo que [all X P l]
     afirma que [P] é verdade para cada elemento da lista [l]. *)
 
@@ -260,8 +255,8 @@ Fixpoint forallb {X : Type} (test : X -> bool) (l : list X) : bool :=
   end.
 
 (** Usando a propriedade [all], escreva abaixo uma especificação para [forallb],
-    e prova que ele satisfaz a especificação. Tente fazer a sua especificação a mais precisa
-    possível.
+    e prova que ele satisfaz a especificação. Tente fazer a sua especificação a
+    mais precisa possível.
 
     Existem quaisquer propriedades importantes da função [forallb] que não são 
     capturadas por sua especificação? *)
@@ -270,37 +265,37 @@ Fixpoint forallb {X : Type} (test : X -> bool) (l : list X) : bool :=
 (** [] *)
 
 (** **** Exercício: nível 4, avançado (filter_challenge)  *)
-(** Um dos principais propósitos do Coq é provar que os programas correspondem às suas 
-especificações. Para este fim, provemos que nossa definição de [filter] está de acordo 
-com uma especificação. Aqui está a especificação, escrita informalmente em português.
+(** Um dos principais propósitos do Coq é demonstrar que programas correspondem
+    às suas especificações. Para este fim, provemos que nossa definição de
+    [filter] está de acordo com a especificação. Aqui está a especificação,
+    escrita informalmente em português.
 
-    [Claudia]Suppose we have a set [X], a function [test: X->bool], and a list
-    [l] of type [list X].  Suppose further that [l] is an "in-order
-    merge" of two lists, [l1] and [l2], such that every item in [l1]
-    satisfies [test] and no item in [l2] satisfies test.  Then [filter
-    test l = l1].
+    Assumindo um dado conjunto [X], uma função (test: X->bool), e uma lista
+    [l] do tipo [list X], assumindo aindaque [l] resulte da fusão "em ordem"
+    de duas listas, [l1] e [l2], tais que cada item em [l1] satisfaz [test],
+    e que nenhum item em [l2] satisfaz test, então [filter test l = l1].
 
-    Uma lista [l] é uma "mistura em ordem" de [l1] e [l2] se ela contém
+    Uma lista [l] é uma "fusão em ordem" de [l1] e [l2] se ela contém
     todos os elementos de [l1] e [l2], na mesma ordem que [l1] e [l2], mas 
     possivelmente intercalados. Por exemplo,
     [1,4,6,2,3]
-    é uma mistura em ordem de
+    é uma fusão em ordem de
     [1,6,2]
     e
     [4,3].
     Seu trabalho é traduzir essa especificação em um teorema Coq e provar
     isso. (Dica: Você vai precisar começar definindo o que significa para
-    uma lista ser uma misturada de duas outras. Faça isso com uma relação 
+    uma lista ser uma fusão de duas outras. Faça isso com uma relação 
     indutiva, não um [Fixpoint].)  *)
 
 (* PREENCHER *)
 (** [] *)
 
 (** **** Exercício: nível 5, avançado, opcional (filter_challenge_2)  *)
-(** Uma maneira diferente de formalmente caracterizar o comportamento de
-    [filter] é a seguinte: Entre todas subsequências de [l] com a propriedade
-    que [test] avalia para [true] em todos os membros, [filter test
-    l] é o mais longo.  Expresar essa afirmação de maneira formal e prova-la. *)
+(** Uma maneira diferente de caracterizar formalmente o comportamento de
+    [filter] é a seguinte: entre todas subsequências de [l] com a propriedade
+    que [test] avalia para [true] em todos os membros, [filter test l] é o mais
+    longo.  Expressar essa afirmação de maneira formal e prová-la. *)
 
 (* PREENCHER *)
 (** [] *)
@@ -315,8 +310,8 @@ Inductive appears_in {X:Type} (a:X) : list X -> Prop :=
 (** ... nos fornece uma maneira precisa de dizer que um valor [a] aparece 
     pelo menos uma vez como um membro de uma lista [l].
 
-	Para aquecer, é mostrado a seguir dois lemas a serem provados sobre [appears_in].
-*)
+    Para aquecer, é mostrado a seguir dois lemas a serem provados sobre
+    [appears_in].  *)
 
 Lemma appears_in_app : forall (X:Type) (xs ys : list X) (x:X), 
      appears_in x (xs ++ ys) -> appears_in x xs \/ appears_in x ys.
@@ -329,9 +324,9 @@ Proof.
   (* PREENCHER *) Admitted.
 
 
-(** [Claudia]Now use [appears_in] to define a proposition [disjoint X l1 l2],
-    which should be provable exactly when [l1] and [l2] are
-    lists (with elements of type X) that have no elements in common. *)
+(** Agora utilizamos [appears_in] para definir a proposição [disjoint X l1 l2],
+    que deveria ser demonstrável exatamente quando [l1] e [l2] são listas
+    (de elements de tipo X) que não possuem elementos em comum. *)
 
 (* PREENCHER *)
 
@@ -352,7 +347,8 @@ Proof.
 
 (** **** Exercício: nível 3 (nostutter)  *)
 (** Formular definições indutivas de predicados é uma habilidade importante 
-    que você vai precisar neste curso. Tente resolver este exercício sem nenhuma ajuda.
+    da qual você vai precisar neste curso. Tente resolver este exercício sem 
+    nenhuma ajuda.
     
     Dizemos que uma lista de números "gagueja" se ela repete o mesmo 
     número consecutivamente. O predicado "[nostutter mylist]" significa 
@@ -364,16 +360,15 @@ Inductive nostutter:  list nat -> Prop :=
  (* PREENCHER *)
 .
 
-(** 
-Tenha certeza de que cada um desses testes sejam bem-sucedidos, mas você é livre para 
-mudar a prova se a que lhe for dada não funcionar para você. A sua definição pode ser 
-diferente da minha e ainda assim ser correta, talvez precisando, sendo este o caso, que 
-os exemplos tenham provas diferentes.
+(** Tenha certeza de que cada um desses testes sejam bem-sucedidos, mas você é
+    livre para mudar a prova se a que lhe for dada não funcionar para você. A
+    sua definição pode ser diferente da minha e ainda assim ser correta, talvez
+    precisando, sendo este o caso, que os exemplos tenham provas diferentes.
 
-    As provas sugeridas para os exemplos (nos comentários) usam um número de 
-    táticas que nós ainda não falamos, para tentar torná-los robustos em relação 
-    a diferentes formas possíveis de definir [nostutter]. Você deve poder apenas 
-    descomentar e usá-las como são. mas se você preferir, você pode também
+    As provas sugeridas para os exemplos (nos comentários) usam um número de
+    táticas que nós ainda não vimos, para tentar torná-los robustos em relação
+    a diferentes formas possíveis de definir [nostutter]. Você deve poder apenas
+    descomentar e usá-las como são. Se você preferir, você pode também
     provar cada exemplo com táticas mais básicas. *)
 
 Example test_nostutter_1:      nostutter [3;1;4;1;5;6].
@@ -406,13 +401,13 @@ Example test_nostutter_4:      not (nostutter [3;1;1;4]).
 (** [] *)
 
 (** **** Exercício: nível 4, avançado (pigeonhole principle)  *)
-(** O "princípio da casa de pombos" enuncia um fato básico sobre a contagem:
-   se distribuirmos mais que [n] itens em [n] escaninhos, alguns 
-   escaninhos devem conter no mínimo dois itens.  Como é um caso frequente,
-   esse fato, aparentemente trivial, sobre números requer maquinária não
-   trivial para provar, mas agora sabemos o suficiente... *)
+(** O "princípio da casa de pombos" enuncia um fato básico sobre a contagem: se
+   distribuirmos mais que [n] itens em [n] escaninhos, alguns escaninhos devem
+   conter no mínimo dois itens.  Como é frequentemente o caso, esse fato,
+   aparentemente trivial, sobre números requer maquinária não trivial para
+   provar, mas agora sabemos o suficiente... *)
 
-(** Primeiro, um par de lemas útil(nós ja provamos eles para
+(** Primeiro, um par de lemas úteis (nós ja provamos eles para
     listas de naturais, mas não para listas arbitrárias). *)
 
 Lemma app_length : forall (X:Type) (l1 l2 : list X),
@@ -434,13 +429,16 @@ Inductive repeats {X:Type} : list X -> Prop :=
   (* PREENCHER *)
 .
 
-(** Agora temos aqui uma maneira de formalizar o princípio da casa dos pombos. A lista 
-[l2] representa uma lista de rótulos da casa dos pombos e a lista [l1] representa os 
-rótulos atribuídos a uma lista de itens: se houver mais itens que rótulos, pelo menos 
-dois itens precisam ter o mesmo rótulo. Esta prova é muito mais fácil se você usar a 
-hipótese [excluded_middle] para mostrar que [appears_in] é decidível, isto é, [forall x
-    l, (appears_in x l) \/ ~ (appears_in x l)]. Entretanto também possível realizar a 
-    prova _sem_ precisar assumir que [appears_in] é decidível: se você conseguir avançar 
+(** Agora temos aqui uma maneira de formalizar o princípio da casa dos pombos. A
+    lista [l2] representa uma lista de rótulos da casa dos pombos e a lista [l1]
+    representa os rótulos atribuídos a uma lista de itens: se houver mais itens
+    que rótulos, pelo menos dois itens precisam ter o mesmo rótulo. Esta prova é
+    muito mais fácil se você usar a hipótese [excluded_middle] para mostrar que
+    [appears_in] é decidível, isto é, 
+      [forall x l, (appears_in x l) \/ ~(appears_in x l)]. 
+    
+    Entretanto também é possível realizar a prova _sem_
+    precisar assumir que [appears_in] é decidível: se você conseguir avançar
     desta forma então não será mais necessária a hipótese [excluded_middle].*)
 
 Theorem pigeonhole_principle: forall (X:Type) (l1  l2:list X), 
