@@ -732,11 +732,12 @@ Proof.
 (* ####################################################### *) 
 (** *** Sequenciamento *)
 
-(** [Renan]More interestingly, if the command [c1] takes any state where
-    [P] holds to a state where [Q] holds, and if [c2] takes any
-    state where [Q] holds to one where [R] holds, then doing [c1]
-    followed by [c2] will take any state where [P] holds to one
-    where [R] holds:
+(** De maneira mais interessante, se o comando [c1] leva qualquer 
+    estado onde [P] é satisfeita a um estado onde [Q] é satisfeita, 
+    e se [c2] leva qualquer estado onde [Q] é satisfeita a um onde 
+    [R] é satisfeita, então fazendo [c1] seguido de [c2] levará 
+    qualquer estado onde [P] é satisfeita a um onde [R] é 
+    satisfeita:
         {{ P }} c1 {{ Q }} 
         {{ Q }} c2 {{ R }}
        ---------------------  (hoare_seq)
@@ -806,9 +807,9 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 3 (swap_exercise)  *)
-(** [Renan]Write an Imp program [c] that swaps the values of [X] and [Y]
-    and show (in Coq) that it satisfies the following
-    specification:
+(** Escrever um programa Imp [c] que troca os valores de [X] e [Y] 
+    e mostrar (em Coq) que ele satisfaz a seguinte 
+    especificação:
       {{X <= Y}} c {{Y <= X}}
 *)
 
@@ -870,13 +871,13 @@ Proof.
       {{P}} IFB b THEN c1 ELSE c2 FI {{Q}} 
 *)
 
-(** [Renan]To interpret this rule formally, we need to do a little work.
-    Strictly speaking, the assertion we've written, [P /\ b], is the
-    conjunction of an assertion and a boolean expression -- i.e., it
-    doesn't typecheck.  To fix this, we need a way of formally
-    "lifting" any bexp [b] to an assertion.  We'll write [bassn b] for
-    the assertion "the boolean expression [b] evaluates to [true] (in
-    the given state)." *)
+(** Para interpretar essa regra formalmente, precisamos trabalhar um 
+    pouco. A rigor, a asserção que nós escrevemos, [P /\ b], é a 
+    conjunção de uma asserção com uma expressão booleana -- ou seja, 
+    ela não faz checagem de tipo.  Para corrigir isso, precisamos de 
+    uma maneira de formalmente "erguer" qualquer bexp [b] para 
+    uma asserção. Vamos escrever [bassn b] para a asserção "a 
+    expressão booleana [b] é avaliada para [true] (no estado dado)." *)
 
 Definition bassn b : Assertion :=
   fun st => (beval st b = true).
@@ -996,7 +997,7 @@ Proof.
 Qed.
 
 (** **** Exercício: nível 2 (if_minus_plus)  *)
-(** [Renan]Prove the following hoare triple using [hoare_if]: *)
+(** Provar a seguinte tripla de Hoare usando [hoare_if]: *)
 
 Theorem if_minus_plus :
   {{fun st => True}}
@@ -1056,9 +1057,9 @@ Notation "'IFB' e1 'THEN' e2 'ELSE' e3 'FI'" :=
 Notation "'IF1' b 'THEN' c 'FI'" := 
   (CIf1 b c) (at level 80, right associativity).
 
-(** [Renan]Next we need to extend the evaluation relation to accommodate
-    [IF1] branches.  This is for you to do... What rule(s) need to be
-    added to [ceval] to evaluate one-sided conditionals? *)
+(** Em seguida, precisamos estender a relação de avaliação para acomodar 
+    os ramos de [IF1].  Isso é para você fazer... Que regra(s) precisam 
+    ser adicionadas a [Ceval] para avaliar condicionais unilaterais? *)
 
 Reserved Notation "c1 '/' st '||' st'" (at level 40, st at level 39).
 
@@ -1140,14 +1141,14 @@ End If1.
 (* ####################################################### *)
 (** *** Laços *)
 
-(** [Renan]Finally, we need a rule for reasoning about while loops. *)
+(** Finalmente, precisamos de uma regra para o raciocínio sobre laços while. *)
 
-(** Suppose we have a loop
+(** Suponha que nós temos um laço 
       WHILE b DO c END
-    and we want to find a pre-condition [P] and a post-condition
-    [Q] such that
+    e nós queremos encontrar uma pré-condição [P] e uma pós-condição
+    [Q] tal que
       {{P}} WHILE b DO c END {{Q}} 
-    is a valid triple. *)
+    é uma tripla válida. *)
 
 (** *** *)
 
@@ -1187,12 +1188,13 @@ End If1.
         {{P}} WHILE b DO c END {{P /\ ~b}}
 *)
 (** 
-    [Renan]This is almost the rule we want, but again it can be improved a
-    little: at the beginning of the loop body, we know not only that
-    [P] holds, but also that the guard [b] is true in the current
-    state.  This gives us a little more information to use in
-    reasoning about [c] (showing that it establishes the invariant by
-    the time it finishes).  This gives us the final version of the rule:
+    Isso é quase a regra que queremos, mas novamente ela pode ser 
+    melhorada um pouco: no começo do corpo do laço, sabemos não 
+    apenas que [P] é satisfeita, mas também que a guarda [b] é 
+    verdadeira no estado atual.  Isso nos dá um pouco mais de 
+    informações para usar no raciocínio sobre [c] (mostrando 
+    que estabelece o invariante no momento em que termina).  
+    Isso nos dá a versão final da regra:
 *)
 (**
                {{P /\ b}} c {{P}}
@@ -1289,11 +1291,11 @@ Proof.
     doesn't terminate, we can prove anything we like about the
     post-condition. *)
 
-(** [Renan]Hoare rules that only talk about terminating commands are
-    often said to describe a logic of "partial" correctness.  It is
-    also possible to give Hoare rules for "total" correctness, which
-    build in the fact that the commands terminate. However, in this
-    course we will only talk about partial correctness. *)
+(** Regras de Hoare que só falam sobre comandos que são encerrados 
+    são muitas vezes ditos descreverem a lógica de correção 
+    "parcial". É possível também fornecer regras de Hoare para correção 
+    "total", que se aproveita do fato de que os comandos terminam. 
+    No entanto, neste curso vamos falar apenas sobre correção parcial. *)
 
 (* ####################################################### *)
 (** *** Exercício: [REPEAT] *)
@@ -1395,8 +1397,8 @@ Definition hoare_triple (P:Assertion) (c:com) (Q:Assertion)
 Notation "{{ P }}  c  {{ Q }}" :=
   (hoare_triple P c Q) (at level 90, c at next level).
 
-(** [Renan]To make sure you've got the evaluation rules for [REPEAT] right,
-    prove that [ex1_repeat evaluates correctly. *)
+(** Para se certificar de que você tem as regras de avaliação corretas para 
+    [REPEAT], provar que [ex1_repeat] avalia corretamente. *)
 
 Definition ex1_repeat :=
   REPEAT
@@ -1531,10 +1533,11 @@ End Himp.
 (* ####################################################### *)
 (** ** Lista completa de regras para a lógica de Hoare *)
 
-(** [Renan]Above, we've introduced Hoare Logic as a tool to reasoning
-    about Imp programs. In the reminder of this chapter we will
-    explore a systematic way to use Hoare Logic to prove properties
-    about programs. The rules of Hoare Logic are the following: *)
+(** Acima, nós introduzimos a Lógica de Hoare como uma ferramenta 
+    para o raciocínio sobre programas Imp. No restante deste 
+    capítulo, vamos explorar uma forma sistemática de usar 
+    a Lógica de Hoare para provar propriedades sobre programas. 
+    As regras da Lógica de Hoare são as seguintes: *)
 
 (**
              ------------------------------ (hoare_asgn)
