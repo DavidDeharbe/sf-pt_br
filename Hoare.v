@@ -14,10 +14,10 @@ Require Export Imp.
       características chaves desenvolvidas em linguagens como C, C++ e Java, incluindo
       a noção fundamental de estado mutável e alguns controles de estruturas comuns.
 
-    - [Renan]We proved a number of _metatheoretic properties_ -- "meta" in
-      the sense that they are properties of the language as a whole,
-      rather than properties of particular programs in the language.
-      These included:
+    - Nós provamos uma série de _propriedades metateóricas_ -- "meta" 
+      no sentido de que eles são propriedades da linguagem como um todo, 
+      ao invés de propriedades de programas específicos da linguagem. 
+      Isso incluiu:
 
         - [Vitor]determinism of evaluation
 
@@ -57,11 +57,11 @@ Require Export Imp.
     genérica que pode ser usado para razão composicionalmente sobre a corretude de programas
     envolvendo esta construção.
 
-    [Renan]Hoare Logic originates in the 1960s, and it continues to be the
-    subject of intensive research right up to the present day.  It
-    lies at the core of a multitude of tools that are being used in
-    academia and industry to specify and verify real software
-    systems. *)
+    A Lógica de Hoare se origina na década de 1960, e continua a ser 
+    objeto de intensa pesquisa até os dias atuais. Situa-se no centro 
+    de uma infinidade de ferramentas que estão sendo usadas no meio 
+    acadêmico e na indústria para especificar e verificar sistemas 
+    de software reais. *)
 
 
   
@@ -136,8 +136,8 @@ Notation "P ->> Q" :=
   (assert_implies P Q) (at level 80) : hoare_spec_scope.
 Open Scope hoare_spec_scope.
 
-(** [Renan]We'll also have occasion to use the "iff" variant of implication
-    between assertions: *)
+(** Também teremos a oportunidade de usar a variante de implicação "sse" 
+    entre as afirmações: *)
 
 Notation "P <<->> Q" :=
   (P ->> Q /\ Q ->> P) (at level 80) : hoare_spec_scope.
@@ -166,8 +166,8 @@ Definition hoare_triple
        P st  ->
        Q st'.
 
-(** [Renan]Since we'll be working a lot with Hoare triples, it's useful to
-    have a compact notation:
+(** Já que estaremos trabalhando muito com triplas de Hoare, é útil ter 
+    uma notação compacta:
        {{P}} c {{Q}}.
 *)
 (** [Vitor](The traditional notation is [{P} c {Q}], but single braces
@@ -239,8 +239,8 @@ Notation "{{ P }}  c  {{ Q }}" :=
     expressões dentro de comandos, para legibilidade, em vez de códigos formal deles
     [aexp] e [bexp]. Nós iremos continuar fazendo ao longo do capítulo.) *)
 
-(** [Renan]To get us warmed up for what's coming, here are two simple
-    facts about Hoare triples. *)
+(** Para nos aquecer para o que está vindo, aqui estão dois fatos 
+    simples sobre triplas de Hoare. *)
 
 Theorem hoare_post_true : forall (P Q : Assertion) c,
   (forall st, Q st) ->
@@ -296,14 +296,14 @@ Proof.
        {{ a = 1 }}  X ::= a {{ X = 1 }}
     é uma tripla de Hoare válida.
 
-    [Renan]This can be made even more general. To conclude that an
-    _arbitrary_ property [Q] holds after [X ::= a], we need to assume
-    that [Q] holds before [X ::= a], but _with all occurrences of_ [X]
-    replaced by [a] in [Q]. This leads to the Hoare rule for
-    assignment
+    Isso pode ser tornado ainda mais geral. Para concluir que uma 
+    propriedade _arbitrária_ [Q] é satisfeita depois de [X :: = a], 
+    temos que assumir que [Q] é satisfeita antes de [X :: = a], porém 
+    _com todas as ocorrências de_ [X] substituídas por [a] em [Q].
+    Isso leva à regra de Hoare para atribuição
       {{ Q [X |-> a] }} X ::= a {{ Q }}
-    where "[Q [X |-> a]]" is pronounced "[Q] where [a] is substituted
-    for [X]".
+    onde "[Q [X |-> a]]" é pronunciado "[Q] onde [a] é substituído
+    por [X]".
 
     [Vitor]For example, these are valid applications of the assignment
     rule:
@@ -344,24 +344,24 @@ Notation "P [ X |-> a ]" := (assn_sub X a P) (at level 10).
     exceto que, sempre que [P] procura a variável [X] no estado atual, [P']
     ao invés disso usa o valor da expressão [a].
 
-    [Renan]To see how this works, let's calculate what happens with a couple
-    of examples.  First, suppose [P'] is [(X <= 5) [X |-> 3]] -- that
-    is, more formally, [P'] is the Coq expression
+    Para ver como isso funciona, vamos calcular o que acontece com um par 
+    de exemplos. Primeiro, suponha que [P'] é [(X <= 5) [X |-> 3]] -- ou 
+    seja, mais formalmente, [P'] é a expressão Coq
     fun st => 
       (fun st' => st' X <= 5) 
       (update st X (aeval st (ANum 3))),
-    which simplifies to 
+    que é simplificada para 
     fun st => 
       (fun st' => st' X <= 5) 
       (update st X 3)
-    and further simplifies to
+    e é simplificada mais ainda para
     fun st => 
       ((update st X 3) X) <= 5)
-    and by further simplification to
+    e por uma simplificação maior para 
     fun st => 
       (3 <= 5).
-    That is, [P'] is the assertion that [3] is less than or equal to
-    [5] (as expected).
+    Isto é, [P'] é a asserção de que [3] é inferior ou igual a [5] 
+    (como esperado).
 
     [Vitor]For a more interesting example, suppose [P'] is [(X <= 5) [X |->
     X+1]].  Formally, [P'] is the Coq expression
@@ -418,16 +418,17 @@ Proof.
 (** [] *)
 
 (** **** Exercício: nível 2 (hoare_asgn_wrong)  *)
-(** [Renan]The assignment rule looks backward to almost everyone the first
-    time they see it.  If it still seems backward to you, it may help
-    to think a little about alternative "forward" rules.  Here is a
-    seemingly natural one:
+(** A regra de atribuição parece ser de trás para frente para quase todos 
+    que a veem pela primeira vez. Se ela ainda parece ser de trás para 
+    frente para você, pode ser útil pensar um pouco sobre regras 
+    alternativas "de frente para trás". Aqui está uma aparentemente 
+    natural:
       ------------------------------ (hoare_asgn_wrong)
       {{ True }} X ::= a {{ X = a }}
-    Give a counterexample showing that this rule is incorrect
-    (informally). Hint: The rule universally quantifies over the
-    arithmetic expression [a], and your counterexample needs to
-    exhibit an [a] for which the rule doesn't work. *)
+    Dê um contraexemplo mostrando que esta regra é incorreta 
+    (informalmente). Dica: a regra quantifica universalmente 
+    sobre a expressão aritmética [a], e seu contraexemplo 
+    precisa apresentar um [a] para o qual a regra não funciona. *)
 
 (* PREENCHER *)
 (** [] *)
@@ -490,12 +491,14 @@ Proof.
 (* ####################################################### *) 
 (** *** Consequência *)
 
-(** [Renan]Sometimes the preconditions and postconditions we get from the
-    Hoare rules won't quite be the ones we want in the particular
-    situation at hand -- they may be logically equivalent but have a
-    different syntactic form that fails to unify with the goal we are
-    trying to prove, or they actually may be logically weaker (for
-    preconditions) or stronger (for postconditions) than what we need.
+(** Às vezes, as pré-condições e pós-condições que recebemos das regras 
+    de Hoare não serão exatamente aquelas que nós queremos na situação 
+    particular que temos em mãos -- elas podem ser logicamente 
+    equivalentes, mas ter uma forma sintática diferente que seja 
+    incapaz de unificar com a meta que estamos tentando provar, ou 
+    elas realmente podem ser logicamente mais fracas 
+    (para pré-condições) ou mais fortes (para pós-condições) do que 
+    a que nós precisamos.
 
     [Vitor]For instance, while
       {{(X = 3) [X |-> 3]}} X ::= 3 {{X = 3}},
@@ -589,15 +592,14 @@ Proof.
 (* ####################################################### *)
 (** *** Digressão: a tática [eapply] *)
 
-(** [Renan]This is a good moment to introduce another convenient feature of
-    Coq.  We had to write "[with (P' := ...)]" explicitly in the proof
-    of [hoare_asgn_example1] and [hoare_consequence] above, to make
-    sure that all of the metavariables in the premises to the
-    [hoare_consequence_pre] rule would be set to specific
-    values.  (Since [P'] doesn't appear in the conclusion of
-    [hoare_consequence_pre], the process of unifying the conclusion
-    with the current goal doesn't constrain [P'] to a specific
-    assertion.)
+(** Este é um bom momento para introduzir um outro recurso conveniente 
+    de Coq. Tivemos que escrever "[with (P' := ...)]" explicitamente 
+    nas provas de [hoare_asgn_example1] e [hoare_consequence] acima, 
+    para nos certificarmos de que todas as metavariáveis nas 
+    premissas da regra [hoare_consequence_pre] receberiam valores 
+    específicos. (Uma vez que [P'] não aparece na conclusão de 
+    [hoare_consequence_pre], o processo de unificar a conclusão 
+    com a meta atual não restringe [P'] a uma asserção específica.
 
     [Vitor]This is a little annoying, both because the assertion is a bit
     long and also because for [hoare_asgn_example1] the very next
@@ -655,9 +657,9 @@ Proof.
 
 Abort.
 
-(** [Renan]An additional constraint is that existential variables cannot be
-    instantiated with terms containing (ordinary) variables that did
-    not exist at the time the existential variable was created. *)
+(** Uma restrição adicional é que as variáveis existenciais não podem ser 
+    instanciadas com termos contendo variáveis (ordinárias) que não 
+    existiam no momento em que a variável existencial foi criada. *)
 
 Lemma silly2 :
   forall (P : nat -> nat -> Prop) (Q : nat -> Prop),
