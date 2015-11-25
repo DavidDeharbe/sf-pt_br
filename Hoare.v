@@ -554,12 +554,12 @@ Proof.
   apply (Hhoare st st'). 
   assumption. assumption. Qed.
 
-(** [Diego]For example, we might use the first consequence rule like this:
+(** Por exemplo, nós podemos usar a primeira regra da consequência assim:
                 {{ True }} ->>
                 {{ 1 = 1 }} 
     X ::= 1
                 {{ X = 1 }}
-    Or, formally... 
+    Ou, formalmente... 
 *)
 
 Example hoare_asgn_example1 :
@@ -628,11 +628,11 @@ Proof.
     reservados para expressões que serão determinados (por uma posterior 
     unificação) mais tarde na prova. *)
 
-(** [Diego]In order for [Qed] to succeed, all existential variables need to
-    be determined by the end of the proof. Otherwise Coq
-    will (rightly) refuse to accept the proof. Remember that the Coq
-    tactics build proof objects, and proof objects containing
-    existential variables are not complete. *)
+(** A fim de que [Qed] suceda, toda variáveis existênciais precisam
+    ser determinadas até o fim da prova. Caso contrário Coq
+    irá (com razão) recusar aceitar a prova. Se lembre que as táticas do Coq
+    constroem objetos de prova, e objetos de prova contendo variáveis
+    existênciais não são completos. *)
 
 Lemma silly1 : forall (P : nat -> nat -> Prop) (Q : nat -> Prop),
   (forall x y : nat, P x y) ->
@@ -707,11 +707,11 @@ Qed.
     
 
 (** **** Exercício: nível 2 (hoare_asgn_examples_2)  *)
-(** [Diego]Translate these informal Hoare triples...
+(** Traduzir as triplas de Hoare informais...
        {{ X + 1 <= 5 }}  X ::= X + 1  {{ X <= 5 }}
        {{ 0 <= 3 /\ 3 <= 5 }}  X ::= 3  {{ 0 <= X /\ X <= 5 }}
-   ...into formal statements [assn_sub_ex1', assn_sub_ex2'] and 
-   use [hoare_asgn] and [hoare_consequence_pre] to prove them. *)
+   ...em afirmações formais [assn_sub_ex1', assn_sub_ex2'] e 
+   usar [hoare_asgn] e [hoare_consequence_pre] para prova-las. *)
 
 (* PREENCHER *)
 (** [] *)
@@ -787,9 +787,9 @@ Proof.
     eapply hoare_consequence_pre. apply hoare_asgn. 
     intros st H. subst. reflexivity. Qed.
 
-(** [Diego]You will most often use [hoare_seq] and
-    [hoare_consequence_pre] in conjunction with the [eapply] tactic,
-    as done above. *)
+(** Vamos frequentemente utilizar [hoare_seq] e
+    [hoare_consequence_pre] em combinação com a tática [eapply],
+    como feito acima. *)
 
 (** **** Exercício: nível 2 (hoare_asgn_example4)  *)
 (** Traduza este "programa decorado" para uma prova formal:
@@ -850,16 +850,16 @@ Proof.
               {{P}} c2 {{Q}}
       --------------------------------
       {{P}} IFB b THEN c1 ELSE c2 {{Q}}
-   [Diego]However, this is rather weak. For example, using this rule,
-   we cannot show that:
+   Contudo, isso é muito fraco. Por exemplo, usando essa regra,
+   nós não podemos mostrar que:
      {{ True }} 
      IFB X == 0
      THEN Y ::= 2
      ELSE Y ::= X + 1 
      FI
      {{ X <= Y }}
-   since the rule tells us nothing about the state in which the
-   assignments take place in the "then" and "else" branches. *)
+   uma vez que a regra não diz nada sobre o estado em que as atribuições
+   tomam lugar nos ramos "then" e "else". *)
    
 (** Mas nós podemos realmente dizer algo mais preciso. No ramo
     "then", nós sabemos que a expressão booleana [b] avalia para [verdadeiro],
@@ -934,14 +934,14 @@ a respeito de propriedades de programas Imp.
 - Leva a um processo de raciocínio composicional
 
 
-[Diego]The basic structure is given by _Hoare triples_ of the form:
+A estrutura básica é dada pela _Tripla de Hoare_ na forma:
   {{P}} c {{Q}}
 ]] 
 
-- [P] and [Q] are predicates about the state of the Imp program
-- "If command [c] is started in a state satisfying assertion
-        [P], and if [c] eventually terminates in some final state,
-        then this final state will satisfy the assertion [Q]."
+- [P] e [Q] são predicados sobre o estado do programa Imp
+- "Se o comando [c] é iniciado em um estado satisfazendo a afirmação
+        [P], e se [c] eventualmente termina em algum estado final,
+        então esse estado final satisfará a afirmação [Q]."
 
 *)
 
@@ -1028,9 +1028,9 @@ Proof.
     pois ele deve ajudar a solidificar seu entendimento do material. *)
 
 
-(** [Diego]The first step is to extend the syntax of commands and introduce
-    the usual notations.  (We've done this for you.  We use a separate
-    module to prevent polluting the global name space.) *)
+(** O primeiro passo é extender a sintaxe de comandos e introduzir
+    as notações usuais.  (Já fizemos isso para você.  Nós usamos um módulo
+    separado para previnir poluir o contexto para identificadores global.) *)
 
 Module If1.
 
@@ -1116,8 +1116,8 @@ Notation "{{ P }}  c  {{ Q }}" := (hoare_triple P c Q)
 
 (* PREENCHER *)
 
-(** [Diego]For full credit, prove formally [hoare_if1_good] that your rule is 
-    precise enough to show the following valid Hoare triple:
+(** Para um crédito total, provar formalmente que sua regra é 
+    precisa o suficiente para mostra a seguinte tripla de Hoare [hoare_if1_good]:
   {{ X + Y = Z }}
   IF1 Y <> 0 THEN
     X ::= X + Y
@@ -1165,10 +1165,10 @@ End If1.
 *)
 
 (** 
-    [Diego]But, as we remarked above for the conditional, we know a
-    little more at the end -- not just [P], but also the fact
-    that [b] is false in the current state.  So we can enrich the
-    postcondition a little:
+    Mas, como observamos acima para a condicional, sabemos um
+    pouco mais ao final -- não somente [P], mas também o fato que
+    [b] é falso em um estado atual.  Então podemos enriquecer um
+    pouco a pós-condição:
 *)
 (** 
       {{P}} WHILE b DO c END {{P /\ ~b}}
@@ -1267,8 +1267,8 @@ Qed.
 
 
 (** *** *)
-(** [Diego]We can use the while rule to prove the following Hoare triple,
-    which may seem surprising at first... *)
+(** Nós podemos utilizar a regra _while_ para provar a seguinte tripla
+    de Hoare, que pode ser surpreendente ao início... *)
 
 Theorem always_loop_hoare : forall P Q,
   {{P}} WHILE BTrue DO SKIP END {{Q}}.
@@ -1340,11 +1340,11 @@ Notation "'IFB' e1 'THEN' e2 'ELSE' e3 'FI'" :=
 Notation "'REPEAT' e1 'UNTIL' b2 'END'" := 
   (CRepeat e1 b2) (at level 80, right associativity).
 
-(** [Diego]Add new rules for [REPEAT] to [ceval] below.  You can use the rules
-    for [WHILE] as a guide, but remember that the body of a [REPEAT]
-    should always execute at least once, and that the loop ends when
-    the guard becomes true.  Then update the [ceval_cases] tactic to
-    handle these added cases.  *)
+(** [Diego]Adicionar novas regras para [REPEAT] no [ceval] abaixo.  Você pode 
+    usar as regras para [WHILE] como guia, mas lembrar que o corpo de um 
+    [REPEAT] sempre deve ser executado ao menos uma vez, e que o loop termina
+    quando a guarda se torna verdadeira.  Então atualizar a tática [ceval_cases]
+    para lidar com os casos adicionados.  *)
 
 Inductive ceval : state -> com -> state -> Prop :=
   | E_Skip : forall st,
@@ -1436,10 +1436,10 @@ End RepeatExercise.
 
 (** **** Exercício: nível 3 (himp_hoare)  *)
 
-(** [Diego]In this exercise, we will derive proof rules for the [HAVOC] command
-    which we studied in the last chapter. First, we enclose this work
-    in a separate module, and recall the syntax and big-step semantics
-    of Himp commands. *)
+(** Nesse exercício, vamos derivar regras de prova para o comando 
+    [HAVOC] que foi estudado no capítulo anterior. Primeiramente, vamos 
+    enclausurar esse trabalho em um módulo separado, e relembrar a sintaxe e
+    a semântica big-step dos comandos Himp. *)
 
 Module Himp.
 
