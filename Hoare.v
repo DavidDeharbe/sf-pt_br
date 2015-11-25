@@ -2,9 +2,9 @@
 
 Require Export Imp.
 
-(** [Dalay]In the past couple of chapters, we've begun applying the
-    mathematical tools developed in the first part of the course to
-    studying the theory of a small programming language, Imp.
+(** nos dois ultimos capítulos, nós começamos a aplicar as ferramentas
+    matemáticas desenvolvidas na primeira parte do curso para estudar
+    a teoria de uma pequena linguagem de programação, Imp.
 
     - Nós definimos um tipo de _árvores de sintaxe abstrata_ para o Imp,
       juntamente com uma _relação de avaliação_ (uma função parcial sobre os
@@ -32,16 +32,17 @@ Require Export Imp.
 
         - [Vitor]behavioral equivalence of programs (in the [Equiv] chapter). 
 
-    [Dalay]If we stopped here, we would already have something useful: a set
-    of tools for defining and discussing programming languages and
-    language features that are mathematically precise, flexible, and
-    easy to work with, applied to a set of key properties.  All of
-    these properties are things that language designers, compiler
-    writers, and users might care about knowing.  Indeed, many of them
-    are so fundamental to our understanding of the programming
-    languages we deal with that we might not consciously recognize
-    them as "theorems."  But properties that seem intuitively obvious
-    can sometimes be quite subtle (in some cases, even subtly wrong!).
+    Se nós parássemos aqui, nós já poderiamos ter algo útil: um conjunto
+    de ferramentas para definir e discutir linguagens de programação e
+    funcionalidades de linguagem que são matematicamente precisas, 
+    fexíveis e fáceis de se trabalhar, aplicadas a um conjunto de 
+    propriedades chave. Todas essas propriedades são coisas que designers 
+    de liguagem, escritores de compiladores e usuários podem querer 
+    conhecer. De fato, muitas delas são tão fundamentais para o nosso 
+    entendimento das linguagens de programação que lidamos que nós
+    podemos não reconhecê-las conscientemente como "teoremas". Mas 
+    propriedades que parecem intuitivamente óbvias podem às vezes ser
+    bastante sutis (em alguns casos, até sutilmente erradas!).
 
     Nós vamos retornar para o tema de propriedades metateóricas de linguagens
     inteiras mais tarde no curso, quando discutimos _tipos_ e _solidez
@@ -78,12 +79,13 @@ Require Export Imp.
 (* ####################################################### *)
 (** ** Asserções *)
 
-(** [Dalay]To talk about specifications of programs, the first thing we
-    need is a way of making _assertions_ about properties that hold at
-    particular points during a program's execution -- i.e., claims
-    about the current state of the memory when program execution
-    reaches that point.  Formally, an assertion is just a family of
-    propositions indexed by a [state]. *)
+(** Para falar a respeito de especificações de programas, a primeira
+    coisa que nós precisamos é de uma maneira de fazer _asserções_ a 
+    respeito de propriedades que mantém um ponto particular durante a 
+    execução do programa -- isto é, afirmações a respeito do estado
+    atual da memória quando a execução do programa alcança determinado 
+    ponto. Formalmente, uma asserção é somente uma família de 
+    proposições idexadas por um [state] (estado). *)
 
 Definition Assertion := state -> Prop.
 
@@ -148,9 +150,10 @@ Notation "P <<->> Q" :=
 (** [Vitor]Next, we need a way of making formal claims about the
     behavior of commands. *)
 
-(** [Dalay]Since the behavior of a command is to transform one state to
-    another, it is natural to express claims about commands in terms
-    of assertions that are true before and after the command executes:
+(** Devido ao fato de que o comportamento de um comando é transformar
+    um estado em outro, é natural expressar afirmações a respeito de
+    comandos em termos de asserções que são verdade antes e depois do
+    comando executar:
 
       - "Se o comando [c] é iniciado em um estado satisfazendo a asserção
         [P], e se [c] eventualmente termina em algum estado final,
@@ -177,10 +180,10 @@ Notation "{{ P }}  c  {{ Q }}" :=
   (hoare_triple P c Q) (at level 90, c at next level)
   : hoare_spec_scope.
 
-(** [Dalay](The [hoare_spec_scope] annotation here tells Coq that this
-    notation is not global but is intended to be used in particular
-    contexts.  The [Open Scope] tells Coq that this file is one such
-    context.) *)
+(** (A anotação [hoare_spec_scope] aqui diz ao Coq que essa notação 
+    não é global mas tem a intenção de ser usada em contextos 
+    particulares. A [Open Scope] diz ao Coq que esse arquivo é um
+    desses contextos.) *)
 
 (** **** Exercício: nível 1, opcional (triples)  *)
 (** Paraphrase the following Hoare triples in English.
@@ -276,15 +279,15 @@ Proof.
 (* ####################################################### *) 
 (** *** Atribuição *)
 
-(** [Dalay]The rule for assignment is the most fundamental of the Hoare logic
-    proof rules.  Here's how it works.
+(**  A regra para atribuição é a mais fundamentas das regras de prova da
+     lógica de Hoare. Aqui está como ela funciona.
 
-    Consider this (valid) Hoare triple:
+    Considere essa tripla de Hoare (válida):
        {{ Y = 1 }}  X ::= Y  {{ X = 1 }}
-    In English: if we start out in a state where the value of [Y]
-    is [1] and we assign [Y] to [X], then we'll finish in a
-    state where [X] is [1].  That is, the property of being equal
-    to [1] gets transferred from [Y] to [X].
+    Em português: se nós começarmos em um estado onde o valor de [Y]
+    é [1] e nós assinalarmos [Y] a [X], então nós iremos terminar em um
+    estado onde [X] é [1]. Isso é, a propriedade de ser igual a [1] é
+    transferida de [Y] para [X].
 
     Similarmente, em
        {{ Y + Z = 1 }}  X ::= Y + Z  {{ X = 1 }}
@@ -323,12 +326,12 @@ Proof.
       {{ 0 <= X /\ X <= 5 }}
 *)
 
-(** [Dalay]To formalize the rule, we must first formalize the idea of
-    "substituting an expression for an Imp variable in an assertion."
-    That is, given a proposition [P], a variable [X], and an
-    arithmetic expression [a], we want to derive another proposition
-    [P'] that is just the same as [P] except that, wherever [P]
-    mentions [X], [P'] should instead mention [a].  
+(** Para formalizar a regra, nos devemos primeiramente formalizar 
+    a ideia de "substituir uma expressão por uma variável Imp em uma 
+    asserção." Isso é, dada uma proposição [P], uma variável [X] e uma
+    expressão aritmética [a], nós queremos derivar outra proposição [P']
+    que é o mesmo que [P] exceto que, sempre que [P] menciona [X], [P']
+    deve mencionar [a].
    
     Desde que [P] é uma proposição arbitrária do Coq, nós não podemos 
     diretamente "editar" seu texto.  Em vez disso, nós podemos alcançar o 
@@ -378,7 +381,7 @@ Notation "P [ X |-> a ]" := (assn_sub X a P) (at level 10).
 
 *)
 
-(** [Dalay]Now we can give the precise proof rule for assignment: 
+(** Agora nós podemos dar a regra de prova precisa para atribuição:
       ------------------------------ (hoare_asgn)
       {{Q [X |-> a]}} X ::= a {{Q}}
 *)
@@ -442,11 +445,11 @@ Proof.
     X ::= a
   {{fun st => P st' /\ st X = aeval st' a }}
   (where st' = update st X m)
-    [Dalay]Note that we use the original value of [X] to reconstruct the
-    state [st'] before the assignment took place. Prove that this rule
-    is correct (the first hypothesis is the functional extensionality
-    axiom, which you will need at some point). Also note that this
-    rule is more complicated than [hoare_asgn].
+    Note que nós usamos o valor original de [X] para reconstruir o
+    estado [st'] antes da atribuição. Prove que essa regra é correta
+    (a primeira hipótese é o axioma extensionalmente funcional, que
+    você vai precisar em determinado momento). Também note que essa
+    regra é mais complicada que [hoare_asgn].
 *)
 
 Theorem hoare_asgn_fwd :
@@ -514,10 +517,10 @@ Proof.
                   P <<->> P'
          -----------------------------   (hoare_consequence_pre_equiv)
                 {{P}} c {{Q}}
-    [Dalay]Taking this line of thought a bit further, we can see that
-    strengthening the precondition or weakening the postcondition of a
-    valid triple always produces another valid triple. This
-    observation is captured by two _Rules of Consequence_.
+    Indo um pouco mais além nessa linha de pensamento, nós podemos
+    ver que fortificar uma pré-condição ou enfraquecer a pós-condição
+    de uma tripla válida sempre produz outra tripla válida. essa 
+    observação é capturada por duas _Regras de Consequência_.
                 {{P'}} c {{Q}}
                    P ->> P'
          -----------------------------   (hoare_consequence_pre)
@@ -617,13 +620,13 @@ Proof.
   apply hoare_asgn.
   intros st H.  reflexivity.  Qed.
 
-(** [Dalay]In general, [eapply H] tactic works just like [apply H] except
-    that, instead of failing if unifying the goal with the conclusion
-    of [H] does not determine how to instantiate all of the variables
-    appearing in the premises of [H], [eapply H] will replace these
-    variables with so-called _existential variables_ (written [?nnn])
-    as placeholders for expressions that will be determined (by
-    further unification) later in the proof. *)
+(** Geralmente, a tática [eapply H] funciona como [apply H] exceto que, 
+    ao invés de falhar se unificar a meta com a conclusão de [H] não 
+    determina como instanciar todas as variáveis que aparecem nas 
+    premissas de [H], [eapply H] vai substituir essas variáveis com
+    as chamadas _variáveis existenciais_ (escritas [?nnn]) como espaços
+    reservados para expressões que serão determinados (por uma posterior 
+    unificação) mais tarde na prova. *)
 
 (** [Diego]In order for [Qed] to succeed, all existential variables need to
     be determined by the end of the proof. Otherwise Coq
@@ -686,13 +689,13 @@ Proof.
   eapply HQ. apply HP'.
 Qed.
 
-(** [Dalay]In the last step we did [apply HP'] which unifies the existential
-    variable in the goal with the variable [y]. The [assumption]
-    tactic doesn't work in this case, since it cannot handle
-    existential variables. However, Coq also provides an [eassumption]
-    tactic that solves the goal if one of the premises matches the
-    goal up to instantiations of existential variables. We can use
-    it instead of [apply HP']. *)
+(** No último passo nós fizemos [apply HP'] o qual unifica a variável
+    existencial na meta com a variável [y]. A tática [assumption] não 
+    funciona nesse caso, devido ao fato de ela não poder lidar com 
+    variáveis existenciais. Contudo, Coq também fornece uma tática
+    [eassumption] que resolve a meta se uma das premissas corresponde
+    à meta até instâncias de variáveis existenciais. Nós podemos usar
+    isso ao invés de [apply HP']. *)
 
 Lemma silly2_eassumption : forall (P : nat -> nat -> Prop) (Q : nat -> Prop),
   (exists y, P 42 y) ->
@@ -762,12 +765,13 @@ Proof.
     and push postconditions backwards through commands until we reach
     the beginning. *)
 
-(** [Dalay]Informally, a nice way of recording a proof using the sequencing
-    rule is as a "decorated program" where the intermediate assertion
-    [Q] is written between [c1] and [c2]:
+(** Informalmente, um modo legal de gravar uma prova usando a regra de 
+    sequência é como um "programa decorado" onde a asserção intermediária
+    [Q] é escrita entre [c1] e [c2;]
+
       {{ a = n }}
     X ::= a;;
-      {{ X = n }}      <---- decoration for Q
+      {{ X = n }}      <---- decoração para Q
     SKIP
       {{ X = n }}
 *)
@@ -838,10 +842,11 @@ Proof.
 (* ####################################################### *) 
 (** *** Condicionais *)
 
-(** [Dalay]What sort of rule do we want for reasoning about conditional
-    commands?  Certainly, if the same assertion [Q] holds after
-    executing either branch, then it holds after the whole
-    conditional.  So we might be tempted to write:
+(** Que ordenação de regra nós queremos para raciocinar a respeito
+    de comandos condicionais? Certamente, se a mesma asserção [Q]
+    se mantém depois de executar cada branch, então ela se mantém
+    depois de toda a condicional. Então nós devemos ser tentados a 
+    escrever:
               {{P}} c1 {{Q}}
               {{P}} c2 {{Q}}
       --------------------------------
@@ -924,10 +929,11 @@ Proof.
 (** * Lógica de Hoare: até agora *)
 
 (** 
-[Dalay]Idea: create a _domain specific logic_ for reasoning about properties of Imp programs.
+Ideia: crie uma _lógica de domínio específico_ para raciocinar 
+a respeito de propriedades de programas Imp.
 
-- This hides the low-level details of the semantics of the program
-- Leads to a compositional reasoning process
+- Isso esconde os detalhes de baixo nível da semântica do programa
+- Leva a um processo de raciocínio composicional
 
 
 [Diego]The basic structure is given by _Hoare triples_ of the form:
@@ -1020,9 +1026,8 @@ Proof.
     [true], then command [c] is evaluated. If [b] evaluates to
     [false], then [IF1 b THEN c FI] does nothing.
 
-    [Dalay]We recommend that you do this exercise before the ones that
-    follow, as it should help solidify your understanding of the
-    material. *)
+    Nós recomendamos que você faça esse exercício antes dos que seguem,
+    pois ele deve ajudar a solidificar seu entendimento do material. *)
 
 
 (** [Diego]The first step is to extend the syntax of commands and introduce
@@ -1106,10 +1111,10 @@ Notation "{{ P }}  c  {{ Q }}" := (hoare_triple P c Q)
                                   (at level 90, c at next level) 
                                   : hoare_spec_scope.
 
-(** [Dalay]Finally, we (i.e., you) need to state and prove a theorem,
-    [hoare_if1], that expresses an appropriate Hoare logic proof rule
-    for one-sided conditionals. Try to come up with a rule that is
-    both sound and as precise as possible. *)
+(** Finalmente, nós (isto é, você) precisa declarar e provar um teorema
+    [hoare_if1], que expressa uma regra de prova de lógica de Hoare 
+    apropriada para condicionais unilaterais. Tente criar uma regra que
+    é sólida e tão precisa como for possível. *)
 
 (* PREENCHER *)
 
@@ -1152,10 +1157,10 @@ End If1.
 
 (** *** *)
 
-(** [Dalay]First of all, let's think about the case where [b] is false at the
-    beginning -- i.e., let's assume that the loop body never executes
-    at all.  In this case, the loop behaves like [SKIP], so we might
-    be tempted to write: *)
+(** Primeiro de tudo, vamos pensar a respeito do caso onde [b] é falso no
+    começo -- isto é, vamos assumir que o corpo do loop nunca executa 
+    ompletamente. Nesse caso, o loop se comporta como [SKIP], então nós 
+    devemos ser tentados a escrever: *)
 
 (**
       {{P}} WHILE b DO c END {{P}}.
@@ -1230,12 +1235,11 @@ Qed.
     the loop's guard is true_ is a sufficient precondition for [c] to
     ensure [P] as a postcondition.
 
-    [Dalay]This is a slightly (but significantly) weaker requirement.  For
-    example, if [P] is the assertion [X = 0], then [P] _is_ an
-    invariant of the loop
+    Isso é uma exigência levemente (mas significantemente) mais fraca.
+    Por exemplo, se [P] é a asserção [X = 0], então [P] _é_ uma invariante 
+    do loop
     WHILE X = 2 DO X := 1 END
-    although it is clearly _not_ preserved by the body of the
-    loop.
+    embora isso seja claramente _não_ preservado pelo corpo do loop.
 *)
 
 
@@ -1316,10 +1320,10 @@ Inductive com : Type :=
   | CWhile : bexp -> com -> com
   | CRepeat : com -> bexp -> com.
 
-(** [Dalay][REPEAT] behaves like [WHILE], except that the loop guard is
-    checked _after_ each execution of the body, with the loop
-    repeating as long as the guard stays _false_.  Because of this,
-    the body will always execute at least once. *)
+(** [REPEAT] se comporta como [WHILE], exceto que a guarda do loop é
+    checada _depois_ de cada execução do corpo, com o loop repetindo 
+    tão longo quanto a guarda permaneça _falsa_. Por causa disso, o
+    corpo vai sempre executar pelo menos uma vez. *)
 
 Tactic Notation "com_cases" tactic(first) ident(c) :=
   first;
@@ -1418,8 +1422,8 @@ Proof.
 
 (* PREENCHER *)
 
-(** [Dalay]For full credit, make sure (informally) that your rule can be used
-    to prove the following valid Hoare triple:
+(** Para o crédito total, tenha certeza (informalmente) que sua regra pode 
+    ser usada para provar a seguinte tripla de Hoare válida:
   {{ X > 0 }}
   REPEAT
     Y ::= X;;
