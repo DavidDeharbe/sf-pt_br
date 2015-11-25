@@ -1,49 +1,50 @@
 arrow: seta
-assumption: hipótese
+assumption: hipÃ³tese
 bag: multiconjunto
-backward reasoning: raciocínio regressivo
+backward reasoning: raciocÃ­nio regressivo
+big-step semantics : 
 branch: ramo
-buffer: buffer, área de trabalho
+buffer: buffer, Ã¡rea de trabalho
 cartesian product: produto cartesiano
-case analysis: análise de casos
+case analysis: anÃ¡lise de casos
 (to) check: verificar
 checker: verificador
 Church numerals: numerais de Church
 correctness: corretude
-(to) decrease: decair (no contexto de funções definidas por recursão)
+(to) decrease: decair (no contexto de funÃ§Ãµes definidas por recursÃ£o)
 (to) evaluate: calcular o valor
-forward reasoning: raciocínio progressivo
+forward reasoning: raciocÃ­nio progressivo
 function type: tipo funcional
 goal: meta
 hack: truque
 hacking: resolver a base de tentativa e erro
-head: cabeça
+head: cabeÃ§a
 hint: dica
 invariant: (um) invariante
 lemma: lema
 linker: linkeditor
-machine-checked: verificado por máquina
+machine-checked: verificado por mÃ¡quina
 namespace: contexto para identificadores
-notation-symbol: símbolo de notação
+notation-symbol: sÃ­mbolo de notaÃ§Ã£o
 (to) override: sobrescrever
 overriding: sobrescrita
-pattern matching: casamento de padrões
+pattern matching: casamento de padrÃµes
 pedantic: minucioso(a)
-pigeonhole principle: princípio da casa dos pombos
-pretty printer: formatador de código
-proof: demonstra�ão
+pigeonhole principle: princÃ­pio da casa dos pombos
+pretty printer: formatador de cÃ³digo
+proof: demonstraÃÃ£o
 proof object: objeto demonstrador
-proof term: expressão demonstradora
+proof term: expressÃ£o demonstradora
 qualifier: marcador
 (to) reason: raciocinar
 (to) rewrite: reescrever
 rewriting: reescrita
-script: transcrição
+script: transcriÃ§Ã£o
 side effects: efeitos colaterais
-soundness: correção
-static type system: sistema de tipagem estática
+soundness: correÃ§Ã£o
+static type system: sistema de tipagem estÃ¡tica
 string(s): cadeia de caracteres
 tail: cauda
 (to) type: tipar
 wildcard: coringa
-tactical: tática
+tactical: tÃ¡tica
