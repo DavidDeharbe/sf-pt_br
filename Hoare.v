@@ -571,9 +571,9 @@ Proof.
   intros st H. unfold assn_sub, update. simpl. reflexivity.
 Qed.
 
-(** [Francisco]Finally, for convenience in some proofs, we can state a "combined"
-    rule of consequence that allows us to vary both the precondition
-    and the postcondition. 
+(** Finalmente, por conveniente em algumas provas, nós podemos declarar uma 
+    regra "combinada" de consequência que nos permite varias ambas as pré-condições e
+    as pós-condições.
                 {{P'}} c {{Q'}}
                    P ->> P'
                    Q' ->> Q
@@ -641,8 +641,8 @@ Lemma silly1 : forall (P : nat -> nat -> Prop) (Q : nat -> Prop),
 Proof.
   intros P Q HP HQ. eapply HQ. apply HP.
 
-(** [Francisco]Coq gives a warning after [apply HP]:
-     No more subgoals but non-instantiated existential variables:
+(**  Coq dar um alerta depois de [apply HP]:
+     Sem mais submetas mas variáveis existencial não-instanciados.
      Existential 1 =
      ?171 : [P : nat -> nat -> Prop
              Q : nat -> Prop
@@ -651,11 +651,10 @@ Proof.
   
      (dependent evars: ?171 open,)
 
-     You can use Grab Existential Variables.
-   Trying to finish the proof with [Qed] gives an error:
+     Você pode usar Grab Existential Variables.
+   Tentar terminar a prova com [Qed] da um erro:
 <<
-    Error: Attempt to save a proof with existential variables still
-    non-instantiated
+    Erro: Tentativa de salvar uma prova com variáveis existenciais ainda não instanciado.
 >> *)
 
 Abort.
@@ -720,8 +719,8 @@ Qed.
 (* ####################################################### *)
 (** *** Skip *)
 
-(** [Francisco]Since [SKIP] doesn't change the state, it preserves any
-    property P:
+(** Uma vez que [SKIP] não muda o estado, ele preserva qualquer
+    propriedade P:
       --------------------  (hoare_skip)
       {{ P }} SKIP {{ P }}
 *)
@@ -793,7 +792,7 @@ Proof.
     as done above. *)
 
 (** **** Exercício: nível 2 (hoare_asgn_example4)  *)
-(** [Francisco]Translate this "decorated program" into a formal proof:
+(** Traduza este "programa decorado" para uma prova formal:
                    {{ True }} ->>
                    {{ 1 = 1 }}
     X ::= 1;;
@@ -862,13 +861,12 @@ Proof.
    since the rule tells us nothing about the state in which the
    assignments take place in the "then" and "else" branches. *)
    
-(** [Francisco]But we can actually say something more precise.  In the
-   "then" branch, we know that the boolean expression [b] evaluates to
-   [true], and in the "else" branch, we know it evaluates to [false].
-   Making this information available in the premises of the rule gives
-   us more information to work with when reasoning about the behavior
-   of [c1] and [c2] (i.e., the reasons why they establish the
-   postcondition [Q]). *)
+(** Mas nós podemos realmente dizer algo mais preciso. No ramo
+    "then", nós sabemos que a expressão booleana [b] avalia para [verdadeiro],
+    e no ramo "else", nós sabemos que ele avalia para o [falso].
+    Fazendo esta informação disponívelna premissa da regra nos da mais informações
+    para trabalhar com ele quando racioncinamos sobre o comportamento de [c1] e [c2]
+    (ex., as razões do por que que eles estabelecem a pós-condição [Q]).*)
 (**
               {{P /\  b}} c1 {{Q}}
               {{P /\ ~b}} c2 {{Q}}
@@ -977,8 +975,8 @@ a respeito de propriedades de programas Imp.
 
 
 (** *** Exemplo *)
-(** [Francisco]Here is a formal proof that the program we used to motivate the
-    rule satisfies the specification we gave. *)
+(** Aqui esta uma prova formal que o programa que nós
+    usamos para motivar as regras satisfaz a especificação que nós demos. *)
 
 Example if_example : 
     {{fun st => True}} 
@@ -1127,9 +1125,9 @@ Notation "{{ P }}  c  {{ Q }}" := (hoare_triple P c Q)
   {{ X = Z }}
 *)
 
-(** [Francisco]Hint: Your proof of this triple may need to use the other proof
-    rules also. Because we're working in a separate module, you'll
-    need to copy here the rules you find necessary. *)
+(** Dica: Sua prova desta tripla pode precisar usar outra 
+    regra de prova também. Por nós estarmos trabalhando em um módulo separado,
+    você irá precisar compiar aqui as regras que você achar necessário. *)
 
 
 Lemma hoare_if1_good :
@@ -1177,15 +1175,14 @@ End If1.
 *)
 
 (** 
-    [Francisco]What about the case where the loop body _does_ get executed?
-    In order to ensure that [P] holds when the loop finally
-    exits, we certainly need to make sure that the command [c]
-    guarantees that [P] holds whenever [c] is finished.
-    Moreover, since [P] holds at the beginning of the first
-    execution of [c], and since each execution of [c]
-    re-establishes [P] when it finishes, we can always assume
-    that [P] holds at the beginning of [c].  This leads us to the
-    following rule:
+    E sobre o caso onde o corpo do laço _does_ é executado?
+    Para garantir que [P] satisfaz quando o laço finalmente sai, nós certamente
+    precisamos ter certeza que o comando [c] garante que [P] satisfaz a qualquer
+    momento que [c] termina.
+    Além disse, desde que [P] satisfaça no começo da primeira execução de [c],
+    e uma vez que cada execução de [c] reestabelece [P] quando ele termina, nós
+    sempre assumimos que [P] satisfaz o inicio de [c]. Isso nos leva para a seguinte
+    regra:
 *)
 (** 
                    {{P}} c {{P}}
@@ -1289,11 +1286,10 @@ Proof.
   Case "Precondition implies invariant".
     intros st H. constructor.  Qed.
 
-(** [Francisco]Of course, this result is not surprising if we remember that
-    the definition of [hoare_triple] asserts that the postcondition
-    must hold _only_ when the command terminates.  If the command
-    doesn't terminate, we can prove anything we like about the
-    post-condition. *)
+(** Claro, esse resultado não é surpresa se nós lembrarmos que
+    a definição de [hoare_triple] asserta que a pós-condição deve satisfazer
+    _apenas_ quando o comando terminar. Se o comando não terminar, nós podemos
+    provar qualquer coisa que nós quisermos sobre a pós-condição. *)
 
 (** Regras de Hoare que só falam sobre comandos que são encerrados 
     são muitas vezes ditos descreverem a lógica de correção 
@@ -1388,8 +1384,7 @@ Tactic Notation "ceval_cases" tactic(first) ident(c) :=
 (* PREENCHER *)
 ].
 
-(** [Francisco]A couple of definitions from above, copied here so they use the
-    new [ceval]. *)
+(** As duas definições acima, copiadas aqui usam o novo [ceval]. *)
 
 Notation "c1 '/' st '||' st'" := (ceval st c1 st') 
                                  (at level 40, st at level 39).
@@ -1506,11 +1501,10 @@ Tactic Notation "ceval_cases" tactic(first) ident(c) :=
   | Case_aux c "E_WhileEnd" | Case_aux c "E_WhileLoop"
   | Case_aux c "E_Havoc" ].
 
-(** [Francisco]The definition of Hoare triples is exactly as before. Unlike our
-    notion of program equivalence, which had subtle consequences with
-    occassionally nonterminating commands (exercise [havoc_diverge]),
-    this definition is still fully satisfactory. Convince yourself of
-    this before proceeding. *)
+(** A definição da tripla de Hoare é exatamente como antes. Não como nossa
+    noção de programas equivalente, ao qual teve consequências sutis com os comandos 
+    ocasionalmente não-terminados (exercício [havoc_diverge]), esta definição ainda é
+    completamente satisfatória. Convença de você mesmo antes de prosseguir.*)
 
 Definition hoare_triple (P:Assertion) (c:com) (Q:Assertion) : Prop :=
   forall st st', c / st || st' -> P st -> Q st'.
