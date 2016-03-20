@@ -6,14 +6,14 @@ bag: multiconjunto
 backward reasoning: raciocínio regressivo
 big-step semantics : 
 branch: ramo
-buffer: buffer, Ã¡rea de trabalho
+buffer: buffer, área de trabalho
 cartesian product: produto cartesiano
-case analysis: anÃ¡lise de casos
+case analysis: análise de casos
 (to) check: verificar
 checker: verificador
 Church numerals: numerais de Church
 correctness: corretude
-(to) decrease: decair (no contexto de funÃ§Ãµes definidas por recursÃ£o)
+(to) decrease: decair (no contexto de funções definidas por recursão)
 (to) evaluate: calcular o valor
 even: par
 evenness: paridade
@@ -22,7 +22,7 @@ function type: tipo funcional
 goal: meta
 hack: truque
 hacking: resolver a base de tentativa e erro
-head: cabeÃ§a
+head: cabeça
 hint: dica
 invariant: (um) invariante
 lemma: lema
@@ -37,7 +37,7 @@ pattern matching: casamento de padrões
 pedantic: minucioso(a)
 pigeonhole principle: princípio da casa dos pombos
 pretty printer: formatador de código
-proof: demonstraçãoo
+proof: demonstração
 proof object: objeto demonstrador
 proof term: expressão demonstradora
 qualifier: marcador
@@ -47,9 +47,13 @@ rewriting: reescrita
 script: transcriçã£o
 side effects: efeitos colaterais
 soundness: correção
-static type system: sistema de tipagem estÃ¡tica
+static type system: sistema de tipagem estática
 string(s): cadeia de caracteres
 tail: cauda
 (to) type: tipar
 wildcard: coringa
-tactical: tÃ¡tica
+tactical: tática
+assertion: asserção
+
+
+

@@ -278,7 +278,7 @@ Qed.
 
 (** Se [T] é uma tática então [try T] é uma tática exatamente igual a [T] exceto que, se 
 [T] falha então [try T] não realiza nenhuma ação na prova, sendo isto considerado um 
-_sucesso_ na ação (no lugar de ser uma falha) *).
+_sucesso_ na ação (no lugar de ser uma falha). *)
 
 Theorem silly1 : forall ae, aeval ae = aeval ae.
 Proof. try reflexivity. (* this just does [reflexivity] *) Qed.
