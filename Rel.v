@@ -1,34 +1,33 @@
-(** * Rel: Properties of Relations *)
+(** * Rel: Propriedades das Relações *)
 
 Require Export SfLib.
 
-(** This short, optional chapter develops some basic definitions and a
-    few theorems about binary relations in Coq.  The key definitions
-    are repeated where they are actually used (in the [Smallstep]
-    chapter), so readers who are already comfortable with these ideas
-    can safely skim or skip this chapter.  However, relations are also
-    a good source of exercises for developing facility with Coq's
-    basic reasoning facilities, so it may be useful to look at it just
-    after the [Logic] chapter. *)
+(** Esse curto capítulo, opcional, desenvolve algumas definições básicas e
+    teoremas sobre relações binárias em Coq. Como as definições chaves são
+    repetidas nos locais onde são usadas (no capítulo [Smallstep]), os leitores
+    que já tem familiaridade com essas ideias podem tranquilamente passar
+    rapidamente ou até desconsiderar esse capítulo. No entanto, as relações
+    também são uma excelente fonte de exercícios para desenvolver habilidades
+    com as funcionalidades básicas de raciocínio do Coq; portanto, é
+    interessante estudá-lo logo após o capítulo [Logic]. *)
 
-(** A (binary) _relation_ on a set [X] is a family of propositions
-    parameterized by two elements of [X] -- i.e., a proposition about
-    pairs of elements of [X].  *)
+(** Uma _relação_ (binária) em um conjunto [X] é uma família de proposições
+    tendo dois elementos de [X] como parâmetros -- i.e., uma proposição sobre
+    pares do elementos de [X]. *)
 
 Definition relation (X: Type) := X->X->Prop.
 
-(** Somewhat confusingly, the Coq standard library hijacks the generic
-    term "relation" for this specific instance. To maintain
-    consistency with the library, we will do the same.  So, henceforth
-    the Coq identifier [relation] will always refer to a binary
-    relation between some set and itself, while the English word
-    "relation" can refer either to the specific Coq concept or the
-    more general concept of a relation between any number of possibly
-    different sets.  The context of the discussion should always make
-    clear which is meant. *)
+(** De forma talvez confusa, a biblioteca padrão Coq sequestra o termo genêrico
+    "relação" para essa instância específica. Para manter consistência com a
+    biblioteca faremos o mesmo. Logo, daqui em diante o identificador [Coq]
+    sempre fará referência a uma relação binária entre um conjunto e ele mesmo,
+    enquanto a palavra portuguesa "relação" pode fazer referência ou para o
+    conceito específico ao Coq, ou o conceito mais geral de uma relação entre um
+    número qualquer de conjuntos possivelmente diferentes. O contexto da
+    discussão vai sempre deixar claro o significado preciso. *)
 
-(** An example relation on [nat] is [le], the less-that-or-equal-to
-    relation which we usually write like this [n1 <= n2]. *)
+(** Um exemplo de relação em [nat] é [le], a relação menor-ou-igual-a que
+    usualmente é denotada da seguinte forma [n1 <= n2]. *)
 
 Print le.
 (* ====> Inductive le (n : nat) : nat -> Prop :=
@@ -38,24 +37,23 @@ Check le : nat -> nat -> Prop.
 Check le : relation nat.
 
 (* ######################################################### *)
-(** * Basic Properties of Relations *)
+(** * Propriedades Básicas das Relações *)
 
-(** As anyone knows who has taken an undergraduate discrete math
-    course, there is a lot to be said about relations in general --
-    ways of classifying relations (are they reflexive, transitive,
-    etc.), theorems that can be proved generically about classes of
-    relations, constructions that build one relation from another,
-    etc.  For example... *)
+(** Como qualquer pessoa que fez um curso de matemática discreta na graduação
+    sabe, tem muito a dizer sobre relações em geral -- formas de classificar
+    relações (que são reflexivas, transitivas, etc.), teoremas que podem ser
+    demonstrado genericamente sobre classes de relações, construções que derivam
+    uma relação a partir de outra, etc.  Por exemplo... *)
 
-(** A relation [R] on a set [X] is a _partial function_ if, for every
-    [x], there is at most one [y] such that [R x y] -- i.e., if [R x
-    y1] and [R x y2] together imply [y1 = y2]. *)
+(** A relação [R] em um conjunto [X] é uma _função parcial_ se, para cada [x],
+    há pelo menos um [y] tal que [R x y] -- ou seja, se [R x y1] e [R x y2]
+    juntos implicam [y1 = y2]. *)
 
 Definition partial_function {X: Type} (R: relation X) :=
   forall x y1 y2 : X, R x y1 -> R x y2 -> y1 = y2. 
 
-(** For example, the [next_nat] relation defined earlier is a partial
-    function. *)
+(** Por exemplo, a relação [next_nat] definida mais cedo é uma função
+    parcial. *)
 
 Print next_nat.
 (* ====> Inductive next_nat (n : nat) : nat -> Prop := 
@@ -70,11 +68,10 @@ Proof.
   inversion H1. inversion H2.
   reflexivity.  Qed. 
 
-(** However, the [<=] relation on numbers is not a partial function.
-    In short: Assume, for a contradiction, that [<=] is a partial
-    function.  But then, since [0 <= 0] and [0 <= 1], it follows that
-    [0 = 1].  This is nonsense, so our assumption was
-    contradictory. *)
+(** Porém, a relação [<=] em [nat] não é uma função parcial.  Resumidamente:
+    assume, para uma contradição, que [<=] é uma função parcial. No entanto,
+    como [0 <= 0] e [0 <= 1], segue que [0 = 1].  Isto é contraditório, e a
+    hipótese era contraditória. *)
 
 Theorem le_not_a_partial_function :
   ~ (partial_function le).
@@ -87,22 +84,22 @@ Proof.
      apply le_S. apply le_n. 
   inversion Nonsense.   Qed.
 
-(** **** Exercise: 2 stars, optional  *)
-(** Show that the [total_relation] defined in earlier is not a partial
-    function. *)
+(** **** Exercício: nível 2, opcional  *)
 
-(* FILL IN HERE *)
+(** Mostre que [total_relation] definido anteriormente não é uma função
+    parcial. *)
+
+(* PREENCHER *)
 (** [] *)
 
-(** **** Exercise: 2 stars, optional  *)
-(** Show that the [empty_relation] defined earlier is a partial
-    function. *)
+(** **** Exercício: nível 2, opcional  *)
+(** Mostre que [empty_relation] definido anteriormente é uma função parcial. *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
-(** A _reflexive_ relation on a set [X] is one for which every element
-    of [X] is related to itself. *)
+(** Uma relação _reflexiva_ em um conjunto [X] é tal que cada elemento de [X]
+    é relacionado com ele mesmo. *)
 
 Definition reflexive {X: Type} (R: relation X) :=
   forall a : X, R a a.
@@ -112,8 +109,8 @@ Theorem le_reflexive :
 Proof. 
   unfold reflexive. intros n. apply le_n.  Qed.
 
-(** A relation [R] is _transitive_ if [R a c] holds whenever [R a b]
-    and [R b c] do. *)
+(** A relação [R] é _transitiva  se [R a c] é satisfeita cada vez
+    que [R a b] e [R b c] o são. *)
 
 Definition transitive {X: Type} (R: relation X) :=
   forall a b c : X, (R a b) -> (R b c) -> (R a c).
@@ -136,22 +133,22 @@ Proof.
   apply Hnm.
   apply Hmo. Qed.
 
-(** **** Exercise: 2 stars, optional  *)
-(** We can also prove [lt_trans] more laboriously by induction,
-    without using le_trans.  Do this.*)
+(** **** Exercício: nível 2, opcional  *)
+(** É possível demonstrar [lt_trans] de forma mais trabalhosa, por
+    indução, sem usar [le_trans]. Fazer isto. *)
 
 Theorem lt_trans' :
   transitive lt.
 Proof.
-  (* Prove this by induction on evidence that [m] is less than [o]. *)
+  (* Demonstrar por indução na evidência que [m] é menor que [o]. *)
   unfold lt. unfold transitive.
   intros n m o Hnm Hmo.
   induction Hmo as [| m' Hm'o].
-    (* FILL IN HERE *) Admitted.
+    (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 2 stars, optional  *)
-(** Prove the same thing again by induction on [o]. *)
+(** **** Exercício: nível 2, opcional  *)
+(** Demonstrar a mesma propriedade por indução em [o]. *)
 
 Theorem lt_trans'' :
   transitive lt.
@@ -159,12 +156,12 @@ Proof.
   unfold lt. unfold transitive.
   intros n m o Hnm Hmo.
   induction o as [| o'].
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** The transitivity of [le], in turn, can be used to prove some facts
-    that will be useful later (e.g., for the proof of antisymmetry
-    below)... *)
+(** A transitividade de [le], por sua vez, pode ser usada para demonstrar
+    para algumas propriedades que serão úteis mais tarde (por exemplo,
+    para a prova da antisimetria abaixo)... *)
 
 Theorem le_Sn_le : forall n m, S n <= m -> n <= m.
 Proof. 
@@ -172,87 +169,86 @@ Proof.
     apply le_S. apply le_n.
     apply H.  Qed.
 
-(** **** Exercise: 1 star, optional  *)
+(** **** Exercício: nível 1, opcional  *)
 Theorem le_S_n : forall n m,
   (S n <= S m) -> (n <= m).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 2 stars, optional (le_Sn_n_inf)  *)
-(** Provide an informal proof of the following theorem:
+(** **** Exercício: nível 2, opcional (le_Sn_n_inf)  *)
+(** Prover uma demonstração informal do teorema seguinte:
  
-    Theorem: For every [n], [~(S n <= n)]
+    Teorema: Para cada [n], [~(S n <= n)]
  
-    A formal proof of this is an optional exercise below, but try
-    the informal proof without doing the formal proof first.
+    Uma demonstração formal disto constitui um exercício opcional
+    a seguir, mas tente desenvolver uma demonstração informal antes
+    de iniciar a demonstração formal.
  
-    Proof:
-    (* FILL IN HERE *)
+    Demonstração:
+    (* PREENCHER *)
     []
  *)
 
-(** **** Exercise: 1 star, optional  *)
+(** **** Exercício: nível 1, opcional  *)
 Theorem le_Sn_n : forall n,
   ~ (S n <= n).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** Reflexivity and transitivity are the main concepts we'll need for
-    later chapters, but, for a bit of additional practice working with
-    relations in Coq, here are a few more common ones.
+(** Reflexividade e transitividade são os conceitos principais que são usados
+    nos capítulos subsequentes, mas, para ter um pouco mais de prática com
+    relações em Coq, seguem mais alguns conceitos recorrentes.
 
-   A relation [R] is _symmetric_ if [R a b] implies [R b a]. *)
+    A relação [R] é _simétrica_ se [R a b] implica [R b a]. *)
 
 Definition symmetric {X: Type} (R: relation X) :=
   forall a b : X, (R a b) -> (R b a).
 
-(** **** Exercise: 2 stars, optional  *)
+(** **** Exercício: nível 2, opcional  *)
 Theorem le_not_symmetric :
   ~ (symmetric le).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** A relation [R] is _antisymmetric_ if [R a b] and [R b a] together
-    imply [a = b] -- that is, if the only "cycles" in [R] are trivial
-    ones. *)
+(** Uma relação [R] é  antisimétrica  se [R a b] e [R b a] juntos
+    implicam [a = b] -- ou seja, os únicos "cíclos" em [R] são os
+    triviais. *)
 
 Definition antisymmetric {X: Type} (R: relation X) :=
   forall a b : X, (R a b) -> (R b a) -> a = b.
 
-(** **** Exercise: 2 stars, optional  *)
+(** **** Exercício: nível 2, opcional  *)
 Theorem le_antisymmetric :
   antisymmetric le.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 2 stars, optional  *)
+(** **** Exercício: nível 2, opcional  *)
 Theorem le_step : forall n m p,
   n < m ->
   m <= S p ->
   n <= p.
 Proof. 
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** A relation is an _equivalence_ if it's reflexive, symmetric, and
-    transitive.  *)
+(** A relação é de _equivalência_ se é reflexiva, simétrica e transitiva. *)
 
 Definition equivalence {X:Type} (R: relation X) :=
   (reflexive R) /\ (symmetric R) /\ (transitive R).
 
-(** A relation is a _partial order_ when it's reflexive,
-    _anti_-symmetric, and transitive.  In the Coq standard library
-    it's called just "order" for short. *)
+(** A relação é uma  ordem parcial  quando é reflexiva,  anti_-simétrica, e
+    transitiva. Na biblioteca padrão Coq é simplesmente chamada "order". *)
 
 Definition order {X:Type} (R: relation X) :=
   (reflexive R) /\ (antisymmetric R) /\ (transitive R).
 
-(** A preorder is almost like a partial order, but doesn't have to be
-    antisymmetric. *)
+(** Uma pré-ordem é quase idêntica a uma ordem parcial, mas não precisa ser
+    antisimétrica. *)
 
 Definition preorder {X:Type} (R: relation X) :=
   (reflexive R) /\ (transitive R).
@@ -267,12 +263,11 @@ Proof.
       Case "transitive.". apply le_trans.  Qed.
 
 (* ########################################################### *)
-(** * Reflexive, Transitive Closure *)
+(** * Fecho Transitivo e Reflexivo *)
 
-(** The _reflexive, transitive closure_ of a relation [R] is the
-    smallest relation that contains [R] and that is both reflexive and
-    transitive.  Formally, it is defined like this in the Relations
-    module of the Coq standard library: *)
+(** O _fecho transitivo e reflexivo  de uma relação [R] é a menor relação que
+    contem [R] e que é reflexiva e transitiva. Formalmente a definição do módulo
+    Relations na biblioteca padrão Coq: *)
 
 Inductive clos_refl_trans {A: Type} (R: relation A) : relation A :=
     | rt_step : forall x y, R x y -> clos_refl_trans R x y
@@ -282,8 +277,8 @@ Inductive clos_refl_trans {A: Type} (R: relation A) : relation A :=
           clos_refl_trans R y z ->
           clos_refl_trans R x z.
 
-(** For example, the reflexive and transitive closure of the
-    [next_nat] relation coincides with the [le] relation. *)
+(** Por exemplo, o fecho reflexivo e transitivo da relação [next_nat] coincide
+    com a relação [le]. *)
 
 Theorem next_nat_closure_is_le : forall n m,
   (n <= m) <-> ((clos_refl_trans next_nat) n m).
@@ -303,15 +298,12 @@ Proof.
         apply IHclos_refl_trans1.
         apply IHclos_refl_trans2. Qed.
 
-(** The above definition of reflexive, transitive closure is
-    natural -- it says, explicitly, that the reflexive and transitive
-    closure of [R] is the least relation that includes [R] and that is
-    closed under rules of reflexivity and transitivity.  But it turns
-    out that this definition is not very convenient for doing
-    proofs -- the "nondeterminism" of the [rt_trans] rule can sometimes
-    lead to tricky inductions.
- 
-    Here is a more useful definition... *)
+(** A definição acima do fecho reflexivo e transitivo é natural -- enuncia,
+    explicitamente, que o fecho reflexivo e transitivo de [R] é a menor relação
+    que inclui [R] e que é fechada pelas regras de reflexividade e
+    transitividade. Mas acontece que esta definição não é muito conveniente para
+    realizar demonstrações -- o "não-determinismo" da regra [rt_trans] as vezes
+    leva induções complexas.  Uma definição mais útil é... *)
 
 Inductive refl_step_closure {X:Type} (R: relation X) : relation X :=
   | rsc_refl  : forall (x : X), refl_step_closure R x x
@@ -320,13 +312,12 @@ Inductive refl_step_closure {X:Type} (R: relation X) : relation X :=
                     refl_step_closure R y z ->
                     refl_step_closure R x z.
 
-(** (Note that, aside from the naming of the constructors, this
-    definition is the same as the [multi] step relation used in many
-    other chapters.) *)
+(** (Observe que, tirando o nome dos construtores, esta definição é a mesma
+    que a relação [multi] utilizada em vários outros capítulos.) *)
 
-(** (The following [Tactic Notation] definitions are explained in
-    another chapter.  You can ignore them if you haven't read the
-    explanation yet.) *)
+(** (As definições [Tactic Notation] seguintes são explicadas em um outro
+    capítulo. Você pode ignorar as mesmas caso não tenha lido estas explicações
+    ainda.) *)
 
 Tactic Notation "rt_cases" tactic(first) ident(c) :=
   first;
@@ -337,17 +328,18 @@ Tactic Notation "rsc_cases" tactic(first) ident(c) :=
   first;
   [ Case_aux c "rsc_refl" | Case_aux c "rsc_step" ].
 
-(** Our new definition of reflexive, transitive closure "bundles"
-    the [rt_step] and [rt_trans] rules into the single rule step.
-    The left-hand premise of this step is a single use of [R],
-    leading to a much simpler induction principle.
- 
-    Before we go on, we should check that the two definitions do
-    indeed define the same relation...
-    
-    First, we prove two lemmas showing that [refl_step_closure] mimics
-    the behavior of the two "missing" [clos_refl_trans]
-    constructors.  *)
+(** Nossa nova definição do fecho reflexivo e transitivo empacota as regras
+    [rt_step] e [rt_trans] em uma única regra, a saber [rsc_step]. A premissa
+    a esquerda desta regra é um uso único de [R], o que leva a um princípio
+    de indução bem mais simples.
+
+    Mas, antes de prosseguir, devemos verificar que as definições de fato
+    definem a mesma relação... 
+
+    Primeiramente, nós demonstramos dois lemas evidenciando que 
+    [refl_step_closure] espelha o comportamento dois dois 
+    construtores de [clos_refl_trans] que desapereceram.
+ *)
 
 Theorem rsc_R : forall (X:Type) (R:relation X) (x y : X),
        R x y -> refl_step_closure R x y.
@@ -355,26 +347,25 @@ Proof.
   intros X R x y H.
   apply rsc_step with y. apply H. apply rsc_refl.   Qed.
 
-(** **** Exercise: 2 stars, optional (rsc_trans)  *)
+(** **** Exercício: nível 2, opcional (rsc_trans)  *)
 Theorem rsc_trans :
   forall (X:Type) (R: relation X) (x y z : X),
       refl_step_closure R x y  ->
       refl_step_closure R y z ->
       refl_step_closure R x z.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** Then we use these facts to prove that the two definitions of
-    reflexive, transitive closure do indeed define the same
-    relation. *)
+(** Em seguida, utilizamos esses fatos para demonstrar que as duas
+    definições do fecho reflexivo e transitivo levam à definição da
+    mesma relação. *)
 
-(** **** Exercise: 3 stars, optional (rtc_rsc_coincide)  *)
+(** **** Exercício: nível 3, opcional (rtc_rsc_coincide)  *)
 Theorem rtc_rsc_coincide : 
          forall (X:Type) (R: relation X) (x y : X),
   clos_refl_trans R x y <-> refl_step_closure R x y.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** $Date: 2014-12-31 15:31:47 -0500 (Wed, 31 Dec 2014) $ *)

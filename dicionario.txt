@@ -1,7 +1,10 @@
+-*- coding: utf-8 -*-
+
 arrow: seta
 assumption: hipótese
 bag: multiconjunto
 backward reasoning: raciocínio regressivo
+big-step semantics : 
 branch: ramo
 buffer: buffer, área de trabalho
 cartesian product: produto cartesiano
@@ -12,6 +15,8 @@ Church numerals: numerais de Church
 correctness: corretude
 (to) decrease: decair (no contexto de funções definidas por recursão)
 (to) evaluate: calcular o valor
+even: par
+evenness: paridade
 forward reasoning: raciocínio progressivo
 function type: tipo funcional
 goal: meta
@@ -25,17 +30,21 @@ linker: linkeditor
 machine-checked: verificado por máquina
 namespace: contexto para identificadores
 notation-symbol: símbolo de notação
+odd: impar
 (to) override: sobrescrever
 overriding: sobrescrita
 pattern matching: casamento de padrões
 pedantic: minucioso(a)
-pigeonhole principle:
+pigeonhole principle: princípio da casa dos pombos
 pretty printer: formatador de código
+proof: demonstração
+proof object: objeto demonstrador
+proof term: expressão demonstradora
 qualifier: marcador
 (to) reason: raciocinar
 (to) rewrite: reescrever
 rewriting: reescrita
-script: transcrição
+script: transcriçã£o
 side effects: efeitos colaterais
 soundness: correção
 static type system: sistema de tipagem estática
@@ -43,3 +52,8 @@ string(s): cadeia de caracteres
 tail: cauda
 (to) type: tipar
 wildcard: coringa
+tactical: tática
+assertion: asserção
+
+
+

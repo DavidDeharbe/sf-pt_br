@@ -1,16 +1,16 @@
-(** * Imp: Simple Imperative Programs *)
+(** * Imp: Programas Imperativos Simples *)
 
-(** In this chapter, we begin a new direction that will continue for
+(** [Claudia] In this chapter, we begin a new direction that will continue for
     the rest of the course.  Up to now most of our attention has been
     focused on various aspects of Coq itself, while from now on we'll
     mostly be using Coq to formalize other things.  (We'll continue to
     pause from time to time to introduce a few additional aspects of
     Coq.)
 
-    Our first case study is a _simple imperative programming language_
-    called Imp, embodying a tiny core fragment of conventional
-    mainstream languages such as C and Java.  Here is a familiar
-    mathematical function written in Imp.
+    Nosso primeiro caso de estudo é uma _simples linguagem de programação
+    imperativa_ chamada Imp, contendo um pequeno fragmento central das 
+    linguagens convencionais tradicionais como C e Java. Aqui está uma 
+    função matemática familiar escrita em Imp.
 
      Z ::= X;;
      Y ::= 1;;
@@ -20,41 +20,40 @@
      END
 *)
 
-(** This chapter looks at how to define the _syntax_ and _semantics_
-    of Imp; the chapters that follow develop a theory of _program
-    equivalence_ and introduce _Hoare Logic_, a widely used logic for
-    reasoning about imperative programs. *)
+(** Este capítulo visa como definir a _sintaxe_ e a _semântica_ 
+    de um Imp; os capítulos que o seguem desenvolvem a teória da _equivalência
+    de programas_ e introduz a _Lógica de Hoare_, uma lógica largamente
+    utlizada para raciocínio sobre programas imperativos. *)
 
 (* ####################################################### *)
 (** *** Sflib *)
 
-(** A minor technical point: Instead of asking Coq to import our
-    earlier definitions from chapter [Logic], we import a small library
-    called [Sflib.v], containing just a few definitions and theorems
-    from earlier chapters that we'll actually use in the rest of the
-    course.  This change should be nearly invisible, since most of what's
-    missing from Sflib has identical definitions in the Coq standard
-    library.  The main reason for doing it is to tidy the global Coq
-    environment so that, for example, it is easier to search for
-    relevant theorems. *)
+(** Um ponto tático menos: em vez de pedir para Coq importar nossas
+    definições anteriores do capítulo [Logic], nós importamos uma pequena biblioteca
+    chamado [Sflib.v], contendo apenas algumas definições e teoremas dos capítulos
+    anteriores que nós realmente iremos utilizar no resto do curso. Essa mudança deve
+    ser quase invisível, desde que a maioria do que está faltando de Sflib tem definições
+    identicas na biblioteca padrão de Coq. A principal razão de fazer isto é organizar o
+    ambiente global de Coq, por exemplo, isto é torna fácil buscar por teoremas relevantes. *)
 
 Require Export SfLib.
 
 (* ####################################################### *)
-(** * Arithmetic and Boolean Expressions *)
+(** * Expressões Aritméticas e Booleanas *)
 
-(** We'll present Imp in three parts: first a core language of
-    _arithmetic and boolean expressions_, then an extension of these
-    expressions with _variables_, and finally a language of _commands_
-    including assignment, conditions, sequencing, and loops. *)
+(** Vamos apresentar Imp em três partes: primeiro, um núcleo de 
+    linguagem de _expressões aritméticas e booleanas_, em seguida, 
+    uma extensão dessas expressões com _variáveis_ e, finalmente, 
+    uma linguagem de _comandos_ que inclui atribuição, condições, 
+    sequenciamento e loops. *)
 
 (* ####################################################### *)
-(** ** Syntax *)
+(** ** Sintaxe *)
 
 Module AExp.
 
-(** These two definitions specify the _abstract syntax_ of
-    arithmetic and boolean expressions. *)
+(** Estas duas definições especificam a _sintaxe abstrata_ para expressões aritméticas e 
+booleanas. *)
 
 Inductive aexp : Type :=
   | ANum : nat -> aexp
@@ -70,7 +69,7 @@ Inductive bexp : Type :=
   | BNot : bexp -> bexp
   | BAnd : bexp -> bexp -> bexp.
 
-(** In this chapter, we'll elide the translation from the
+(** [Claudia]In this chapter, we'll elide the translation from the
     concrete syntax that a programmer would actually write to these
     abstract syntax trees -- the process that, for example, would
     translate the string ["1+2*3"] to the AST [APlus (ANum
@@ -82,8 +81,8 @@ Inductive bexp : Type :=
     compilers course) you may want to skim it. *)
 
 (** *** *)
-(** For comparison, here's a conventional BNF (Backus-Naur Form)
-    grammar defining the same abstract syntax:
+(** Por comparação, aqui está uma gramática BNF (Forma Backus-Naur) 
+    convencional definindo a mesma sintaxe abstrata:
     a ::= nat
         | a + a
         | a - a
@@ -97,41 +96,40 @@ Inductive bexp : Type :=
         | b and b
 *)
 
-(** Compared to the Coq version above...
+(** Comparado com a versão Coq acima...
 
-       - The BNF is more informal -- for example, it gives some
-         suggestions about the surface syntax of expressions (like the
-         fact that the addition operation is written [+] and is an
-         infix symbol) while leaving other aspects of lexical analysis
-         and parsing (like the relative precedence of [+], [-], and
-         [*]) unspecified.  Some additional information -- and human
-         intelligence -- would be required to turn this description
-         into a formal definition (when implementing a compiler, for
-         example).
+       - O BNF é mais informal -- por exemplo, ele fornece algumas
+         sugestões sobre a sintaxe superficial das expressões (como o
+         fato que o operador da adição é escrito como [+] e é um
+         símbolo infixo) enquanto leva outros aspectos da análise lexical
+         e análise (como a relativa a precedência do [+], [-], e
+         [*]) não especificada.  Algumas informações adicionais -- e 
+         inteligência humana -- podem ser requiridas para tornar esta descrição
+         em uma definição formal (quando implementamos um compilador, por
+         exemplo).
 
-         The Coq version consistently omits all this information and
-         concentrates on the abstract syntax only.
+         A versão Coq omite sistematicamente todas estas informações e
+         concentra apenas na sintaxe abstrata.
 
-       - On the other hand, the BNF version is lighter and
-         easier to read.  Its informality makes it flexible, which is
-         a huge advantage in situations like discussions at the
-         blackboard, where conveying general ideas is more important
-         than getting every detail nailed down precisely.
+       - Por outro lado, a versão BNF é mais legível e fácil de ler.
+         Isto informalmente o torna mais flexível, o que é uma grande vantagem
+         em situações como discurcões no quadro negro, onde a maioria das ideias 
+         mais importantes são transmitidos indo a fundo nos detalhes mais precisamente.
 
-         Indeed, there are dozens of BNF-like notations and people
-         switch freely among them, usually without bothering to say which
-         form of BNF they're using because there is no need to: a
-         rough-and-ready informal understanding is all that's
-         needed. *)
+         De fato, existem dezenas de notações do tipo BNF, e as pessoas 
+         alternam livremente entre elas, geralmente sem se importar em 
+         dizer qual forma de BNF elas estão usando, simplesmente porque 
+         não há necessidade: um entendimento informal improvisado é 
+         tudo que é necessário. *)
 
-(** It's good to be comfortable with both sorts of notations:
-    informal ones for communicating between humans and formal ones for
-    carrying out implementations and proofs. *)
+(** É bom estar confortável com ambos os tipos de notações: os informais para a 
+comunicação 
+entre os seres humanos e os formais para a realização de implementações e provas. *)
 
 (* ####################################################### *)
-(** ** Evaluation *)
+(** ** Avaliação *)
 
-(** _Evaluating_ an arithmetic expression produces a number. *)
+(** [Claudia]_Evaluating_ an arithmetic expression produces a number. *)
 
 Fixpoint aeval (a : aexp) : nat :=
   match a with
@@ -146,7 +144,7 @@ Example test_aeval1:
 Proof. reflexivity. Qed.
 
 (** *** *)
-(** Similarly, evaluating a boolean expression yields a boolean. *)
+(** Similarmente, avaliar uma expressão boleana produz um boleano. *)
 
 Fixpoint beval (b : bexp) : bool :=
   match b with
@@ -159,13 +157,13 @@ Fixpoint beval (b : bexp) : bool :=
   end.
 
 (* ####################################################### *)
-(** ** Optimization *)
+(** ** Otimização *)
 
-(** We haven't defined very much yet, but we can already get
-    some mileage out of the definitions.  Suppose we define a function
-    that takes an arithmetic expression and slightly simplifies it,
-    changing every occurrence of [0+e] (i.e., [(APlus (ANum 0) e])
-    into just [e]. *)
+(** Nós ainda não definimos muito, mas já podemos obter alguma
+    milhagem fora das definições. Supondo que definimos uma função 
+    que toma uma expressão aritmética e a simplifica, 
+    modificando cada ocorrência de [0+e] (isto é, [(APlus (ANum 0) e])
+    em somente [e]. *)
 
 Fixpoint optimize_0plus (a:aexp) : aexp :=
   match a with
@@ -181,8 +179,9 @@ Fixpoint optimize_0plus (a:aexp) : aexp :=
       AMult (optimize_0plus e1) (optimize_0plus e2)
   end.
 
-(** To make sure our optimization is doing the right thing we
-    can test it on some examples and see if the output looks OK. *)
+(** Para garantir que nossa otimização está fazendo a coisa
+    certa, nós podemos testar ele em alguns exemplos e ver se a saída está
+    OK. *)
 
 Example test_optimize_0plus:
   optimize_0plus (APlus (ANum 2)
@@ -191,9 +190,10 @@ Example test_optimize_0plus:
   = APlus (ANum 2) (ANum 1).
 Proof. reflexivity. Qed.
 
-(** But if we want to be sure the optimization is correct --
-    i.e., that evaluating an optimized expression gives the same
-    result as the original -- we should prove it. *)
+(** Mas se nós quisermos ter certeza de que a otimização é 
+    correta -- ou seja, que avaliar uma expressão otimizada 
+    retorna o mesmo resultado que a original -- nós devemos provar 
+    isso. *)
 
 Theorem optimize_0plus_sound: forall a,
   aeval (optimize_0plus a) = aeval a.
@@ -219,14 +219,13 @@ Proof.
     simpl. rewrite IHa1. rewrite IHa2. reflexivity.  Qed.
 
 (* ####################################################### *)
-(** * Coq Automation *)
+(** * Automação em Coq *)
 
-(** The repetition in this last proof is starting to be a little
-    annoying.  If either the language of arithmetic expressions or the
-    optimization being proved sound were significantly more complex,
-    it would begin to be a real problem.
+(** A repetição nesta última prova está começando a ser um pouco chata. Se a linguagem de 
+expressões aritméticas ou a otimização sendo provada fossem significativamente mais 
+complexas poderíamos começar a ter realmente um problema.
 
-    So far, we've been doing all our proofs using just a small handful
+    [Claudia]So far, we've been doing all our proofs using just a small handful
     of Coq's tactics and completely ignoring its powerful facilities
     for constructing parts of proofs automatically.  This section
     introduces some of these facilities, and we will see more over the
@@ -237,48 +236,49 @@ Proof.
     repetitive, low-level details. *)
 
 (* ####################################################### *)
-(** ** Tacticals *)
+(** ** Taticais *)
 
-(** _Tacticals_ is Coq's term for tactics that take other tactics as
-    arguments -- "higher-order tactics," if you will.  *)
+(** _Tacticals_ é o temo em Coq para táticas que usam outras táticas como
+    argumento -- "táticas de alta ordem", se assim você desejar. *)
 
 (* ####################################################### *)
-(** *** The [repeat] Tactical *)
+(** *** O Tatical [repeat] *)
 
-(** The [repeat] tactical takes another tactic and keeps applying
-    this tactic until the tactic fails. Here is an example showing
-    that [100] is even using repeat. *)
+(** A tática [repeat] toma outra tática e continua aplicando
+    essa tática até ela falhar. Aqui está um exemplo mostrando que
+    [100] é par utilizando o repeat. *)
 
 Theorem ev100 : ev 100.
 Proof.
-  repeat (apply ev_SS). (* applies ev_SS 50 times,
-                           until [apply ev_SS] fails *)
+  repeat (apply ev_SS). (* aplique ev_SS 50 vezes,
+                           até que [apply ev_SS] falhe *)
   apply ev_0.
 Qed.
 (* Print ev100. *)
 
-(** The [repeat T] tactic never fails; if the tactic [T] doesn't apply
-    to the original goal, then repeat still succeeds without changing
-    the original goal (it repeats zero times). *)
+(** A tática [repeat T] nunca falha; se a tática [T] não
+    aplica para a meta original, então repetir continua com sucesso
+    sem mudanã na meta original (ele repete zero vezes). *)
 
 Theorem ev100' : ev 100.
 Proof.
-  repeat (apply ev_0). (* doesn't fail, applies ev_0 zero times *)
-  repeat (apply ev_SS). apply ev_0. (* we can continue the proof *)
+  repeat (apply ev_0). (* não falha, aplica ev_0 zero vezes *)
+  repeat (apply ev_SS). apply ev_0. (* podemos continuar a demonstração *)
 Qed.
 
-(** The [repeat T] tactic does not have any bound on the number of
-    times it applies [T]. If [T] is a tactic that always succeeds then
-    repeat [T] will loop forever (e.g. [repeat simpl] loops forever
-    since [simpl] always succeeds). While Coq's term language is
-    guaranteed to terminate, Coq's tactic language is not! *)
+(** A tática [repeat T] não tem qualquer limite com relação ao número 
+    de vezes que ela aplica [T]. Se [T] é uma tática que sempre é bem 
+    sucedida, então repeat [T] será um loop infinito (por exemplo, 
+    [repeat simpl] é um loop infinito já que [simpl] sempre funciona). 
+    Enquanto a linguagem de expressão de Coq garante término, a 
+    linguagem de tática de Coq não! *)
 
 (* ####################################################### *)
-(** *** The [try] Tactical *)
+(** *** O Tatical [try] *)
 
-(** If [T] is a tactic, then [try T] is a tactic that is just like [T]
-    except that, if [T] fails, [try T] _successfully_ does nothing at
-    all (instead of failing). *)
+(** Se [T] é uma tática então [try T] é uma tática exatamente igual a [T] exceto que, se 
+[T] falha então [try T] não realiza nenhuma ação na prova, sendo isto considerado um 
+_sucesso_ na ação (no lugar de ser uma falha). *)
 
 Theorem silly1 : forall ae, aeval ae = aeval ae.
 Proof. try reflexivity. (* this just does [reflexivity] *) Qed.
@@ -286,71 +286,71 @@ Proof. try reflexivity. (* this just does [reflexivity] *) Qed.
 Theorem silly2 : forall (P : Prop), P -> P.
 Proof.
   intros P HP.
-  try reflexivity. (* just [reflexivity] would have failed *)
-  apply HP. (* we can still finish the proof in some other way *)
+  try reflexivity. (* se fosse apenas [reflexivity] o comando teria falhado *)
+  apply HP. (* ainda podemos finalizar a prova de outra forma *)
 Qed.
 
-(** Using [try] in a completely manual proof is a bit silly, but
+(** [Claudia]Using [try] in a completely manual proof is a bit silly, but
     we'll see below that [try] is very useful for doing automated
     proofs in conjunction with the [;] tactical. *)
 
 (* ####################################################### *)
-(** *** The [;] Tactical (Simple Form) *)
+(** *** O Tatical [;] (Forma Simples) *)
 
-(** In its most commonly used form, the [;] tactical takes two tactics
-    as argument: [T;T'] first performs the tactic [T] and then
-    performs the tactic [T'] on _each subgoal_ generated by [T]. *)
+(** Em sua forma mais comumente utilizada, o Tatical [;] usa outras duas 
+    táticas como argumento: [T;T'] primeiro executa a tática [T] e então
+    executa a tática [T'] em _cada submeta_gerada por [T]. *)
 
-(** For example, consider the following trivial lemma: *)
+(** Por exemplo, considere o lema trivial a seguir: *)
 
 Lemma foo : forall n, ble_nat 0 n = true.
 Proof.
   intros.
   destruct n.
-    (* Leaves two subgoals, which are discharged identically...  *)
+    (* Cria duas sub-metas, que são verificadas de forma idêntica...  *)
     Case "n=0". simpl. reflexivity.
     Case "n=Sn'". simpl. reflexivity.
 Qed.
 
-(** We can simplify this proof using the [;] tactical: *)
+(** Nós podemos simplicar esta prova usando a tática [;]: *)
 
 Lemma foo' : forall n, ble_nat 0 n = true.
 Proof.
   intros.
-  destruct n; (* [destruct] the current goal *)
-  simpl; (* then [simpl] each resulting subgoal *)
-  reflexivity. (* and do [reflexivity] on each resulting subgoal *)
+  destruct n; (* [destruct] a meta atual *)
+  simpl; (* depois [simpl] cada sub-meta resultante *)
+  reflexivity. (* e aplique [reflexivity] a cada sub-meta resultante *)
 Qed.
 
-(** Using [try] and [;] together, we can get rid of the repetition in
-    the proof that was bothering us a little while ago. *)
+(** Usando [try] e [;] juntos, podemos nos livrar da repetição na prova, 
+    o que estava nos incomodando até pouco tempo atrás. *)
 
 Theorem optimize_0plus_sound': forall a,
   aeval (optimize_0plus a) = aeval a.
 Proof.
   intros a.
   induction a;
-    (* Most cases follow directly by the IH *)
+    (* A maior parte dos casos seguem diretamente da hipótese de indução *)
     try (simpl; rewrite IHa1; rewrite IHa2; reflexivity).
-  (* The remaining cases -- ANum and APlus -- are different *)
+  (* Os demais casos -- ANum e APlus -- são diferentes *)
   Case "ANum". reflexivity.
   Case "APlus".
     destruct a1;
-      (* Again, most cases follow directly by the IH *)
+      (* Novamente, a maioria dos casos segue direto da hipótese de indução *)
       try (simpl; simpl in IHa1; rewrite IHa1;
            rewrite IHa2; reflexivity).
-    (* The interesting case, on which the [try...] does nothing,
-       is when [e1 = ANum n]. In this case, we have to destruct
-       [n] (to see whether the optimization applies) and rewrite
-       with the induction hypothesis. *)
+    (* O caso interessante, no qual [try...] é inefetivo,
+       é quando [e1 = ANum n]. Neste cas, devemos desconstruir
+       [n] (para ver se a otimização se aplica) e reescrever
+       com a hipótese de indução. *)
     SCase "a1 = ANum n". destruct n;
       simpl; rewrite IHa2; reflexivity.   Qed.
 
-(** Coq experts often use this "[...; try... ]" idiom after a tactic
-    like [induction] to take care of many similar cases all at once.
-    Naturally, this practice has an analog in informal proofs.
+(** Os especialistas em Coq muitas vezes usam o idioma "[...; try... ]" após uma tática 
+como [induction] para cuidar de muitos casos semelhantes de uma vez. Naturalmente esta 
+prática possui um análogo em provas informais. 
 
-    Here is an informal proof of this theorem that matches the
+    [Claudia]Here is an informal proof of this theorem that matches the
     structure of the formal one:
 
     _Theorem_: For all arithmetic expressions [a],
@@ -358,47 +358,45 @@ Proof.
     _Proof_: By induction on [a].  The [AMinus] and [AMult] cases
     follow directly from the IH.  The remaining cases are as follows:
 
-      - Suppose [a = ANum n] for some [n].  We must show
-          aeval (optimize_0plus (ANum n)) = aeval (ANum n).
-        This is immediate from the definition of [optimize_0plus].
+       - Suponha [a = ANum n] para algum [n]. Nós devemos mosttrar
+         aeval (optimize_0plus (ANum n)) = aeval (ANum n).
+         Isso é instantâneo a partir da definição de [optimize_0plus].
 
-      - Suppose [a = APlus a1 a2] for some [a1] and [a2].  We
-        must show
+      - Supondo [a = APlus a1 a2] para algum [a1] e [a2].  Nós
+        devemos mostrar
           aeval (optimize_0plus (APlus a1 a2))
         = aeval (APlus a1 a2).
-        Consider the possible forms of [a1].  For most of them,
-        [optimize_0plus] simply calls itself recursively for the
-        subexpressions and rebuilds a new expression of the same form
-        as [a1]; in these cases, the result follows directly from the
+        Considerar a possíveis formas de [a1].  Para a maioria delas,
+        [optimize_0plus] simplesmente chama ela mesma recursivamente para as
+        subexpressões e reconstrói uma nova expressão da mesma forma que
+        [a1]; nesses casos, o resultado segue diretamente para
         IH.
 
-        The interesting case is when [a1 = ANum n] for some [n].
-        If [n = ANum 0], then
-          optimize_0plus (APlus a1 a2) = optimize_0plus a2
-        and the IH for [a2] is exactly what we need.  On the other
-        hand, if [n = S n'] for some [n'], then again [optimize_0plus]
-        simply calls itself recursively, and the result follows from
-        the IH.  [] *)
+        O caso interessante é quando [a1 = ANum n] para algum [n].
+        Se [n = ANum 0], então optimize_0plus (Aplus a1 s2) = optimize_0plus a2
+        e o IH para [a2] é exatamente o que nós precisamos. Por outro lado, se 
+        [n = S n'] para algum [n'], então novamente [optimize_0plus] simplifica
+        chamadas por si só recursivamente, e o resultado segue de IH. [] *)
 
-(** This proof can still be improved: the first case (for [a = ANum
-    n]) is very trivial -- even more trivial than the cases that we
-    said simply followed from the IH -- yet we have chosen to write it
-    out in full.  It would be better and clearer to drop it and just
-    say, at the top, "Most cases are either immediate or direct from
-    the IH.  The only interesting case is the one for [APlus]..."  We
-    can make the same improvement in our formal proof too.  Here's how
-    it looks: *)
+(** Essa prova ainda pode ser melhorada: o primeiro caso (para 
+    [a = ANum n]) é muito trivial -- ainda mais trivial do que os casos 
+    que nós dissemos serem simplesmente seguidos da HI - ainda que 
+    tenhamos escolhido escrevê-lo na íntegra. Seria melhor e mais 
+    claro para eliminá-lo dizer, na parte superior, "A maioria dos 
+    casos são ou imediatos ou diretos da HI. O único caso interessante 
+    é o do [APlus]...". Nós podemos fazer a mesma melhoria em nossa 
+    prova formal também. Aqui está como ficaria: *)
 
 Theorem optimize_0plus_sound'': forall a,
   aeval (optimize_0plus a) = aeval a.
 Proof.
   intros a.
   induction a;
-    (* Most cases follow directly by the IH *)
+    (* A maioria dos casos seguem diretamente da HI *)
     try (simpl; rewrite IHa1; rewrite IHa2; reflexivity);
-    (* ... or are immediate by definition *)
+    (* ... ou são imediatos pela definição *)
     try reflexivity.
-  (* The interesting case is when a = APlus a1 a2. *)
+  (* O caso interessante é quando a = APlus a1 a2. *)
   Case "APlus".
     destruct a1; try (simpl; simpl in IHa1; rewrite IHa1;
                       rewrite IHa2; reflexivity).
@@ -406,94 +404,90 @@ Proof.
       simpl; rewrite IHa2; reflexivity. Qed.
 
 (* ####################################################### *)
-(** *** The [;] Tactical (General Form) *)
+(** *** O Tatical [;] (Forma Geral) *)
 
-(** The [;] tactical has a more general than the simple [T;T'] we've
-    seen above, which is sometimes also useful.  If [T], [T1], ...,
-    [Tn] are tactics, then
-      T; [T1 | T2 | ... | Tn]
-   is a tactic that first performs [T] and then performs [T1] on the
-   first subgoal generated by [T], performs [T2] on the second
-   subgoal, etc.
+(** A tática [;] possui uma forma mais geral que o simples [T;T'] visto acima, sendo útil 
+em alguns casos. Se [T], [T1], ..., [Tn] são táticas então 
+	T; [T1 | T2 | ... | Tn] 
+	é uma tática que executa primeiramente [T] e então executa [T1] na primeira submeta 
+	gerada por [T], executa [T2] na segunda submeta, etc.
 
-   So [T;T'] is just special notation for the case when all of the
+   [Claudia]So [T;T'] is just special notation for the case when all of the
    [Ti]'s are the same tactic; i.e. [T;T'] is just a shorthand for:
       T; [T' | T' | ... | T']
 *)
 
 (* ####################################################### *)
-(** ** Defining New Tactic Notations *)
+(** ** Definindo Novas Notações de Tática *)
 
-(** Coq also provides several ways of "programming" tactic scripts.
+(** Coq também fornece muitos meios de "programar" scripts de tática.
 
-      - The [Tactic Notation] idiom illustrated below gives a handy
-        way to define "shorthand tactics" that bundle several tactics
-        into a single command.
+      - A linguagem [Tactic Notation] ilustrada abaixo dá um caminho
+        acessível para definir as "táticas de taquigrafia" que agrupam várias
+        táticas em um único comando.
 
-      - For more sophisticated programming, Coq offers a small
-        built-in programming language called [Ltac] with primitives
-        that can examine and modify the proof state.  The details are
-        a bit too complicated to get into here (and it is generally
-        agreed that [Ltac] is not the most beautiful part of Coq's
-        design!), but they can be found in the reference manual, and
-        there are many examples of [Ltac] definitions in the Coq
-        standard library that you can use as examples.
+      - Para programação mais sofisticada, Coq oferece um
+      pequeno construtor de linguagem de programação chadado [Ltac] com
+      primitivos que podem examinar e modificar o estado da prova. Os detalhes
+      são um pouco complicados para introduzir aqui (e isto geralmente de acordo que
+      [Ltac] não é a parte mais bonita do design de Coq!), mas eles podem ser achados
+      no manual de referência, e existem muitos exemplos de definições [Ltac] na
+      biblioteca padrão de Coq que você pode usar como exemplo.
 
-      - There is also an OCaml API, which can be used to build tactics
-        that access Coq's internal structures at a lower level, but
-        this is seldom worth the trouble for ordinary Coq users.
+      - Há também uma API OCaml, que pode ser usada para construir táticas 
+      que acessam estruturas internas de Coq a um nível mais baixo, mas isso 
+      raramente vale a pena para usuários Coq comuns.
 
-The [Tactic Notation] mechanism is the easiest to come to grips with,
-and it offers plenty of power for many purposes.  Here's an example.
+O [Tactic Notation] é o mecanismo mais fácil de lidar e oferece bastante poder para 
+vários propósitos. Aqui está um exemplo.
 *)
 
 Tactic Notation "simpl_and_try" tactic(c) :=
   simpl;
   try c.
 
-(** This defines a new tactical called [simpl_and_try] which
+(** [Claudia]This defines a new tactical called [simpl_and_try] which
     takes one tactic [c] as an argument, and is defined to be
     equivalent to the tactic [simpl; try c].  For example, writing
     "[simpl_and_try reflexivity.]" in a proof would be the same as
     writing "[simpl; try reflexivity.]" *)
 
-(** The next subsection gives a more sophisticated use of this
-    feature... *)
+(** A próxima subseção nos dá um uso mais sofisticado dessa funcionalidade... *)
 
 (* ####################################################### *)
-(** *** Bulletproofing Case Analyses *)
+(** *** Tornando Mais Robustas as Análises por Casos *)
 
-(** Being able to deal with most of the cases of an [induction]
-    or [destruct] all at the same time is very convenient, but it can
-    also be a little confusing.  One problem that often comes up is
-    that _maintaining_ proofs written in this style can be difficult.
-    For example, suppose that, later, we extended the definition of
-    [aexp] with another constructor that also required a special
-    argument.  The above proof might break because Coq generated the
-    subgoals for this constructor before the one for [APlus], so that,
-    at the point when we start working on the [APlus] case, Coq is
-    actually expecting the argument for a completely different
-    constructor.  What we'd like is to get a sensible error message
-    saying "I was expecting the [AFoo] case at this point, but the
-    proof script is talking about [APlus]."  Here's a nice trick (due
-    to Aaron Bohannon) that smoothly achieves this. *)
+(** Ser capaz de lidar com a maioria dos casos de um [induction]
+    ou [destruct] ao mesmo tempo é muito conveniente, mas também pode
+    ser um pouco confuso.  Um problema que frequentemente acontece é
+    que a _manutenção_ da prova, escrita nessa estilo, pode ser difícil.
+    Por exemplo, suponha que, mais tarde, extendemos a definição de
+    [aexp] com outro construtor que também requer um argumento especial.
+    A prova acima pode quebrar por que o Coq gerará as submetas para
+    esse construtor antes de um para o [APlus], de modo que,
+    nesse ponto quando começarmos a trabalhar no caso [APlus], o Coq está
+    esperando o argumento para um construtor completamente diferente.
+    O que gostariamos de obter é uma sensata mensagem de erro
+    dizendo "Eu estava esperando o caso [AFoo] nesse ponto, mas o
+    script da prova está falando sobre [APlus]."  Aqui está um bom truque
+    (devido à Aaron Bohannon) que consegue isso sem problemas. *)
 
 Tactic Notation "aexp_cases" tactic(first) ident(c) :=
   first;
   [ Case_aux c "ANum" | Case_aux c "APlus"
   | Case_aux c "AMinus" | Case_aux c "AMult" ].
 
-(** ([Case_aux] implements the common functionality of [Case],
-    [SCase], [SSCase], etc.  For example, [Case "foo"] is defined as
+(** ([Case_aux] implementa a funcionalidade comum de [Case],
+    [SCase], [SSCase], etc.  Por exemplo, [Case "foo"] é definido como
     [Case_aux Case "foo".) *)
 
-(** For example, if [a] is a variable of type [aexp], then doing
-      aexp_cases (induction a) Case
-    will perform an induction on [a] (the same as if we had just typed
-    [induction a]) and _also_ add a [Case] tag to each subgoal
-    generated by the [induction], labeling which constructor it comes
-    from.  For example, here is yet another proof of
-    [optimize_0plus_sound], using [aexp_cases]: *)
+(** Por exemplo, se [a] é uma variável do tipo [aexp], então, ao 
+    utilizar aexp_cases (induction a) Case, será realizada uma 
+    indução sobre [a] (a mesma que se tivéssemos apenas digitado 
+    [induction a]) e _também_ será adicionada uma tag [Case] para 
+    cada submeta gerada pela [induction], nomeando a qual construtor 
+    ela pertence.  Por exemplo, aqui está mais uma prova de 
+    [optimize_0plus_sound], utilizando [aexp_cases]: *)
 
 Theorem optimize_0plus_sound''': forall a,
   aeval (optimize_0plus a) = aeval a.
@@ -502,14 +496,14 @@ Proof.
   aexp_cases (induction a) Case;
     try (simpl; rewrite IHa1; rewrite IHa2; reflexivity);
     try reflexivity.
-  (* At this point, there is already an ["APlus"] case name
-     in the context.  The [Case "APlus"] here in the proof
-     text has the effect of a sanity check: if the "Case"
-     string in the context is anything _other_ than ["APlus"]
-     (for example, because we added a clause to the definition
-     of [aexp] and forgot to change the proof) we'll get a
-     helpful error at this point telling us that this is now
-     the wrong case. *)
+    
+    (* Neste momento já existe um nome de caso ["APlus"] no contexto. O [Case "APlus"] 
+    aqui no texto da prova possui o efeito de verificação de sanidade: se a cadeia de 
+    caracteres "Case" no contexto for qualquer coisa _diferente de_ ["APlus"] (por 
+    exemplo, porque nós adicionamos uma cláusula na definição de [aexp] e esquecemos de 
+    mudar a prova) receberemos um erro útil nos informando que esse agora é o caso 
+    errado. *)
+    
   Case "APlus".
     aexp_cases (destruct a1) SCase;
       try (simpl; simpl in IHa1;
@@ -517,8 +511,8 @@ Proof.
     SCase "ANum". destruct n;
       simpl; rewrite IHa2; reflexivity.  Qed.
 
-(** **** Exercise: 3 stars (optimize_0plus_b)  *)
-(** Since the [optimize_0plus] tranformation doesn't change the value
+(** **** Exercício: nível 3 (optimize_0plus_b)  *)
+(** [Claudia]Since the [optimize_0plus] tranformation doesn't change the value
     of [aexp]s, we should be able to apply it to all the [aexp]s that
     appear in a [bexp] without changing the [bexp]'s value.  Write a
     function which performs that transformation on [bexp]s, and prove
@@ -526,44 +520,44 @@ Proof.
     as elegant as possible. *)
 
 Fixpoint optimize_0plus_b (b : bexp) : bexp :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHER *) admit.
 
 
 Theorem optimize_0plus_b_sound : forall b,
   beval (optimize_0plus_b b) = beval b.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 4 stars, optional (optimizer)  *)
-(** _Design exercise_: The optimization implemented by our
-    [optimize_0plus] function is only one of many imaginable
-    optimizations on arithmetic and boolean expressions.  Write a more
-    sophisticated optimizer and prove it correct.
+(** **** Exercício: nível 4, opcional (optimizer)  *)
+(** _Exercício de Design_: A otimização implementada por nossa função 
+    [optimize_0plus] é somente uma das muitas otimizações imagináveis em
+    expressões aritméticas e boleanas. Escreva um otimizador mais
+    sofisticado e prove a sua corretude.
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 *)
 (** [] *)
 
 (* ####################################################### *)
-(** ** The [omega] Tactic *)
+(** ** A Tática [omega] *)
 
-(** The [omega] tactic implements a decision procedure for a subset of
-    first-order logic called _Presburger arithmetic_.  It is based on
-    the Omega algorithm invented in 1992 by William Pugh.
+(** A tática [omega] implementa um procedimento de decisão para um subconjunto
+    de lógica de primeira ordem chamada de _aritmética de Presburger_.  Essa 
+    aritmética é baseada no algoritmo Omega, inventado em 1992 por William Pugh.
 
-    If the goal is a universally quantified formula made out of
+    Se a meta é uma fórmula universalmente quantificada feito de
 
-      - numeric constants, addition ([+] and [S]), subtraction ([-]
-        and [pred]), and multiplication by constants (this is what
-        makes it Presburger arithmetic),
+      - constantes numéricas, adição ([+] e [S]), subtração ([-] 
+        e [pred]), e multiplicação por constantes (isto é o que 
+        faz com que seja Aritmética de Presburger),
 
-      - equality ([=] and [<>]) and inequality ([<=]), and
+	  - igualdade ([=] e [<>]) e desigualdade ([<=]), e
 
-      - the logical connectives [/\], [\/], [~], and [->],
+      [Claudia]- the logical connectives [/\], [\/], [~], and [->],
 
-    then invoking [omega] will either solve the goal or tell you that
-    it is actually false. *)
+    Então invocar [omega] vai ou resolver a meta ou lhe dizer que isso é
+    falso. *)
 
 Example silly_presburger_example : forall m n o p,
   m + n <= n + o /\ o + 3 = p + 3 ->
@@ -572,55 +566,52 @@ Proof.
   intros. omega.
 Qed.
 
-(** Leibniz wrote, "It is unworthy of excellent men to lose
-    hours like slaves in the labor of calculation which could be
-    relegated to anyone else if machines were used."  We recommend
-    using the omega tactic whenever possible. *)
+(** Leibniz escreveu, "É indigno de homens excelentes perder
+    horas como escravos no trabalho de cálculos que poderiam ser
+    relegados para qualquer outra pessoa, se máquinas forem usadas."  Nós
+    recomendamos utilizar a tática omega sempre que possível. *)
 
 (* ####################################################### *)
-(** ** A Few More Handy Tactics *)
+(** ** Mais Algumas Táticas Convenientes *)
 
-(** Finally, here are some miscellaneous tactics that you may find
-    convenient.
+(** Finalmente, aqui está algumas taticas misturadas que você deve achar
+    conveniente.
 
-     - [clear H]: Delete hypothesis [H] from the context.
+     - [clear H]: Apaga a hipótese [H] do contexto.
 
-     - [subst x]: Find an assumption [x = e] or [e = x] in the
-       context, replace [x] with [e] throughout the context and
-       current goal, and clear the assumption.
+     - [subst x]: Encontra uma suposição [x = e] ou [e = x] no 
+       contexto, substitui [x] por [e] através do contexto e da 
+       meta atual, e limpa a suposição.
 
-     - [subst]: Substitute away _all_ assumptions of the form [x = e]
-       or [e = x].
+     - [subst]: Substitui _todas_ as premissas do formato [x = e]
+       ou [e = x].
 
-     - [rename... into...]: Change the name of a hypothesis in the
-       proof context.  For example, if the context includes a variable
-       named [x], then [rename x into y] will change all occurrences
-       of [x] to [y].
+     - [rename... into...]: Muda o nome da hipótese no contexto da prova.
+     Por exemplo, se o contexto inclui uma variável nomeada [x], então [rename x into y]
+     irá mudar todas as ocorrências de [x] para [y].
 
-     - [assumption]: Try to find a hypothesis [H] in the context that
-       exactly matches the goal; if one is found, behave just like
-       [apply H].
+     - [assumption]: Tenta encontrar uma hipótese [H] no contexto que 
+     corresponda exatamente à meta; se uma for encontrada, comporta-se 
+     exatamente como [apply H].
 
-     - [contradiction]: Try to find a hypothesis [H] in the current
-       context that is logically equivalent to [False].  If one is
-       found, solve the goal.
+	- [contradição]: Tente encontrar uma hipótese [H] no contexto atual que é logicamente 
+	equivalente a [False]. Se uma for encontrada, solucione a meta.
 
-     - [constructor]: Try to find a constructor [c] (from some
+     [Claudia]- [constructor]: Try to find a constructor [c] (from some
        [Inductive] definition in the current environment) that can be
        applied to solve the current goal.  If one is found, behave
        like [apply c]. *)
 
-(** We'll see many examples of these in the proofs below. *)
+(** Veremos vários exemplos de aplicação destas táticas nas provas abaixo. *)
 
 (* ####################################################### *)
-(** * Evaluation as a Relation *)
+(** * Avaliação enquanto Relação *)
 
-(** We have presented [aeval] and [beval] as functions defined by
-    [Fixpoints].  Another way to think about evaluation -- one that we
-    will see is often more flexible -- is as a _relation_ between
-    expressions and their values.  This leads naturally to [Inductive]
-    definitions like the following one for arithmetic
-    expressions... *)
+(** Nós temos apresentado [aeval] e [beval] como funções definidas por
+    [Fixpoints]. Outro modo de pensar a respeito de avaliação -- um que 
+    nós veremos que é também mais flexível -- é como uma _relação_ entre
+    expressões e seus valores. Isso leva naturalmente a definições indutivas 
+    [Inductive] como o exemplo seguinte para expressões aritméticas... *)
 
 Module aevalR_first_try.
 
@@ -640,27 +631,27 @@ Inductive aevalR : aexp -> nat -> Prop :=
       aevalR e2 n2 ->
       aevalR (AMult e1 e2) (n1 * n2).
 
-(** As is often the case with relations, we'll find it
-    convenient to define infix notation for [aevalR].  We'll write [e
-    || n] to mean that arithmetic expression [e] evaluates to value
-    [n].  (This notation is one place where the limitation to ASCII
-    symbols becomes a little bothersome.  The standard notation for
-    the evaluation relation is a double down-arrow.  We'll typeset it
-    like this in the HTML version of the notes and use a double
-    vertical bar as the closest approximation in [.v] files.)  *)
+(** Como é frequentemente o caso com relações, nós vamos achar
+    conveniente definir notações fixas para [aevalR].  Nós escreveremos [e
+    || n] para significar que a expressão aritmética [e] calcula para o valor
+    [n].  (Esta notação é uma que a limitação para o símbolos ASCII se
+    torna um pouco enfadonha.  A notação padrão para a
+    relação de avaliação é uma seta dupla para baixo.  Nós vamos tipar
+    como na versão HTML das notas e utilizar uma dupla barra vertical
+    para como a melhor aproximação em arquivos [.v].)  *)
 
 Notation "e '||' n" := (aevalR e n) : type_scope.
 
 End aevalR_first_try.
 
-(** In fact, Coq provides a way to use this notation in the definition
-    of [aevalR] itself.  This avoids situations where we're working on
-    a proof involving statements in the form [e || n] but we have to
-    refer back to a definition written using the form [aevalR e n].
+(** Na verdade, Coq fornece uma maneira de usar esta notação na definição
+    de [aevalR]. Isto evita situações onde nós estamos trabalhando em provas envolvendo
+    sentenças na forma de [e || n] mas nós temos que referencia de volta para uma definição
+    escrita usando a forma [aevalR e n].
 
-    We do this by first "reserving" the notation, then giving the
-    definition together with a declaration of what the notation
-    means. *)
+    Fazemos isso primeiro "reservando" a notação, em seguida, dando 
+    a definição em conjunto com uma declaração do que a notação 
+    significa. *)
 
 Reserved Notation "e '||' n" (at level 50, left associativity).
 
@@ -682,15 +673,14 @@ Tactic Notation "aevalR_cases" tactic(first) ident(c) :=
   | Case_aux c "E_AMinus" | Case_aux c "E_AMult" ].
 
 (* ####################################################### *)
-(** ** Inference Rule Notation *)
+(** ** Notação de Regra de Inferência *)
 
-(** In informal discussions, it is convenient to write the rules for
-    [aevalR] and similar relations in the more readable graphical form
-    of _inference rules_, where the premises above the line justify
-    the conclusion below the line (we have already seen them in the
-    Prop chapter). *)
+(** Nas discussões informais é conveniente escrever as regras para [aevalR] e relações 
+semelhantes na forma de _regras de inferência_, uma forma gráfica mais legível, onde as 
+premissas acima da linha justificam a conclusão abaixo da mesma (já vimos isso antes no 
+capítulo Prop). *)
 
-(** For example, the constructor [E_APlus]...
+(** [Claudia]For example, the constructor [E_APlus]...
       | E_APlus : forall (e1 e2: aexp) (n1 n2: nat),
           aevalR e1 n1 ->
           aevalR e2 n2 ->
@@ -702,23 +692,21 @@ Tactic Notation "aevalR_cases" tactic(first) ident(c) :=
                          APlus e1 e2 || n1+n2
 *)
 
-(** Formally, there is nothing very deep about inference rules:
-    they are just implications.  You can read the rule name on the
-    right as the name of the constructor and read each of the
-    linebreaks between the premises above the line and the line itself
-    as [->].  All the variables mentioned in the rule ([e1], [n1],
-    etc.) are implicitly bound by universal quantifiers at the
-    beginning. (Such variables are often called _metavariables_ to
-    distinguish them from the variables of the language we are
-    defining.  At the moment, our arithmetic expressions don't include
-    variables, but we'll soon be adding them.)  The whole collection
-    of rules is understood as being wrapped in an [Inductive]
-    declaration (informally, this is either elided or else indicated
-    by saying something like "Let [aevalR] be the smallest relation
-    closed under the following rules..."). *)
+(** Formalmente, não há nada tão fundo a respeito de regras de inferência:
+    elas são somente implicações. Você pode ler o nome da regra na direita
+    como o nome do construtor e ler cada quebra de linha entre as premissas 
+    acima da linha e a própria linha como [->]. Todas as variáveis mencionadas
+    an regra ([e1], [n1], etc.) são implicitamente limitadas pelos 
+    quantificadores universais no começo. (Tais variáveis são também chamadas
+    _metavariáveis_ para as distiguir das variáveis da linguagem que estamos 
+    definindo. No momento, nossas expressões aritméticas não incluem variáveis,
+    mas nós vamos em breve adicioná-las.) A coleção completa de regras é 
+    entendida como sendo envolvida em uma declaração indutiva ([Inductive])
+    (imformalmente, essa é ou emitida ou indicada por dizer algo como "sendo
+    [aevalR] a menor relação fechada sobre as seguintes regras..."). *)
 
-(** For example, [||] is the smallest relation closed under these
-    rules:
+(** Por exemplo, [||] é a menor relação fechada sob essas
+    regras:
                              -----------                               (E_ANum)
                              ANum n || n
 
@@ -741,11 +729,10 @@ Tactic Notation "aevalR_cases" tactic(first) ident(c) :=
 
 
 (* ####################################################### *)
-(** ** Equivalence of the Definitions *)
+(** ** Equivalência das Definições *)
 
-(** It is straightforward to prove that the relational and functional
-    definitions of evaluation agree on all possible arithmetic
-    expressions... *)
+(** Isto fortalece a prova que as definições de avaliação do relacional e funcional
+    concorda com todas as expressões possíveis aritimétricas... *)
 
 Theorem aeval_iff_aevalR : forall a n,
   (a || n) <-> aeval a = n.
@@ -782,20 +769,21 @@ Proof.
       apply IHa2. reflexivity.
 Qed.
 
-(** Note: if you're reading the HTML file, you'll see an empty square box instead
-of a proof for this theorem.  
-You can click on this box to "unfold" the text to see the proof.
-Click on the unfolded to text to "fold" it back up to a box. We'll be using
-this style frequently from now on to help keep the HTML easier to read.
-The full proofs always appear in the .v files. *)
+(** Nota: se você estiver lendo o arquivo HTML, você verá uma caixa 
+quadrada vazia em vez de uma prova para este teorema.
+Você pode clicar nessa caixa para "revelar" o texto para ver a prova. 
+Clique no texto revelado para "embrulhá-lo" de volta em uma caixa. 
+Nós usaremos este estilo com freqüência a partir de agora para 
+ajudar a manter o HTML mais fácil de ler. As provas completas 
+sempre aparecem nos arquivos .v. *)
 
-(** We can make the proof quite a bit shorter by making more
-    use of tacticals... *)
+(** Nós podemos fazer a prova de uma forma um pouco mais curta através do uso de mais 
+táticas "de segunda ordem"... *)
 
 Theorem aeval_iff_aevalR' : forall a n,
   (a || n) <-> aeval a = n.
 Proof.
-  (* WORKED IN CLASS *)
+  (* REALIZADO EM SALA *)
   split.
   Case "->".
     intros H; induction H; subst; reflexivity.
@@ -805,37 +793,37 @@ Proof.
        try apply IHa1; try apply IHa2; reflexivity.
 Qed.
 
-(** **** Exercise: 3 stars  (bevalR)  *)
-(** Write a relation [bevalR] in the same style as
+(** **** Exercício: nível 3(bevalR)  *)
+(** [Claudia]Write a relation [bevalR] in the same style as
     [aevalR], and prove that it is equivalent to [beval].*)
 
 (* 
 Inductive bevalR:
-(* FILL IN HERE *)
+(* PREENCHER *)
 *)
 (** [] *)
 End AExp.
 
 (* ####################################################### *)
-(** ** Computational vs. Relational Definitions *)
+(** ** Comparando Definições Computacionais e Relacionais *)
 
-(** For the definitions of evaluation for arithmetic and boolean
-    expressions, the choice of whether to use functional or relational
-    definitions is mainly a matter of taste.  In general, Coq has
-    somewhat better support for working with relations.  On the other
-    hand, in some sense function definitions carry more information,
-    because functions are necessarily deterministic and defined on all
-    arguments; for a relation we have to show these properties
-    explicitly if we need them. Functions also take advantage of Coq's
-    computations mechanism.
+(** Para as definições de avaliação para expressões aritméticas e 
+    boleanas, a escolha de usar definições funcionais ou relacionais
+    são principalmente uma questão de gosto. No geral, Coq tem um 
+    suporte melhor para trabalhar com relações. Na outra mão, em algum 
+    sentido definições de funções carregam mais informação, porque 
+    funções são necessariamente deterministicas e definidas em todos
+    os argumentos; por uma relação nós temos que mostrar essas 
+    propriedades explicitamente se nós precisamos delas. Funções também
+    tiram vantagem do mecanismo de computação do Coq.
 
-    However, there are circumstances where relational definitions of
-    evaluation are preferable to functional ones.  *)
+    Entretanto, há circunstâncias em que definições relacionais de
+    avaliação são preferíveis às funcionais. *)
 
 Module aevalR_division.
 
-(** For example, suppose that we wanted to extend the arithmetic
-    operations by considering also a division operation:*)
+(** Por exemplo, suponha que nós queremos extender as operações aritimétricas
+    considerando também operação de divisão:*)
 
 Inductive aexp : Type :=
   | ANum : nat -> aexp
@@ -844,10 +832,10 @@ Inductive aexp : Type :=
   | AMult : aexp -> aexp -> aexp
   | ADiv : aexp -> aexp -> aexp.   (* <--- new *)
 
-(** Extending the definition of [aeval] to handle this new operation
-    would not be straightforward (what should we return as the result
-    of [ADiv (ANum 5) (ANum 0)]?).  But extending [aevalR] is
-    straightforward. *)
+(** Estender a definição de [aeval] para lidar com esta nova operação
+    não seria simples (o que devemos retornar como resultado
+    de [ADiv (ANum 5) (ANum 0)]?). Mas estender [aevalR] é
+    direto. *)
 
 Inductive aevalR : aexp -> nat -> Prop :=
   | E_ANum : forall (n:nat),
@@ -866,18 +854,17 @@ where "a '||' n" := (aevalR a n) : type_scope.
 End aevalR_division.
 Module aevalR_extended.
 
-
-(** Suppose, instead, that we want to extend the arithmetic operations
-    by a nondeterministic number generator [any]:*)
+(** Suponha no lugar disso que queiramos extender as operações aritméticas através de um 
+gerador de números não determinístico [any]:*)
 
 Inductive aexp : Type :=
-  | AAny  : aexp                   (* <--- NEW *)
+  | AAny  : aexp                   (* <--- NOVO *)
   | ANum : nat -> aexp
   | APlus : aexp -> aexp -> aexp
   | AMinus : aexp -> aexp -> aexp
   | AMult : aexp -> aexp -> aexp.
 
-(** Again, extending [aeval] would be tricky (because evaluation is
+(** [Claudia]Again, extending [aeval] would be tricky (because evaluation is
     _not_ a deterministic function from expressions to numbers), but
     extending [aevalR] is no problem: *)
 
@@ -897,30 +884,30 @@ where "a '||' n" := (aevalR a n) : type_scope.
 
 End aevalR_extended.
 
-(** * Expressions With Variables *)
+(** * Expressões com Variáveis *)
 
-(** Let's turn our attention back to defining Imp.  The next thing we
-    need to do is to enrich our arithmetic and boolean expressions
-    with variables.  To keep things simple, we'll assume that all
-    variables are global and that they only hold numbers. *)
+(** vamos voltar a nossa atenção de volta para definir Imp. A proxima coisa 
+    que nós precisamos fazer é enriquecer nossas expressões aritméticas e 
+    boleanas com variáveis. Para manter as coisas simples, nós assumimos
+    que todas as variáveis são globais e que elas somente mantém números. *)
 
 (* ##################################################### *)
-(** ** Identifiers *)
+(** ** Identificadores *)
 
-(** To begin, we'll need to formalize _identifiers_ such as program
-    variables.  We could use strings for this -- or, in a real
-    compiler, fancier structures like pointers into a symbol table.
-    But for simplicity let's just use natural numbers as identifiers. *)
+(** Para começar, nós precisamos formalizar os _identificadores_ como variáveis
+    de programas.  Nós podemos utilizar uma cadeia de caracteres para isso -- 
+    ou, em um compilador real, estruturas elaboradas, como ponteiros, em uma 
+    tabela de símbolos.  Mas, por simplicidade, somente vamos utilizar números 
+    naturais como identificadores. *)
 
-(** (We hide this section in a module because these definitions are
-    actually in [SfLib], but we want to repeat them here so that we
-    can explain them.) *)
+(** (Nós escondemos esta seção em um módulo por causa que essas definição 
+    são de [Sflib], mas nós queremos repeti-las aqui então nós podemos exeplica-las.) *)
 
 Module Id. 
 
-(** We define a new inductive datatype [Id] so that we won't confuse
-    identifiers and numbers.  We use [sumbool] to define a computable
-    equality operator on [Id]. *)
+(** Nós definimos um novo tipo de dados indutivo [Id] de modo que nós não 
+    confundiremos identificadores e números.  Nós usamos [sumbool] para 
+    definir um operador computável de igualdade em [Id]. *)
 
 Inductive id : Type :=
   Id : nat -> id.
@@ -937,7 +924,7 @@ Proof.
 Defined. 
 
 
-(** The following lemmas will be useful for rewriting terms involving [eq_id_dec]. *)
+(** Os seguintes lemas serão úteis para reescrever termos envolvendo [eq_id_dec]. *)
 
 Lemma eq_id : forall (T:Type) x (p q:T), 
               (if eq_id_dec x x then p else q) = p. 
@@ -949,29 +936,30 @@ Proof.
   Case "x <> x (impossible)". 
     apply ex_falso_quodlibet; apply n; reflexivity. Qed.
 
-(** **** Exercise: 1 star, optional (neq_id)  *)
+(** **** Exercício: nível 1, opcional (neq_id)  *)
 Lemma neq_id : forall (T:Type) x y (p q:T), x <> y -> 
                (if eq_id_dec x y then p else q) = q. 
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
 
 End Id. 
 
 (* ####################################################### *)
-(** ** States *)
+(** ** Estados *)
 
-(** A _state_ represents the current values of _all_ the variables at
+(** [Claudia]A _state_ represents the current values of _all_ the variables at
     some point in the execution of a program. *)
-(** For simplicity (to avoid dealing with partial functions), we
-    let the state be defined for _all_ variables, even though any
-    given program is only going to mention a finite number of them. 
-    The state captures all of the information stored in memory.  For Imp
-    programs, because each variable stores only a natural number, we
-    can represent the state as a mapping from identifiers to [nat].  
-    For more complex programming languages, the state might have more 
-    structure.  
+
+(** Por simplicidade (para evitar lidar com funções parciais), nós deixamos
+    o estado ser definido por _todas_ as variáveis, mesmo que alguns
+    programas dados somente mencionem um número finito delas. O estado
+    captura todas as informações guardadas na memória. Para programas Imp, 
+    porque cada variável guarda somente um número natural, nós podemos 
+    representar o estado como um mapeamento de indentificadores para [nat].
+    Para linguagens de programação mais comlexas, o estado pode ter mais 
+    estrutura. 
 *)
 
 Definition state := id -> nat.
@@ -982,66 +970,66 @@ Definition empty_state : state :=
 Definition update (st : state) (x : id) (n : nat) : state :=
   fun x' => if eq_id_dec x x' then n else st x'.
 
-(** For proofs involving states, we'll need several simple properties
-    of [update]. *)
+(** Para provas envolvendo estados, nós vamos precisar de várias propriedades
+    simples de [update]. *)
 
-(** **** Exercise: 1 star (update_eq)  *)
+(** **** Exercício: nível 1 (update_eq)  *)
 Theorem update_eq : forall n x st,
   (update st x n) x = n.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 1 star (update_neq)  *)
+(** **** Exercício: nível 1 (update_neq)  *)
 Theorem update_neq : forall x2 x1 n st,
   x2 <> x1 ->                        
   (update st x2 n) x1 = (st x1).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 1 star (update_example)  *)
-(** Before starting to play with tactics, make sure you understand
-    exactly what the theorem is saying! *)
+(** **** Exercício: nível 1 (update_example)  *)
+(** Antes de começar a brincar com as táticas, tenha certeza que entende
+    exatamente o que o teorema está dizendo! *)
 
 Theorem update_example : forall (n:nat),
   (update empty_state (Id 2) n) (Id 3) = 0.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 1 star (update_shadow)  *)
+(** **** Exercício: nível 1 (update_shadow)  *)
 Theorem update_shadow : forall n1 n2 x1 x2 (st : state),
    (update  (update st x2 n1) x2 n2) x1 = (update st x2 n2) x1.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 2 stars (update_same)  *)
+(** **** Exercício: nível 2 (update_same)  *)
 Theorem update_same : forall n1 x1 x2 (st : state),
   st x1 = n1 ->
   (update st x1 n1) x2 = st x2.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 3 stars (update_permute)  *)
+(** **** Exercício: nível 3 (update_permute)  *)
 Theorem update_permute : forall n1 n2 x1 x2 x3 st,
   x2 <> x1 -> 
   (update (update st x2 n1) x1 n2) x3 = (update (update st x1 n2) x2 n1) x3.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
 (* ################################################### *)
-(** ** Syntax  *)
+(** ** Sintaxe  *)
 
-(** We can add variables to the arithmetic expressions we had before by
-    simply adding one more constructor: *)
+(** Podemos adicionar variáveis para as expressões aritméticas que tínhamos antes, 
+    simplesmente adicionando mais um construtor: *)
 
 Inductive aexp : Type :=
   | ANum : nat -> aexp
-  | AId : id -> aexp                (* <----- NEW *)
+  | AId : id -> aexp                (* <----- NOVO *)
   | APlus : aexp -> aexp -> aexp
   | AMinus : aexp -> aexp -> aexp
   | AMult : aexp -> aexp -> aexp.
@@ -1051,20 +1039,19 @@ Tactic Notation "aexp_cases" tactic(first) ident(c) :=
   [ Case_aux c "ANum" | Case_aux c "AId" | Case_aux c "APlus"
   | Case_aux c "AMinus" | Case_aux c "AMult" ].
 
-(** Defining a few variable names as notational shorthands will make
-    examples easier to read: *)
+(** Definir alguns nomes de variáveis como atalhos notacionais tornarão os exemplos mais 
+fáceis de serem lidas: *)
 
 Definition X : id := Id 0.
 Definition Y : id := Id 1.
 Definition Z : id := Id 2.
 
-(** (This convention for naming program variables ([X], [Y],
+(** [Claudia](This convention for naming program variables ([X], [Y],
     [Z]) clashes a bit with our earlier use of uppercase letters for
     types.  Since we're not using polymorphism heavily in this part of
     the course, this overloading should not cause confusion.) *)
 
-(** The definition of [bexp]s is the same as before (using the new
-    [aexp]s): *)
+(** A definição de [bexp]s é a mesma de antes (usando o novo [aexp]s: *)
 
 Inductive bexp : Type :=
   | BTrue : bexp
@@ -1080,15 +1067,15 @@ Tactic Notation "bexp_cases" tactic(first) ident(c) :=
   | Case_aux c "BLe" | Case_aux c "BNot" | Case_aux c "BAnd" ].
 
 (* ################################################### *)
-(** ** Evaluation  *)
+(** ** Avaliação *)
 
-(** The arith and boolean evaluators can be extended to handle
-    variables in the obvious way: *)
+(** Os avaliadores aritméticos e booleanos podem ser extendidos para manejar
+    variáveis de forma óbvia: *)
 
 Fixpoint aeval (st : state) (a : aexp) : nat :=
   match a with
   | ANum n => n
-  | AId x => st x                                        (* <----- NEW *)
+  | AId x => st x                                        (* <----- NOVO *)
   | APlus a1 a2 => (aeval st a1) + (aeval st a2)
   | AMinus a1 a2  => (aeval st a1) - (aeval st a2)
   | AMult a1 a2 => (aeval st a1) * (aeval st a2)
@@ -1117,16 +1104,15 @@ Example bexp1 :
 Proof. reflexivity. Qed.
 
 (* ####################################################### *)
-(** * Commands *)
+(** * Comandos *)
 
-(** Now we are ready define the syntax and behavior of Imp
-    _commands_ (often called _statements_). *)
+(** Agora nós estamos prontos para definir a sintaxe e o comportamento de Imp _comandos_
+    (frequentemente chamados de _sentenças_). *)
 
 (* ################################################### *)
-(** ** Syntax *)
+(** ** Sintaxe *)
 
-(** Informally, commands [c] are described by the following BNF
-    grammar:
+(** Informalmente, comandos [c] são descritos pela seguinte gramática BNF:
      c ::= SKIP
          | x ::= a
          | c ;; c
@@ -1134,19 +1120,19 @@ Proof. reflexivity. Qed.
          | IFB b THEN c ELSE c FI
 ]] 
 *)
-(**
-    For example, here's the factorial function in Imp.
+
+(** Por exemplo, aqui está a função fatorial em Imp.
      Z ::= X;;
      Y ::= 1;;
      WHILE not (Z = 0) DO
        Y ::= Y * Z;;
        Z ::= Z - 1
      END
-   When this command terminates, the variable [Y] will contain the
-   factorial of the initial value of [X].
+     Quando este comando terminar, a variável [Y] irá conter o fatorial do valor inicial 
+     de [X].
 *)
 
-(** Here is the formal definition of the syntax of commands: *)
+(** [Claudia]Here is the formal definition of the syntax of commands: *)
 
 Inductive com : Type :=
   | CSkip : com
@@ -1160,13 +1146,14 @@ Tactic Notation "com_cases" tactic(first) ident(c) :=
   [ Case_aux c "SKIP" | Case_aux c "::=" | Case_aux c ";;"
   | Case_aux c "IFB" | Case_aux c "WHILE" ].
 
-(** As usual, we can use a few [Notation] declarations to make things
-    more readable.  We need to be a bit careful to avoid conflicts
-    with Coq's built-in notations, so we'll keep this light -- in
-    particular, we won't introduce any notations for [aexps] and
-    [bexps] to avoid confusion with the numerical and boolean
-    operators we've already defined.  We use the keyword [IFB] for
-    conditionals instead of [IF], for similar reasons. *)
+(** Como de costume, nós podemos usar algumas declarações [Notation] para
+    fazer as coisas mais legíveis. Nós precisamos ser um pouco mais 
+    cuidadosos  para evitar comflitos com as notações construídas em Coq, 
+    assim nós manteremos essa luz -- em paticular, nós não introduzimos 
+    qualquer notação para [aexps] e [bexps] para evitar confusão com os 
+    operadores numéricos e boleanos que nós ja temos definido. Nós usamos 
+    a palavra chave [IFB] para condicionais ao invés de [IF], por razões 
+    similares. *)
 
 Notation "'SKIP'" :=
   CSkip.
@@ -1179,8 +1166,8 @@ Notation "'WHILE' b 'DO' c 'END'" :=
 Notation "'IFB' c1 'THEN' c2 'ELSE' c3 'FI'" :=
   (CIf c1 c2 c3) (at level 80, right associativity).
 
-(** For example, here is the factorial function again, written as a
-    formal definition to Coq: *)
+(** Por exemplo, aqui é a função fatorial novamente, escrita como
+    uma definição formal para o Coq: *)
 
 Definition fact_in_coq : com :=
   Z ::= AId X;;
@@ -1191,9 +1178,9 @@ Definition fact_in_coq : com :=
   END.
 
 (* ####################################################### *)
-(** ** Examples *)
+(** ** Exemplos *)
 
-(** Assignment: *)
+(** Atribuição: *)
 
 Definition plus2 : com :=
   X ::= (APlus (AId X) (ANum 2)).
@@ -1206,7 +1193,7 @@ Definition subtract_slowly_body : com :=
   X ::= AMinus (AId X) (ANum 1).
 
 
-(** *** Loops *)
+(** *** Laços *)
 
 Definition subtract_slowly : com :=
   WHILE BNot (BEq (AId X) (ANum 0)) DO
@@ -1219,7 +1206,7 @@ Definition subtract_3_from_5_slowly : com :=
   subtract_slowly.
 
 
-(** *** An infinite loop: *)
+(** *** Um laço infinito: *)
 
 Definition loop : com :=
   WHILE BTrue DO
@@ -1227,17 +1214,17 @@ Definition loop : com :=
   END.
 
 (* ################################################################ *)
-(** * Evaluation *)
+(** * Avaliação *)
 
-(** Next we need to define what it means to evaluate an Imp command.
-    The fact that [WHILE] loops don't necessarily terminate makes defining
-    an evaluation function tricky... *)
+(** Depois nós precisamos definir o que isto significa para avaliar um comando Imp.
+    O fato que o laço [WHILE] não necessáriamente termina faz o truque da definição de avaliação
+    da função... *)
 
 (* #################################### *)
-(** ** Evaluation as a Function (Failed Attempt) *)
+(** ** Avaliação como uma Função (Tentativa Falha) *)
 
-(** Here's an attempt at defining an evaluation function for commands,
-    omitting the [WHILE] case. *)
+(** Aqui está uma tentativa de definir uma função de avaliação para os 
+    comandos, omitindo o caso [WHILE]. *)
 
 Fixpoint ceval_fun_no_while (st : state) (c : com) : state :=
   match c with
@@ -1255,9 +1242,10 @@ Fixpoint ceval_fun_no_while (st : state) (c : com) : state :=
     | WHILE b DO c END =>
         st  (* bogus *)
   end.
-(** In a traditional functional programming language like ML or
-    Haskell we could write the [WHILE] case as follows:
-<<
+  
+(** Em uma linguagem de programação funcional como ML ou Haskell poderíamos escrever o 
+caso [WHILE} da seguinte forma:
+  <<
   Fixpoint ceval_fun (st : state) (c : com) : state :=
     match c with
       ...
@@ -1267,7 +1255,7 @@ Fixpoint ceval_fun_no_while (st : state) (c : com) : state :=
             else st
     end.
 >>
-    Coq doesn't accept such a definition ("Error: Cannot guess
+    [Claudia]Coq doesn't accept such a definition ("Error: Cannot guess
     decreasing argument of fix") because the function we want to
     define is not guaranteed to terminate. Indeed, it doesn't always
     terminate: for example, the full version of the [ceval_fun]
@@ -1280,35 +1268,35 @@ Fixpoint ceval_fun_no_while (st : state) (c : com) : state :=
 <<
      Fixpoint loop_false (n : nat) : False := loop_false n.
 >>
-    That is, propositions like [False] would become provable
-    (e.g. [loop_false 0] would be a proof of [False]), which
-    would be a disaster for Coq's logical consistency.
+    Isso é, proposições como [False] se tornairam prováveis 
+    (por exemplo [loop_false 0] seria uma prova de [false]), 
+    o que seria um disastre para a consistência lógica de Coq.
 
-    Thus, because it doesn't terminate on all inputs, the full version
-    of [ceval_fun] cannot be written in Coq -- at least not without
-    additional tricks (see chapter [ImpCEvalFun] if curious). *)
+    Então, já que isso não termina em todos as entradas, a versão completa
+    de [ceval_fun] não pode ser escrita em Coq -- ao menos, não sem truques
+    adicionais (ver capítulo [ImpCEvalFun] se estiver curioso). *)
 
 (* #################################### *)
-(** ** Evaluation as a Relation *)
+(** ** Avaliação como uma Relação *)
 
-(** Here's a better way: we define [ceval] as a _relation_ rather than
-    a _function_ -- i.e., we define it in [Prop] instead of [Type], as
-    we did for [aevalR] above. *)
+(** Aqui está uma maneira melhor: Nós definimos [ceval] como uma _relação_ em vez de
+    uma _função_ -- ex., nós definimos isto em [Prop] em vez de [Type], como nós fizemos para 
+    [aevalR] acima. *)
 
-(** This is an important change.  Besides freeing us from the awkward
-    workarounds that would be needed to define evaluation as a
-    function, it gives us a lot more flexibility in the definition.
-    For example, if we added concurrency features to the language,
-    we'd want the definition of evaluation to be non-deterministic --
-    i.e., not only would it not be total, it would not even be a
-    partial function! *)
-(** We'll use the notation [c / st || st'] for our [ceval] relation:
-    [c / st || st'] means that executing program [c] in a starting
-    state [st] results in an ending state [st'].  This can be
-    pronounced "[c] takes state [st] to [st']".
-
+(** Esta é uma mudança importante.  Além de nos libertar das soluções 
+    alternativas embaraçosas que seriam necessárias para definir a 
+    avaliação como uma função, isso nos dá muito mais flexibilidade na 
+    definição. Por exemplo, se nós adicionássemos recursos de 
+    concorrência para a linguagem, nós iríamos querer que a definição 
+    de avaliação fosse não determinística - isto é, não só não seria 
+    total, não seria nem mesmo uma função parcial! *)
+    
+(** Usaremos a notação [c / st || st'] para a nossa relação [ceval]: [c / st || st'] 
+significa que o programa em execução [c] em um estado inicial [st] resulta em um estado 
+final [st']. Isso pode ser pronunciado como "[c] leva o estado [st] para [st']".
 *)
-(** *** Operational Semantics 
+
+(** *** Semântica Operacional
                            ----------------                            (E_Skip)
                            SKIP / st || st
 
@@ -1342,7 +1330,7 @@ Fixpoint ceval_fun_no_while (st : state) (c : com) : state :=
                     WHILE b DO c END / st || st''
 *)
 
-(** Here is the formal definition.  (Make sure you understand
+(** [Claudia]Here is the formal definition.  (Make sure you understand
     how it corresponds to the inference rules.) *)
 
 Reserved Notation "c1 '/' st '||' st'" (at level 40, st at level 39).
@@ -1383,10 +1371,10 @@ Tactic Notation "ceval_cases" tactic(first) ident(c) :=
   | Case_aux c "E_WhileEnd" | Case_aux c "E_WhileLoop" ].
 
 (** *** *)
-(** The cost of defining evaluation as a relation instead of a
-    function is that we now need to construct _proofs_ that some
-    program evaluates to some result state, rather than just letting
-    Coq's computation mechanism do it for us. *)
+(** O custo de definir avaliação como uma relação ao invés de uma
+    função é que nós agora temos que construir _provas_ que alguns
+    programas avaliam para algum estado resultado, ao invés de 
+    apenas deixar o mecanismo de computação do Coq fazer isso por nós. *)
 
 Example ceval_example1:
     (X ::= ANum 2;;
@@ -1397,7 +1385,7 @@ Example ceval_example1:
    / empty_state
    || (update (update empty_state X 2) Z 4).
 Proof.
-  (* We must supply the intermediate state *)
+  (* Devemos fornecer o estado intermediário *)
   apply E_Seq with (update empty_state X 2).
   Case "assignment command".
     apply E_Ass. reflexivity.
@@ -1406,47 +1394,45 @@ Proof.
       reflexivity.
       apply E_Ass. reflexivity.  Qed.
 
-(** **** Exercise: 2 stars (ceval_example2)  *)
+(** **** Exercício: nível 2 (ceval_example2)  *)
 Example ceval_example2:
     (X ::= ANum 0;; Y ::= ANum 1;; Z ::= ANum 2) / empty_state ||
     (update (update (update empty_state X 0) Y 1) Z 2).
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 3 stars, advanced (pup_to_n)  *)
-(** Write an Imp program that sums the numbers from [1] to
-   [X] (inclusive: [1 + 2 + ... + X]) in the variable [Y].
-   Prove that this program executes as intended for X = 2
-   (this latter part is trickier than you might expect). *)
+(** **** Exercício: nível 3, avançado (pup_to_n)  *)
+(** Escrever um programa Imp que soma os números de [1] até
+    [X] (inclusive: [1 + 2 + ... + X]) na variável [Y].
+    Prove que este programa executa como intencionado para X = 2
+    (essa última parte é mais complicada do que você poderia esperar). *)
 
 Definition pup_to_n : com :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHER *) admit.
 
 Theorem pup_to_2_ceval :
   pup_to_n / (update empty_state X 2) ||
     update (update (update (update (update (update empty_state
       X 2) Y 0) Y 2) X 1) Y 3) X 0.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
 
 (* ####################################################### *)
-(** ** Determinism of Evaluation *)
+(** ** Determinismo em Avaliação *)
 
-(** Changing from a computational to a relational definition of
-    evaluation is a good move because it allows us to escape from the
-    artificial requirement (imposed by Coq's restrictions on
-    [Fixpoint] definitions) that evaluation should be a total
-    function.  But it also raises a question: Is the second definition
-    of evaluation actually a partial function?  That is, is it
-    possible that, beginning from the same state [st], we could
-    evaluate some command [c] in different ways to reach two different
-    output states [st'] and [st'']?
+(** Mudando de um computacional para uma definição relacional de avaliação é 
+    um bom movimento porque isto permite a gente escapar de um requisito aritificial (imposto
+    por restrições de Coq nas definições de [Fixpoint]) que avaliação deveria ser uma função
+    total. Mas isto também levanta uma questão: A segunda definição de avaliação realmente
+    é uma função parcial? Isto é, é possível que, começando pelo mesmo estado [st], nós poderiamos
+    avaliar algum comando [c] em diferentes maneiras para alcançar duas saídas de estados diferentes
+    [st'] e [st'']?
 
-    In fact, this cannot happen: [ceval] is a partial function.
-    Here's the proof: *)
+    De fato, isso não pode acontecer: [ceval] é uma função parcial. 
+    Aqui está a prova: *)
 
 Theorem ceval_deterministic: forall c st st1 st2,
      c / st || st1  ->
@@ -1490,13 +1476,13 @@ Proof.
 
 
 (* ####################################################### *)
-(** * Reasoning About Imp Programs *)
+(** * Raciocinar Sobre Programas Imp *)
 
-(** We'll get much deeper into systematic techniques for reasoning
-    about Imp programs in the following chapters, but we can do quite
-    a bit just working with the bare definitions. *)
+(** Nós iremos nos aprofundar bastante em técnicas sistemáticas para raciocínio sobre os 
+programas Imp nos capítulos seguintes, mas já podemos trabalhar um pouco com as 
+definições básicas. *)
 
-(* This section explores some examples. *)
+(* Essa seção explora alguns exemplos. *)
 
 Theorem plus2_spec : forall st n st',
   st X = n ->
@@ -1504,34 +1490,34 @@ Theorem plus2_spec : forall st n st',
   st' X = n + 2.
 Proof.
   intros st n st' HX Heval.
-  (* Inverting Heval essentially forces Coq to expand one
-     step of the ceval computation - in this case revealing
-     that st' must be st extended with the new value of X,
-     since plus2 is an assignment *)
+  (* Inverter Heval essencialmente obriga Coq a expandir um
+     passo na computação do ceval - neste caso revelando que
+     st' deve ser st estendido com o novo valor de X, pois
+     plus2 é uma atribuição *)
   inversion Heval. subst. clear Heval. simpl.
   apply update_eq.  Qed.
 
-(** **** Exercise: 3 stars (XtimesYinZ_spec)  *)
-(** State and prove a specification of [XtimesYinZ]. *)
+(** **** Exercício: nível 3 (XtimesYinZ_spec)  *)
+(** [Claudia]State and prove a specification of [XtimesYinZ]. *)
 
 (* FILL IN HERE *)
 (** [] *)
 
-(** **** Exercise: 3 stars (loop_never_stops)  *)
+(** **** Exercício: nível 3 (loop_never_stops)  *)
 Theorem loop_never_stops : forall st st',
   ~(loop / st || st').
 Proof.
   intros st st' contra. unfold loop in contra.
   remember (WHILE BTrue DO SKIP END) as loopdef eqn:Heqloopdef.
-    (* Proceed by induction on the assumed derivation showing that
-     [loopdef] terminates.  Most of the cases are immediately
-     contradictory (and so can be solved in one step with
+    (* Proceder por indução na derivação assumida, mostrando que
+     [loopdef] termina.  A maior parte dos casos entram imediatamente
+     em contradição (e podem então ser resolvidos em um passo com
      [inversion]). *)
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 3 stars (no_whilesR)  *)
-(** Consider the definition of the [no_whiles] property below: *)
+(** **** Exercício: nível 3 (no_whilesR)  *)
+(** Considere a definição da propriedade [no_whiles] abaixo: *)
 
 Fixpoint no_whiles (c : com) : bool :=
   match c with
@@ -1542,45 +1528,45 @@ Fixpoint no_whiles (c : com) : bool :=
   | WHILE _ DO _ END  => false
   end.
 
-(** This property yields [true] just on programs that
-    have no while loops.  Using [Inductive], write a property
-    [no_whilesR] such that [no_whilesR c] is provable exactly when [c]
-    is a program with no while loops.  Then prove its equivalence
-    with [no_whiles]. *)
+(** Esta propriedade fornece [true] sómente em programas que
+    não tem laços while. Utilizando [Inductive], escreva uma propriedade
+    [no_whilesR] que como [no_whilesR c] é provável exatamente quando [c]
+    é um programa sem laços while.  Então prove sua equivalência com
+    [no_whiles]. *)
 
 Inductive no_whilesR: com -> Prop :=
- (* FILL IN HERE *)
+ (* PREENCHER *)
   .
 
 Theorem no_whiles_eqv:
    forall c, no_whiles c = true <-> no_whilesR c.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 4 stars (no_whiles_terminating)  *)
-(** Imp programs that don't involve while loops always terminate.
-    State and prove a theorem [no_whiles_terminating] that says this. *)
-(** (Use either [no_whiles] or [no_whilesR], as you prefer.) *)
+(** **** Exercício: nível 4 (no_whiles_terminating)  *)
+(** Programas Imp que não envolvem laços while sempre terminam.
+    Declare e prove um teorema [no_whiles_terminating] que diz isto. *)
+(** (Use ou [no_whiles] ou [no_whilesR], como você preferir.) *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
 (* ####################################################### *)
-(** * Additional Exercises *)
+(** * Exercícios Extras *)
 
-(** **** Exercise: 3 stars (stack_compiler)  *)
-(** HP Calculators, programming languages like Forth and Postscript,
-    and abstract machines like the Java Virtual Machine all evaluate
-    arithmetic expressions using a stack. For instance, the expression
+(** **** Exercício: nível 3 (stack_compiler)  *)
+(** Calculadoras HP, linguagens de programação como Forth e Postscript, 
+    e máquinas virtuais como o Java Virtual Machine, todas avaliam 
+    expressões aritméticas usando uma pilha. Por exemplo, a expressão
 <<
    (2*3)+(3*(4-2))
 >>
-   would be entered as
+   seria inserida como 
 <<
    2 3 * 3 4 2 - * +
 >>
-   and evaluated like this:
+   e avaliada assim:
 <<
   []            |    2 3 * 3 4 2 - * +
   [2]           |    3 * 3 4 2 - * +
@@ -1594,19 +1580,18 @@ Proof.
   [12]          |
 >>
 
-  The task of this exercise is to write a small compiler that
-  translates [aexp]s into stack machine instructions.
+A tarefa deste exercício é escrever um compilador que traduza [aexp]s em instruções de 
+uma máquina de pilha.
 
-  The instruction set for our stack language will consist of the
-  following instructions:
-     - [SPush n]: Push the number [n] on the stack.
-     - [SLoad x]: Load the identifier [x] from the store and push it
-                  on the stack
-     - [SPlus]:   Pop the two top numbers from the stack, add them, and
-                  push the result onto the stack.
-     - [SMinus]:  Similar, but subtract.
-     - [SMult]:   Similar, but multiply. *)
-
+O conjunto de instruções para a nossa linguagem de pilha consistirá das seguintes 
+instruções:
+	 - [SPush n]: Insere o número [n] na pilha.
+	 - [SLoad x]: Carrega o identificador [x] a partir da loja e o insere na pilha
+	 - [SPlus]: Retira dois números do topo da pilha, realiza uma soma com eles, e 
+	 adiciona o resultado na pilha
+	 - [SMinus]: Semelhante ao anterior, mas realização uma subtração.
+	 - [SMult]: Semelhante ao anterior, mas realiza uma multiplicação. *)
+	 
 Inductive sinstr : Type :=
 | SPush : nat -> sinstr
 | SLoad : id -> sinstr
@@ -1614,45 +1599,44 @@ Inductive sinstr : Type :=
 | SMinus : sinstr
 | SMult : sinstr.
 
-(** Write a function to evaluate programs in the stack language. It
+(** [Claudia]Write a function to evaluate programs in the stack language. It
     takes as input a state, a stack represented as a list of
     numbers (top stack item is the head of the list), and a program
     represented as a list of instructions, and returns the stack after
     executing the program. Test your function on the examples below.
 
-    Note that the specification leaves unspecified what to do when
-    encountering an [SPlus], [SMinus], or [SMult] instruction if the
-    stack contains less than two elements.  In a sense, it is
-    immaterial what we do, since our compiler will never emit such a
-    malformed program. *)
+    Note que a especificação deixa não especificado o que fazer quando 
+    encontrar uma instrução [SPlus], [SMinus] ou [SMult] se a pilha contém
+    menos que dois elementos. De certo modo, isso é imaterial o que fazemos, 
+    uma vez que nosso compilador não vai nunca emitir um programa mal-formado
+    como esse. *)
 
 Fixpoint s_execute (st : state) (stack : list nat)
                    (prog : list sinstr)
                  : list nat :=
-(* FILL IN HERE *) admit.
+(* PREENCHER *) admit.
 
 
 Example s_execute1 :
      s_execute empty_state []
        [SPush 5; SPush 3; SPush 1; SMinus]
    = [2; 5].
-(* FILL IN HERE *) Admitted.
+(* PREENCHER *) Admitted.
 
 Example s_execute2 :
      s_execute (update empty_state X 3) [3;4]
        [SPush 4; SLoad X; SMult; SPlus]
    = [15; 4].
-(* FILL IN HERE *) Admitted.
+(* PREENCHER *) Admitted.
 
-(** Next, write a function which compiles an [aexp] into a stack
-    machine program. The effect of running the program should be the
-    same as pushing the value of the expression on the stack. *)
+(** Em seguinda, escreva uma função que compila um [aexp] em um programa
+    de máquina de pilha. O efeito de execução do programa deve ser o mesmo
+    que colocar o valor da expressão na pilha. *)
 
 Fixpoint s_compile (e : aexp) : list sinstr :=
-(* FILL IN HERE *) admit.
+(* PREENCHER *) admit.
 
-(** After you've defined [s_compile], prove the following to test
-    that it works. *)
+(** Depois que você definiu [s_compile], prove a seguir para testar se ele funciona. *)
 
 Example s_compile1 :
     s_compile (AMinus (AId X) (AMult (ANum 2) (AId Y)))
@@ -1660,36 +1644,34 @@ Example s_compile1 :
 (* FILL IN HERE *) Admitted.
 (** [] *)
 
-(** **** Exercise: 3 stars, advanced (stack_compiler_correct)  *)
-(** The task of this exercise is to prove the correctness of the
-    compiler implemented in the previous exercise.  Remember that
-    the specification left unspecified what to do when encountering an
-    [SPlus], [SMinus], or [SMult] instruction if the stack contains
-    less than two elements.  (In order to make your correctness proof
-    easier you may find it useful to go back and change your
-    implementation!)
+(** **** Exercício: nível 3, avançado (stack_compiler_correct)  *)
+(** A tarefa deste exercício é demonstrar a correção do compilador 
+    implementado no exercício anterior.  Lembre-se de que a especificação 
+    deixou indeterminado o que fazer quando encontrar uma instrução [SPLUS], 
+    [SMinus] ou [SMult] se a pilha contiver menos de dois elementos. 
+    (A fim de fazer a sua demonstração de correção mais fácil, você pode achar 
+    útil voltar e mudar a sua implementação!)
 
-    Prove the following theorem, stating that the [compile] function
-    behaves correctly.  You will need to start by stating a more
-    general lemma to get a usable induction hypothesis; the main
-    theorem will then be a simple corollary of this lemma. *)
-
+	Prove o seguinte teorema, cuja afirmação é de que a função [compile] se comporta 
+	corretamente. Você terá que começar definindo um lema mais geral para obter uma 
+	hipótese indutiva utilizável; o teorema principal então será um simples corolário 
+	desse lema. *)  
 
 Theorem s_compile_correct : forall (st : state) (e : aexp),
   s_execute st [] (s_compile e) = [ aeval st e ].
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHA AQUI *) Admitted.
 (** [] *)
 
-(** **** Exercise: 5 stars, advanced (break_imp)  *)
+(** **** Exercício: nível 5, avançado (break_imp)  *)
 Module BreakImp.
 
-(** Imperative languages such as C or Java often have a [break] or
+(** [Claudia]Imperative languages such as C or Java often have a [break] or
     similar statement for interrupting the execution of loops. In this
     exercise we will consider how to add [break] to Imp.
 
-    First, we need to enrich the language of commands with an
-    additional case. *)
+    Primeiramente, nós precisamos enriquecer a linguagem de comandos
+    com um caso adicional. *)
 
 Inductive com : Type :=
   | CSkip : com
@@ -1717,18 +1699,17 @@ Notation "'WHILE' b 'DO' c 'END'" :=
 Notation "'IFB' c1 'THEN' c2 'ELSE' c3 'FI'" :=
   (CIf c1 c2 c3) (at level 80, right associativity).
 
-(** Next, we need to define the behavior of [BREAK].  Informally,
-    whenever [BREAK] is executed in a sequence of commands, it stops
-    the execution of that sequence and signals that the innermost
-    enclosing loop (if any) should terminate. If there aren't any
-    enclosing loops, then the whole program simply terminates. The
-    final state should be the same as the one in which the [BREAK]
-    statement was executed.
+(** Em seguida, defina o comportamento de [BREAK].  Informalmente,
+    sempre que [BREAK] é executado em uma sequência de comandos, ele para
+    a execução dessa sequência e sinaliza que o laço mais
+    interno (se houver) deve terminar. Se não houver nenhum
+    laço delimitador, então todo o programa simplesmente termina. O
+    estado final deve ser o mesmo que o estado em que o [BREAK]
+    foi executado.
 
-    One important point is what to do when there are multiple loops
-    enclosing a given [BREAK]. In those cases, [BREAK] should only
-    terminate the _innermost_ loop where it occurs. Thus, after
-    executing the following piece of code...
+    Um ponto importante é que para fazer quando existe muitos laços dentro do outro um dado [BREAK].
+    Em nesses casos, [BREAK], deve apenas terminar o mais _profundo_ laço onde ele ocorre. Assim,
+    depois executando o seguinte pedaço de código...
    X ::= 0;;
    Y ::= 1;;
    WHILE 0 <> Y DO
@@ -1740,9 +1721,12 @@ Notation "'IFB' c1 'THEN' c2 'ELSE' c3 'FI'" :=
    END
     ... the value of [X] should be [1], and not [0].
 
-    One way of expressing this behavior is to add another parameter to
-    the evaluation relation that specifies whether evaluation of a
-    command executes a [BREAK] statement: *)
+    Uma maneira de expressar esse comportamento é adicionar outro parâmetro 
+    para a relação de avaliação que especifica se a avaliação de um comando 
+    executa uma declaração [BREAK]:
+    
+    Uma maneira de expressar esse comportamento é adicionar outro parâmetro 
+    para a relação de avaliação que especifica se a avaliação de um comando executa um [BREAK] declaração: *)
 
 Inductive status : Type :=
   | SContinue : status
@@ -1751,41 +1735,37 @@ Inductive status : Type :=
 Reserved Notation "c1 '/' st '||' s '/' st'"
                   (at level 40, st, s at level 39).
 
-(** Intuitively, [c / st || s / st'] means that, if [c] is started in
-    state [st], then it terminates in state [st'] and either signals
-    that any surrounding loop (or the whole program) should exit
-    immediately ([s = SBreak]) or that execution should continue
-    normally ([s = SContinue]).
+(** Intuitivamente, [c / st || s / st'] significa que, se [c] é um estado inicial [st], 
+então ele termina no estado [st'] e dá a ordem para que ou os laços circundantes (ou todo 
+o programa) finalizem imediatamente ([s = SBreak]) ou a execução continue normalmente ([s 
+= SContinue]).
 
-    The definition of the "[c / st || s / st']" relation is very
+    [Claudia]The definition of the "[c / st || s / st']" relation is very
     similar to the one we gave above for the regular evaluation
     relation ([c / st || s / st']) -- we just need to handle the
     termination signals appropriately:
 
-    - If the command is [SKIP], then the state doesn't change, and
-      execution of any enclosing loop can continue normally.
+    - Se o comando é [SKIP], então o estado não muda, e a execução de
+      algum loop delimitador pode continuar normalmente.
 
-    - If the command is [BREAK], the state stays unchanged, but we
-      signal a [SBreak].
+    - Se o comando é [BREAK], o estado se mantêm inalterado, mas
+      sinalizamos um [SBreak].
 
-    - If the command is an assignment, then we update the binding for
-      that variable in the state accordingly and signal that execution
-      can continue normally.
+    - Se o comando é uma atribuição, em seguida, nós atualizamos a ligação para essa variável no 
+      estado em conformidade e sinalizar que a execução pode continuar normalmente.
 
-    - If the command is of the form [IF b THEN c1 ELSE c2 FI], then
-      the state is updated as in the original semantics of Imp, except
-      that we also propagate the signal from the execution of
-      whichever branch was taken.
+    - Se o comando é da forma [IF b THEN c1 ELSE c2 FI], então o estado 
+    é atualizado como na semântica original de Imp, exceto que nós 
+    também propagamos o sinal da execução de qualquer ramo que 
+    foi tomado.
 
-    - If the command is a sequence [c1 ; c2], we first execute
-      [c1]. If this yields a [SBreak], we skip the execution of [c2]
-      and propagate the [SBreak] signal to the surrounding context;
-      the resulting state should be the same as the one obtained by
-      executing [c1] alone. Otherwise, we execute [c2] on the state
-      obtained after executing [c1], and propagate the signal that was
-      generated there.
+	- Se o comando é uma sequência [c1 ; c2], executamos primeiramente [c1]. Se isso gera 
+	um [SBreak] nós pulamos a execução de [c2] e propagamos o sinal [SBreak] para o 
+	contexto envolvente. O estado resultante deve ser o mesmo que o obtido pela execução 
+	de [c1] sozinho. Caso contrário nós executamos [c2] no estado obtido após a execução 
+	de [c1], propagando o sinal gerado a partir disso.
 
-    - Finally, for a loop of the form [WHILE b DO c END], the
+    [Claudia]- Finally, for a loop of the form [WHILE b DO c END], the
       semantics is almost the same as before. The only difference is
       that, when [b] evaluates to true, we execute [c] and check the
       signal that it raises. If that signal is [SContinue], then the
@@ -1795,94 +1775,91 @@ Reserved Notation "c1 '/' st '||' s '/' st'"
       iteration. In either case, since [BREAK] only terminates the
       innermost loop, [WHILE] signals [SContinue]. *)
 
-(** Based on the above description, complete the definition of the
-    [ceval] relation. *)
+(** Baseado na descrição acima, complete a definição da relação [ceval]. *)
 
 Inductive ceval : com -> state -> status -> state -> Prop :=
   | E_Skip : forall st,
       CSkip / st || SContinue / st
-  (* FILL IN HERE *)
+  (* PREENCHER *)
 
   where "c1 '/' st '||' s '/' st'" := (ceval c1 st s st').
 
 Tactic Notation "ceval_cases" tactic(first) ident(c) :=
   first;
   [ Case_aux c "E_Skip"
-  (* FILL IN HERE *)
+  (* PREENCHER *)
   ].
 
-(** Now the following properties of your definition of [ceval]: *)
+(** Agora, as seguintes propriedades da definição de [ceval]: *)
 
 Theorem break_ignore : forall c st st' s,
      (BREAK;; c) / st || s / st' ->
      st = st'.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 
 Theorem while_continue : forall b c st st' s,
   (WHILE b DO c END) / st || s / st' ->
   s = SContinue.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 
 Theorem while_stops_on_break : forall b c st st',
   beval st b = true ->
   c / st || SBreak / st' ->
   (WHILE b DO c END) / st || SContinue / st'.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 
-(** **** Exercise: 3 stars, advanced, optional (while_break_true)  *)
+(** **** Exercício: nível 3, avançado, opcional (while_break_true)  *)
 Theorem while_break_true : forall b c st st',
   (WHILE b DO c END) / st || SContinue / st' ->
   beval st' b = true ->
   exists st'', c / st'' || SBreak / st'.
 Proof.
-(* FILL IN HERE *) Admitted.
+(* PREENCHER *) Admitted.
 
-(** **** Exercise: 4 stars, advanced, optional (ceval_deterministic)  *)
+(** **** Exercício: nívle 4, avançado, opcional (ceval_deterministic)  *)
 Theorem ceval_deterministic: forall (c:com) st st1 st2 s1 s2,
      c / st || s1 / st1  ->
      c / st || s2 / st2 ->
      st1 = st2 /\ s1 = s2.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 
 End BreakImp.
 (** [] *)
 
-(** **** Exercise: 3 stars, optional (short_circuit)  *)
-(** Most modern programming languages use a "short-circuit" evaluation
-    rule for boolean [and]: to evaluate [BAnd b1 b2], first evaluate
-    [b1].  If it evaluates to [false], then the entire [BAnd]
-    expression evaluates to [false] immediately, without evaluating
-    [b2].  Otherwise, [b2] is evaluated to determine the result of the
-    [BAnd] expression.
+(** **** Exercício: nível 3, opcional (short_circuit)  *)
 
-    Write an alternate version of [beval] that performs short-circuit
-    evaluation of [BAnd] in this manner, and prove that it is
-    equivalent to [beval]. *)
+(** A maioria das linguagem de programação modernas usam uma regra de avaliação
+    "curto-circuito" para booleanos [and]: para avaliar [BAnd b1 b2],
+    primeiramente avalia [b1].  Se isso é avaliado para [false], então toda a 
+    expressão [BAnd] é imediatamente avaliada para [false], sem avaliar [b2].
+    Entretanto, [b2] é avaliado para determinar o resultado da
+    expressão [BAnd].
 
-(* FILL IN HERE *)
+    Escreva uma versão alternativa de [beval] que realiza um curto-circuito
+    de avaliação de [BAnd] nesta maneira, e prova que ele é equivalente a [beval].*)
+
+(* PREENCHER *)
 (** [] *)
 
-(** **** Exercise: 4 stars, optional (add_for_loop)  *)
-(** Add C-style [for] loops to the language of commands, update the
-    [ceval] definition to define the semantics of [for] loops, and add
-    cases for [for] loops as needed so that all the proofs in this file
-    are accepted by Coq.
+(** **** Exercício: nível 4, opcional (add_for_loop)  *)
 
-    A [for] loop should be parameterized by (a) a statement executed
-    initially, (b) a test that is run on each iteration of the loop to
-    determine whether the loop should continue, (c) a statement
-    executed at the end of each loop iteration, and (d) a statement
-    that makes up the body of the loop.  (You don't need to worry
-    about making up a concrete Notation for [for] loops, but feel free
-    to play with this too if you like.) *)
+(** Adicionar loops [for], no estilo de C, para a linguagem de comandos, 
+    atualizar a definição de [ceval] para definir a semântica de loops 
+    [for], e adicionar casos para loops [for], conforme necessário, 
+    para que todas as provas neste arquivo sejam aceitas por Coq.
+    
+	Um laço [for] deve ser parametrizado por (a) uma sentença executada inicialmente, (b) 
+	um teste que é executado em cada iteração do laço a fim de determinar se o mesmo deve 
+	continuar, (c) uma sentença executada no fim de cada iteração de laço e (d) uma 
+	declaração que constitui o corpo desse laço. (Você não precisa se preocupar em criar 
+	uma Notação concreta para os laços [for], mas sinta-se livre para fazê-lo também 
+	se preferir.) *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
-
-(* <$Date: 2014-12-26 15:20:26 -0500 (Fri, 26 Dec 2014) $ *)
 

@@ -1,95 +1,93 @@
-(** * Hoare: Hoare Logic, Part I *)
+(** * Hoare: Lógica de Hoare, Parte I *)
 
 Require Export Imp.
 
-(** In the past couple of chapters, we've begun applying the
-    mathematical tools developed in the first part of the course to
-    studying the theory of a small programming language, Imp.
+(** nos dois ultimos capítulos, nós começamos a aplicar as ferramentas
+    matemáticas desenvolvidas na primeira parte do curso para estudar
+    a teoria de uma pequena linguagem de programação, Imp.
 
-    - We defined a type of _abstract syntax trees_ for Imp, together
-      with an _evaluation relation_ (a partial function on states)
-      that specifies the _operational semantics_ of programs.
+    - Nós definimos um tipo de _árvores de sintaxe abstrata_ para o Imp,
+      juntamente com uma _relação de avaliação_ (uma função parcial sobre os
+      estados) que especifica a _semântica operacional_ de programas.
 
-      The language we defined, though small, captures some of the key
-      features of full-blown languages like C, C++, and Java,
-      including the fundamental notion of mutable state and some
-      common control structures.
+      A linguagem que definimos, embora pequena, capitura algumas das
+      características chaves desenvolvidas em linguagens como C, C++ e Java, incluindo
+      a noção fundamental de estado mutável e alguns controles de estruturas comuns.
 
-    - We proved a number of _metatheoretic properties_ -- "meta" in
-      the sense that they are properties of the language as a whole,
-      rather than properties of particular programs in the language.
-      These included:
+    - Nós provamos uma série de _propriedades metateóricas_ -- "meta" 
+      no sentido de que eles são propriedades da linguagem como um todo, 
+      ao invés de propriedades de programas específicos da linguagem. 
+      Isso incluiu:
 
-        - determinism of evaluation
+        - determinismo da avaliação 
 
-        - equivalence of some different ways of writing down the
-          definitions (e.g. functional and relational definitions of
-          arithmetic expression evaluation)
+		- equivalência de algumas maneiras diferentes de escrever as definições (por 
+		exemplo, definições funcionais e relacionais da avaliação de expressão aritmética)
 
-        - guaranteed termination of certain classes of programs
+		- terminação garantida de certas classes de programas
+		
+		- correção (no sentido de preservação) de uma série de transformações úteis de 
+		programas
+		
+		- equivalência de comportamento de programas (no capítulo [Equiv]).
 
-        - correctness (in the sense of preserving meaning) of a number
-          of useful program transformations
+    Se nós parássemos aqui, nós já poderiamos ter algo útil: um conjunto
+    de ferramentas para definir e discutir linguagens de programação e
+    funcionalidades de linguagem que são matematicamente precisas, 
+    fexíveis e fáceis de se trabalhar, aplicadas a um conjunto de 
+    propriedades chave. Todas essas propriedades são coisas que designers 
+    de liguagem, escritores de compiladores e usuários podem querer 
+    conhecer. De fato, muitas delas são tão fundamentais para o nosso 
+    entendimento das linguagens de programação que lidamos que nós
+    podemos não reconhecê-las conscientemente como "teoremas". Mas 
+    propriedades que parecem intuitivamente óbvias podem às vezes ser
+    bastante sutis (em alguns casos, até sutilmente erradas!).
 
-        - behavioral equivalence of programs (in the [Equiv] chapter). 
+    Nós vamos retornar para o tema de propriedades metateóricas de linguagens
+    inteiras mais tarde no curso, quando discutimos _tipos_ e _solidez
+    de escrita_.  Nesse capítulo, entretanto, nós vamos tornar para um 
+    diferente conjunto de problemas.
 
-    If we stopped here, we would already have something useful: a set
-    of tools for defining and discussing programming languages and
-    language features that are mathematically precise, flexible, and
-    easy to work with, applied to a set of key properties.  All of
-    these properties are things that language designers, compiler
-    writers, and users might care about knowing.  Indeed, many of them
-    are so fundamental to our understanding of the programming
-    languages we deal with that we might not consciously recognize
-    them as "theorems."  But properties that seem intuitively obvious
-    can sometimes be quite subtle (in some cases, even subtly wrong!).
+    Nosso objetivo é para ver como executar alguns exemplos simples de
+    _verificação de programa_ -- ex., usando a definição precisa de Imp para provar
+    formalmente que programas particulares satisfazem especificações particulares do
+    comportamento deles. Nós iremos desenvolver um sistema de raciocínio chamado
+    _Lógica Floyd-Hoare_ -- frequentemente encurtado para apenas _Lógica de Hoare_
+    -- em que cada construção sintática de Imp é equipado com um único, "regra de prova"
+    genérica que pode ser usado para razão composicionalmente sobre a corretude de programas
+    envolvendo esta construção.
 
-    We'll return to the theme of metatheoretic properties of whole
-    languages later in the course when we discuss _types_ and _type
-    soundness_.  In this chapter, though, we'll turn to a different
-    set of issues.
-
-    Our goal is to see how to carry out some simple examples of
-    _program verification_ -- i.e., using the precise definition of
-    Imp to prove formally that particular programs satisfy particular
-    specifications of their behavior. We'll develop a reasoning system
-    called _Floyd-Hoare Logic_ -- often shortened to just _Hoare
-    Logic_ -- in which each of the syntactic constructs of Imp is
-    equipped with a single, generic "proof rule" that can be used to
-    reason compositionally about the correctness of programs involving
-    this construct.
-
-    Hoare Logic originates in the 1960s, and it continues to be the
-    subject of intensive research right up to the present day.  It
-    lies at the core of a multitude of tools that are being used in
-    academia and industry to specify and verify real software
-    systems. *)
+    A Lógica de Hoare se origina na década de 1960, e continua a ser 
+    objeto de intensa pesquisa até os dias atuais. Situa-se no centro 
+    de uma infinidade de ferramentas que estão sendo usadas no meio 
+    acadêmico e na indústria para especificar e verificar sistemas 
+    de software reais. *)
 
 
   
 (* ####################################################### *)
-(** * Hoare Logic *)
+(** * Lógica de Hoare *)
 
-(** Hoare Logic combines two beautiful ideas: a natural way of
-    writing down _specifications_ of programs, and a _compositional
-    proof technique_ for proving that programs are correct with
-    respect to such specifications -- where by "compositional" we mean
-    that the structure of proofs directly mirrors the structure of the
-    programs that they are about. *)
+(** A Lógica de Hoare combina duas belas ideias: uma forma natural de escrever 
+_especificações_ de programas e uma _técnica de prova composicional_ para provar que os 
+programas são corretos com relação a tais especificações -- no qual queremos dizer como  
+"composicional" que a estrutura das provas refletem diretamente a estrutura dos programas 
+sobre os quais são gerados. *)
 
 (* ####################################################### *)
-(** ** Assertions *)
+(** ** Asserções *)
 
-(** To talk about specifications of programs, the first thing we
-    need is a way of making _assertions_ about properties that hold at
-    particular points during a program's execution -- i.e., claims
-    about the current state of the memory when program execution
-    reaches that point.  Formally, an assertion is just a family of
-    propositions indexed by a [state]. *)
+(** Para falar a respeito de especificações de programas, a primeira
+    coisa que nós precisamos é de uma maneira de fazer _asserções_ a 
+    respeito de propriedades que mantém um ponto particular durante a 
+    execução do programa -- isto é, afirmações a respeito do estado
+    atual da memória quando a execução do programa alcança determinado 
+    ponto. Formalmente, uma asserção é somente uma família de 
+    proposições idexadas por um [state] (estado). *)
 
 Definition Assertion := state -> Prop.
 
-(** **** Exercise: 1 star, optional (assertions)  *)
+(** **** Exercício: nível 1, opcional (assertions)  *)
 Module ExAssertions.
 
 (** Paraphrase the following assertions in English. *)
@@ -104,22 +102,22 @@ Definition as4 : Assertion :=
 Definition as5 : Assertion := fun st => True.
 Definition as6 : Assertion := fun st => False.
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 
 End ExAssertions.
 (** [] *)
 
 (* ####################################################### *)
-(** ** Notation for Assertions *)
+(** ** Notação para Asserções *)
 
-(** This way of writing assertions can be a little bit heavy,
-    for two reasons: (1) every single assertion that we ever write is
-    going to begin with [fun st => ]; and (2) this state [st] is the
-    only one that we ever use to look up variables (we will never need
-    to talk about two different memory states at the same time).  For
-    discussing examples informally, we'll adopt some simplifying
-    conventions: we'll drop the initial [fun st =>], and we'll write
-    just [X] to mean [st X].  Thus, instead of writing *)
+(** Esse meio de escrever asserções pode ser um pouco pesado,
+    por duas razões: (1) cada asserção que nós alguma vez escrevermos vai
+    ser com [fun st => ]; e (2) o estado [st] é o único que nunca usamos para 
+    procurar variáveis (nunca precisaremos falar sobre dois estados de memória
+    diferentes ao mesmo tempo).  Para discurssão informal de exemplos, vamos 
+    adotar algumas convenções simplificadoras: deixaremos de lado o [fun st =>]
+    inicial, e iremos escrever somente [X] para significar [st X].  Então, ao 
+    em vez de escrever *)
 (** 
       fun st => (st Z) * (st Z) <= m /\
                 ~ ((S (st Z)) * (S (st Z)) <= m)
@@ -127,9 +125,9 @@ End ExAssertions.
          Z * Z <= m /\ ~((S Z) * (S Z) <= m).
 *)
 
-(** Given two assertions [P] and [Q], we say that [P] _implies_ [Q],
-    written [P ->> Q] (in ASCII, [P -][>][> Q]), if, whenever [P]
-    holds in some state [st], [Q] also holds. *)
+(** Dado duas asserções [P] e [Q], nós dizemos que [P] _implica_ [Q],
+    escrito [P ->> Q] (em ASCII, [P -][>][> Q]), se, sempre que [P] satisfaz algum
+    estado [st], [Q] também satisfaz. *)
 
 Definition assert_implies (P Q : Assertion) : Prop :=
   forall st, P st -> Q st.
@@ -138,29 +136,29 @@ Notation "P ->> Q" :=
   (assert_implies P Q) (at level 80) : hoare_spec_scope.
 Open Scope hoare_spec_scope.
 
-(** We'll also have occasion to use the "iff" variant of implication
-    between assertions: *)
+(** Também teremos a oportunidade de usar a variante de implicação "sse" 
+    entre as afirmações: *)
 
 Notation "P <<->> Q" :=
   (P ->> Q /\ Q ->> P) (at level 80) : hoare_spec_scope.
 
 (* ####################################################### *)
-(** ** Hoare Triples *)
+(** ** Triplas de Hoare *)
 
-(** Next, we need a way of making formal claims about the
-    behavior of commands. *)
+(** Em seguida, precisamos de uma maneira de fazer declarações formais a respeito do 
+comportamento dos comandos. *)
 
-(** Since the behavior of a command is to transform one state to
-    another, it is natural to express claims about commands in terms
-    of assertions that are true before and after the command executes:
+(** Devido ao fato de que o comportamento de um comando é transformar
+    um estado em outro, é natural expressar afirmações a respeito de
+    comandos em termos de asserções que são verdade antes e depois do
+    comando executar:
 
-      - "If command [c] is started in a state satisfying assertion
-        [P], and if [c] eventually terminates in some final state,
-        then this final state will satisfy the assertion [Q]."
+      - "Se o comando [c] é iniciado em um estado satisfazendo a asserção
+        [P], e se [c] eventualmente termina em algum estado final,
+        então esse estado final satisfará a asserção [Q]."
 
-    Such a claim is called a _Hoare Triple_.  The property [P] is
-    called the _precondition_ of [c], while [Q] is the
-    _postcondition_.  Formally: *)
+    Tal afirmação é chamado um _Tripla de Hoare_. A propriedade [P] é
+    chamado de _pré-condição_ de [c], enquanto [Q] é _pós-condição_. Formalmente: *)
 
 Definition hoare_triple
            (P:Assertion) (c:com) (Q:Assertion) : Prop :=
@@ -169,23 +167,24 @@ Definition hoare_triple
        P st  ->
        Q st'.
 
-(** Since we'll be working a lot with Hoare triples, it's useful to
-    have a compact notation:
+(** Já que estaremos trabalhando muito com triplas de Hoare, é útil ter 
+    uma notação compacta:
        {{P}} c {{Q}}.
 *)
-(** (The traditional notation is [{P} c {Q}], but single braces
-    are already used for other things in Coq.)  *)
+
+(** (A notação tradicional é [{P} c {Q}], mas chaves individuais já são usadas para 
+outras coisas no Coq.) *)
 
 Notation "{{ P }}  c  {{ Q }}" :=
   (hoare_triple P c Q) (at level 90, c at next level)
   : hoare_spec_scope.
 
-(** (The [hoare_spec_scope] annotation here tells Coq that this
-    notation is not global but is intended to be used in particular
-    contexts.  The [Open Scope] tells Coq that this file is one such
-    context.) *)
+(** (A anotação [hoare_spec_scope] aqui diz ao Coq que essa notação 
+    não é global mas tem a intenção de ser usada em contextos 
+    particulares. A [Open Scope] diz ao Coq que esse arquivo é um
+    desses contextos.) *)
 
-(** **** Exercise: 1 star, optional (triples)  *)
+(** **** Exercício: nível 1, opcional (triples)  *)
 (** Paraphrase the following Hoare triples in English.
    1) {{True}} c {{X = 5}}
 
@@ -208,17 +207,10 @@ Notation "{{ P }}  c  {{ Q }}" :=
 
 (** [] *)
 
-
-
-
-
-
-
-
-
 (** **** Exercise: 1 star, optional (valid_triples)  *)
-(** Which of the following Hoare triples are _valid_ -- i.e., the
-    claimed relation between [P], [c], and [Q] is true?
+(** Qual das triplas de Hoare a seguir são _válidas_ -- isto é, a
+    relação alegada entre [P], [c], e [Q] é verdadeira?
+
    1) {{True}} X ::= 5 {{X = 5}}
 
    2) {{X = 2}} X ::= X + 1 {{X = 3}}
@@ -242,16 +234,15 @@ Notation "{{ P }}  c  {{ Q }}" :=
       {{X = 100}}
 
 *)
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
-(** (Note that we're using informal mathematical notations for
-   expressions inside of commands, for readability, rather than their
-   formal [aexp] and [bexp] encodings.  We'll continue doing so
-   throughout the chapter.) *)
+(** (Note que nós estamos usando notações matemáticas informal para 
+    expressões dentro de comandos, para legibilidade, em vez de códigos formal deles
+    [aexp] e [bexp]. Nós iremos continuar fazendo ao longo do capítulo.) *)
 
-(** To get us warmed up for what's coming, here are two simple
-    facts about Hoare triples. *)
+(** Para nos aquecer para o que está vindo, aqui estão dois fatos 
+    simples sobre triplas de Hoare. *)
 
 Theorem hoare_post_true : forall (P Q : Assertion) c,
   (forall st, Q st) ->
@@ -271,53 +262,50 @@ Proof.
   inversion HP.  Qed.
 
 (* ####################################################### *) 
-(** ** Proof Rules *)
+(** ** Regras de Demonstração *)
 
-(** The goal of Hoare logic is to provide a _compositional_
-    method for proving the validity of Hoare triples.  That is, the
-    structure of a program's correctness proof should mirror the
-    structure of the program itself.  To this end, in the sections
-    below, we'll introduce one rule for reasoning about each of the
-    different syntactic forms of commands in Imp -- one for
-    assignment, one for sequencing, one for conditionals, etc. -- plus
-    a couple of "structural" rules that are useful for gluing things
-    together. We will prove programs correct using these proof rules,
-    without ever unfolding the definition of [hoare_triple]. *)
+(** O objetivo da lógica de Hoare é proporcionar um método _composicional_ para provar a 
+validade das triplas de Hoare. Ou seja, a estrutura de uma prova para a correção de um 
+programa deve espelhar a estrutura do próprio programa. Para este fim, nas seções abaixo, 
+iremos introduzir uma regra para o raciocínio sobre cada uma das diferentes formas 
+sintáticas de comandos no Imp - um para atribuição, um para o sequenciamento, um para 
+condicionais, etc. - além de um par de regras "estruturais" para unir tudo. Nós 
+provaremos que os programas estão corretos usando estas regras de prova, sem nunca 
+desdobrar a definição de [hoare_triple]. *) 
 
 (* ####################################################### *) 
-(** *** Assignment *)
+(** *** Atribuição *)
 
-(** The rule for assignment is the most fundamental of the Hoare logic
-    proof rules.  Here's how it works.
+(**  A regra para atribuição é a mais fundamentas das regras de prova da
+     lógica de Hoare. Aqui está como ela funciona.
 
-    Consider this (valid) Hoare triple:
+    Considere essa tripla de Hoare (válida):
        {{ Y = 1 }}  X ::= Y  {{ X = 1 }}
-    In English: if we start out in a state where the value of [Y]
-    is [1] and we assign [Y] to [X], then we'll finish in a
-    state where [X] is [1].  That is, the property of being equal
-    to [1] gets transferred from [Y] to [X].
+    Em português: se nós começarmos em um estado onde o valor de [Y]
+    é [1] e nós assinalarmos [Y] a [X], então nós iremos terminar em um
+    estado onde [X] é [1]. Isso é, a propriedade de ser igual a [1] é
+    transferida de [Y] para [X].
 
-    Similarly, in
+    Similarmente, em
        {{ Y + Z = 1 }}  X ::= Y + Z  {{ X = 1 }}
-    the same property (being equal to one) gets transferred to
-    [X] from the expression [Y + Z] on the right-hand side of
-    the assignment.
+    a mesma propriedade (sendo igual a um) é transferida para
+    [X] a partir da expressão [Y + Z] no lado direito da
+    atribuição.
 
-    More generally, if [a] is _any_ arithmetic expression, then
+    Mais geralmente, se [a] é _qualquer_ expressão aritmética, então
        {{ a = 1 }}  X ::= a {{ X = 1 }}
-    is a valid Hoare triple. 
+    é uma tripla de Hoare válida.
 
-    This can be made even more general. To conclude that an
-    _arbitrary_ property [Q] holds after [X ::= a], we need to assume
-    that [Q] holds before [X ::= a], but _with all occurrences of_ [X]
-    replaced by [a] in [Q]. This leads to the Hoare rule for
-    assignment
+    Isso pode ser tornado ainda mais geral. Para concluir que uma 
+    propriedade _arbitrária_ [Q] é satisfeita depois de [X :: = a], 
+    temos que assumir que [Q] é satisfeita antes de [X :: = a], porém 
+    _com todas as ocorrências de_ [X] substituídas por [a] em [Q].
+    Isso leva à regra de Hoare para atribuição
       {{ Q [X |-> a] }} X ::= a {{ Q }}
-    where "[Q [X |-> a]]" is pronounced "[Q] where [a] is substituted
-    for [X]".
+    onde "[Q [X |-> a]]" é pronunciado "[Q] onde [a] é substituído
+    por [X]".
 
-    For example, these are valid applications of the assignment
-    rule:
+	Por exemplo, a seguir se encontram aplicações válidas para a regra de atribuição:
       {{ (X <= 5) [X |-> X + 1]
          i.e., X + 1 <= 5 }}  
       X ::= X + 1  
@@ -334,16 +322,16 @@ Proof.
       {{ 0 <= X /\ X <= 5 }}
 *)
 
-(** To formalize the rule, we must first formalize the idea of
-    "substituting an expression for an Imp variable in an assertion."
-    That is, given a proposition [P], a variable [X], and an
-    arithmetic expression [a], we want to derive another proposition
-    [P'] that is just the same as [P] except that, wherever [P]
-    mentions [X], [P'] should instead mention [a].  
+(** Para formalizar a regra, nos devemos primeiramente formalizar 
+    a ideia de "substituir uma expressão por uma variável Imp em uma 
+    asserção." Isso é, dada uma proposição [P], uma variável [X] e uma
+    expressão aritmética [a], nós queremos derivar outra proposição [P']
+    que é o mesmo que [P] exceto que, sempre que [P] menciona [X], [P']
+    deve mencionar [a].
    
-    Since [P] is an arbitrary Coq proposition, we can't directly
-    "edit" its text.  Instead, we can achieve the effect we want by
-    evaluating [P] in an updated state: *)
+    Desde que [P] é uma proposição arbitrária do Coq, nós não podemos 
+    diretamente "editar" seu texto.  Em vez disso, nós podemos alcançar o 
+    efeito que queremos calculando [P] em um estado atualizado: *)
 
 Definition assn_sub X a P : Assertion :=
   fun (st : state) =>
@@ -351,50 +339,47 @@ Definition assn_sub X a P : Assertion :=
 
 Notation "P [ X |-> a ]" := (assn_sub X a P) (at level 10).
 
-(** That is, [P [X |-> a]] is an assertion [P'] that is just like [P]
-    except that, wherever [P] looks up the variable [X] in the current
-    state, [P'] instead uses the value of the expression [a].
+(** Isto é, [P [X |-> a]] é uma asserção [P'] que é apenas como [P]
+    exceto que, sempre que [P] procura a variável [X] no estado atual, [P']
+    ao invés disso usa o valor da expressão [a].
 
-    To see how this works, let's calculate what happens with a couple
-    of examples.  First, suppose [P'] is [(X <= 5) [X |-> 3]] -- that
-    is, more formally, [P'] is the Coq expression
+    Para ver como isso funciona, vamos calcular o que acontece com um par 
+    de exemplos. Primeiro, suponha que [P'] é [(X <= 5) [X |-> 3]] -- ou 
+    seja, mais formalmente, [P'] é a expressão Coq
     fun st => 
       (fun st' => st' X <= 5) 
       (update st X (aeval st (ANum 3))),
-    which simplifies to 
+    que é simplificada para 
     fun st => 
       (fun st' => st' X <= 5) 
       (update st X 3)
-    and further simplifies to
+    e é simplificada mais ainda para
     fun st => 
       ((update st X 3) X) <= 5)
-    and by further simplification to
+    e por uma simplificação maior para 
     fun st => 
       (3 <= 5).
-    That is, [P'] is the assertion that [3] is less than or equal to
-    [5] (as expected).
+    Isto é, [P'] é a asserção de que [3] é inferior ou igual a [5] 
+    (como esperado).
 
-    For a more interesting example, suppose [P'] is [(X <= 5) [X |->
-    X+1]].  Formally, [P'] is the Coq expression
-    fun st => 
-      (fun st' => st' X <= 5) 
-      (update st X (aeval st (APlus (AId X) (ANum 1)))),
-    which simplifies to 
+	Para um exemplo mais interessante, suponha que [P'] é [(X <= 5) [X |-> X+1]]. 
+	Formalmente, [P'] é a expressão Coq fun st => 
+	      (fun st' => st' X <= 5) 
+	      (update st X (aeval st (APlus (AId X) (ANum 1)))),
+	sendo simplificado para
     fun st => 
       (((update st X (aeval st (APlus (AId X) (ANum 1))))) X) <= 5
-    and further simplifies to
+	e simplificado mais ainda para
     fun st => 
       (aeval st (APlus (AId X) (ANum 1))) <= 5.
-    That is, [P'] is the assertion that [X+1] is at most [5].
+	Ou seja, [P'] é a afirmação de que [X+1] é, no máximo, [5]. *)
 
-*)
-
-(** Now we can give the precise proof rule for assignment: 
+(** Agora nós podemos dar a regra de prova precisa para atribuição:
       ------------------------------ (hoare_asgn)
       {{Q [X |-> a]}} X ::= a {{Q}}
 *)
 
-(** We can prove formally that this rule is indeed valid. *)
+(** Nós podemos provar formalmente que essa regra é de fato válida. *)
 
 Theorem hoare_asgn : forall Q X a,
   {{Q [X |-> a]}} (X ::= a) {{Q}}.
@@ -404,7 +389,7 @@ Proof.
   inversion HE. subst.
   unfold assn_sub in HQ. assumption.  Qed.
 
-(** Here's a first formal proof using this rule. *)
+(** Aqui está uma primeira prova formal usando esta regra. *)
 
 Example assn_sub_example :
   {{(fun st => st X = 3) [X |-> ANum 3]}}
@@ -413,7 +398,7 @@ Example assn_sub_example :
 Proof.
   apply hoare_asgn.  Qed.
 
-(** **** Exercise: 2 stars (hoare_asgn_examples)  *)
+(** **** Exercício: nível 2 (hoare_asgn_examples)  *)
 (** Translate these informal Hoare triples...
     1) {{ (X <= 5) [X |-> X + 1] }}
        X ::= X + 1
@@ -425,38 +410,40 @@ Proof.
    ...into formal statements [assn_sub_ex1, assn_sub_ex2] 
    and use [hoare_asgn] to prove them. *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
-(** **** Exercise: 2 stars (hoare_asgn_wrong)  *)
-(** The assignment rule looks backward to almost everyone the first
-    time they see it.  If it still seems backward to you, it may help
-    to think a little about alternative "forward" rules.  Here is a
-    seemingly natural one:
+(** **** Exercício: nível 2 (hoare_asgn_wrong)  *)
+(** A regra de atribuição parece ser de trás para frente para quase todos 
+    que a veem pela primeira vez. Se ela ainda parece ser de trás para 
+    frente para você, pode ser útil pensar um pouco sobre regras 
+    alternativas "de frente para trás". Aqui está uma aparentemente 
+    natural:
       ------------------------------ (hoare_asgn_wrong)
       {{ True }} X ::= a {{ X = a }}
-    Give a counterexample showing that this rule is incorrect
-    (informally). Hint: The rule universally quantifies over the
-    arithmetic expression [a], and your counterexample needs to
-    exhibit an [a] for which the rule doesn't work. *)
+    Dê um contraexemplo mostrando que esta regra é incorreta 
+    (informalmente). Dica: a regra quantifica universalmente 
+    sobre a expressão aritmética [a], e seu contraexemplo 
+    precisa apresentar um [a] para o qual a regra não funciona. *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
-(** **** Exercise: 3 stars, advanced (hoare_asgn_fwd)  *)
-(** However, using an auxiliary variable [m] to remember the original
-    value of [X] we can define a Hoare rule for assignment that does,
-    intuitively, "work forwards" rather than backwards.
+(** **** Exercício: nível 3, avançado (hoare_asgn_fwd)  *)
+(** No entanto, usando uma variável auxiliar [m] para lembrar o valor original de [X], 
+podemos definir uma regra de Hoare para atribuição que faz, intuitivamente, ser de 
+"avançar" no lugar de ir de trás pra frente.
+
   ------------------------------------------ (hoare_asgn_fwd)
   {{fun st => P st /\ st X = m}}
     X ::= a
   {{fun st => P st' /\ st X = aeval st' a }}
-  (where st' = update st X m)
-    Note that we use the original value of [X] to reconstruct the
-    state [st'] before the assignment took place. Prove that this rule
-    is correct (the first hypothesis is the functional extensionality
-    axiom, which you will need at some point). Also note that this
-    rule is more complicated than [hoare_asgn].
+  (onde st' = update st X m)
+    Note que nós usamos o valor original de [X] para reconstruir o
+    estado [st'] antes da atribuição. Prove que essa regra é correta
+    (a primeira hipótese é o axioma extensionalmente funcional, que
+    você vai precisar em determinado momento). Também note que essa
+    regra é mais complicada que [hoare_asgn].
 *)
 
 Theorem hoare_asgn_fwd :
@@ -468,20 +455,22 @@ Theorem hoare_asgn_fwd :
   {{fun st => P (update st X m) /\ st X = aeval (update st X m) a }}.
 Proof.
   intros functional_extensionality m a P.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
+
 (** **** Exercise: 2 stars, advanced (hoare_asgn_fwd_exists)  *)
-(** Another way to define a forward rule for assignment is to
-    existentially quantify over the previous value of the assigned
-    variable.
+(** Outra maneira de definir uma regra avançada para atribuições é
+    quantificar existencialmente sobre o valor anterior da variável
+    atribuida.
+
   ------------------------------------------ (hoare_asgn_fwd_exists)
   {{fun st => P st}}
     X ::= a
   {{fun st => exists m, P (update st X m) /\
                  st X = aeval (update st X m) a }}
 *)
-(* This rule was proposed by Nick Giannarakis and Zoe Paraskevopoulou. *)
+(* Esta regra foi proposta por Nick Giannarakis e Zoe Paraskevopoulou. *)
 
 Theorem hoare_asgn_fwd_exists :
   (forall {X Y: Type} {f g : X -> Y},
@@ -493,37 +482,35 @@ Theorem hoare_asgn_fwd_exists :
                 st X = aeval (update st X m) a }}.
 Proof.
   intros functional_extensionality a P.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
 (* ####################################################### *) 
-(** *** Consequence *)
+(** *** Consequência *)
 
-(** Sometimes the preconditions and postconditions we get from the
-    Hoare rules won't quite be the ones we want in the particular
-    situation at hand -- they may be logically equivalent but have a
-    different syntactic form that fails to unify with the goal we are
-    trying to prove, or they actually may be logically weaker (for
-    preconditions) or stronger (for postconditions) than what we need.
+(** Às vezes, as pré-condições e pós-condições que recebemos das regras 
+    de Hoare não serão exatamente aquelas que nós queremos na situação 
+    particular que temos em mãos -- elas podem ser logicamente 
+    equivalentes, mas ter uma forma sintática diferente que seja 
+    incapaz de unificar com a meta que estamos tentando provar, ou 
+    elas realmente podem ser logicamente mais fracas 
+    (para pré-condições) ou mais fortes (para pós-condições) do que 
+    a que nós precisamos.
 
-    For instance, while
-      {{(X = 3) [X |-> 3]}} X ::= 3 {{X = 3}},
-    follows directly from the assignment rule, 
-      {{True}} X ::= 3 {{X = 3}}.
-    does not.  This triple is valid, but it is not an instance of
-    [hoare_asgn] because [True] and [(X = 3) [X |-> 3]] are not
-    syntactically equal assertions.  However, they are logically
-    equivalent, so if one triple is valid, then the other must
-    certainly be as well.  We might capture this observation with the
-    following rule:
-                {{P'}} c {{Q}}
-                  P <<->> P'
-         -----------------------------   (hoare_consequence_pre_equiv)
-                {{P}} c {{Q}}
-    Taking this line of thought a bit further, we can see that
-    strengthening the precondition or weakening the postcondition of a
-    valid triple always produces another valid triple. This
-    observation is captured by two _Rules of Consequence_.
+	Por exemplo, enquanto {{(X = 3) [X |-> 3]}} X ::= 3 {{X = 3}} decorre diretamente da 
+	regra de atribuição, {{True}} X ::= 3 {{X = 3}} não. Esta tripla é válida, porém não 
+	é uma instância de [hoare_asgn] pois [True] e [(X = 3) [X |-> 3]] não são afirmações 
+	sintaticamente iguais. No entanto, eles são logicamente equivalente, por isso, se uma 
+	tripla é válida, então o outro deve certamente ser também. Poderíamos capturar essa 
+	observação com a seguinte regra:
+	                {{P'}} c {{Q}}
+	                  P <<->> P'
+	         -----------------------------   (hoare_consequence_pre_equiv)
+	                {{P}} c {{Q}}
+    Indo um pouco mais além nessa linha de pensamento, nós podemos
+    ver que fortificar uma pré-condição ou enfraquecer a pós-condição
+    de uma tripla válida sempre produz outra tripla válida. essa 
+    observação é capturada por duas _Regras de Consequência_.
                 {{P'}} c {{Q}}
                    P ->> P'
          -----------------------------   (hoare_consequence_pre)
@@ -535,7 +522,7 @@ Proof.
                 {{P}} c {{Q}}
 *)
 
-(** Here are the formal versions: *)
+(** Seguem as versões formais: *)
 
 Theorem hoare_consequence_pre : forall (P P' Q : Assertion) c,
   {{P'}} c {{Q}} ->
@@ -557,12 +544,12 @@ Proof.
   apply (Hhoare st st'). 
   assumption. assumption. Qed.
 
-(** For example, we might use the first consequence rule like this:
+(** Por exemplo, nós podemos usar a primeira regra da consequência assim:
                 {{ True }} ->>
                 {{ 1 = 1 }} 
     X ::= 1
                 {{ X = 1 }}
-    Or, formally... 
+    Ou, formalmente... 
 *)
 
 Example hoare_asgn_example1 :
@@ -574,9 +561,9 @@ Proof.
   intros st H. unfold assn_sub, update. simpl. reflexivity.
 Qed.
 
-(** Finally, for convenience in some proofs, we can state a "combined"
-    rule of consequence that allows us to vary both the precondition
-    and the postcondition. 
+(** Finalmente, por conveniente em algumas provas, nós podemos declarar uma 
+    regra "combinada" de consequência que nos permite varias ambas as pré-condições e
+    as pós-condições.
                 {{P'}} c {{Q'}}
                    P ->> P'
                    Q' ->> Q
@@ -596,25 +583,23 @@ Proof.
   assumption. assumption. assumption.  Qed.
 
 (* ####################################################### *)
-(** *** Digression: The [eapply] Tactic *)
+(** *** Digressão: a tática [eapply] *)
 
-(** This is a good moment to introduce another convenient feature of
-    Coq.  We had to write "[with (P' := ...)]" explicitly in the proof
-    of [hoare_asgn_example1] and [hoare_consequence] above, to make
-    sure that all of the metavariables in the premises to the
-    [hoare_consequence_pre] rule would be set to specific
-    values.  (Since [P'] doesn't appear in the conclusion of
-    [hoare_consequence_pre], the process of unifying the conclusion
-    with the current goal doesn't constrain [P'] to a specific
-    assertion.)
+(** Este é um bom momento para introduzir um outro recurso conveniente 
+    de Coq. Tivemos que escrever "[with (P' := ...)]" explicitamente 
+    nas provas de [hoare_asgn_example1] e [hoare_consequence] acima, 
+    para nos certificarmos de que todas as metavariáveis nas 
+    premissas da regra [hoare_consequence_pre] receberiam valores 
+    específicos. (Uma vez que [P'] não aparece na conclusão de 
+    [hoare_consequence_pre], o processo de unificar a conclusão 
+    com a meta atual não restringe [P'] a uma asserção específica.
 
-    This is a little annoying, both because the assertion is a bit
-    long and also because for [hoare_asgn_example1] the very next
-    thing we are going to do -- applying the [hoare_asgn] rule -- will
-    tell us exactly what it should be!  We can use [eapply] instead of
-    [apply] to tell Coq, essentially, "Be patient: The missing part is
-    going to be filled in soon." *)
-
+	Isto é um pouco chato pois tanto a asserção é longa demais como o próximo passo a 
+	ser feito com [hoare_asgn_example1] -- a aplicação da regra [hoare_asgn] -- irá nos 
+	dizer exatamente o que deveria ser! Nós podemos usar [eapply] no lugar de 
+	[apply] para dizer ao Coq, essencialmente, "Tenha calma: a parte que está faltando 
+	será preenchida em breve." *)
+	
 Example hoare_asgn_example1' :
   {{fun st => True}} 
   (X ::= (ANum 1)) 
@@ -624,19 +609,19 @@ Proof.
   apply hoare_asgn.
   intros st H.  reflexivity.  Qed.
 
-(** In general, [eapply H] tactic works just like [apply H] except
-    that, instead of failing if unifying the goal with the conclusion
-    of [H] does not determine how to instantiate all of the variables
-    appearing in the premises of [H], [eapply H] will replace these
-    variables with so-called _existential variables_ (written [?nnn])
-    as placeholders for expressions that will be determined (by
-    further unification) later in the proof. *)
+(** Geralmente, a tática [eapply H] funciona como [apply H] exceto que, 
+    ao invés de falhar se unificar a meta com a conclusão de [H] não 
+    determina como instanciar todas as variáveis que aparecem nas 
+    premissas de [H], [eapply H] vai substituir essas variáveis com
+    as chamadas _variáveis existenciais_ (escritas [?nnn]) como espaços
+    reservados para expressões que serão determinados (por uma posterior 
+    unificação) mais tarde na prova. *)
 
-(** In order for [Qed] to succeed, all existential variables need to
-    be determined by the end of the proof. Otherwise Coq
-    will (rightly) refuse to accept the proof. Remember that the Coq
-    tactics build proof objects, and proof objects containing
-    existential variables are not complete. *)
+(** A fim de que [Qed] suceda, toda variáveis existênciais precisam
+    ser determinadas até o fim da prova. Caso contrário Coq
+    irá (com razão) recusar aceitar a prova. Se lembre que as táticas do Coq
+    constroem objetos de prova, e objetos de prova contendo variáveis
+    existênciais não são completos. *)
 
 Lemma silly1 : forall (P : nat -> nat -> Prop) (Q : nat -> Prop),
   (forall x y : nat, P x y) ->
@@ -645,8 +630,8 @@ Lemma silly1 : forall (P : nat -> nat -> Prop) (Q : nat -> Prop),
 Proof.
   intros P Q HP HQ. eapply HQ. apply HP.
 
-(** Coq gives a warning after [apply HP]:
-     No more subgoals but non-instantiated existential variables:
+(**  Coq dar um alerta depois de [apply HP]:
+     Sem mais submetas mas variáveis existencial não-instanciados.
      Existential 1 =
      ?171 : [P : nat -> nat -> Prop
              Q : nat -> Prop
@@ -655,18 +640,17 @@ Proof.
   
      (dependent evars: ?171 open,)
 
-     You can use Grab Existential Variables.
-   Trying to finish the proof with [Qed] gives an error:
+     Você pode usar Grab Existential Variables.
+   Tentar terminar a prova com [Qed] da um erro:
 <<
-    Error: Attempt to save a proof with existential variables still
-    non-instantiated
+    Erro: Tentativa de salvar uma prova com variáveis existenciais ainda não instanciado.
 >> *)
 
 Abort.
 
-(** An additional constraint is that existential variables cannot be
-    instantiated with terms containing (ordinary) variables that did
-    not exist at the time the existential variable was created. *)
+(** Uma restrição adicional é que as variáveis existenciais não podem ser 
+    instanciadas com termos contendo variáveis (ordinárias) que não 
+    existiam no momento em que a variável existencial foi criada. *)
 
 Lemma silly2 :
   forall (P : nat -> nat -> Prop) (Q : nat -> Prop),
@@ -675,12 +659,11 @@ Lemma silly2 :
   Q 42.
 Proof.
   intros P Q HP HQ. eapply HQ. destruct HP as [y HP'].
-(** Doing [apply HP'] above fails with the following error:
+(** A execução de [apply HP'] acima falha com o seguinte erro: 
      Error: Impossible to unify "?175" with "y".
-    In this case there is an easy fix:
-    doing [destruct HP] _before_ doing [eapply HQ].
-*)
-
+	Existe um concerto fácil para este caso:
+	executar [destruct HP] _antes_ de [eapply HQ].
+*)	
 Abort.
 
 Lemma silly2_fixed :
@@ -693,13 +676,13 @@ Proof.
   eapply HQ. apply HP'.
 Qed.
 
-(** In the last step we did [apply HP'] which unifies the existential
-    variable in the goal with the variable [y]. The [assumption]
-    tactic doesn't work in this case, since it cannot handle
-    existential variables. However, Coq also provides an [eassumption]
-    tactic that solves the goal if one of the premises matches the
-    goal up to instantiations of existential variables. We can use
-    it instead of [apply HP']. *)
+(** No último passo nós fizemos [apply HP'] o qual unifica a variável
+    existencial na meta com a variável [y]. A tática [assumption] não 
+    funciona nesse caso, devido ao fato de ela não poder lidar com 
+    variáveis existenciais. Contudo, Coq também fornece uma tática
+    [eassumption] que resolve a meta se uma das premissas corresponde
+    à meta até instâncias de variáveis existenciais. Nós podemos usar
+    isso ao invés de [apply HP']. *)
 
 Lemma silly2_eassumption : forall (P : nat -> nat -> Prop) (Q : nat -> Prop),
   (exists y, P 42 y) ->
@@ -711,21 +694,21 @@ Qed.
 
     
 
-(** **** Exercise: 2 stars (hoare_asgn_examples_2)  *)
-(** Translate these informal Hoare triples...
+(** **** Exercício: nível 2 (hoare_asgn_examples_2)  *)
+(** Traduzir as triplas de Hoare informais...
        {{ X + 1 <= 5 }}  X ::= X + 1  {{ X <= 5 }}
        {{ 0 <= 3 /\ 3 <= 5 }}  X ::= 3  {{ 0 <= X /\ X <= 5 }}
-   ...into formal statements [assn_sub_ex1', assn_sub_ex2'] and 
-   use [hoare_asgn] and [hoare_consequence_pre] to prove them. *)
+   ...em afirmações formais [assn_sub_ex1', assn_sub_ex2'] e 
+   usar [hoare_asgn] e [hoare_consequence_pre] para prova-las. *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
 (* ####################################################### *)
 (** *** Skip *)
 
-(** Since [SKIP] doesn't change the state, it preserves any
-    property P:
+(** Uma vez que [SKIP] não muda o estado, ele preserva qualquer
+    propriedade P:
       --------------------  (hoare_skip)
       {{ P }} SKIP {{ P }}
 *)
@@ -737,13 +720,14 @@ Proof.
   assumption.  Qed.
 
 (* ####################################################### *) 
-(** *** Sequencing *)
+(** *** Sequenciamento *)
 
-(** More interestingly, if the command [c1] takes any state where
-    [P] holds to a state where [Q] holds, and if [c2] takes any
-    state where [Q] holds to one where [R] holds, then doing [c1]
-    followed by [c2] will take any state where [P] holds to one
-    where [R] holds:
+(** De maneira mais interessante, se o comando [c1] leva qualquer 
+    estado onde [P] é satisfeita a um estado onde [Q] é satisfeita, 
+    e se [c2] leva qualquer estado onde [Q] é satisfeita a um onde 
+    [R] é satisfeita, então fazendo [c1] seguido de [c2] levará 
+    qualquer estado onde [P] é satisfeita a um onde [R] é 
+    satisfeita:
         {{ P }} c1 {{ Q }} 
         {{ Q }} c2 {{ R }}
        ---------------------  (hoare_seq)
@@ -760,20 +744,19 @@ Proof.
   apply (H1 st'0 st'); try assumption.
   apply (H2 st st'0); assumption. Qed.
 
-(** Note that, in the formal rule [hoare_seq], the premises are
-    given in "backwards" order ([c2] before [c1]).  This matches the
-    natural flow of information in many of the situations where we'll
-    use the rule: the natural way to construct a Hoare-logic proof is
-    to begin at the end of the program (with the final postcondition)
-    and push postconditions backwards through commands until we reach
-    the beginning. *)
+(** Perceba que, na regra formal [hoare_seq], as premisas são dadas numa ordem contrária 
+([c2] before [c1]). Isto combina com o fluxo natural de informações em muitas situações 
+na qual usamos a regra: o caminho natural para construir uma prova na lógica de Hoare é 
+começar no fim do programa (com uma pós-condição final) e empurrar as pós-condições de 
+volta até chegar em seu início. *)
 
-(** Informally, a nice way of recording a proof using the sequencing
-    rule is as a "decorated program" where the intermediate assertion
-    [Q] is written between [c1] and [c2]:
+(** Informalmente, um modo legal de gravar uma prova usando a regra de 
+    sequência é como um "programa decorado" onde a asserção intermediária
+    [Q] é escrita entre [c1] e [c2;]
+
       {{ a = n }}
     X ::= a;;
-      {{ X = n }}      <---- decoration for Q
+      {{ X = n }}      <---- decoração para Q
     SKIP
       {{ X = n }}
 *)
@@ -790,12 +773,12 @@ Proof.
     eapply hoare_consequence_pre. apply hoare_asgn. 
     intros st H. subst. reflexivity. Qed.
 
-(** You will most often use [hoare_seq] and
-    [hoare_consequence_pre] in conjunction with the [eapply] tactic,
-    as done above. *)
+(** Vamos frequentemente utilizar [hoare_seq] e
+    [hoare_consequence_pre] em combinação com a tática [eapply],
+    como feito acima. *)
 
-(** **** Exercise: 2 stars (hoare_asgn_example4)  *)
-(** Translate this "decorated program" into a formal proof:
+(** **** Exercício: nível 2 (hoare_asgn_example4)  *)
+(** Traduza este "programa decorado" para uma prova formal:
                    {{ True }} ->>
                    {{ 1 = 1 }}
     X ::= 1;;
@@ -809,67 +792,67 @@ Example hoare_asgn_example4 :
   {{fun st => True}} (X ::= (ANum 1);; Y ::= (ANum 2)) 
   {{fun st => st X = 1 /\ st Y = 2}}.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 3 stars (swap_exercise)  *)
-(** Write an Imp program [c] that swaps the values of [X] and [Y]
-    and show (in Coq) that it satisfies the following
-    specification:
+(** **** Exercício: nível 3 (swap_exercise)  *)
+(** Escrever um programa Imp [c] que troca os valores de [X] e [Y] 
+    e mostrar (em Coq) que ele satisfaz a seguinte 
+    especificação:
       {{X <= Y}} c {{Y <= X}}
 *)
 
 Definition swap_program : com :=
-  (* FILL IN HERE *) admit.
+  (* PREENCHER *) admit.
 
 Theorem swap_exercise :
   {{fun st => st X <= st Y}} 
   swap_program
   {{fun st => st Y <= st X}}.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 (** [] *)
 
-(** **** Exercise: 3 stars (hoarestate1)  *)
-(** Explain why the following proposition can't be proven:
+(** **** Exercício: nível 3 (hoarestate1)  *)
+(** Explique por que a seguinte proposição não pode ser provada:
       forall (a : aexp) (n : nat),
          {{fun st => aeval st a = n}}
          (X ::= (ANum 3);; Y ::= a)
          {{fun st => st Y = n}}.
 *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 (** [] *)
 
 (* ####################################################### *) 
-(** *** Conditionals *)
+(** *** Condicionais *)
 
-(** What sort of rule do we want for reasoning about conditional
-    commands?  Certainly, if the same assertion [Q] holds after
-    executing either branch, then it holds after the whole
-    conditional.  So we might be tempted to write:
+(** Que ordenação de regra nós queremos para raciocinar a respeito
+    de comandos condicionais? Certamente, se a mesma asserção [Q]
+    se mantém depois de executar cada branch, então ela se mantém
+    depois de toda a condicional. Então nós devemos ser tentados a 
+    escrever:
               {{P}} c1 {{Q}}
               {{P}} c2 {{Q}}
       --------------------------------
       {{P}} IFB b THEN c1 ELSE c2 {{Q}}
-   However, this is rather weak. For example, using this rule,
-   we cannot show that:
+   Contudo, isso é muito fraco. Por exemplo, usando essa regra,
+   nós não podemos mostrar que:
      {{ True }} 
      IFB X == 0
      THEN Y ::= 2
      ELSE Y ::= X + 1 
      FI
      {{ X <= Y }}
-   since the rule tells us nothing about the state in which the
-   assignments take place in the "then" and "else" branches. *)
+   uma vez que a regra não diz nada sobre o estado em que as atribuições
+   tomam lugar nos ramos "then" e "else". *)
    
-(** But we can actually say something more precise.  In the
-   "then" branch, we know that the boolean expression [b] evaluates to
-   [true], and in the "else" branch, we know it evaluates to [false].
-   Making this information available in the premises of the rule gives
-   us more information to work with when reasoning about the behavior
-   of [c1] and [c2] (i.e., the reasons why they establish the
-   postcondition [Q]). *)
+(** Mas nós podemos realmente dizer algo mais preciso. No ramo
+    "then", nós sabemos que a expressão booleana [b] avalia para [verdadeiro],
+    e no ramo "else", nós sabemos que ele avalia para o [falso].
+    Fazendo esta informação disponívelna premissa da regra nos da mais informações
+    para trabalhar com ele quando racioncinamos sobre o comportamento de [c1] e [c2]
+    (ex., as razões do por que que eles estabelecem a pós-condição [Q]).*)
 (**
               {{P /\  b}} c1 {{Q}}
               {{P /\ ~b}} c2 {{Q}}
@@ -877,18 +860,18 @@ Proof.
       {{P}} IFB b THEN c1 ELSE c2 FI {{Q}} 
 *)
 
-(** To interpret this rule formally, we need to do a little work.
-    Strictly speaking, the assertion we've written, [P /\ b], is the
-    conjunction of an assertion and a boolean expression -- i.e., it
-    doesn't typecheck.  To fix this, we need a way of formally
-    "lifting" any bexp [b] to an assertion.  We'll write [bassn b] for
-    the assertion "the boolean expression [b] evaluates to [true] (in
-    the given state)." *)
+(** Para interpretar essa regra formalmente, precisamos trabalhar um 
+    pouco. A rigor, a asserção que nós escrevemos, [P /\ b], é a 
+    conjunção de uma asserção com uma expressão booleana -- ou seja, 
+    ela não faz checagem de tipo.  Para corrigir isso, precisamos de 
+    uma maneira de formalmente "erguer" qualquer bexp [b] para 
+    uma asserção. Vamos escrever [bassn b] para a asserção "a 
+    expressão booleana [b] é avaliada para [true] (no estado dado)." *)
 
 Definition bassn b : Assertion :=
   fun st => (beval st b = true).
 
-(** A couple of useful facts about [bassn]: *)
+(** Alguns fatos úteis acerca de [bassn] são: *)
 
 Lemma bexp_eval_true : forall b st,
   beval st b = true -> (bassn b) st.
@@ -903,8 +886,8 @@ Proof.
   unfold bassn in contra.
   rewrite -> contra in Hbe. inversion Hbe.  Qed.
 
-(** Now we can formalize the Hoare proof rule for conditionals
-    and prove it correct. *)
+(** Agora podemos formalizar a regra de prova Hoare para condicionais e prová-lo que está 
+correto. *)
 
 Theorem hoare_if : forall P Q b c1 c2,
   {{fun st => P st /\ bassn b st}} c1 {{Q}} ->
@@ -927,28 +910,29 @@ Proof.
 
 (* ####################################################### *) 
 
-(** * Hoare Logic: So Far *)
+(** * Lógica de Hoare: até agora *)
 
 (** 
-Idea: create a _domain specific logic_ for reasoning about properties of Imp programs.
+Ideia: crie uma _lógica de domínio específico_ para raciocinar 
+a respeito de propriedades de programas Imp.
 
-- This hides the low-level details of the semantics of the program
-- Leads to a compositional reasoning process
+- Isso esconde os detalhes de baixo nível da semântica do programa
+- Leva a um processo de raciocínio composicional
 
 
-The basic structure is given by _Hoare triples_ of the form:
+A estrutura básica é dada pela _Tripla de Hoare_ na forma:
   {{P}} c {{Q}}
 ]] 
 
-- [P] and [Q] are predicates about the state of the Imp program
-- "If command [c] is started in a state satisfying assertion
-        [P], and if [c] eventually terminates in some final state,
-        then this final state will satisfy the assertion [Q]."
+- [P] e [Q] são predicados sobre o estado do programa Imp
+- "Se o comando [c] é iniciado em um estado satisfazendo a afirmação
+        [P], e se [c] eventualmente termina em algum estado final,
+        então esse estado final satisfará a afirmação [Q]."
 
 *)
 
 
-(** ** Hoare Logic Rules (so far) *)
+(** ** Regras da lógica de Hoare (parcial) *)
 
 (**
              ------------------------------ (hoare_asgn)
@@ -976,9 +960,9 @@ The basic structure is given by _Hoare triples_ of the form:
 *)
 
 
-(** *** Example *)
-(** Here is a formal proof that the program we used to motivate the
-    rule satisfies the specification we gave. *)
+(** *** Exemplo *)
+(** Aqui esta uma prova formal que o programa que nós
+    usamos para motivar as regras satisfaz a especificação que nós demos. *)
 
 Example if_example : 
     {{fun st => True}} 
@@ -1002,8 +986,8 @@ Proof.
     simpl; intros st _. omega.
 Qed.
 
-(** **** Exercise: 2 stars (if_minus_plus)  *)
-(** Prove the following hoare triple using [hoare_if]: *)
+(** **** Exercício: nível 2 (if_minus_plus)  *)
+(** Provar a seguinte tripla de Hoare usando [hoare_if]: *)
 
 Theorem if_minus_plus :
   {{fun st => True}}
@@ -1013,27 +997,25 @@ Theorem if_minus_plus :
   FI
   {{fun st => st Y = st X + st Z}}. 
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 
 (* ####################################################### *)
-(** *** Exercise: One-sided conditionals *)
+(** *** Exercício: Condicionais de ramificação única *)
 
-(** **** Exercise: 4 stars (if1_hoare)  *)
+(** **** Exercício: nível 4 (if1_hoare)  *)
 
-(** In this exercise we consider extending Imp with "one-sided
-    conditionals" of the form [IF1 b THEN c FI]. Here [b] is a
-    boolean expression, and [c] is a command. If [b] evaluates to
-    [true], then command [c] is evaluated. If [b] evaluates to
-    [false], then [IF1 b THEN c FI] does nothing.
+(** Neste exercício iremos estender Imp com "condicionais unilaterais" com a forma     
+[IF1 b THEN c FI]. Aqui, [b] é uma expressão booleana e [c] um comando. Se [b] for 
+avaliada como [true], então o comando [c] é avaliado. Se [b] for avaliada como [false], 
+então [IF1 b THEN c FI] não faz nada.  
 
-    We recommend that you do this exercise before the ones that
-    follow, as it should help solidify your understanding of the
-    material. *)
+    Nós recomendamos que você faça esse exercício antes dos que seguem,
+    pois ele deve ajudar a solidificar seu entendimento do material. *)
 
 
-(** The first step is to extend the syntax of commands and introduce
-    the usual notations.  (We've done this for you.  We use a separate
-    module to prevent polluting the global name space.) *)
+(** O primeiro passo é extender a sintaxe de comandos e introduzir
+    as notações usuais.  (Já fizemos isso para você.  Nós usamos um módulo
+    separado para previnir poluir o contexto para identificadores global.) *)
 
 Module If1.
 
@@ -1063,9 +1045,9 @@ Notation "'IFB' e1 'THEN' e2 'ELSE' e3 'FI'" :=
 Notation "'IF1' b 'THEN' c 'FI'" := 
   (CIf1 b c) (at level 80, right associativity).
 
-(** Next we need to extend the evaluation relation to accommodate
-    [IF1] branches.  This is for you to do... What rule(s) need to be
-    added to [ceval] to evaluate one-sided conditionals? *)
+(** Em seguida, precisamos estender a relação de avaliação para acomodar 
+    os ramos de [IF1].  Isso é para você fazer... Que regra(s) precisam 
+    ser adicionadas a [Ceval] para avaliar condicionais unilaterais? *)
 
 Reserved Notation "c1 '/' st '||' st'" (at level 40, st at level 39).
 
@@ -1088,7 +1070,7 @@ Inductive ceval : com -> state -> state -> Prop :=
                   c1 / st || st' ->
                   (WHILE b1 DO c1 END) / st' || st'' ->
                   (WHILE b1 DO c1 END) / st || st''
-(* FILL IN HERE *)
+(* PREENCHER *)
 
   where "c1 '/' st '||' st'" := (ceval c1 st st').
 
@@ -1097,10 +1079,10 @@ Tactic Notation "ceval_cases" tactic(first) ident(c) :=
   [ Case_aux c "E_Skip" | Case_aux c "E_Ass" | Case_aux c "E_Seq"
   | Case_aux c "E_IfTrue" | Case_aux c "E_IfFalse"
   | Case_aux c "E_WhileEnd" | Case_aux c "E_WhileLoop"
-  (* FILL IN HERE *)
+  (* PREENCHER *)
   ].
 
-(** Now we repeat (verbatim) the definition and notation of Hoare triples. *)
+(** Agora iremos repetir (literalmente) a definição e notação das triplas de Hoare. *)
 
 Definition hoare_triple (P:Assertion) (c:com) (Q:Assertion) : Prop :=
   forall st st', 
@@ -1112,15 +1094,15 @@ Notation "{{ P }}  c  {{ Q }}" := (hoare_triple P c Q)
                                   (at level 90, c at next level) 
                                   : hoare_spec_scope.
 
-(** Finally, we (i.e., you) need to state and prove a theorem,
-    [hoare_if1], that expresses an appropriate Hoare logic proof rule
-    for one-sided conditionals. Try to come up with a rule that is
-    both sound and as precise as possible. *)
+(** Finalmente, nós (isto é, você) precisa declarar e provar um teorema
+    [hoare_if1], que expressa uma regra de prova de lógica de Hoare 
+    apropriada para condicionais unilaterais. Tente criar uma regra que
+    é sólida e tão precisa como for possível. *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 
-(** For full credit, prove formally [hoare_if1_good] that your rule is 
-    precise enough to show the following valid Hoare triple:
+(** Para um crédito total, provar formalmente que sua regra é 
+    precisa o suficiente para mostra a seguinte tripla de Hoare [hoare_if1_good]:
   {{ X + Y = Z }}
   IF1 Y <> 0 THEN
     X ::= X + Y
@@ -1128,9 +1110,9 @@ Notation "{{ P }}  c  {{ Q }}" := (hoare_triple P c Q)
   {{ X = Z }}
 *)
 
-(** Hint: Your proof of this triple may need to use the other proof
-    rules also. Because we're working in a separate module, you'll
-    need to copy here the rules you find necessary. *)
+(** Dica: Sua prova desta tripla pode precisar usar outra 
+    regra de prova também. Por nós estarmos trabalhando em um módulo separado,
+    você irá precisar compiar aqui as regras que você achar necessário. *)
 
 
 Lemma hoare_if1_good :
@@ -1139,54 +1121,53 @@ Lemma hoare_if1_good :
     X ::= APlus (AId X) (AId Y)
   FI
   {{ fun st => st X = st Z }}.
-Proof. (* FILL IN HERE *) Admitted.
+Proof. (* PREENCHER *) Admitted.
 
 End If1.
 (** [] *)
 
 (* ####################################################### *)
-(** *** Loops *)
+(** *** Laços *)
 
-(** Finally, we need a rule for reasoning about while loops. *)
+(** Finalmente, precisamos de uma regra para o raciocínio sobre laços while. *)
 
-(** Suppose we have a loop
+(** Suponha que nós temos um laço 
       WHILE b DO c END
-    and we want to find a pre-condition [P] and a post-condition
-    [Q] such that
+    e nós queremos encontrar uma pré-condição [P] e uma pós-condição
+    [Q] tal que
       {{P}} WHILE b DO c END {{Q}} 
-    is a valid triple. *)
+    é uma tripla válida. *)
 
 (** *** *)
 
-(** First of all, let's think about the case where [b] is false at the
-    beginning -- i.e., let's assume that the loop body never executes
-    at all.  In this case, the loop behaves like [SKIP], so we might
-    be tempted to write: *)
+(** Primeiro de tudo, vamos pensar a respeito do caso onde [b] é falso no
+    começo -- isto é, vamos assumir que o corpo do loop nunca executa 
+    ompletamente. Nesse caso, o loop se comporta como [SKIP], então nós 
+    devemos ser tentados a escrever: *)
 
 (**
       {{P}} WHILE b DO c END {{P}}.
 *)
 
 (** 
-    But, as we remarked above for the conditional, we know a
-    little more at the end -- not just [P], but also the fact
-    that [b] is false in the current state.  So we can enrich the
-    postcondition a little:
+    Mas, como observamos acima para a condicional, sabemos um
+    pouco mais ao final -- não somente [P], mas também o fato que
+    [b] é falso em um estado atual.  Então podemos enriquecer um
+    pouco a pós-condição:
 *)
 (** 
       {{P}} WHILE b DO c END {{P /\ ~b}}
 *)
 
 (** 
-    What about the case where the loop body _does_ get executed?
-    In order to ensure that [P] holds when the loop finally
-    exits, we certainly need to make sure that the command [c]
-    guarantees that [P] holds whenever [c] is finished.
-    Moreover, since [P] holds at the beginning of the first
-    execution of [c], and since each execution of [c]
-    re-establishes [P] when it finishes, we can always assume
-    that [P] holds at the beginning of [c].  This leads us to the
-    following rule:
+    E sobre o caso onde o corpo do laço _does_ é executado?
+    Para garantir que [P] satisfaz quando o laço finalmente sai, nós certamente
+    precisamos ter certeza que o comando [c] garante que [P] satisfaz a qualquer
+    momento que [c] termina.
+    Além disse, desde que [P] satisfaça no começo da primeira execução de [c],
+    e uma vez que cada execução de [c] reestabelece [P] quando ele termina, nós
+    sempre assumimos que [P] satisfaz o inicio de [c]. Isso nos leva para a seguinte
+    regra:
 *)
 (** 
                    {{P}} c {{P}}
@@ -1194,18 +1175,19 @@ End If1.
         {{P}} WHILE b DO c END {{P /\ ~b}}
 *)
 (** 
-    This is almost the rule we want, but again it can be improved a
-    little: at the beginning of the loop body, we know not only that
-    [P] holds, but also that the guard [b] is true in the current
-    state.  This gives us a little more information to use in
-    reasoning about [c] (showing that it establishes the invariant by
-    the time it finishes).  This gives us the final version of the rule:
+    Isso é quase a regra que queremos, mas novamente ela pode ser 
+    melhorada um pouco: no começo do corpo do laço, sabemos não 
+    apenas que [P] é satisfeita, mas também que a guarda [b] é 
+    verdadeira no estado atual.  Isso nos dá um pouco mais de 
+    informações para usar no raciocínio sobre [c] (mostrando 
+    que estabelece o invariante no momento em que termina).  
+    Isso nos dá a versão final da regra:
 *)
 (**
                {{P /\ b}} c {{P}}
         -----------------------------------  (hoare_while)
         {{P}} WHILE b DO c END {{P /\ ~b}}
-    The proposition [P] is called an _invariant_ of the loop.
+    A proposição [P] é chamada o _invariante_ do laço.
 *)
 
 Lemma hoare_while : forall P b c,
@@ -1213,9 +1195,9 @@ Lemma hoare_while : forall P b c,
   {{P}} WHILE b DO c END {{fun st => P st /\ ~ (bassn b st)}}.
 Proof.
   intros P b c Hhoare st st' He HP.
-  (* Like we've seen before, we need to reason by induction 
-     on [He], because, in the "keep looping" case, its hypotheses 
-     talk about the whole loop instead of just [c]. *)
+  (* Como nós vimos anteriormente, nós precisamos raciocinar por
+     indução com [He] pois, no caso de repetir o laço, as hipóteses 
+     associadas tratam do laço completo ao invés de somente [c]. *)
   remember (WHILE b DO c END) as wcom eqn:Heqwcom.
   ceval_cases (induction He) Case;
     try (inversion Heqwcom); subst; clear Heqwcom.
@@ -1228,19 +1210,17 @@ Proof.
 Qed.
 
 (**
-    One subtlety in the terminology is that calling some assertion [P]
-    a "loop invariant" doesn't just mean that it is preserved by the
-    body of the loop in question (i.e., [{{P}} c {{P}}], where [c] is
-    the loop body), but rather that [P] _together with the fact that
-    the loop's guard is true_ is a sufficient precondition for [c] to
-    ensure [P] as a postcondition.
+	Uma sutileza na terminologia é que chamar uma asserção [P] de "invariante de laço" 
+	(loop invariant) não significa apenas que ele é preservado pelo corpo do laço em 
+	questão (ou seja, [{{P}} c {{P}}], no qual [c] é o corpo do laço), mas sim que [P] 
+	_junto com o fato de que a guarda do laço é verdadeira_ é uma pré-condição suficiente 
+	de [c] para assegurar [P] como uma pós-condição.
 
-    This is a slightly (but significantly) weaker requirement.  For
-    example, if [P] is the assertion [X = 0], then [P] _is_ an
-    invariant of the loop
+    Isso é uma exigência levemente (mas significantemente) mais fraca.
+    Por exemplo, se [P] é a asserção [X = 0], então [P] _é_ uma invariante 
+    do loop
     WHILE X = 2 DO X := 1 END
-    although it is clearly _not_ preserved by the body of the
-    loop.
+    embora isso seja claramente _não_ preservado pelo corpo do loop.
 *)
 
 
@@ -1271,8 +1251,8 @@ Qed.
 
 
 (** *** *)
-(** We can use the while rule to prove the following Hoare triple,
-    which may seem surprising at first... *)
+(** Nós podemos utilizar a regra _while_ para provar a seguinte tripla
+    de Hoare, que pode ser surpreendente ao início... *)
 
 Theorem always_loop_hoare : forall P Q,
   {{P}} WHILE BTrue DO SKIP END {{Q}}.
@@ -1290,28 +1270,26 @@ Proof.
   Case "Precondition implies invariant".
     intros st H. constructor.  Qed.
 
-(** Of course, this result is not surprising if we remember that
-    the definition of [hoare_triple] asserts that the postcondition
-    must hold _only_ when the command terminates.  If the command
-    doesn't terminate, we can prove anything we like about the
-    post-condition. *)
+(** Claro, esse resultado não é surpresa se nós lembrarmos que
+    a definição de [hoare_triple] asserta que a pós-condição deve satisfazer
+    _apenas_ quando o comando terminar. Se o comando não terminar, nós podemos
+    provar qualquer coisa que nós quisermos sobre a pós-condição. *)
 
-(** Hoare rules that only talk about terminating commands are
-    often said to describe a logic of "partial" correctness.  It is
-    also possible to give Hoare rules for "total" correctness, which
-    build in the fact that the commands terminate. However, in this
-    course we will only talk about partial correctness. *)
+(** Regras de Hoare que só falam sobre comandos que são encerrados 
+    são muitas vezes ditos descreverem a lógica de correção 
+    "parcial". É possível também fornecer regras de Hoare para correção 
+    "total", que se aproveita do fato de que os comandos terminam. 
+    No entanto, neste curso vamos falar apenas sobre correção parcial. *)
 
 (* ####################################################### *)
-(** *** Exercise: [REPEAT] *)
+(** *** Exercício: [REPEAT] *)
 
 Module RepeatExercise.
 
-(** **** Exercise: 4 stars, advanced (hoare_repeat)  *)
-(** In this exercise, we'll add a new command to our language of
-    commands: [REPEAT] c [UNTIL] a [END]. You will write the
-    evaluation rule for [repeat] and add a new Hoare rule to
-    the language for programs involving it. *)
+(** **** Exercício: nível 4, avançado (hoare_repeat)  *)
+(** Neste exercício iremos adicionar um novo comando para a nossa linguagem de comandos: 
+[REPEAT] c [UNTIL] a [END]. Você irá escrever a regra de avaliação para [repeat] e 
+adicionar uma nova regra de Hoare para este comando. *)
 
 Inductive com : Type :=
   | CSkip : com
@@ -1321,10 +1299,10 @@ Inductive com : Type :=
   | CWhile : bexp -> com -> com
   | CRepeat : com -> bexp -> com.
 
-(** [REPEAT] behaves like [WHILE], except that the loop guard is
-    checked _after_ each execution of the body, with the loop
-    repeating as long as the guard stays _false_.  Because of this,
-    the body will always execute at least once. *)
+(** [REPEAT] se comporta como [WHILE], exceto que a guarda do loop é
+    checada _depois_ de cada execução do corpo, com o loop repetindo 
+    tão longo quanto a guarda permaneça _falsa_. Por causa disso, o
+    corpo vai sempre executar pelo menos uma vez. *)
 
 Tactic Notation "com_cases" tactic(first) ident(c) :=
   first;
@@ -1345,11 +1323,11 @@ Notation "'IFB' e1 'THEN' e2 'ELSE' e3 'FI'" :=
 Notation "'REPEAT' e1 'UNTIL' b2 'END'" := 
   (CRepeat e1 b2) (at level 80, right associativity).
 
-(** Add new rules for [REPEAT] to [ceval] below.  You can use the rules
-    for [WHILE] as a guide, but remember that the body of a [REPEAT]
-    should always execute at least once, and that the loop ends when
-    the guard becomes true.  Then update the [ceval_cases] tactic to
-    handle these added cases.  *)
+(** [Diego]Adicionar novas regras para [REPEAT] no [ceval] abaixo.  Você pode 
+    usar as regras para [WHILE] como guia, mas lembrar que o corpo de um 
+    [REPEAT] sempre deve ser executado ao menos uma vez, e que o loop termina
+    quando a guarda se torna verdadeira.  Então atualizar a tática [ceval_cases]
+    para lidar com os casos adicionados.  *)
 
 Inductive ceval : state -> com -> state -> Prop :=
   | E_Skip : forall st,
@@ -1377,7 +1355,7 @@ Inductive ceval : state -> com -> state -> Prop :=
       ceval st c1 st' ->
       ceval st' (WHILE b1 DO c1 END) st'' ->
       ceval st (WHILE b1 DO c1 END) st''
-(* FILL IN HERE *)
+(* PREENCHER *)
 .
 
 Tactic Notation "ceval_cases" tactic(first) ident(c) :=
@@ -1386,11 +1364,10 @@ Tactic Notation "ceval_cases" tactic(first) ident(c) :=
   | Case_aux c "E_Seq"
   | Case_aux c "E_IfTrue" | Case_aux c "E_IfFalse"
   | Case_aux c "E_WhileEnd" | Case_aux c "E_WhileLoop" 
-(* FILL IN HERE *)
+(* PREENCHER *)
 ].
 
-(** A couple of definitions from above, copied here so they use the
-    new [ceval]. *)
+(** As duas definições acima, copiadas aqui usam o novo [ceval]. *)
 
 Notation "c1 '/' st '||' st'" := (ceval st c1 st') 
                                  (at level 40, st at level 39).
@@ -1402,8 +1379,8 @@ Definition hoare_triple (P:Assertion) (c:com) (Q:Assertion)
 Notation "{{ P }}  c  {{ Q }}" :=
   (hoare_triple P c Q) (at level 90, c at next level).
 
-(** To make sure you've got the evaluation rules for [REPEAT] right,
-    prove that [ex1_repeat evaluates correctly. *)
+(** Para se certificar de que você tem as regras de avaliação corretas para 
+    [REPEAT], provar que [ex1_repeat] avalia corretamente. *)
 
 Definition ex1_repeat :=
   REPEAT
@@ -1415,16 +1392,16 @@ Theorem ex1_repeat_works :
   ex1_repeat / empty_state ||
                update (update empty_state X 1) Y 1.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 
-(** Now state and prove a theorem, [hoare_repeat], that expresses an
-    appropriate proof rule for [repeat] commands.  Use [hoare_while]
-    as a model, and try to make your rule as precise as possible. *)
+(** Agora declare e prove um teorema, [hoare_repeat], que expresse uma regra de prova 
+apropriada para comandos [repeat]. Use [hoare_while] como um modelo, criando sua 
+regra de modo mais preciso possível. *)
 
-(* FILL IN HERE *)
+(* PREENCHER *)
 
-(** For full credit, make sure (informally) that your rule can be used
-    to prove the following valid Hoare triple:
+(** Para o crédito total, tenha certeza (informalmente) que sua regra pode 
+    ser usada para provar a seguinte tripla de Hoare válida:
   {{ X > 0 }}
   REPEAT
     Y ::= X;;
@@ -1438,14 +1415,14 @@ End RepeatExercise.
 (** [] *)
 
 (* ####################################################### *)
-(** ** Exercise: [HAVOC] *)
+(** ** Exercício: [HAVOC] *)
 
-(** **** Exercise: 3 stars (himp_hoare)  *)
+(** **** Exercício: nível 3 (himp_hoare)  *)
 
-(** In this exercise, we will derive proof rules for the [HAVOC] command
-    which we studied in the last chapter. First, we enclose this work
-    in a separate module, and recall the syntax and big-step semantics
-    of Himp commands. *)
+(** Nesse exercício, vamos derivar regras de prova para o comando 
+    [HAVOC] que foi estudado no capítulo anterior. Primeiramente, vamos 
+    enclausurar esse trabalho em um módulo separado, e relembrar a sintaxe e
+    a semântica big-step dos comandos Himp. *)
 
 Module Himp.
 
@@ -1507,11 +1484,10 @@ Tactic Notation "ceval_cases" tactic(first) ident(c) :=
   | Case_aux c "E_WhileEnd" | Case_aux c "E_WhileLoop"
   | Case_aux c "E_Havoc" ].
 
-(** The definition of Hoare triples is exactly as before. Unlike our
-    notion of program equivalence, which had subtle consequences with
-    occassionally nonterminating commands (exercise [havoc_diverge]),
-    this definition is still fully satisfactory. Convince yourself of
-    this before proceeding. *)
+(** A definição da tripla de Hoare é exatamente como antes. Não como nossa
+    noção de programas equivalente, ao qual teve consequências sutis com os comandos 
+    ocasionalmente não-terminados (exercício [havoc_diverge]), esta definição ainda é
+    completamente satisfatória. Convença de você mesmo antes de prosseguir.*)
 
 Definition hoare_triple (P:Assertion) (c:com) (Q:Assertion) : Prop :=
   forall st st', c / st || st' -> P st -> Q st'.
@@ -1524,24 +1500,25 @@ Notation "{{ P }}  c  {{ Q }}" := (hoare_triple P c Q)
     [havoc_pre] and prove that the resulting rule is correct. *)
 
 Definition havoc_pre (X : id) (Q : Assertion) : Assertion :=
-(* FILL IN HERE *) admit.
+(* PREENCHER *) admit.
 
 Theorem hoare_havoc : forall (Q : Assertion) (X : id),
   {{ havoc_pre X Q }} HAVOC X {{ Q }}.
 Proof.
-  (* FILL IN HERE *) Admitted.
+  (* PREENCHER *) Admitted.
 
 End Himp.
 (** [] *)
 
 
 (* ####################################################### *)
-(** ** Complete List of Hoare Logic Rules *)
+(** ** Lista completa de regras para a lógica de Hoare *)
 
-(** Above, we've introduced Hoare Logic as a tool to reasoning
-    about Imp programs. In the reminder of this chapter we will
-    explore a systematic way to use Hoare Logic to prove properties
-    about programs. The rules of Hoare Logic are the following: *)
+(** Acima, nós introduzimos a Lógica de Hoare como uma ferramenta 
+    para o raciocínio sobre programas Imp. No restante deste 
+    capítulo, vamos explorar uma forma sistemática de usar 
+    a Lógica de Hoare para provar propriedades sobre programas. 
+    As regras da Lógica de Hoare são as seguintes: *)
 
 (**
              ------------------------------ (hoare_asgn)
@@ -1569,9 +1546,7 @@ End Himp.
                    Q' ->> Q
          -----------------------------   (hoare_consequence)
                 {{P}} c {{Q}}
-    In the next chapter, we'll see how these rules are used to prove
-    that programs satisfy specifications of their behavior.
+    No próximo capítulo, iremos ver como essas regras são usadas para provar que os 
+    programas satisfazem as especificações de seus comportamentos.
 *)
-
-(** $Date: 2014-12-31 11:17:56 -0500 (Wed, 31 Dec 2014) $ *)
 

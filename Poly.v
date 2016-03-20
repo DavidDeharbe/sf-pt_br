@@ -1,4 +1,4 @@
-(** * Poly: Polymorphism and Higher-Order Functions *)
+(** * Poly: Polimorfismo e Funções de Ordem Superior *)
 
 (** Neste capítulo, continuaremos nosso desenvolvimento de conceitos básicos de
     programação funcional. as novas ideias cruciais são _polimorfismo_ (abstraindo
@@ -9,9 +9,9 @@
 Require Export Lists.   
 
 (* ###################################################### *)
-(** * Polymorphism *)
+(** * Polimorfismo *)
 (* ###################################################### *)
-(** ** Polymorphic Lists *)
+(** ** Listas Polimôrficas *)
 
 (** Nos últimos capítulos nós temos trabalhado somente com listas de 
     números. Obviamente, programas interessantes também precisam 
@@ -135,8 +135,6 @@ Fixpoint rev (X:Type) (l:list X) : list X :=
   | cons h t => snoc X (rev X t) h
   end.
 
-
-
 Example test_rev1 :
     rev nat (cons nat 1 (cons nat 2 (nil nat)))
   = (cons nat 2 (cons nat 1 (nil nat))).
@@ -187,7 +185,7 @@ Inductive baz : Type :=
 End MumbleBaz.
 
 (* ###################################################### *)
-(** *** Type Annotation Inference *)
+(** *** Inferência de Anotação de Tipagem *)
 
 (** Vamos escrever a definição de [app] novamente, mas, desta vez, não
     especificaremos os tipos de nenhum dos argumentos. Será que Coq ainda vai
@@ -394,7 +392,7 @@ Proof.
 (** [] *)
 
 (* ###################################################### *)
-(** ** Polymorphic Pairs *)
+(** ** Pares Polimórficos *)
 
 (** Seguindo o mesmo padrão, a definição de tipo que demos no último
     capítulo para pares de números pode ser generalizada para _pares 
@@ -450,7 +448,7 @@ Fixpoint combine {X Y : Type} (lx : list X) (ly : list Y)
   | (x::tx, y::ty) => (x,y) :: (combine tx ty)
   end.
 
-(** **** Exercício: 1 estrela, opcional (combine_checks)  *)
+(** **** Exercício: nível 1, opcional (combine_checks)  *)
 (** Tente responder as questões adiante no papel e
     cheque suas respostas no Coq:
     - Qual é o tipo de [combine] (ex., O que imprime [Check @combine]?)
@@ -458,7 +456,7 @@ Fixpoint combine {X Y : Type} (lx : list X) (ly : list Y)
         Eval compute in (combine [1;2] [false;false;true;true]).?   []
 *)
 
-(** **** Exercício: 2 estrelas (split)  *)
+(** **** Exercício: nível 2 (split)  *)
 (** A função [split] é justamente o inverso de combine: recebe uma 
     lista de pares e retorna um par de listas. Em muitas linguagens de 
     programação funcionais, essa função é chamada de [unzip].
@@ -528,9 +526,9 @@ Example test_hd_opt2 :   hd_opt  [[1];[2]]  = Some [1].
 (** [] *)
 
 (* ###################################################### *)
-(** * Functions as Data *)
+(** * Funções como Dados *)
 (* ###################################################### *)
-(** ** Higher-Order Functions *)
+(** ** Funções de Ordem Superior *)
 
 (** Como muitas outras linguagens de programação modernas - incluindo 
     todas as _linguagens funcionais_ (ML, Haskell, Scheme, etc.) -- 
@@ -558,7 +556,7 @@ Example test_doit3times': doit3times negb true = false.
 Proof. reflexivity.  Qed.
 
 (* ###################################################### *)
-(** ** Partial Application *)
+(** ** Aplicação Parcial *)
 
 (** De fato, as funções de múltipo argumento que já vimos são também
     exemplos de passar funções como dados. Para ver o porquê, relembre
@@ -589,7 +587,7 @@ Example test_plus3'' :  doit3times (plus 3) 0 = 9.
 Proof. reflexivity.  Qed.
 
 (* ###################################################### *)
-(** ** Digression: Currying *)
+(** ** Digressão: Currificação *)
 
 (** **** Exercício: 2 estelas, avançado (currying)  *)
 (** Em Coq, uma função [f : A -> B -> C] realmente tem o tipo [A
@@ -638,7 +636,7 @@ Proof.
 (** [] *)
 
 (* ###################################################### *)
-(** ** Filter *)
+(** ** Filtrar *)
 
 (** Aqui está uma útil função de ordem superior, que toma uma lista
     de [X]s e um _predicado_ em [X] (uma função a partir de [X] para [bool])
@@ -732,7 +730,7 @@ Example test_filter_even_gt7_2 :
  (* PREENCHA AQUI *) Admitted.
 (** [] *)
 
-(** **** Exercício: 3 estrelas (partição)  *)
+(** **** Exercício: nível 3 (partição)  *)
 (** Use [filter] para escrever uma função Coq [partition]:
   partition : forall X : Type,
               (X -> bool) -> list X -> list X * list X
@@ -753,7 +751,7 @@ Example test_partition2: partition (fun x => false) [5;9;0] = ([], [5;9;0]).
 (** [] *)
 
 (* ###################################################### *)
-(** ** Map *)
+(** ** Mapear *)
 
 (** Outra função útil de ordem superior é chamada [map]. *)
 
@@ -792,7 +790,7 @@ Proof. reflexivity.  Qed.
 
 
 
-(** ** Map for options *)
+(** ** Mapear para Opções *)
 (** **** Exercise: 3 stars (map_rev)  *)
 (** Mostrar que [map] e [rev] comutam.  Você pode precisar definir um
     lema auxiliar. *)
@@ -804,7 +802,7 @@ Proof.
   (* PREENCHA AQUI *) Admitted.
 (** [] *)
 
-(** **** Exercício: 2 estrelas (flat_map)  *)
+(** **** Exercício: nível 2 (flat_map)  *)
 (** A função [map] mapeiaum [list X] para uma [list Y] usando uma função
     do tipo [X -> Y]. Nós podemos definir uma função similar, [flap_map],
     [X -> list Y]. Sua definição deve funcionar pelo 'achatamento' dos 
@@ -834,7 +832,7 @@ Definition option_map {X Y : Type} (f : X -> Y) (xo : option X)
     | Some x => Some (f x)
   end.
 
-(** **** Exercício: 2 estrelas, opcional (implicit_args)  *)
+(** **** Exercício: nível 2, opcional (implicit_args)  *)
 
 (** As definições e usos de [filter] e [map] usam argumentos implícitos em 
 vários lugares. Substitua as chaves ao redor dos argumentos implícitos com 
@@ -844,7 +842,7 @@ são necessários, usando o Coq para verificar que você preencheu corretamente.
 numa _cópia_ deste arquivo, eliminando-o posteriormente.) [] *)
 
 (* ###################################################### *)
-(** ** Fold *)
+(** ** Dobrar *)
 
 (** Uma função de ordem superior ainda mais poderosa chama-se [fold]. Esta
 função é a inspiração para a operação "[reduce]" que está no "coração" do
@@ -945,7 +943,7 @@ Proof. reflexivity. Qed.
 
 (** *** *)
 
-(** **** Exercício: 1 estrela (override_example)  *)
+(** **** Exercício: nível 1 (override_example)  *)
 (** Antes de começar a trabalhar na prova seguinte, tenha certeza que
     você entendeu exatamente o que o teorema está dizendo e pode você
     parafrasear isso em suas próprias palavras. A prova em si é simples. *)
@@ -1028,9 +1026,9 @@ Proof.
     com muito menos frequência. *)
 
 (* ##################################################### *)
-(** * Additional Exercises *)
+(** * Exercícios Adicionais *)
 
-(** **** Exercício: 2 estrelas (fold_length)  *)
+(** **** Exercício: nível 2 (fold_length)  *)
 (** Muitas funções comuns de listas podem ser implementadas em termo de 
     [fold]. Por exemplo, aqui está uma alternativa da definição de [length]: *)
 
@@ -1061,7 +1059,7 @@ Definition fold_map {X Y:Type} (f : X -> Y) (l : list X) : list Y :=
 (* PREENCHA AQUI *)
 (** [] *)
 
-(** **** Exercise: 2 stars, advanced (index_informal)  *)
+(** **** Exercício: nível 2, avançado (index_informal)  *)
 (** Relembre a definição da função [index]:
    Fixpoint index {X : Type} (n : nat) (l : list X) : option X :=
      match l with
@@ -1074,7 +1072,7 @@ Definition fold_map {X Y:Type} (f : X -> Y) (l : list X) : list Y :=
 *)
 (** [] *)
 
-(** **** Exercise: 4 stars, advanced (church_numerals)  *)
+(** **** Exercício: nível 4, avançado (church_numerals)  *)
 
 Module Church.
 
